@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>fahimn.co.in - Pro Chat</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
+
+    <style>
+        /* =========================================
+           GLOBAL VARIABLES & CSS
+           ========================================= */
+        :root {
+            --primary: #6366f1; --primary-hover: #4f46e5;
+            --text-dark: #1e293b; --text-light: #64748b;
+            --bg-input: #f8fafc; --border-color: #e2e8f0;
+            --chat-bg: #f8fafc; --chat-bubble-received: #ffffff; --chat-bubble-sent: #4f46e5;
+            --header-bg: #ffffff;
+        }
+
+        /* DARK MODE VARIABLES */
+        body.dark-mode {
+            --text-dark: #f8fafc; --text-light: #cbd5e1;
+            --bg-input: #1e293b; --border-color: #334155;
+            --chat-bg: #0f172a; --chat-bubble-received: #1e293b; --chat-bubble-sent: #6366f1;
+            --header-bg: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(135deg, #ff0055 0%, #00e5ff 25%, #7700ff 50%, #ff9900 75%, #cc00ff 100%);
+            background-size: 500% 500%; animation: gradientBG 10s ease infinite;
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; font-family: 'Poppins', sans-serif;
+            transition: background 0.3s;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* Toast Notifications */
+        .toast-box { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--header-bg); color: var(--text-dark); padding: 15px 20px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; transform: translateX(120%); animation: slideIn 0.3s forwards; border-left: 5px solid; }
+        .toast.error { border-left-color: #ef4444; } .toast.success { border-left-color: #22c55e; }
+        @keyframes slideIn { to { transform: translateX(0); } }
+
+        /* LOGIN SCREEN CSS */
+        .login-wrapper { width: 100%; display: flex; align-items: center; justify-content: center; padding: 15px; z-index: 10; transition: opacity 0.4s ease; }
+        .login-card { background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 420px; padding: 30px 35px; border-radius: 20px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); position: relative; }
+        
+        body.dark-mode .login-card { background: var(--header-bg); border: 1px solid var(--border-color); }
+
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h2 { font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; transition: 0.3s; }
+        .shimmer-domain { display: inline-block; font-weight: 800; background: linear-gradient(120deg, #6366f1 40%, #ff00a6 50%, #6366f1 60%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmerText 3s linear infinite; }
+        @keyframes shimmerText { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; font-weight: 500; color: var(--text-dark); margin-bottom: 5px; }
+        .input-box { position: relative; }
+        .input-box i.icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px; }
+        .input-box input { width: 100%; padding: 12px 14px 12px 40px; background: var(--bg-input); border: 2px solid var(--bg-input); border-radius: 10px; font-size: 14px; color: var(--text-dark); outline: none; transition: 0.3s; }
+        .input-box input:focus { background: transparent; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+        .eye-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer; transition: 0.3s; }
+        .eye-btn:hover { color: var(--text-dark); }
+        
+        .options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 20px; }
+        .checkbox-container { display: flex; align-items: center; gap: 6px; color: var(--text-light); cursor: pointer; }
+        .checkbox-container input { width: 14px; height: 14px; accent-color: var(--primary); }
+        
+        .toggle-mode-btn { color: var(--primary); text-decoration: none; font-weight: 600; cursor: pointer; text-align: right; width: 100%; }
+        .toggle-mode-btn:hover { text-decoration: underline; }
+
+        .btn-login { width: 100%; padding: 12px; border: none; border-radius: 10px; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 8px 15px rgba(99, 102, 241, 0.4); transition: 0.3s; }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(99, 102, 241, 0.5); }
+        
+        .divider { margin: 20px 0; display: flex; align-items: center; text-align: center; color: #cbd5e1; font-size: 13px; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
+        .divider span { padding: 0 10px; color: var(--text-light); }
+        .social-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-social { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border: 1px solid var(--border-color); border-radius: 10px; background: transparent; color: var(--text-dark); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: 0.2s; }
+        .btn-social:hover { background: var(--bg-input); }
+        .btn-social.google i { color: #EA4335; font-size: 16px; }
+        .btn-social.microsoft i { color: #00A4EF; font-size: 16px; }
+        .btn-social.facebook i { color: #1877F2; font-size: 16px; }
+        .btn-social.github i { color: var(--text-dark); font-size: 16px; }
+
+        /* CHAT SCREEN CSS */
+        .chat-container { display: none; position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--chat-bg); flex-direction: column; z-index: 100; font-family: 'Inter', sans-serif; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(1.02); } to { opacity: 1; transform: scale(1); } }
+        
+        .chat-header { background: var(--header-bg); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 4px rgba(0,0,0,0.1); z-index: 10; }
+        .user-details-wrapper { display: flex; align-items: center; gap: 12px; }
+        .user-details h3 { font-size: 16px; font-weight: 600; color: var(--text-dark); }
+        .status-text { font-size: 12px; color: var(--text-light); font-weight: 500; display: flex; align-items: center; gap: 5px; }
+        .online-dot { width: 8px; height: 8px; background: #94a3b8; border-radius: 50%; display: inline-block; transition: background 0.3s;}
+        
+        .chat-header-actions { display: flex; gap: 10px; }
+        .chat-header-actions button { background: var(--bg-input); border: none; color: var(--text-dark); width: 36px; height: 36px; border-radius: 50%; font-size: 15px; cursor: pointer; transition: 0.2s; }
+        .chat-header-actions button:hover { background: var(--border-color); }
+        
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background-color: var(--chat-bg); }
+        
+        .msg-row { display: flex; flex-direction: column; position: relative; }
+        .msg-bubble { max-width: 75%; padding: 10px 14px; border-radius: 14px; font-size: 15px; line-height: 1.4; position: relative; box-shadow: 0 1px 2px rgba(0,0,0,0.1); display: inline-block; animation: slideUp 0.2s ease-out forwards; }
+        @keyframes slideUp { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+        
+        .msg-received { background-color: var(--chat-bubble-received); color: var(--text-dark); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg-sent { background: var(--chat-bubble-sent); color: #ffffff; align-self: flex-end; border-bottom-right-radius: 4px; }
+        
+        .msg-meta { display: flex; align-items: center; gap: 4px; font-size: 11px; margin-top: 4px; font-weight: 500; justify-content: flex-end; }
+        .msg-received .msg-meta { color: #94a3b8; }
+        .msg-sent .msg-meta { color: rgba(255, 255, 255, 0.8); }
+        .tick { font-size: 10px; color: rgba(255, 255, 255, 0.8); }
+        .tick.read { color: #60a5fa; }
+        
+        .del-btn { position: absolute; right: -30px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #ef4444; cursor: pointer; display: none; padding: 5px; }
+        .msg-row.sent:hover .del-btn { display: block; }
+        
+        .chat-input-area { background-color: var(--header-bg); padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border-color); position: relative; }
+        .icon-btn { background: transparent; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; transition: 0.2s; }
+        .icon-btn:hover { color: var(--text-dark); }
+        
+        .input-wrapper-chat { flex: 1; display: flex; align-items: center; background: var(--bg-input); border-radius: 24px; padding: 8px 16px; border: 1px solid var(--border-color); }
+        .input-wrapper-chat input { flex: 1; border: none; padding: 4px 0; background: transparent; font-size: 15px; color: var(--text-dark); outline: none; width: 100%; }
+        
+        .btn-send { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--chat-bubble-sent); color: white; font-size: 16px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        
+        emoji-picker { position: absolute; bottom: 70px; left: 20px; display: none; z-index: 200; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 10px; }
+        .msg-image { max-width: 200px; border-radius: 8px; margin-bottom: 5px; cursor: pointer; display: block; }
+        
+        /* ADMIN PROFILE IMAGE STYLES */
+        .admin-img-login { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; display: inline-block; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2); border: 2px solid var(--border-color); }
+        .admin-img-chat { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); border: 1px solid var(--border-color); }
+    </style>
+</head>
+<body>
+
+    <audio id="msgSound" src="https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3" preload="auto"></audio>
+    <div id="toastBox" class="toast-box"></div>
+
+    <div class="login-wrapper" id="loginWrapper">
+        <div class="login-card">
+            <div class="header">
+                <img id="adminProfileLogin" class="admin-img-login" src="https://ui-avatars.com/api/?name=Admin&background=6366f1&color=fff&bold=true" alt="Admin">
+                <h2 id="formTitle">Create Account for <span class="shimmer-domain">fahimn.co.in</span></h2>
+            </div>
+            
+            <form id="premiumForm">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <div class="input-box">
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                        <i class="fa-regular fa-envelope icon"></i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-box">
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                        <i class="fa-solid fa-lock icon"></i>
+                        <i class="fa-regular fa-eye eye-btn" id="togglePass"></i>
+                    </div>
+                </div>
+                
+                <div class="options">
+                    <label class="checkbox-container" id="rememberMeContainer" style="display: none;"><input type="checkbox"> Remember me</label>
+                    <a class="toggle-mode-btn" id="toggleModeBtn">Already have an account? Login</a>
+                </div>
+
+                <button type="submit" class="btn-login" id="mainBtn">Create Account</button>
+            </form>
+            
+            <div class="divider"><span>Or continue with</span></div>
+            
+            <div class="social-buttons">
+                <a href="#" class="btn-social google" id="btnGoogle"><i class="fa-brands fa-google"></i> Google</a>
+                <a href="#" class="btn-social microsoft" id="btnMicrosoft"><i class="fa-brands fa-windows"></i> Microsoft</a>
+                <a href="#" class="btn-social facebook" id="btnFacebook"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                <a href="#" class="btn-social github" id="btnGithub"><i class="fa-brands fa-github"></i> GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-container" id="chatCard">
+        <div class="chat-header">
+            <div class="user-details-wrapper">
+                <img id="adminProfileChat" class="admin-img-chat" src="https://ui-avatars.com/api/?name=Admin&background=6366f1&color=fff&bold=true" alt="Admin">
+                <div class="user-details">
+                    <h3>Admin Fahim</h3>
+                    <div class="status-text" id="adminStatus"><span class="online-dot"></span> Offline</div>
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button id="themeToggle" title="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
+                <button onclick="logout()" title="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatBox"></div>
+
+        <div class="chat-input-area">
+            <input type="file" id="fileInput" style="display:none" accept="image/*, .pdf">
+            
+            <button class="icon-btn" id="emojiBtn" title="Emojis"><i class="fa-regular fa-face-smile"></i></button>
+            <button class="icon-btn" id="attachBtn" title="Attach file"><i class="fa-solid fa-paperclip"></i></button>
+            
+            <div class="input-wrapper-chat">
+                <input type="text" id="msgInput" placeholder="Type a message..." autocomplete="off">
+            </div>
+            <button class="btn-send" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            
+            <emoji-picker id="emojiPicker"></emoji-picker>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. FIREBASE SETUP ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
+            authDomain: "fahimn-co-in.firebaseapp.com",
+            databaseURL: "https://fahimn-co-in-default-rtdb.firebaseio.com",
+            projectId: "fahimn-co-in",
+            storageBucket: "fahimn-co-in.firebasestorage.app",
+            messagingSenderId: "698585907618",
+            appId: "1:698585907618:web:c8e4a6646b6b8f5c7932fb"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+        const storage = firebase.storage();
+
+        const adminId = "admin_fahim";
+        let myUserId = null; 
+        let isLoginMode = false;
+
+        // FETCH DYNAMIC ADMIN PROFILE IMAGE
+        db.ref('admin_details/profile_image').on('value', (snapshot) => {
+            const imageUrl = snapshot.val();
+            if (imageUrl) {
+                document.getElementById('adminProfileLogin').src = imageUrl;
+                document.getElementById('adminProfileChat').src = imageUrl;
+            }
+        });
+
+        // TOAST NOTIFICATIONS
+        function showToast(msg, type='error') {
+            const box = document.getElementById('toastBox');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fa-solid ${type==='success'?'fa-check':'fa-exclamation'}"></i> <span>${msg}</span>`;
+            box.appendChild(toast);
+            setTimeout(() => { toast.style.transform='translateX(120%)'; setTimeout(()=>toast.remove(),300); }, 3000);
+        }
+
+        // DARK MODE TOGGLE
+        const themeBtn = document.getElementById('themeToggle');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            themeBtn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        });
+
+        // EMOJI PICKER LOGIC
+        const emojiBtn = document.getElementById('emojiBtn');
+        const emojiPicker = document.getElementById('emojiPicker');
+        const msgInput = document.getElementById('msgInput');
+        
+        emojiBtn.addEventListener('click', () => {
+            emojiPicker.style.display = emojiPicker.style.display === 'block' ? 'none' : 'block';
+        });
+        emojiPicker.addEventListener('emoji-click', event => {
+            msgInput.value += event.detail.unicode;
+            emojiPicker.style.display = 'none';
+            msgInput.focus();
+        });
+
+        // ORIGINAL LOGIN UI LOGIC
+        const togglePassBtn = document.getElementById('togglePass');
+        const passwordInput = document.getElementById('password');
+        togglePassBtn.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+
+        const formTitle = document.getElementById('formTitle');
+        const mainBtn = document.getElementById('mainBtn');
+        const rememberMeContainer = document.getElementById('rememberMeContainer');
+        const toggleModeBtn = document.getElementById('toggleModeBtn');
+
+        toggleModeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            isLoginMode = !isLoginMode;
+            if (isLoginMode) {
+                formTitle.innerHTML = 'Login to <span class="shimmer-domain">fahimn.co.in</span>';
+                mainBtn.textContent = "Login";
+                rememberMeContainer.style.display = "flex"; 
+                toggleModeBtn.textContent = "Create New Account";
+            } else {
+                formTitle.innerHTML = 'Create Account for <span class="shimmer-domain">fahimn.co.in</span>';
+                mainBtn.textContent = "Create Account";
+                rememberMeContainer.style.display = "none"; 
+                toggleModeBtn.textContent = "Already have an account? Login";
+            }
+        });
+
+        // --- NEW: REAL-TIME PRESENCE SYSTEM (ONLINE / OFFLINE) ---
+        function setupPresence() {
+            // Track My Status (User)
+            const myStatusRef = db.ref('/status/' + myUserId);
+            db.ref('.info/connected').on('value', (snap) => {
+                if (snap.val() === true) {
+                    myStatusRef.set('online');
+                    myStatusRef.onDisconnect().set('offline'); // Agar app close kare toh offline
+                }
+            });
+
+            // Track Admin Status
+            db.ref('/status/' + adminId).on('value', snap => {
+                const status = snap.val() || 'offline';
+                const color = status === 'online' ? '#22c55e' : '#94a3b8';
+                const text = status === 'online' ? 'Online' : 'Offline';
+                document.getElementById('adminStatus').innerHTML = `<span class="online-dot" style="background: ${color};"></span> ${text}`;
+            });
+        }
+
+        // AUTH STATUS
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                myUserId = user.uid;
+                document.getElementById('loginWrapper').style.display = 'none';
+                document.getElementById('chatCard').style.display = 'flex';
+                setupPresence(); // ONLINE/OFFLINE SYSTEM START
+                loadMessages();
+            } else {
+                document.getElementById('loginWrapper').style.display = 'flex';
+                document.getElementById('chatCard').style.display = 'none';
+            }
+        });
+
+        // FORM SUBMIT
+        document.getElementById('premiumForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const eVal = document.getElementById('email').value.trim();
+            const pVal = document.getElementById('password').value;
+            mainBtn.textContent = "Please wait...";
+            
+            if(isLoginMode) {
+                auth.signInWithEmailAndPassword(eVal, pVal).catch(err => {
+                    showToast("Error: " + err.message, "error");
+                    mainBtn.textContent = "Login";
+                });
+            } else {
+                auth.createUserWithEmailAndPassword(eVal, pVal).catch(err => {
+                    showToast(err.message, "error");
+                    mainBtn.textContent = "Create Account";
+                });
+            }
+        });
+
+        // SOCIAL LOGINS
+        function handleAuthError(error) { showToast("Error: " + error.message, "error"); }
+        document.getElementById('btnGoogle').addEventListener('click', e => { e.preventDefault(); auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(handleAuthError); });
+        document.getElementById('btnMicrosoft').addEventListener('click', e => { e.preventDefault(); auth.signInWithPopup(new firebase.auth.OAuthProvider('microsoft.com')).catch(handleAuthError); });
+        document.getElementById('btnFacebook').addEventListener('click', e => { e.preventDefault(); auth.signInWithPopup(new firebase.auth.FacebookAuthProvider()).catch(handleAuthError); });
+        document.getElementById('btnGithub').addEventListener('click', e => { e.preventDefault(); auth.signInWithPopup(new firebase.auth.GithubAuthProvider()).catch(handleAuthError); });
+
+        function logout() { 
+            if(myUserId) db.ref('/status/' + myUserId).set('offline');
+            auth.signOut().then(() => window.location.reload()); 
+        }
+
+        // CHAT LOGIC
+        function sendMessage(text = '', imgUrl = null) {
+            const val = text || msgInput.value.trim();
+            if (!val && !imgUrl) return;
+            db.ref('messages').push({ text: val, imageUrl: imgUrl || null, senderId: myUserId, receiverId: adminId, timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'sent' });
+            msgInput.value = '';
+        }
+
+        window.deleteMsg = function(msgId) {
+            if(confirm("Delete this message for everyone?")) db.ref('messages/' + msgId).remove();
+        }
+
+        // --- FIX: MESSAGES & SOUND SYSTEM ---
+        function loadMessages() {
+            const box = document.getElementById('chatBox');
+            box.innerHTML = '';
+            
+            // Initial load check (Puraane messages aane par sound na baje)
+            let isInitialLoad = true;
+            db.ref('messages').once('value').then(() => {
+                isInitialLoad = false; // Purane messages load hone ke baad isko false kar do
+            });
+
+            db.ref('messages').on('child_added', (snap) => {
+                const data = snap.val();
+                if (data.senderId === myUserId || data.receiverId === myUserId) {
+                    renderMessage(data, snap.key);
+                    
+                    if(data.senderId !== myUserId && data.status !== 'read') {
+                        db.ref('messages/' + snap.key).update({ status: 'read' });
+                        
+                        // SOUND PLAY LOGIC: Sirf naye message aane par
+                        if (!isInitialLoad) {
+                            const sound = document.getElementById('msgSound');
+                            sound.currentTime = 0; // Sound ko start pe laao
+                            sound.play().catch(e => console.log("Sound play prevented by browser", e));
+                        }
+                    }
+                }
+            });
+
+            db.ref('messages').on('child_removed', (snap) => {
+                const el = document.getElementById('msg-' + snap.key);
+                if(el) el.remove();
+            });
+
+            db.ref('messages').on('child_changed', (snap) => {
+                const data = snap.val();
+                const tickEl = document.getElementById('tick-' + snap.key);
+                if(tickEl && data.senderId === myUserId) {
+                    tickEl.className = `fa-solid fa-check-double tick ${data.status === 'read' ? 'read' : ''}`;
+                }
+            });
+        }
+
+        function renderMessage(data, msgId) {
+            const isMe = (data.senderId === myUserId);
+            const msgClass = isMe ? 'msg-sent' : 'msg-received';
+            const timeStr = new Date(data.timestamp || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            let tickHTML = '';
+            if(isMe) {
+                const tickClass = data.status === 'read' ? 'read' : '';
+                tickHTML = `<i id="tick-${msgId}" class="fa-solid fa-check-double tick ${tickClass}"></i>`;
+            }
+
+            let contentHTML = data.imageUrl ? `<img src="${data.imageUrl}" class="msg-image" alt="Shared Image">` : `<span>${data.text.replace(/</g, "&lt;")}</span>`;
+
+            const html = `
+                <div class="msg-row ${isMe ? 'sent' : 'received'}" id="msg-${msgId}">
+                    ${isMe ? `<button class="del-btn" onclick="deleteMsg('${msgId}')" title="Delete"><i class="fa-solid fa-trash"></i></button>` : ''}
+                    <div class="msg-bubble ${msgClass}">
+                        ${contentHTML}
+                        <div class="msg-meta">
+                            <span>${timeStr}</span>
+                            ${tickHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+            const box = document.getElementById('chatBox');
+            box.insertAdjacentHTML('beforeend', html);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        document.getElementById('sendBtn').addEventListener('click', () => sendMessage());
+        msgInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+        // FILE UPLOAD LOGIC
+        const attachBtn = document.getElementById('attachBtn');
+        const fileInput = document.getElementById('fileInput');
+
+        attachBtn.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+
+            showToast("Uploading file...", "success");
+            
+            const storageRef = storage.ref('chat_images/' + Date.now() + '_' + file.name);
+            const uploadTask = storageRef.put(file);
+
+            uploadTask.on('state_changed', 
+                null, 
+                (error) => {
+                    showToast("Storage Error! Please Enable Firebase Storage in Console.", "error");
+                    console.error(error);
+                }, 
+                () => {
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        sendMessage('📷 Image', downloadURL);
+                        showToast("File sent!", "success");
+                    });
+                }
+            );
+        });
+
+    </script>
+</body>
+</html>
