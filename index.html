@@ -121,7 +121,6 @@
         .user-list-info h4 { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
         .user-list-info p { font-size: 13px; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
         
-        /* UNREAD MESSAGE BADGE CSS */
         .unread-indicator { background: var(--success); color: white; font-size: 11px; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); flex-shrink: 0; }
         .chevron-icon { color: var(--border-color); font-size: 14px; transition: 0.2s; }
         .user-list-item:hover .chevron-icon { color: var(--primary); transform: translateX(3px); }
@@ -451,7 +450,18 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const auth = firebase.auth();
-        const messaging = firebase.messaging(); // Messaging initialized
+        
+        // 🚨 CRASH FIX: Safe Messaging Initialization 🚨
+        let messaging = null;
+        try {
+            if (firebase.messaging.isSupported()) {
+                messaging = firebase.messaging();
+            } else {
+                console.log("Firebase Messaging is not supported by this browser.");
+            }
+        } catch (e) {
+            console.log("Messaging initialization skipped:", e);
+        }
 
         const adminId = "admin_fahim";
         let myUserId = null; 
@@ -470,7 +480,7 @@
         
         let allUsersData = [];
         let recentChatsIds = [];
-        let unreadCounts = {}; // Track dynamic unread messages
+        let unreadCounts = {}; 
         
         let targetUserRealStatus = 'offline'; 
 
@@ -530,36 +540,58 @@
             }, 150); 
         }
 
-        // --- PUSH NOTIFICATIONS SETUP ---
+        // --- PUSH NOTIFICATIONS SETUP (FIXED) ---
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./firebase-messaging-sw.js').then(function(reg) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js').then(function(reg) {
                 console.log('Service Worker Registered!');
             }).catch(function(err) { console.log('Service Worker Failed!', err); });
         }
 
         window.requestNotificationPermission = function() {
+            if (!messaging) {
+                return showToast("Push notifications are not supported on this browser/device.", "error");
+            }
             showLoading("Requesting Permission...");
             Notification.requestPermission().then((permission) => {
-                hideLoading();
                 if (permission === 'granted') {
-                    // YOUR VAPID KEY
-                    messaging.getToken({ vapidKey: 'BJQWjpZKhdcB-o9oXrbxpTzyEkylHM-B9Uo2ZOOKx-6vJRN9pycCYKtub4S42po-frFQp4iRSEB2qhdoMbqscAk' }).then((currentToken) => {
-                        if (currentToken && myUserId) {
-                            db.ref('users/' + myUserId).update({ fcmToken: currentToken });
-                            showToast("Notifications Enabled! 🔔", "success");
-                        } else { showToast("No token available.", "error"); }
-                    }).catch((err) => { showToast("Failed to connect notifications.", "error"); });
-                } else { showToast("Notification permission denied.", "error"); }
+                    // EXPLICITLY WAIT FOR SERVICE WORKER TO AVOID MOBILE BUG
+                    navigator.serviceWorker.ready.then((registration) => {
+                        messaging.getToken({ 
+                            vapidKey: 'BJQWjpZKhdcB-o9oXrbxpTzyEkylHM-B9Uo2ZOOKx-6vJRN9pycCYKtub4S42po-frFQp4iRSEB2qhdoMbqscAk',
+                            serviceWorkerRegistration: registration 
+                        }).then((currentToken) => {
+                            hideLoading();
+                            if (currentToken && myUserId) {
+                                db.ref('users/' + myUserId).update({ fcmToken: currentToken });
+                                showToast("Notifications Enabled! 🔔", "success");
+                            } else { 
+                                showToast("No token generated.", "error"); 
+                            }
+                        }).catch((err) => { 
+                            hideLoading();
+                            console.error('FCM Error:', err);
+                            showToast("Error: " + err.message.substring(0, 30), "error"); 
+                        });
+                    });
+                } else { 
+                    hideLoading();
+                    showToast("Notification permission denied.", "error"); 
+                }
+            }).catch((err) => {
+                hideLoading();
+                showToast("Error: " + err.message.substring(0, 30), "error");
             });
         }
 
         // Foreground App Notification
-        messaging.onMessage((payload) => {
-            const msgText = payload.notification.body || "New message received";
-            showToast(`💬 ${msgText}`, "info");
-            const sound = document.getElementById('msgSound');
-            if(sound) { sound.currentTime = 0; sound.play().catch(e=>e); }
-        });
+        if (messaging) {
+            messaging.onMessage((payload) => {
+                const msgText = payload.notification.body || "New message received";
+                showToast(`💬 ${msgText}`, "info");
+                const sound = document.getElementById('msgSound');
+                if(sound) { sound.currentTime = 0; sound.play().catch(e=>e); }
+            });
+        }
 
         // --- DEEP LINKS & BLUE TICK ---
         window.generateAndCopyLink = function() {
@@ -602,7 +634,7 @@
             }
         }
 
-        // --- AUTH UI & FIXED LOGOUT ---
+        // --- AUTH UI & LOGOUT ---
         const toggleModeBtn = document.getElementById('toggleModeBtn');
         const formTitle = document.getElementById('formTitle');
         const formSubtitle = document.getElementById('formSubtitle');
@@ -674,7 +706,6 @@
         document.getElementById('btnFacebook').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.FacebookAuthProvider()); });
         document.getElementById('btnGithub').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GithubAuthProvider()); });
 
-        // FIXED LOGOUT WITH CONFIRMATION
         window.confirmLogout = function() {
             if(confirm("Are you sure you want to log out?")) {
                 showLoading("Logging out...");
@@ -730,7 +761,7 @@
             });
         }
 
-        // --- DATA SYNC & DYNAMIC UNREAD BADGES ---
+        // --- DATA SYNC & UNREAD BADGES ---
         function initDataListeners() {
             if(dataInitialized) return;
             dataInitialized = true;
@@ -742,7 +773,6 @@
                 userSearch.dispatchEvent(new Event('input')); 
             });
 
-            // Global Message Listener to calculate Unread Badges
             db.ref('messages').on('value', snap => {
                 unreadCounts = {};
                 snap.forEach(child => {
@@ -752,7 +782,6 @@
                     }
                 });
                 
-                // Admin Badge Update
                 const adminUnread = unreadCounts[adminId] || 0;
                 const adminBadge = document.getElementById('adminUnreadCount');
                 if (adminBadge) {
@@ -776,7 +805,7 @@
             recentChatsList.innerHTML = '<div class="list-heading">Recent Chats</div>';
             if(recentChatsIds.length > 0) {
                 recentChatsIds.forEach(uid => {
-                    if(uid === adminId) return; // Skip admin here
+                    if(uid === adminId) return; 
                     
                     const u = allUsersData.find(user => user.uid === uid);
                     if(u) {
@@ -784,7 +813,6 @@
                         const verifiedHtml = u.verified === true ? ' ' + verifiedSVG : '';
                         const safePic = u.profile_image || 'https://ui-avatars.com/api/?name=U';
                         
-                        // UNREAD BADGE LOGIC INJECTED HERE
                         const count = unreadCounts[uid] || 0;
                         const badgeHtml = count > 0 ? `<div class="unread-indicator">${count}</div>` : '';
 
@@ -908,7 +936,6 @@
             document.getElementById('appScreen').style.display = 'flex';
         }
 
-        // --- REAL-TIME HEADER STATUS (TYPING / ONLINE) ---
         function renderHeaderStatus(isTyping) {
             const statusEl = document.getElementById('chatHeaderStatus');
             if (isTyping) {
@@ -945,7 +972,6 @@
         }
 
         let longPressTimer;
-        // User cannot delete other's messages globally, only their own
         window.startPress = function(msgId, isMe) {
             if(!isMe) return; 
             longPressTimer = setTimeout(() => {
@@ -981,7 +1007,6 @@
                 
                 if(isMyChat) {
                     renderMessage(data, snap.key);
-                    // FIXED: This handles auto marking as read
                     if(data.senderId !== myUserId && data.status !== 'read') {
                         activeChatRef.child(snap.key).update({ status: 'read' });
                         if (!isInitialLoad) { const sound = document.getElementById('msgSound'); sound.currentTime = 0; sound.play().catch(e=>e); }
