@@ -11,6 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
 
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
 
@@ -27,6 +28,7 @@
             --header-bg: #ffffff;
             --overlay-bg: rgba(255, 255, 255, 0.85);
             --list-hover: #f1f5f9; --nav-inactive: #94a3b8;
+            --success: #10b981; --danger: #ef4444; --info: #0ea5e9;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -47,7 +49,7 @@
         }
 
         body:not(.dark-mode) { --security-bg: #fefce8; }
-
+  
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         html, body { height: 100%; width: 100%; overflow: hidden; position: fixed; top: 0; left: 0; }
@@ -56,10 +58,9 @@
         /* Toast Notifications */
         .toast-box { position: fixed; top: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; }
         .toast { background: var(--header-bg); color: var(--text-dark); padding: 16px 20px; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; transform: translateX(120%); border: 1px solid var(--border-color); animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; border-left: 4px solid; }
-        .toast.error { border-left-color: #ef4444; } .toast.success { border-left-color: #10b981; } .toast.info { border-left-color: #0095F6; }
+        .toast.error { border-left-color: var(--danger); } .toast.success { border-left-color: var(--success); } .toast.info { border-left-color: var(--info); }
         @keyframes slideIn { to { transform: translateX(0); } }
 
-        /* Verified Badge */
         .verified-icon { width: 16px; height: 16px; flex-shrink: 0; display: inline-block; margin-left: 4px; vertical-align: middle; }
 
         /* Global Overlay (Loaders) */
@@ -111,13 +112,17 @@
         .tab-view.active { display: block; }
 
         .list-heading { font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 24px 10px 24px; }
+        
         .user-list-item { display: flex; align-items: center; padding: 12px 24px; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid var(--border-color); }
         .user-list-item:last-child { border-bottom: none; }
         .user-list-item:hover { background: var(--list-hover); }
-        .user-list-item img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); margin-right: 14px; box-shadow: var(--shadow-sm); }
-        .user-list-info { flex: 1; }
+        .user-list-item img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); margin-right: 14px; box-shadow: var(--shadow-sm); flex-shrink: 0; }
+        .user-list-info { flex: 1; min-width: 0; }
         .user-list-info h4 { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
-        .user-list-info p { font-size: 13px; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
+        .user-list-info p { font-size: 13px; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+        
+        /* UNREAD MESSAGE BADGE CSS */
+        .unread-indicator { background: var(--success); color: white; font-size: 11px; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); flex-shrink: 0; }
         .chevron-icon { color: var(--border-color); font-size: 14px; transition: 0.2s; }
         .user-list-item:hover .chevron-icon { color: var(--primary); transform: translateX(3px); }
 
@@ -170,11 +175,9 @@
         .online-dot { width: 8px; height: 8px; background: #94a3b8; border-radius: 50%; display: inline-block; transition: background 0.3s;}
         
         .chat-messages { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; background-color: var(--chat-bg); scroll-behavior: smooth; position: relative; min-height: 0; 
-            /* Subtle WhatsApp like background pattern */
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             background-size: 80px;
         }
-        /* Adjust pattern opacity via a pseudo-element for fine control */
         .chat-messages::before { content: ''; position: absolute; inset: 0; background: var(--chat-bg); opacity: calc(1 - var(--pattern-opacity)); z-index: 0; pointer-events: none; }
         
         .msg-row { display: flex; flex-direction: column; position: relative; width: 100%; z-index: 1; }
@@ -336,6 +339,7 @@
                         </h4>
                         <p id="listAdminStatus">Official Support</p>
                     </div>
+                    <div class="unread-indicator" id="adminUnreadCount" style="display:none;">0</div>
                     <i class="fa-solid fa-chevron-right chevron-icon"></i>
                 </div>
 
@@ -366,6 +370,10 @@
                     <p id="myProfileEmail">...</p>
                 </div>
                 <div class="settings-menu">
+                    <div class="settings-item highlight" onclick="requestNotificationPermission()">
+                        <i class="fa-solid fa-bell"></i><span>Enable Push Notifications</span>
+                    </div>
+
                     <div class="settings-item highlight" onclick="generateAndCopyLink()">
                         <i class="fa-solid fa-link"></i><span>Generate Your Chat Link</span>
                     </div>
@@ -376,10 +384,9 @@
 
                     <div class="list-heading" style="margin-top:10px;">App Settings</div>
                     <div class="settings-item" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i><span>Toggle Dark Mode</span></div>
-                    <div class="settings-item"><i class="fa-solid fa-bell"></i><span>Notifications</span></div>
                     <div class="settings-item" onclick="document.getElementById('legalModal').classList.add('show')"><i class="fa-solid fa-shield-halved"></i><span>Privacy & Security</span></div>
                     <div class="list-heading">Account</div>
-                    <div class="settings-item danger" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Log Out</span></div>
+                    <div class="settings-item danger" onclick="confirmLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Log Out</span></div>
                 </div>
             </div>
         </div>
@@ -444,6 +451,7 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const auth = firebase.auth();
+        const messaging = firebase.messaging(); // Messaging initialized
 
         const adminId = "admin_fahim";
         let myUserId = null; 
@@ -462,13 +470,13 @@
         
         let allUsersData = [];
         let recentChatsIds = [];
+        let unreadCounts = {}; // Track dynamic unread messages
         
-        // Target User's Actual Status to toggle between Online/Typing
         let targetUserRealStatus = 'offline'; 
 
         const verifiedSVG = `<svg aria-label="Verified" class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>`;
 
-        // --- UI HELPERS ---
+        // --- UI HELPERS & LOADING SCREEN ---
         function showToast(msg, type='error') {
             const box = document.getElementById('toastBox');
             const toast = document.createElement('div');
@@ -476,6 +484,15 @@
             toast.innerHTML = `<i class="fa-solid ${type==='success'?'fa-check':type==='info'?'fa-info':'fa-exclamation'}"></i> <span>${msg}</span>`;
             box.appendChild(toast);
             setTimeout(() => { toast.style.transform='translateX(120%)'; setTimeout(()=>toast.remove(),300); }, 3000);
+        }
+
+        function showLoading(text) {
+            document.getElementById('overlayText').innerText = text;
+            document.getElementById('globalOverlay').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('globalOverlay').style.display = 'none';
         }
 
         function openModal(imgSrc) { document.getElementById('modalImg').src = imgSrc; document.getElementById('imageModal').classList.add('show'); }
@@ -501,14 +518,50 @@
             else { unreadWhileScrolled++; scrollBadge.innerText = unreadWhileScrolled; scrollBadge.style.display = 'flex'; }
         }
 
+        // ANIMATED TAB SWITCHING
         window.switchTab = function(tabName) {
-            document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabName + 'View').classList.add('active');
-            document.getElementById('nav-' + tabName).classList.add('active');
+            showLoading("Loading...");
+            setTimeout(() => {
+                document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                document.getElementById(tabName + 'View').classList.add('active');
+                document.getElementById('nav-' + tabName).classList.add('active');
+                hideLoading();
+            }, 150); 
         }
 
-        // --- DEEP LINKS & REQUEST BLUE TICK ---
+        // --- PUSH NOTIFICATIONS SETUP ---
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./firebase-messaging-sw.js').then(function(reg) {
+                console.log('Service Worker Registered!');
+            }).catch(function(err) { console.log('Service Worker Failed!', err); });
+        }
+
+        window.requestNotificationPermission = function() {
+            showLoading("Requesting Permission...");
+            Notification.requestPermission().then((permission) => {
+                hideLoading();
+                if (permission === 'granted') {
+                    // YOUR VAPID KEY
+                    messaging.getToken({ vapidKey: 'BJQWjpZKhdcB-o9oXrbxpTzyEkylHM-B9Uo2ZOOKx-6vJRN9pycCYKtub4S42po-frFQp4iRSEB2qhdoMbqscAk' }).then((currentToken) => {
+                        if (currentToken && myUserId) {
+                            db.ref('users/' + myUserId).update({ fcmToken: currentToken });
+                            showToast("Notifications Enabled! 🔔", "success");
+                        } else { showToast("No token available.", "error"); }
+                    }).catch((err) => { showToast("Failed to connect notifications.", "error"); });
+                } else { showToast("Notification permission denied.", "error"); }
+            });
+        }
+
+        // Foreground App Notification
+        messaging.onMessage((payload) => {
+            const msgText = payload.notification.body || "New message received";
+            showToast(`💬 ${msgText}`, "info");
+            const sound = document.getElementById('msgSound');
+            if(sound) { sound.currentTime = 0; sound.play().catch(e=>e); }
+        });
+
+        // --- DEEP LINKS & BLUE TICK ---
         window.generateAndCopyLink = function() {
             if(!myUserId) return;
             const baseUrl = window.location.origin + window.location.pathname;
@@ -521,16 +574,10 @@
             if(!myUserId) return;
             const myName = document.getElementById('myProfileName').innerText;
             db.ref('blue_tick_requests/' + myUserId).update({
-                uid: myUserId,
-                name: myName.replace(' Verified', ''), 
-                email: auth.currentUser.email || 'No email',
-                timestamp: firebase.database.ServerValue.TIMESTAMP,
-                status: 'pending'
-            }).then(() => {
-                showToast("Verification request sent to Admin!", "info");
-            }).catch(err => {
-                showToast("Error sending request.", "error");
-            });
+                uid: myUserId, name: myName.replace(' Verified', ''), email: auth.currentUser.email || 'No email',
+                timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'pending'
+            }).then(() => { showToast("Verification request sent to Admin!", "info"); })
+            .catch(err => { showToast("Error sending request.", "error"); });
         }
 
         function handleDeepLink() {
@@ -555,7 +602,7 @@
             }
         }
 
-        // --- AUTH UI ---
+        // --- AUTH UI & FIXED LOGOUT ---
         const toggleModeBtn = document.getElementById('toggleModeBtn');
         const formTitle = document.getElementById('formTitle');
         const formSubtitle = document.getElementById('formSubtitle');
@@ -601,10 +648,11 @@
             const pVal = document.getElementById('password').value;
             const nVal = document.getElementById('fullname').value.trim();
             
+            showLoading("Authenticating...");
             mainBtn.disabled = true; btnText.textContent = "Please wait..."; btnSpinner.style.display = "block";
             
             if(isLoginMode) {
-                auth.signInWithEmailAndPassword(eVal, pVal).catch(err => { showToast(err.message, "error"); resetButtonState("Sign In"); });
+                auth.signInWithEmailAndPassword(eVal, pVal).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign In"); });
             } else {
                 auth.createUserWithEmailAndPassword(eVal, pVal).then((userCredential) => {
                     const user = userCredential.user;
@@ -616,17 +664,24 @@
                             document.getElementById('myProfileName').innerText = nVal;
                             document.getElementById('myProfilePic').src = profileImg;
                         });
-                }).catch(err => { showToast(err.message, "error"); resetButtonState("Sign Up"); });
+                }).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign Up"); });
             }
         });
 
-        function handleSocialLogin(provider) { auth.signInWithPopup(provider).then(res => syncUserToDatabase(res.user)).catch(err => showToast("Error: " + err.message, "error")); }
+        function handleSocialLogin(provider) { showLoading("Connecting..."); auth.signInWithPopup(provider).then(res => syncUserToDatabase(res.user)).catch(err => {hideLoading(); showToast("Error: " + err.message, "error")}); }
         document.getElementById('btnGoogle').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GoogleAuthProvider()); });
         document.getElementById('btnMicrosoft').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.OAuthProvider('microsoft.com')); });
         document.getElementById('btnFacebook').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.FacebookAuthProvider()); });
         document.getElementById('btnGithub').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GithubAuthProvider()); });
 
-        function logout() { if(myUserId) db.ref('/status/' + myUserId).set('offline'); auth.signOut().then(() => window.location.reload()); }
+        // FIXED LOGOUT WITH CONFIRMATION
+        window.confirmLogout = function() {
+            if(confirm("Are you sure you want to log out?")) {
+                showLoading("Logging out...");
+                if(myUserId) db.ref('/status/' + myUserId).set('offline');
+                auth.signOut().then(() => window.location.reload());
+            }
+        }
 
         db.ref('admin_details/profile_image').on('value', (snapshot) => {
             const imageUrl = snapshot.val();
@@ -637,6 +692,7 @@
         });
 
         auth.onAuthStateChanged((user) => {
+            hideLoading();
             if (user) {
                 myUserId = user.uid;
                 document.getElementById('loginWrapper').style.display = 'none';
@@ -674,7 +730,7 @@
             });
         }
 
-        // --- DATA SYNC (WITH EMPTY STATES) ---
+        // --- DATA SYNC & DYNAMIC UNREAD BADGES ---
         function initDataListeners() {
             if(dataInitialized) return;
             dataInitialized = true;
@@ -684,6 +740,28 @@
                 snap.forEach(child => { const u = child.val(); if(u.uid !== myUserId) allUsersData.push(u); });
                 renderRecentChats(); 
                 userSearch.dispatchEvent(new Event('input')); 
+            });
+
+            // Global Message Listener to calculate Unread Badges
+            db.ref('messages').on('value', snap => {
+                unreadCounts = {};
+                snap.forEach(child => {
+                    const msg = child.val();
+                    if (msg.receiverId === myUserId && msg.status !== 'read') {
+                        unreadCounts[msg.senderId] = (unreadCounts[msg.senderId] || 0) + 1;
+                    }
+                });
+                
+                // Admin Badge Update
+                const adminUnread = unreadCounts[adminId] || 0;
+                const adminBadge = document.getElementById('adminUnreadCount');
+                if (adminBadge) {
+                    if (adminUnread > 0) {
+                        adminBadge.innerText = adminUnread;
+                        adminBadge.style.display = 'flex';
+                    } else { adminBadge.style.display = 'none'; }
+                }
+                renderRecentChats();
             });
 
             db.ref('users/' + myUserId + '/recent_chats').orderByValue().on('value', snap => {
@@ -698,11 +776,18 @@
             recentChatsList.innerHTML = '<div class="list-heading">Recent Chats</div>';
             if(recentChatsIds.length > 0) {
                 recentChatsIds.forEach(uid => {
+                    if(uid === adminId) return; // Skip admin here
+                    
                     const u = allUsersData.find(user => user.uid === uid);
                     if(u) {
                         const safeName = escapeHTML(u.name || 'User');
                         const verifiedHtml = u.verified === true ? ' ' + verifiedSVG : '';
                         const safePic = u.profile_image || 'https://ui-avatars.com/api/?name=U';
+                        
+                        // UNREAD BADGE LOGIC INJECTED HERE
+                        const count = unreadCounts[uid] || 0;
+                        const badgeHtml = count > 0 ? `<div class="unread-indicator">${count}</div>` : '';
+
                         const itemHtml = `
                             <div class="user-list-item" onclick="openChatRoom('${u.uid}', '${safeName}', '${safePic}', ${u.verified === true})">
                                 <img src="${safePic}" alt="User">
@@ -710,6 +795,7 @@
                                     <h4>${safeName}${verifiedHtml}</h4>
                                     <p>Tap to chat</p> 
                                 </div>
+                                ${badgeHtml}
                                 <i class="fa-solid fa-chevron-right chevron-icon"></i>
                             </div>`;
                         recentChatsList.innerHTML += itemHtml;
@@ -722,15 +808,11 @@
 
         // --- PROFILE DP UPLOAD ---
         const profilePicInput = document.getElementById('profilePicInput');
-        const overlayText = document.getElementById('overlayText');
-        const globalOverlay = document.getElementById('globalOverlay'); 
-
         profilePicInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if(!file) return;
 
-            globalOverlay.style.display = 'flex';
-            overlayText.innerText = "Updating Profile Picture...";
+            showLoading("Updating Profile Picture...");
             
             const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
             const formData = new FormData();
@@ -745,11 +827,9 @@
                 user.updateProfile({ photoURL: newPicUrl }).then(() => {
                     return db.ref('users/' + user.uid).update({ profile_image: newPicUrl });
                 }).then(() => {
-                    globalOverlay.style.display = 'none';
-                    overlayText.innerText = "Please wait..."; 
-                    showToast("Profile Picture Updated!", "success");
+                    hideLoading(); showToast("Profile Picture Updated!", "success");
                 });
-            }).catch(error => { globalOverlay.style.display = 'none'; overlayText.innerText = "Please wait..."; showToast("Error updating picture.", "error"); });
+            }).catch(error => { hideLoading(); showToast("Error updating picture.", "error"); });
             profilePicInput.value = '';
         });
 
@@ -787,29 +867,32 @@
 
         // --- CHAT ROOM ROUTING & CLEANUP ---
         window.openChatRoom = function(targetUid, targetName, targetAvatar, isVerified = false) {
-            currentChatUserId = targetUid; 
-            
-            if(targetUid !== adminId) {
-                db.ref('users/' + myUserId + '/recent_chats/' + targetUid).set(Date.now());
-                db.ref('users/' + targetUid + '/recent_chats/' + myUserId).set(Date.now());
-            }
+            showLoading("Loading Chat...");
+            setTimeout(() => {
+                currentChatUserId = targetUid; 
+                
+                if(targetUid !== adminId) {
+                    db.ref('users/' + myUserId + '/recent_chats/' + targetUid).set(Date.now());
+                    db.ref('users/' + targetUid + '/recent_chats/' + myUserId).set(Date.now());
+                }
 
-            document.getElementById('appScreen').style.display = 'none';
-            document.getElementById('chatCard').style.display = 'flex';
-            document.getElementById('chatHeaderName').innerHTML = targetName + (isVerified ? ' ' + verifiedSVG : '');
-            document.getElementById('chatHeaderImg').src = targetAvatar;
-            
-            // Set active listener for status
-            activeStatusRef = db.ref('/status/' + targetUid);
-            activeStatusRef.on('value', snap => { 
-                if(currentChatUserId === targetUid) {
-                    targetUserRealStatus = snap.val() || 'offline';
-                    renderHeaderStatus(false); // Update normal status
-                } 
-            });
-            
-            setupTypingListener(targetUid); 
-            loadMessages(isVerified, targetName, targetAvatar);
+                document.getElementById('appScreen').style.display = 'none';
+                document.getElementById('chatCard').style.display = 'flex';
+                document.getElementById('chatHeaderName').innerHTML = targetName + (isVerified ? ' ' + verifiedSVG : '');
+                document.getElementById('chatHeaderImg').src = targetAvatar;
+                
+                activeStatusRef = db.ref('/status/' + targetUid);
+                activeStatusRef.on('value', snap => { 
+                    if(currentChatUserId === targetUid) {
+                        targetUserRealStatus = snap.val() || 'offline';
+                        renderHeaderStatus(false); 
+                    } 
+                });
+                
+                setupTypingListener(targetUid); 
+                loadMessages(isVerified, targetName, targetAvatar);
+                hideLoading();
+            }, 150);
         }
 
         window.closeChatRoom = function() {
@@ -862,6 +945,7 @@
         }
 
         let longPressTimer;
+        // User cannot delete other's messages globally, only their own
         window.startPress = function(msgId, isMe) {
             if(!isMe) return; 
             longPressTimer = setTimeout(() => {
@@ -897,6 +981,7 @@
                 
                 if(isMyChat) {
                     renderMessage(data, snap.key);
+                    // FIXED: This handles auto marking as read
                     if(data.senderId !== myUserId && data.status !== 'read') {
                         activeChatRef.child(snap.key).update({ status: 'read' });
                         if (!isInitialLoad) { const sound = document.getElementById('msgSound'); sound.currentTime = 0; sound.play().catch(e=>e); }
@@ -954,7 +1039,6 @@
         document.getElementById('sendBtn').addEventListener('click', () => sendMessage());
         msgInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
         
-        // Typing indicator tracking
         msgInput.addEventListener('input', () => {
             if (!myUserId || !currentChatUserId) return; 
             db.ref('/typing/' + myUserId).set(true);
@@ -971,8 +1055,7 @@
             const file = e.target.files[0];
             if(!file) return;
 
-            document.getElementById('globalOverlay').style.display = 'flex';
-            document.getElementById('overlayText').innerText = "Securing & Uploading...";
+            showLoading("Securing & Uploading...");
             
             const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
             const formData = new FormData();
@@ -982,10 +1065,10 @@
             fetch(url, { method: 'POST', body: formData })
             .then(response => { if (!response.ok) throw new Error('Cloudinary Error'); return response.json(); })
             .then(data => {
-                document.getElementById('globalOverlay').style.display = 'none'; 
+                hideLoading(); 
                 const fileMsgText = file.type === 'application/pdf' ? '📄 PDF Document' : '📷 Image';
                 sendMessage(fileMsgText, data.secure_url, file.type);
-            }).catch(error => { document.getElementById('globalOverlay').style.display = 'none'; showToast("Upload Error! Please try again.", "error"); });
+            }).catch(error => { hideLoading(); showToast("Upload Error! Please try again.", "error"); });
             fileInput.value = '';
         });
 
