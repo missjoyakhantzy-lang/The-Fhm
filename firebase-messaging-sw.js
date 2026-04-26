@@ -36,7 +36,7 @@ messaging.onBackgroundMessage(function(payload) {
     return self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-// 5. Notification par click karne ka event
+// 5. Notification par click karne ka event (Jisko maine jodh diya hai)
 self.addEventListener('notificationclick', function(event) {
     event.notification.close();
     event.waitUntil(
