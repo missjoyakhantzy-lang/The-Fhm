@@ -48,16 +48,12 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        /* FIXED: MOBILE CHROME VIEWPORT BUG */
         html, body {
-            height: 100%; width: 100%;
-            overflow: hidden; position: fixed; /* This prevents URL bar from messing up height */
-            top: 0; left: 0;
+            height: 100%; width: 100%; overflow: hidden; position: fixed; top: 0; left: 0;
         }
 
         body {
-            background: var(--bg-body);
-            display: flex; align-items: center; justify-content: center;
+            background: var(--bg-body); display: flex; align-items: center; justify-content: center;
             font-family: 'Inter', sans-serif; transition: background 0.3s, color 0.3s;
         }
 
@@ -107,12 +103,12 @@
         .btn-social:hover { background: var(--bg-input); }
         .btn-social.google i { color: #EA4335; } .btn-social.microsoft i { color: #00A4EF; } .btn-social.facebook i { color: #1877F2; } .btn-social.github i { color: var(--text-dark); }
 
-        /* MAIN APP SCREEN (LIST + TABS + BOTTOM NAV) */
+        /* MAIN APP SCREEN */
         .app-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 50; animation: fadeIn 0.3s ease; }
         .app-header { background: var(--header-bg); padding: 16px 24px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow-sm); z-index: 10; flex-shrink: 0; }
         .app-header h2 { font-size: 18px; font-weight: 800; color: var(--primary); letter-spacing: 0.5px; }
 
-        .main-content { flex: 1; overflow-y: auto; position: relative; background: var(--chat-bg); min-height: 0; /* Fix for flex scrolling */ }
+        .main-content { flex: 1; overflow-y: auto; position: relative; background: var(--chat-bg); min-height: 0; }
         .tab-view { display: none; padding-bottom: 20px; animation: fadeIn 0.3s ease; }
         .tab-view.active { display: block; }
 
@@ -149,7 +145,6 @@
         .settings-item.highlight { color: var(--primary); font-weight: 600; background: rgba(79, 70, 229, 0.05); }
         .settings-item.highlight i { color: var(--primary); }
 
-        /* FIXED: Bottom Nav spacing for Mobile */
         .bottom-nav { display: flex; background: var(--header-bg); border-top: 1px solid var(--border-color); padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 10px rgba(0,0,0,0.02); z-index: 20; flex-shrink: 0; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; color: var(--nav-inactive); font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .nav-item i { font-size: 20px; transition: transform 0.2s; }
@@ -157,9 +152,7 @@
         .nav-item.active { color: var(--primary); }
         .nav-item.active i { transform: translateY(-2px); }
 
-        /* =========================================
-           INDIVIDUAL CHAT SCREEN
-           ========================================= */
+        /* INDIVIDUAL CHAT SCREEN */
         .chat-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 100; animation: fadeIn 0.3s ease; }
         .chat-header { background: var(--header-bg); padding: 14px 20px calc(14px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); z-index: 10; flex-shrink: 0; }
         .back-btn { background: transparent; border: none; color: var(--text-dark); font-size: 20px; margin-right: 12px; cursor: pointer; padding: 5px; transition: 0.2s; }
@@ -169,7 +162,6 @@
         .status-text { font-size: 12px; color: var(--text-light); font-weight: 500; display: flex; align-items: center; gap: 6px; }
         .online-dot { width: 8px; height: 8px; background: #94a3b8; border-radius: 50%; display: inline-block; transition: background 0.3s;}
         
-        /* FIXED: Scrolling inside chat */
         .chat-messages { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; background-color: var(--chat-bg); scroll-behavior: smooth; position: relative; min-height: 0; }
         .msg-row { display: flex; flex-direction: column; position: relative; width: 100%; }
         
@@ -184,7 +176,6 @@
         .msg-sent .msg-meta { color: rgba(255, 255, 255, 0.9); }
         .tick { font-size: 11px; color: rgba(255, 255, 255, 0.7); } .tick.read { color: #60a5fa; }
         
-        /* FIXED: Bottom spacing for mobile inputs */
         .chat-input-area { background-color: var(--header-bg); padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--border-color); position: relative; flex-shrink: 0; }
         .icon-btn { background: transparent; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; transition: 0.2s; padding: 6px; }
         .icon-btn:hover { color: var(--primary); }
@@ -536,6 +527,7 @@
 
         function resetButtonState(text) { mainBtn.disabled = false; btnText.textContent = text; btnSpinner.style.display = "none"; }
 
+        // ALWAYS sync user info so new signups show the correct name instantly
         function syncUserToDatabase(user, customName = null) {
             const dName = customName || user.displayName || 'User';
             const profileImg = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=4f46e5&color=fff&bold=true`;
@@ -592,6 +584,7 @@
                 document.getElementById('chatCard').style.display = 'none';
                 document.getElementById('appScreen').style.display = 'flex';
                 
+                // Fetch fresh real-time data from DB for accurate profile
                 db.ref('users/' + user.uid).once('value').then((snap) => {
                     const uData = snap.val();
                     const dName = (uData && uData.name) ? uData.name : (user.displayName || 'User');
@@ -730,11 +723,9 @@
             } else { searchResultsDiv.innerHTML += '<div class="empty-search">No users found</div>'; }
         });
 
-        // --- CHAT ROOM ROUTING & CLEANUP ---
-        function getChatId(uid1, uid2) { return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`; }
-
+        // --- FIXED: CHAT ROOM ROUTING & ADMIN PANEL FIX ---
         window.openChatRoom = function(targetUid, targetName, targetAvatar, isAdmin = false) {
-            currentChatUserId = targetUid; currentChatId = getChatId(myUserId, currentChatUserId);
+            currentChatUserId = targetUid; 
             
             if(targetUid !== adminId) {
                 db.ref('users/' + myUserId + '/recent_chats/' + targetUid).set(Date.now());
@@ -759,7 +750,7 @@
             if(activeStatusRef) { activeStatusRef.off(); activeStatusRef = null; }
             db.ref('/typing/' + currentChatUserId).off();
             
-            currentChatUserId = null; currentChatId = null;
+            currentChatUserId = null; 
             document.getElementById('chatCard').style.display = 'none';
             document.getElementById('appScreen').style.display = 'flex';
         }
@@ -776,13 +767,15 @@
             });
         }
 
-        // --- MESSAGING & LONG PRESS DELETE ---
+        // --- MESSAGING (GLOBAL 'messages' NODE FIX FOR ADMIN PANEL) ---
         function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
 
         function sendMessage(text = '', imgUrl = null, fileType = null) {
             const val = text || msgInput.value.trim();
             if (!val && !imgUrl) return;
-            db.ref(`chats/${currentChatId}/messages`).push({ 
+            
+            // PUSH TO GLOBAL MESSAGES FOR ADMIN PANEL COMPATIBILITY
+            db.ref(`messages`).push({ 
                 text: val, imageUrl: imgUrl || null, fileType: fileType || null,
                 senderId: myUserId, receiverId: currentChatUserId, 
                 timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'sent' 
@@ -794,7 +787,7 @@
         window.startPress = function(msgId, isMe) {
             if(!isMe) return; 
             longPressTimer = setTimeout(() => {
-                if(confirm("🗑️ Delete this message for everyone?")) { db.ref(`chats/${currentChatId}/messages/${msgId}`).remove(); }
+                if(confirm("🗑️ Delete this message for everyone?")) { db.ref(`messages/${msgId}`).remove(); }
             }, 600); 
         };
         window.cancelPress = function() { clearTimeout(longPressTimer); };
@@ -816,15 +809,24 @@
 
             let isInitialLoad = true; 
             
-            activeChatRef = db.ref(`chats/${currentChatId}/messages`);
-            activeChatQuery = activeChatRef.orderByChild('timestamp').limitToLast(50);
+            // LISTEN TO GLOBAL MESSAGES BUT FILTER LOCALLY
+            activeChatRef = db.ref(`messages`);
+            activeChatQuery = activeChatRef.orderByChild('timestamp').limitToLast(150);
             
             activeChatQuery.once('value').then(() => { isInitialLoad = false; scrollToBottom(); });
             activeChatQuery.on('child_added', (snap) => {
-                const data = snap.val(); renderMessage(data, snap.key);
-                if(data.senderId !== myUserId && data.status !== 'read') {
-                    activeChatRef.child(snap.key).update({ status: 'read' });
-                    if (!isInitialLoad) { const sound = document.getElementById('msgSound'); sound.currentTime = 0; sound.play().catch(e=>e); }
+                const data = snap.val(); 
+                
+                // FILTER LOGIC
+                const isMyChat = (data.senderId === myUserId && data.receiverId === currentChatUserId) || 
+                                 (data.senderId === currentChatUserId && data.receiverId === myUserId);
+                
+                if(isMyChat) {
+                    renderMessage(data, snap.key);
+                    if(data.senderId !== myUserId && data.status !== 'read') {
+                        activeChatRef.child(snap.key).update({ status: 'read' });
+                        if (!isInitialLoad) { const sound = document.getElementById('msgSound'); sound.currentTime = 0; sound.play().catch(e=>e); }
+                    }
                 }
             });
             activeChatRef.on('child_removed', (snap) => { const el = document.getElementById('msg-' + snap.key); if(el) el.remove(); });
@@ -891,7 +893,7 @@
             const file = e.target.files[0];
             if(!file) return;
 
-            globalOverlay.style.display = 'flex';
+            document.getElementById('globalOverlay').style.display = 'flex';
             document.getElementById('overlayText').innerText = "Securing & Uploading...";
             
             const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
@@ -902,10 +904,10 @@
             fetch(url, { method: 'POST', body: formData })
             .then(response => { if (!response.ok) throw new Error('Cloudinary Error'); return response.json(); })
             .then(data => {
-                globalOverlay.style.display = 'none'; 
+                document.getElementById('globalOverlay').style.display = 'none'; 
                 const fileMsgText = file.type === 'application/pdf' ? '📄 PDF Document' : '📷 Image';
                 sendMessage(fileMsgText, data.secure_url, file.type);
-            }).catch(error => { globalOverlay.style.display = 'none'; showToast("Upload Error! Please try again.", "error"); });
+            }).catch(error => { document.getElementById('globalOverlay').style.display = 'none'; showToast("Upload Error! Please try again.", "error"); });
             fileInput.value = '';
         });
 
