@@ -451,7 +451,7 @@
         const db = firebase.database();
         const auth = firebase.auth();
         
-        // 🚨 CRASH FIX: Safe Messaging Initialization 🚨
+        // CRASH FIX: Safe Messaging Initialization 
         let messaging = null;
         try {
             if (firebase.messaging.isSupported()) {
@@ -540,53 +540,51 @@
             }, 150); 
         }
 
-        // --- PUSH NOTIFICATIONS SETUP (FIXED) ---
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/firebase-messaging-sw.js').then(function(reg) {
-                console.log('Service Worker Registered!');
-            }).catch(function(err) { console.log('Service Worker Failed!', err); });
-        }
-
-        window.requestNotificationPermission = function() {
+        // --- PUSH NOTIFICATIONS SETUP (BULLETPROOF MOBILE FIX) ---
+        window.requestNotificationPermission = async function() {
             if (!messaging) {
-                return showToast("Push notifications are not supported on this browser/device.", "error");
+                return showToast("Push notifications are not supported on this browser.", "error");
             }
-            showLoading("Requesting Permission...");
-            Notification.requestPermission().then((permission) => {
+            
+            showLoading("Setting up Notifications...");
+            
+            try {
+                const permission = await Notification.requestPermission();
                 if (permission === 'granted') {
-                    // EXPLICITLY WAIT FOR SERVICE WORKER TO AVOID MOBILE BUG
-                    navigator.serviceWorker.ready.then((registration) => {
-                        messaging.getToken({ 
-                            vapidKey: 'BJQWjpZKhdcB-o9oXrbxpTzyEkylHM-B9Uo2ZOOKx-6vJRN9pycCYKtub4S42po-frFQp4iRSEB2qhdoMbqscAk',
-                            serviceWorkerRegistration: registration 
-                        }).then((currentToken) => {
-                            hideLoading();
-                            if (currentToken && myUserId) {
-                                db.ref('users/' + myUserId).update({ fcmToken: currentToken });
-                                showToast("Notifications Enabled! 🔔", "success");
-                            } else { 
-                                showToast("No token generated.", "error"); 
-                            }
-                        }).catch((err) => { 
-                            hideLoading();
-                            console.error('FCM Error:', err);
-                            showToast("Error: " + err.message.substring(0, 30), "error"); 
-                        });
+                    // Force register explicitly to bypass mobile routing issues
+                    const reg = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+                    
+                    // Wait for Service Worker to be fully active
+                    await navigator.serviceWorker.ready;
+
+                    const currentToken = await messaging.getToken({ 
+                        vapidKey: 'BJQWjpZKhdcB-o9oXrbxpTzyEkylHM-B9Uo2ZOOKx-6vJRN9pycCYKtub4S42po-frFQp4iRSEB2qhdoMbqscAk',
+                        serviceWorkerRegistration: reg 
                     });
+
+                    if (currentToken && myUserId) {
+                        await db.ref('users/' + myUserId).update({ fcmToken: currentToken });
+                        hideLoading();
+                        showToast("Notifications Enabled! 🔔", "success");
+                    } else { 
+                        hideLoading();
+                        showToast("No token generated.", "error"); 
+                    }
                 } else { 
                     hideLoading();
                     showToast("Notification permission denied.", "error"); 
                 }
-            }).catch((err) => {
+            } catch (err) {
                 hideLoading();
-                showToast("Error: " + err.message.substring(0, 30), "error");
-            });
+                console.error('FCM Error:', err);
+                showToast("Failed: " + (err.message || "").substring(0, 40), "error");
+            }
         }
 
         // Foreground App Notification
         if (messaging) {
             messaging.onMessage((payload) => {
-                const msgText = payload.notification.body || "New message received";
+                const msgText = payload.notification?.body || "New message received";
                 showToast(`💬 ${msgText}`, "info");
                 const sound = document.getElementById('msgSound');
                 if(sound) { sound.currentTime = 0; sound.play().catch(e=>e); }
