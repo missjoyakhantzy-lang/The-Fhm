@@ -105,7 +105,6 @@
         .btn-login:disabled { opacity: 0.7; cursor: not-allowed; }
         .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255, 255, 255, 0.4); border-top-color: #ffffff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
         
-        /* NEW: Big Google Button */
         .btn-google-big { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--header-bg); color: var(--text-dark); font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; margin-top: 12px; }
         .btn-google-big:hover { background: var(--bg-input); transform: translateY(-1px); }
         .btn-google-big i { color: #EA4335; font-size: 18px; }
@@ -165,7 +164,6 @@
         .settings-item { display: flex; align-items: center; padding: 14px 24px; cursor: pointer; transition: 0.2s; color: var(--text-dark); font-weight: 500; font-size: 15px; border-bottom: 1px solid var(--border-color); }
         .settings-item:hover { background: var(--list-hover); }
         
-        /* NEW: Settings Icons Styling */
         .s-icon-wrap { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; font-size: 18px; transition: 0.3s; }
         .s-icon-blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .s-icon-green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
@@ -183,7 +181,7 @@
         .nav-item.active i { transform: translateY(-2px); }
 
         /* =========================================
-           CHAT SCREEN & POLICY MODAL
+           CHAT SCREEN & MODALS
            ========================================= */
         .chat-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 100; animation: fadeIn 0.3s ease; }
         .chat-header { background: var(--header-bg); padding: 14px 20px calc(14px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); z-index: 10; flex-shrink: 0; box-shadow: var(--shadow-sm); }
@@ -255,6 +253,23 @@
         .legal-header button { background: none; border: none; font-size: 20px; color: var(--text-light); cursor: pointer; }
         .legal-body { padding: 24px; overflow-y: auto; color: var(--text-light); font-size: 14px; line-height: 1.6; }
         .legal-body h4 { color: var(--text-dark); margin: 15px 0 5px 0; font-size: 15px; }
+
+        /* NEW: SECURE JAVASCRIPT NOTIFICATION PROMPT */
+        .secure-prompt-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 999999; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
+        .secure-prompt-overlay.show { display: flex; }
+        .secure-prompt-box { background: var(--header-bg); width: 90%; max-width: 320px; border-radius: 20px; padding: 28px 24px; text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .secure-prompt-overlay.show .secure-prompt-box { transform: scale(1); }
+        .secure-icon-wrap-main { width: 56px; height: 56px; background: rgba(16, 185, 129, 0.15); color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 16px auto; box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
+        .secure-prompt-box h3 { color: var(--text-dark); font-size: 19px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.3px; }
+        .secure-prompt-box p { color: var(--text-light); font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+        .secure-tag { display: inline-flex; align-items: center; gap: 6px; background: #f1f5f9; color: #475569; font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.5px; border: 1px solid #cbd5e1; }
+        .secure-tag i { color: #10b981; }
+        .secure-btn-allow { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 15px; cursor: pointer; margin-bottom: 12px; transition: 0.2s; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25); }
+        .secure-btn-allow:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .secure-btn-deny { width: 100%; padding: 12px; background: transparent; color: var(--text-light); border: none; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .secure-btn-deny:hover { background: var(--bg-input); color: var(--text-dark); }
+        
+        body.dark-mode .secure-tag { background: #1e293b; color: #cbd5e1; border-color: #334155; }
     </style>
 </head>
 <body>
@@ -265,6 +280,17 @@
     <div class="global-overlay" id="globalOverlay">
         <div class="spinner"></div>
         <div class="upload-text" id="overlayText">Please wait...</div>
+    </div>
+
+    <div class="secure-prompt-overlay" id="secureNotifModal">
+        <div class="secure-prompt-box">
+            <div class="secure-icon-wrap-main"><i class="fa-solid fa-shield-check"></i></div>
+            <div class="secure-tag"><i class="fa-solid fa-lock"></i> SECURE JAVASCRIPT</div>
+            <h3>Enable Notifications</h3>
+            <p>Please allow notifications to receive real-time encrypted messages instantly.</p>
+            <button class="secure-btn-allow" onclick="triggerNativePrompt()">Allow Notifications</button>
+            <button class="secure-btn-deny" onclick="closeSecureModal()">Maybe Later</button>
+        </div>
     </div>
 
     <div class="image-modal" id="imageModal">
@@ -396,7 +422,7 @@
                 </div>
                 <div class="settings-menu">
                     
-                    <div class="settings-item" onclick="requestNotificationPermission()">
+                    <div class="settings-item" onclick="checkAndPromptNotification()">
                         <div class="s-icon-wrap s-icon-blue"><i class="fa-solid fa-bell"></i></div>
                         <span>Enable Push Notifications</span>
                     </div>
@@ -517,7 +543,7 @@
 
         const verifiedSVG = `<svg aria-label="Verified" class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>`;
 
-        // --- UI HELPERS & LOADING SCREEN ---
+        // --- UI HELPERS & MODALS ---
         function showToast(msg, type='error') {
             const box = document.getElementById('toastBox');
             const toast = document.createElement('div');
@@ -531,10 +557,7 @@
             document.getElementById('overlayText').innerText = text;
             document.getElementById('globalOverlay').style.display = 'flex';
         }
-
-        function hideLoading() {
-            document.getElementById('globalOverlay').style.display = 'none';
-        }
+        function hideLoading() { document.getElementById('globalOverlay').style.display = 'none'; }
 
         function openModal(imgSrc) { document.getElementById('modalImg').src = imgSrc; document.getElementById('imageModal').classList.add('show'); }
         function closeModal() { document.getElementById('imageModal').classList.remove('show'); }
@@ -544,6 +567,39 @@
         document.getElementById('legalModal').addEventListener('click', function(e) { if(e.target === this) closeLegalModal(); });
 
         function toggleTheme() { document.body.classList.toggle('dark-mode'); }
+
+        // --- SMART NOTIFICATION LOGIC (SECURE JAVASCRIPT) ---
+        function checkAndPromptNotification() {
+            if (Notification.permission === 'granted') {
+                showToast("Notifications are already enabled! 🔔", "success");
+                return true;
+            } else if (Notification.permission === 'denied') {
+                showToast("Push Notifications are BLOCKED. Please unblock from browser settings.", "error");
+                return false;
+            } else {
+                // Show Secure Custom Popup
+                document.getElementById('secureNotifModal').classList.add('show');
+                return false;
+            }
+        }
+
+        function closeSecureModal() {
+            document.getElementById('secureNotifModal').classList.remove('show');
+        }
+
+        function triggerNativePrompt() {
+            closeSecureModal();
+            OneSignalDeferred.push(async function(OneSignal) {
+                // Call native browser prompt directly
+                await OneSignal.Notifications.requestPermission();
+                if (Notification.permission === 'granted') {
+                    showToast("Secure Notifications Enabled! 🚀", "success");
+                } else if (Notification.permission === 'denied') {
+                    showToast("You denied the permission.", "error");
+                }
+            });
+        }
+
 
         const chatBox = document.getElementById('chatBox');
         const scrollBtn = document.getElementById('scrollBottomBtn');
@@ -568,13 +624,6 @@
                 document.getElementById('nav-' + tabName).classList.add('active');
                 hideLoading();
             }, 150); 
-        }
-
-        // --- NEW: ONESIGNAL NOTIFICATION LOGIC ---
-        window.requestNotificationPermission = function() {
-            OneSignalDeferred.push(function(OneSignal) {
-                OneSignal.Slidedown.promptPush();
-            });
         }
 
         // --- DEEP LINKS & BLUE TICK ---
@@ -693,10 +742,7 @@
         window.confirmLogout = function() {
             if(confirm("Are you sure you want to log out?")) {
                 showLoading("Logging out...");
-                // Logout from OneSignal
-                OneSignalDeferred.push(function(OneSignal) {
-                    OneSignal.logout();
-                });
+                OneSignalDeferred.push(function(OneSignal) { OneSignal.logout(); });
                 if(myUserId) db.ref('/status/' + myUserId).set('offline');
                 auth.signOut().then(() => window.location.reload());
             }
@@ -718,19 +764,17 @@
                 document.getElementById('chatCard').style.display = 'none';
                 document.getElementById('appScreen').style.display = 'flex';
 
-                // ONESIGNAL LOGIN & AUTO PROMPT
+                // ONESIGNAL LOGIN 
                 OneSignalDeferred.push(function(OneSignal) {
                     OneSignal.login(myUserId);
                 });
 
-                // Auto slide-down prompt after 2 seconds for smooth animation feel
+                // AUTO POPUP AFTER 2.5 SECONDS (IF NOT ALREADY GRANTED/DENIED)
                 setTimeout(() => {
-                    OneSignalDeferred.push(function(OneSignal) {
-                        if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-                            OneSignal.Slidedown.promptPush();
-                        }
-                    });
-                }, 2000);
+                    if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+                        document.getElementById('secureNotifModal').classList.add('show');
+                    }
+                }, 2500);
                 
                 db.ref('users/' + user.uid).on('value', (snap) => {
                     const uData = snap.val();
@@ -965,12 +1009,9 @@
             const val = text || msgInput.value.trim();
             if (!val && !imgUrl) return;
             
-            // PROMPT IF NOTIFICATION IS NOT ENABLED
+            // SMART CHECK: TRIGGER POPUP ON SEND IF NOT ENABLED
             if (Notification.permission !== 'granted') {
-                OneSignalDeferred.push(function(OneSignal) {
-                    OneSignal.Slidedown.promptPush();
-                });
-                showToast("Please allow notifications so you don't miss replies!", "info");
+                document.getElementById('secureNotifModal').classList.add('show');
             }
 
             db.ref(`messages`).push({ 
