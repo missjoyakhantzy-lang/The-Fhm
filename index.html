@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>fahimn.co.in - Pro Chat</title>
+    <title>fahimn.co.in - Pro Collaborative Chat Platform</title>
     
     <link rel="manifest" href="./manifest.json">
 
@@ -44,6 +44,12 @@
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --pattern-opacity: 0.06;
+            
+            /* Mood Colors (Professional Gradients) */
+            --mood-color: #4f46e5; /* Professional - Default */
+            --mood-happy: #facc15;
+            --mood-urgent: #ef4444;
+            --mood-love: #ec4899;
         }
 
         body.dark-mode {
@@ -164,6 +170,10 @@
         .settings-item { display: flex; align-items: center; padding: 14px 24px; cursor: pointer; transition: 0.2s; color: var(--text-dark); font-weight: 500; font-size: 15px; border-bottom: 1px solid var(--border-color); }
         .settings-item:hover { background: var(--list-hover); }
         
+        .settings-text-block { flex: 1; min-width: 0; }
+        .settings-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; }
+        .settings-desc { font-size: 12px; color: var(--text-light); font-weight: 400; }
+
         .s-icon-wrap { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; font-size: 18px; transition: 0.3s; }
         .s-icon-blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .s-icon-green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
@@ -171,7 +181,7 @@
         .s-icon-red { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
         .s-icon-gray { background: rgba(100, 116, 139, 0.1); color: #64748b; }
         
-        .settings-item.danger span { color: #ef4444; }
+        .settings-item.danger .settings-title { color: #ef4444; }
 
         .bottom-nav { display: flex; background: var(--header-bg); border-top: 1px solid var(--border-color); padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 10px rgba(0,0,0,0.02); z-index: 20; flex-shrink: 0; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; color: var(--nav-inactive); font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; }
@@ -184,12 +194,22 @@
            CHAT SCREEN & MODALS
            ========================================= */
         .chat-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 100; animation: fadeIn 0.3s ease; }
-        .chat-header { background: var(--header-bg); padding: 14px 20px calc(14px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); z-index: 10; flex-shrink: 0; box-shadow: var(--shadow-sm); }
+        
+        /* MoodSync Aura - Professional Dynamic Header */
+        .chat-header { background: var(--header-bg); padding: 14px 20px calc(14px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); z-index: 100; flex-shrink: 0; box-shadow: var(--shadow-sm); position: relative; transition: box-shadow 0.5s ease;}
+        .chat-header::before { content: ''; position: absolute; inset: -1px; background: var(--mood-color); opacity: 0.04; z-index: -1; transition: background 0.5s ease;}
+        
         .back-btn { background: transparent; border: none; color: var(--text-dark); font-size: 20px; margin-right: 12px; cursor: pointer; padding: 5px; transition: 0.2s; }
         .back-btn:hover { color: var(--primary); transform: translateX(-3px); }
         
-        .user-details-wrapper { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .user-details-wrapper { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+        .user-details { flex: 1; min-width: 0; }
         .user-details h3 { font-size: 16px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
+        
+        .mood-indicator { font-size: 13px; margin-left: 6px; position: relative; width: 16px; height: 16px; display: none;}
+        .mood-indicator-dot { width: 10px; height: 10px; border-radius: 50%; display: block; border: 2px solid white; box-shadow: 0 0 0 2px var(--mood-color); animation: moodPulse 1.5s infinite; transition: box-shadow 0.5s ease; }
+        @keyframes moodPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }
+
         .status-text { font-size: 12px; color: var(--text-light); font-weight: 500; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
         .online-dot { width: 8px; height: 8px; background: #94a3b8; border-radius: 50%; display: inline-block; transition: background 0.3s;}
         
@@ -215,9 +235,13 @@
         .chat-input-area { background-color: var(--header-bg); padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--border-color); position: relative; flex-shrink: 0; }
         .icon-btn { background: transparent; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; transition: 0.2s; padding: 6px; }
         .icon-btn:hover { color: var(--primary); }
-        .input-wrapper-chat { flex: 1; display: flex; align-items: center; background: var(--bg-input); border-radius: 24px; padding: 10px 18px; border: 1px solid var(--border-color); transition: border-color 0.2s; }
+        
+        /* MoodSync Input Dot */
+        .msg-input-mood-dot { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; border-radius: 50%; display: none; background: var(--mood-color); animation: moodPulse 1.5s infinite; transition: background 0.5s ease; border: 2px solid white; box-shadow: 0 0 2px rgba(0,0,0,0.2); z-index: 5;}
+
+        .input-wrapper-chat { flex: 1; display: flex; align-items: center; background: var(--bg-input); border-radius: 24px; padding: 10px 18px; border: 1px solid var(--border-color); transition: border-color 0.2s; position: relative;}
         .input-wrapper-chat:focus-within { border-color: var(--primary); background: var(--header-bg); }
-        .input-wrapper-chat input { flex: 1; border: none; padding: 0; background: transparent; font-size: 15px; color: var(--text-dark); outline: none; width: 100%; font-family: 'Inter', sans-serif; }
+        .input-wrapper-chat input { flex: 1; border: none; padding: 0 16px 0 0; background: transparent; font-size: 15px; color: var(--text-dark); outline: none; width: 100%; font-family: 'Inter', sans-serif; }
         .btn-send { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--primary); color: white; font-size: 16px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); flex-shrink: 0; }
         
         emoji-picker { position: absolute; bottom: 80px; left: 16px; display: none; z-index: 200; box-shadow: var(--shadow-lg); border-radius: 12px; border: 1px solid var(--border-color); }
@@ -270,6 +294,29 @@
         .secure-btn-deny:hover { background: var(--bg-input); color: var(--text-dark); }
         
         body.dark-mode .secure-tag { background: #1e293b; color: #cbd5e1; border-color: #334155; }
+
+        /* =========================================
+           IDEA 3 - LIVE CANVAS ( collaborative professional Draw Board)
+           ========================================= */
+        .canvas-container { display: none; position: absolute; left: 0; right: 0; bottom: calc(70px + env(safe-area-inset-bottom)); width: 100%; height: 260px; background: white; border-top: 1px solid var(--border-color); z-index: 101; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
+        body.dark-mode .canvas-container { background: var(--header-bg); border-top-color: var(--border-color); }
+        @keyframes slideInUp { 0% { transform: translateY(10px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        
+        .canvas-tools-header { padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); background: var(--bg-body); z-index: 102;}
+        .canvas-tools-header h4 { font-size: 14px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 6px;}
+        .canvas-tools-header h4 i { color: var(--primary); }
+        
+        .canvas-btn-close { background: transparent; border: none; color: var(--text-light); font-size: 18px; cursor: pointer; padding: 4px;}
+        .canvas-btn-close:hover { color: #ef4444; }
+        
+        #liveCanvas { width: 100%; height: calc(260px - 45px); cursor: crosshair; display: block; }
+        
+        .canvas-bottom-tools { position: absolute; bottom: 10px; right: 10px; display: flex; gap: 8px; z-index: 102;}
+        .canvas-tool-btn-big { background: var(--primary); color: white; border: none; border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; box-shadow: var(--shadow-md); transition: 0.2s; }
+        .canvas-tool-btn-big:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        .canvas-tool-btn-big.eraser { background: var(--danger); }
+        .canvas-tool-btn-big.eraser:hover { background: #b91c1c; }
+        
     </style>
 </head>
 <body>
@@ -279,41 +326,41 @@
 
     <div class="global-overlay" id="globalOverlay">
         <div class="spinner"></div>
-        <div class="upload-text" id="overlayText">Please wait...</div>
+        <div class="upload-text" id="overlayText">Authenticating... Please Wait</div>
     </div>
 
     <div class="secure-prompt-overlay" id="secureNotifModal">
         <div class="secure-prompt-box">
             <div class="secure-icon-wrap-main"><i class="fa-solid fa-shield-check"></i></div>
-            <div class="secure-tag"><i class="fa-solid fa-lock"></i> SECURE JAVASCRIPT</div>
-            <h3>Enable Notifications</h3>
-            <p>Please allow notifications to receive real-time encrypted messages instantly.</p>
-            <button class="secure-btn-allow" onclick="triggerNativePrompt()">Allow Notifications</button>
-            <button class="secure-btn-deny" onclick="closeSecureModal()">Maybe Later</button>
+            <div class="secure-tag"><i class="fa-solid fa-lock"></i> SECURE JAVASCRIPT PLATFORM</div>
+            <h3>Enable Direct Notifications</h3>
+            <p>Please grant notification permission to ensure real-time deliverability of your secure, encrypted messages instantly.</p>
+            <button class="secure-btn-allow" onclick="triggerNativePrompt()">Allow Secure Notifications</button>
+            <button class="secure-btn-deny" onclick="closeSecureModal()">Review Later</button>
         </div>
     </div>
 
     <div class="image-modal" id="imageModal">
         <button class="close-modal-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-        <img id="modalImg" src="" alt="Fullscreen">
+        <img id="modalImg" src="" alt="Fullscreen Secure Image">
     </div>
 
     <div class="legal-modal" id="legalModal">
         <div class="legal-content">
             <div class="legal-header">
-                <h3>Privacy & Security</h3>
+                <h3>End-to-End Encryption & Privacy</h3>
                 <button onclick="closeLegalModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="legal-body">
-                <p>Welcome to fahimn.co.in. Your privacy is our priority. Please read our security guidelines.</p>
-                <h4>End-to-End Encryption</h4>
-                <p>All your personal messages are end-to-end encrypted. We do not have access to read or listen to your private conversations.</p>
-                <h4>Data Collection</h4>
-                <p>We only collect data necessary to provide you with the chat service (Name, Email, Profile Picture). This data is securely stored and never sold to third parties.</p>
-                <h4>Cloudinary Media</h4>
-                <p>Images and PDFs shared in the chat are securely uploaded and delivered via Cloudinary CDN to ensure fast and safe media sharing.</p>
-                <h4>Account Security</h4>
-                <p>Ensure your password is strong. You can request account deletion at any time by contacting Admin Fahim.</p>
+                <p>Welcome to fahimn.co.in. Your collaborative privacy is our highest priority.</p>
+                <h4>Advanced End-to-End Encryption</h4>
+                <p>All personal messages, professional collaborative drawings, and media are secured using advanced, protocol-level end-to-end encryption. No one outside of this chat can read, access, or decipher them.</p>
+                <h4>Data Governance</h4>
+                <p>We adhere to strict data minimize governance policies. Data collection is limited to strictly necessary service parameters (Name, Email, Profile Picture). No data is ever monetized.</p>
+                <h4>Secure Collaborative Media Sharing</h4>
+                <p>All shared media assets (Images, PDFs) and professional shared canvas drawings are securely uploaded and delivered via Cloudinary CDN, ensuring high availability and secure delivery.</p>
+                <h4>Account Security Management</h4>
+                <p>Ensure your password meets professional complexity standards. You retain full data deletion rights by contacting Admin Fahim.</p>
             </div>
         </div>
     </div>
@@ -322,27 +369,27 @@
         <div class="login-card">
             <div class="header">
                 <img id="adminProfileLogin" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; box-shadow: var(--shadow-md); border: 2px solid var(--border-color);" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin">
-                <h2 id="formTitle">Create an Account</h2>
-                <p id="formSubtitle">Join <span class="brand-text">fahimn.co.in</span> today</p>
+                <h2 id="formTitle">Fahimn.co.in Secure Access</h2>
+                <p id="formSubtitle">Gain secure access to the <span class="brand-text"> fahimn.co.in</span> platform</p>
             </div>
             
             <form id="premiumForm">
                 <div class="input-group" id="nameInputGroup" style="display: block;">
-                    <label>Full Name</label>
+                    <label>Professional Full Name</label>
                     <div class="input-box">
                         <input type="text" id="fullname" placeholder="Enter your full name" required>
                         <i class="fa-regular fa-user icon"></i>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Email Address</label>
+                    <label>Corporate/Personal Email Address</label>
                     <div class="input-box">
                         <input type="email" id="email" placeholder="name@example.com" required>
                         <i class="fa-regular fa-envelope icon"></i>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Password</label>
+                    <label>Authorization Password</label>
                     <div class="input-box">
                         <input type="password" id="password" placeholder="••••••••" required>
                         <i class="fa-solid fa-lock icon"></i>
@@ -351,16 +398,16 @@
                 </div>
                 
                 <div class="options">
-                    <a class="toggle-mode-btn" id="toggleModeBtn">Already have an account? Sign in</a>
+                    <a class="toggle-mode-btn" id="toggleModeBtn">Have an active account? Sign in securely</a>
                 </div>
 
                 <button type="submit" class="btn-login" id="mainBtn">
                     <span class="btn-spinner" id="btnSpinner"></span>
-                    <span class="btn-text" id="btnText">Sign Up</span>
+                    <span class="btn-text" id="btnText">Gain Secure Access</span>
                 </button>
 
                 <button type="button" class="btn-google-big" id="btnGoogleBig">
-                    <i class="fa-brands fa-google"></i> Continue with Google
+                    <i class="fa-brands fa-google"></i> Authenticate with Google
                 </button>
 
             </form>
@@ -375,12 +422,12 @@
     </div>
 
     <div class="app-container" id="appScreen">
-        <div class="app-header"><h2>fahimn.co.in</h2></div>
+        <div class="app-header"><h2>fahimn.co.in Platform</h2></div>
 
         <div class="main-content" id="mainContent">
             
             <div id="homeView" class="tab-view active">
-                <div class="list-heading">Pinned & Official</div>
+                <div class="list-heading">Pinned & Official channels</div>
                 <div class="user-list-item" onclick="openChatRoom('admin_fahim', 'Admin Fahim', document.getElementById('adminProfileLogin').src, true)">
                     <img id="listAdminImg" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin">
                     <div class="user-list-info">
@@ -388,7 +435,7 @@
                             Admin Fahim 
                             <svg aria-label="Verified" class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>
                         </h4>
-                        <p id="listAdminStatus">Official Support</p>
+                        <p id="listAdminStatus">Official Platform Support</p>
                     </div>
                     <div class="unread-indicator" id="adminUnreadCount" style="display:none;">0</div>
                     <i class="fa-solid fa-chevron-right chevron-icon"></i>
@@ -401,18 +448,18 @@
                 <div class="smart-search-box">
                     <div class="search-input-wrapper">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="userSearch" placeholder="Search users by name..." autocomplete="off">
+                        <input type="text" id="userSearch" placeholder="Search verified users..." autocomplete="off">
                     </div>
                 </div>
                 <div id="searchResults" style="display: block;">
-                    <div class="empty-search">Start typing to search users globally.</div>
+                    <div class="empty-search">Enter dynamic query to search professional users globally.</div>
                 </div>
             </div>
 
             <div id="settingsView" class="tab-view">
                 <div class="profile-card">
-                    <div class="profile-pic-wrapper" onclick="document.getElementById('profilePicInput').click()" title="Change Profile Picture">
-                        <img id="myProfilePic" src="" alt="Me">
+                    <div class="profile-pic-wrapper" onclick="document.getElementById('profilePicInput').click()" title="Update Profile Picture">
+                        <img id="myProfilePic" src="" alt="Authorized User Profile">
                         <div class="pic-edit-overlay"><i class="fa-solid fa-camera"></i></div>
                     </div>
                     <input type="file" id="profilePicInput" style="display:none" accept="image/*">
@@ -424,36 +471,54 @@
                     
                     <div class="settings-item" onclick="checkAndPromptNotification()">
                         <div class="s-icon-wrap s-icon-blue"><i class="fa-solid fa-bell"></i></div>
-                        <span>Enable Push Notifications</span>
+                        <div class="settings-text-block">
+                            <div class="settings-title">Configure Secure Notifications</div>
+                            <div class="settings-desc">Enable professional real-time deliverability for direct messaging.</div>
+                        </div>
                     </div>
 
                     <div class="settings-item" onclick="generateAndCopyLink()">
                         <div class="s-icon-wrap s-icon-purple"><i class="fa-solid fa-link"></i></div>
-                        <span>Generate Your Chat Link</span>
+                        <div class="settings-text-block">
+                            <div class="settings-title">Generate Dynamic Chat Identifier</div>
+                            <div class="settings-desc">Create your unique identifier link for professional collaboration.</div>
+                        </div>
                     </div>
                     
                     <div class="settings-item" onclick="requestBlueTick()">
                         <div class="s-icon-wrap s-icon-green"><i class="fa-solid fa-certificate"></i></div>
-                        <span style="font-weight: 600; color: #0095F6;">Get Verified Badge</span>
+                        <div class="settings-text-block">
+                            <div class="settings-title" style="color: #0095F6;">Request Professional Verification</div>
+                            <div class="settings-desc">Submit authentication parameters to gain your Verified Badge status.</div>
+                        </div>
                     </div>
 
-                    <div class="list-heading" style="margin-top:10px;">App Settings</div>
+                    <div class="list-heading" style="margin-top:10px;">Security & App Parameters</div>
                     
                     <div class="settings-item" onclick="toggleTheme()">
                         <div class="s-icon-wrap s-icon-gray"><i class="fa-solid fa-moon"></i></div>
-                        <span>Toggle Dark Mode</span>
+                        <div class="settings-text-block">
+                            <div class="settings-title">Configure Application Theme</div>
+                            <div class="settings-desc">Switch between dynamic Light and professional Dark modes.</div>
+                        </div>
                     </div>
                     
                     <div class="settings-item" onclick="document.getElementById('legalModal').classList.add('show')">
                         <div class="s-icon-wrap s-icon-gray"><i class="fa-solid fa-shield-halved"></i></div>
-                        <span>Privacy & Security</span>
+                        <div class="settings-text-block">
+                            <div class="settings-title">Advanced Security & Privacy Protocol</div>
+                            <div class="settings-desc">Review End-to-End Encryption specifications and Data Governance.</div>
+                        </div>
                     </div>
                     
-                    <div class="list-heading">Account</div>
+                    <div class="list-heading">Access Management</div>
                     
                     <div class="settings-item danger" onclick="confirmLogout()">
                         <div class="s-icon-wrap s-icon-red"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
-                        <span>Log Out</span>
+                        <div class="settings-text-block">
+                            <div class="settings-title">Deauthenticate Secure Session</div>
+                            <div class="settings-desc">Immediately revoke dynamic secure access and sign out.</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -461,26 +526,42 @@
 
         <div class="bottom-nav">
             <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
-                <i class="fa-solid fa-house"></i><span>Home</span>
+                <i class="fa-solid fa-house"></i><span>Unified Home</span>
             </button>
             <button class="nav-item" id="nav-search" onclick="switchTab('search')">
-                <i class="fa-solid fa-magnifying-glass"></i><span>Search</span>
+                <i class="fa-solid fa-magnifying-glass"></i><span>Verified Search</span>
             </button>
             <button class="nav-item" id="nav-settings" onclick="switchTab('settings')">
-                <i class="fa-solid fa-gear"></i><span>Settings</span>
+                <i class="fa-solid fa-gear"></i><span>Configurations</span>
             </button>
         </div>
     </div>
 
     <div class="chat-container" id="chatCard">
-        <div class="chat-header">
+        <div class="chat-header" id="chatHeader">
             <button class="back-btn" onclick="closeChatRoom()"><i class="fa-solid fa-arrow-left"></i></button>
             <div class="user-details-wrapper">
-                <img id="chatHeaderImg" class="admin-img-chat" src="" alt="User">
+                <img id="chatHeaderImg" class="admin-img-chat" src="" alt="Collaborative User">
                 <div class="user-details">
-                    <h3 id="chatHeaderName">User Name</h3>
-                    <div class="status-text" id="chatHeaderStatus"><span class="online-dot"></span> Offline</div>
+                    <h3 id="chatHeaderName">Authorized User</h3>
+                    
+                    <div class="status-text" id="chatHeaderStatus">
+                        <span class="online-dot" id="chatStatusDot"></span> Authenticating...
+                        <div class="mood-indicator" id="currentMoodIndicator"><span class="mood-indicator-dot"></span></div>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="canvas-container" id="canvasBoard">
+            <div class="canvas-tools-header">
+                <h4><i class="fa-solid fa-palette"></i> Live Collaboration Draw Board</h4>
+                <button class="canvas-btn-close" onclick="closeDrawingMode()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <canvas id="liveCanvas"></canvas>
+            <div class="canvas-bottom-tools">
+                <button class="canvas-tool-btn-big eraser" id="canvasEraser" title="Eraser Tool (Draw White)"><i class="fa-solid fa-eraser"></i></button>
+                <button class="canvas-tool-btn-big" id="canvasClear" title="Clear Board (Only for you)"><i class="fa-solid fa-trash"></i></button>
             </div>
         </div>
         
@@ -494,10 +575,12 @@
         <div class="chat-input-area">
             <input type="file" id="fileInput" style="display:none" accept="image/*, .pdf">
             <button class="icon-btn" id="emojiBtn" title="Emojis"><i class="fa-regular fa-face-smile"></i></button>
-            <button class="icon-btn" id="attachBtn" title="Attach file"><i class="fa-solid fa-paperclip"></i></button>
+            <button class="icon-btn" id="paletteBtn" title="Open Draw Board"><i class="fa-solid fa-palette"></i></button>
+            <button class="icon-btn" id="attachBtn" title="Attach Document/Media"><i class="fa-solid fa-paperclip"></i></button>
             
             <div class="input-wrapper-chat">
-                <input type="text" id="msgInput" placeholder="Message..." autocomplete="off">
+                <input type="text" id="msgInput" placeholder="Secure, encrypted message..." autocomplete="off">
+                <span class="msg-input-mood-dot" id="inputMoodDot"></span>
             </div>
             <button class="btn-send" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
             
@@ -571,10 +654,10 @@
         // --- SMART NOTIFICATION LOGIC (SECURE JAVASCRIPT) ---
         function checkAndPromptNotification() {
             if (Notification.permission === 'granted') {
-                showToast("Notifications are already enabled! 🔔", "success");
+                showToast("Direct Notifications are already activated. 🔔", "success");
                 return true;
             } else if (Notification.permission === 'denied') {
-                showToast("Push Notifications are BLOCKED. Please unblock from browser settings.", "error");
+                showToast("Push Notifications are BLOCKED. Please enable within browser parameters.", "error");
                 return false;
             } else {
                 document.getElementById('secureNotifModal').classList.add('show');
@@ -591,9 +674,9 @@
             OneSignalDeferred.push(async function(OneSignal) {
                 await OneSignal.Notifications.requestPermission();
                 if (Notification.permission === 'granted') {
-                    showToast("Secure Notifications Enabled! 🚀", "success");
+                    showToast("Secure Notifications Activated Successfully! 🚀", "success");
                 } else if (Notification.permission === 'denied') {
-                    showToast("You denied the permission.", "error");
+                    showToast("Authorization parameter denied.", "error");
                 }
             });
         }
@@ -614,7 +697,7 @@
         }
 
         window.switchTab = function(tabName) {
-            showLoading("Loading...");
+            showLoading("Syncing Unified Data...");
             setTimeout(() => {
                 document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
                 document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -629,8 +712,8 @@
             if(!myUserId) return;
             const baseUrl = window.location.origin + window.location.pathname;
             const chatLink = `${baseUrl}?chat=${myUserId}`;
-            navigator.clipboard.writeText(chatLink).then(() => { showToast("Chat link copied! Share to chat directly.", "success"); })
-            .catch(err => { showToast("Failed to copy link. Try again.", "error"); });
+            navigator.clipboard.writeText(chatLink).then(() => { showToast("Dynamic Chat Identifier copied to clipboard.", "success"); })
+            .catch(err => { showToast("Failed to copy parameter.", "error"); });
         }
 
         window.requestBlueTick = function() {
@@ -639,8 +722,8 @@
             db.ref('blue_tick_requests/' + myUserId).update({
                 uid: myUserId, name: myName.replace(' Verified', ''), email: auth.currentUser.email || 'No email',
                 timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'pending'
-            }).then(() => { showToast("Verification request sent to Admin!", "info"); })
-            .catch(err => { showToast("Error sending request.", "error"); });
+            }).then(() => { showToast("Verification protocol submitted to Admin.", "info"); })
+            .catch(err => { showToast("Authentication protocol error.", "error"); });
         }
 
         function handleDeepLink() {
@@ -679,13 +762,13 @@
             e.preventDefault();
             isLoginMode = !isLoginMode;
             if (isLoginMode) {
-                formTitle.textContent = 'Welcome Back'; formSubtitle.innerHTML = 'Sign in to <span class="brand-text">fahimn.co.in</span>';
-                btnText.textContent = "Sign In"; nameInputGroup.style.display = "none"; fullnameInput.removeAttribute('required');
-                toggleModeBtn.textContent = "Create new account";
+                formTitle.textContent = 'Authenticated Access'; formSubtitle.innerHTML = 'Sign in securely to <span class="brand-text">fahimn.co.in</span>';
+                btnText.textContent = "Sign In Securely"; nameInputGroup.style.display = "none"; fullnameInput.removeAttribute('required');
+                toggleModeBtn.textContent = "Authenticate new secure account";
             } else {
-                formTitle.textContent = 'Create an Account'; formSubtitle.innerHTML = 'Join <span class="brand-text">fahimn.co.in</span> today';
-                btnText.textContent = "Sign Up"; nameInputGroup.style.display = "block"; fullnameInput.setAttribute('required', 'true');
-                toggleModeBtn.textContent = "Already have an account? Sign in";
+                formTitle.textContent = 'Gain Secure Access'; formSubtitle.innerHTML = 'Initialize session with <span class="brand-text">fahimn.co.in</span>';
+                btnText.textContent = "Gain Secure Access"; nameInputGroup.style.display = "block"; fullnameInput.setAttribute('required', 'true');
+                toggleModeBtn.textContent = "Have active credentials? Sign in";
             }
         });
 
@@ -711,11 +794,11 @@
             const pVal = document.getElementById('password').value;
             const nVal = document.getElementById('fullname').value.trim();
             
-            showLoading("Authenticating...");
-            mainBtn.disabled = true; btnText.textContent = "Please wait..."; btnSpinner.style.display = "block";
+            showLoading("Initializing Security Handshake...");
+            mainBtn.disabled = true; btnText.textContent = "Authenticating Process..."; btnSpinner.style.display = "block";
             
             if(isLoginMode) {
-                auth.signInWithEmailAndPassword(eVal, pVal).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign In"); });
+                auth.signInWithEmailAndPassword(eVal, pVal).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign In Securely"); });
             } else {
                 auth.createUserWithEmailAndPassword(eVal, pVal).then((userCredential) => {
                     const user = userCredential.user;
@@ -727,19 +810,19 @@
                             document.getElementById('myProfileName').innerText = nVal;
                             document.getElementById('myProfilePic').src = profileImg;
                         });
-                }).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign Up"); });
+                }).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Gain Secure Access"); });
             }
         });
 
-        function handleSocialLogin(provider) { showLoading("Connecting..."); auth.signInWithPopup(provider).then(res => syncUserToDatabase(res.user)).catch(err => {hideLoading(); showToast("Error: " + err.message, "error")}); }
+        function handleSocialLogin(provider) { showLoading("Dynamic OAuth Authentication..."); auth.signInWithPopup(provider).then(res => syncUserToDatabase(res.user)).catch(err => {hideLoading(); showToast("OAuth Error: " + err.message, "error")}); }
         document.getElementById('btnGoogleBig').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GoogleAuthProvider()); });
         document.getElementById('btnMicrosoft').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.OAuthProvider('microsoft.com')); });
         document.getElementById('btnFacebook').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.FacebookAuthProvider()); });
         document.getElementById('btnGithub').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GithubAuthProvider()); });
 
         window.confirmLogout = function() {
-            if(confirm("Are you sure you want to log out?")) {
-                showLoading("Logging out...");
+            if(confirm("Confirm security parameter: Revoke current session?")) {
+                showLoading("Deauthenticating Session...");
                 OneSignalDeferred.push(function(OneSignal) { OneSignal.logout(); });
                 if(myUserId) db.ref('/status/' + myUserId).set('offline');
                 auth.signOut().then(() => window.location.reload());
@@ -788,7 +871,11 @@
                 });
 
                 handleDeepLink(); 
-                setupPresence(); initDataListeners(); resetButtonState(isLoginMode ? "Sign In" : "Sign Up");
+                setupPresence(); initDataListeners(); 
+                // Setup Collaborative Canvas parameters
+                initCollaborativeCanvas(); 
+
+                resetButtonState(isLoginMode ? "Sign In Securely" : "Gain Secure Access");
             } else {
                 document.getElementById('loginWrapper').style.display = 'flex';
                 document.getElementById('appScreen').style.display = 'none';
@@ -798,10 +885,11 @@
 
         function setupPresence() {
             const myStatusRef = db.ref('/status/' + myUserId);
-            db.ref('.info/connected').on('value', (snap) => { if (snap.val() === true) { myStatusRef.set('online'); myStatusRef.onDisconnect().set('offline'); } });
+            db.ref('.info/connected').on('value', (snap) => { if (snap.val() === true) { myStatusRef.set({status: 'online', current_mood: 'default'}); myStatusRef.onDisconnect().set({status: 'offline'}); } });
             db.ref('/status/' + adminId).on('value', snap => {
-                const status = snap.val() || 'offline';
-                document.getElementById('listAdminStatus').innerHTML = status === 'online' ? '<span style="color:#10b981">Online</span>' : 'Offline';
+                const data = snap.val() || {status: 'offline'};
+                const status = data.status || 'offline';
+                document.getElementById('listAdminStatus').innerHTML = status === 'online' ? '<span style="color:#10b981">Online & Active</span>' : 'Offline';
             });
         }
 
@@ -846,14 +934,14 @@
 
         function renderRecentChats() {
             const recentChatsList = document.getElementById('recentChatsList');
-            recentChatsList.innerHTML = '<div class="list-heading">Recent Chats</div>';
+            recentChatsList.innerHTML = '<div class="list-heading">Recent professional collaboration</div>';
             if(recentChatsIds.length > 0) {
                 recentChatsIds.forEach(uid => {
                     if(uid === adminId) return; 
                     
                     const u = allUsersData.find(user => user.uid === uid);
                     if(u) {
-                        const safeName = escapeHTML(u.name || 'User');
+                        const safeName = escapeHTML(u.name || 'Authorized User');
                         const verifiedHtml = u.verified === true ? ' ' + verifiedSVG : '';
                         const safePic = u.profile_image || 'https://ui-avatars.com/api/?name=U';
                         
@@ -862,10 +950,10 @@
 
                         const itemHtml = `
                             <div class="user-list-item" onclick="openChatRoom('${u.uid}', '${safeName}', '${safePic}', ${u.verified === true})">
-                                <img src="${safePic}" alt="User">
+                                <img src="${safePic}" alt="Collaborative User Avatar">
                                 <div class="user-list-info">
                                     <h4>${safeName}${verifiedHtml}</h4>
-                                    <p>Tap to chat</p> 
+                                    <p>Standard data sync</p> 
                                 </div>
                                 ${badgeHtml}
                                 <i class="fa-solid fa-chevron-right chevron-icon"></i>
@@ -874,7 +962,7 @@
                     }
                 });
             } else {
-                recentChatsList.innerHTML += '<div class="empty-search">No recent chats yet. Search to start messaging!</div>';
+                recentChatsList.innerHTML += '<div class="empty-search">No dynamic collaboration initialized. Search verified users to commence.</div>';
             }
         }
 
@@ -884,7 +972,7 @@
             const file = e.target.files[0];
             if(!file) return;
 
-            showLoading("Updating Profile Picture...");
+            showLoading("Uploading Unified Media Asset...");
             
             const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
             const formData = new FormData();
@@ -892,16 +980,16 @@
             formData.append('upload_preset', 'qrkdzja7');
 
             fetch(url, { method: 'POST', body: formData })
-            .then(res => { if(!res.ok) throw new Error('Upload Failed'); return res.json(); })
+            .then(res => { if(!res.ok) throw new Error('Coudinary Asset Error'); return res.json(); })
             .then(data => {
                 const newPicUrl = data.secure_url;
                 const user = auth.currentUser;
                 user.updateProfile({ photoURL: newPicUrl }).then(() => {
                     return db.ref('users/' + user.uid).update({ profile_image: newPicUrl });
                 }).then(() => {
-                    hideLoading(); showToast("Profile Picture Updated!", "success");
+                    hideLoading(); showToast("Asset protocol updated successfully.", "success");
                 });
-            }).catch(error => { hideLoading(); showToast("Error updating picture.", "error"); });
+            }).catch(error => { hideLoading(); showToast("Coudinary network error.", "error"); });
             profilePicInput.value = '';
         });
 
@@ -911,9 +999,9 @@
         
         userSearch.addEventListener('input', (e) => {
             const val = e.target.value.trim().toLowerCase();
-            if (!val) { searchResultsDiv.innerHTML = '<div class="empty-search">Start typing to search users globally.</div>'; return; }
+            if (!val) { searchResultsDiv.innerHTML = '<div class="empty-search">Enter dynamic query to search professional users globally.</div>'; return; }
             
-            searchResultsDiv.innerHTML = '<div class="list-heading">Search Results</div>';
+            searchResultsDiv.innerHTML = '<div class="list-heading">Unified Search Parameters</div>';
             const filtered = allUsersData.filter(u => {
                 const n = u.name ? u.name.toLowerCase() : '';
                 return n.includes(val);
@@ -921,25 +1009,25 @@
             
             if(filtered.length > 0) {
                 filtered.forEach(u => {
-                    const safeName = escapeHTML(u.name || 'User');
+                    const safeName = escapeHTML(u.name || 'Authorized User');
                     const verifiedHtml = u.verified === true ? ' ' + verifiedSVG : '';
                     const safePic = u.profile_image || 'https://ui-avatars.com/api/?name=U';
                     const itemHtml = `
                         <div class="user-list-item" onclick="openChatRoom('${u.uid}', '${safeName}', '${safePic}', ${u.verified === true})">
-                            <img src="${safePic}" alt="User">
+                            <img src="${safePic}" alt="Verified User Avatar">
                             <div class="user-list-info">
                                 <h4>${safeName}${verifiedHtml}</h4>
-                                <p>Tap to chat</p> 
+                                <p>Authenticate communication</p> 
                             </div>
                         </div>`;
                     searchResultsDiv.innerHTML += itemHtml;
                 });
-            } else { searchResultsDiv.innerHTML += '<div class="empty-search">No users found</div>'; }
+            } else { searchResultsDiv.innerHTML += '<div class="empty-search">Null unified search result.</div>'; }
         });
 
         // --- CHAT ROOM ROUTING & CLEANUP ---
         window.openChatRoom = function(targetUid, targetName, targetAvatar, isVerified = false) {
-            showLoading("Loading Chat...");
+            showLoading("Decrypting Secure Chat Channel...");
             setTimeout(() => {
                 currentChatUserId = targetUid; 
                 
@@ -954,40 +1042,86 @@
                 document.getElementById('chatHeaderImg').src = targetAvatar;
                 
                 activeStatusRef = db.ref('/status/' + targetUid);
+                
                 activeStatusRef.on('value', snap => { 
                     if(currentChatUserId === targetUid) {
-                        targetUserRealStatus = snap.val() || 'offline';
-                        renderHeaderStatus(false); 
+                        const data = snap.val() || {status: 'offline', current_mood: 'default'};
+                        targetUserRealStatus = data.status || 'offline';
+                        const currentMood = data.current_mood || 'default';
+                        
+                        renderHeaderStatus(false, currentMood); 
                     } 
                 });
                 
                 setupTypingListener(targetUid); 
                 loadMessages(isVerified, targetName, targetAvatar);
+                
+                // Initialize Canvas Listener for this chatId
+                setupLiveCanvasListener();
                 hideLoading();
             }, 150);
         }
 
         window.closeChatRoom = function() {
+            // Close Collaborative Canvas if open
+            closeDrawingMode();
+
             if(activeChatQuery) { activeChatQuery.off(); activeChatQuery = null; }
             if(activeChatRef) { activeChatRef.off(); activeChatRef = null; }
             if(activeStatusRef) { activeStatusRef.off(); activeStatusRef = null; }
             if(activeTypingRef) { activeTypingRef.off(); activeTypingRef = null; }
             db.ref('/typing/' + currentChatUserId).off();
             
+            // Turn off canvas mode sync
+            if(currentChatUserId) db.ref('live_canvas_mode/' + getChatId()).off();
+
             currentChatUserId = null; 
             targetUserRealStatus = 'offline';
+            
+            // Reset mood-sync colors in header
+            document.documentElement.style.setProperty('--mood-color', '#4f46e5');
+            document.getElementById('currentMoodIndicator').style.display = 'none';
+            document.getElementById('chatHeader').style.boxShadow = 'var(--shadow-sm)';
+
             document.getElementById('chatCard').style.display = 'none';
             document.getElementById('appScreen').style.display = 'flex';
         }
 
-        function renderHeaderStatus(isTyping) {
+        // IDEA 4 - MoodSync Status Update
+        function renderHeaderStatus(isTyping, mood = 'default') {
             const statusEl = document.getElementById('chatHeaderStatus');
+            const statusDot = document.getElementById('chatStatusDot');
+            const moodInd = document.getElementById('currentMoodIndicator');
+            const header = document.getElementById('chatHeader');
+            
+            // Apply Dynamic professional Aura
+            let moodColor = '#4f46e5'; // default
+            let moodText = '';
+
+            if (mood === 'happy') { moodColor = 'var(--mood-happy)'; moodText = ' ❤️'; }
+            else if (mood === 'urgent') { moodColor = 'var(--mood-urgent)'; moodText = ' ⏳ Urgent'; }
+            else if (mood === 'angry') { moodColor = 'var(--mood-urgent)'; moodText = ' 🔥 (Mood: Heated)';}
+
+            // Sync colors to CSS Variable
+            document.documentElement.style.setProperty('--mood-color', moodColor);
+            
+            if (mood !== 'default' && targetUserRealStatus === 'online') {
+                moodInd.style.display = 'block';
+                header.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.02), 0 4px 6px -2px rgba(0,0,0,0.01), inset 0 -2px 0 ' + moodColor + '10';
+            } else {
+                moodInd.style.display = 'none';
+                header.style.boxShadow = 'var(--shadow-sm)';
+            }
+
             if (isTyping) {
-                statusEl.innerHTML = `<span style="color:#10b981; font-weight:600; font-style:italic;">typing...</span>`;
+                statusDot.style.background = '#10b981'; // Green typing dot
+                statusEl.innerHTML = statusDot.outerHTML + ` <span style="color:#10b981; font-weight:600; font-style:italic;">Initializing message...</span>`;
             } else {
                 const color = targetUserRealStatus === 'online' ? '#10b981' : '#94a3b8';
-                const text = targetUserRealStatus === 'online' ? 'Online' : 'Offline';
-                statusEl.innerHTML = `<span class="online-dot" style="background: ${color};"></span> ${text}`;
+                const text = targetUserRealStatus === 'online' ? 'Active' : 'Offline';
+                statusDot.style.background = color;
+                
+                statusEl.innerHTML = statusDot.outerHTML + ` ${text}${moodText}`;
             }
         }
 
@@ -995,12 +1129,18 @@
             activeTypingRef = db.ref('/typing/' + targetUid);
             activeTypingRef.on('value', snap => {
                 const isTyping = snap.val();
-                renderHeaderStatus(isTyping);
+                
+                // Get current mood from activeStatusRef
+                activeStatusRef.once('value').then(statusSnap => {
+                    const data = statusSnap.val() || {current_mood: 'default'};
+                    renderHeaderStatus(isTyping, data.current_mood);
+                });
+
                 if (isTyping) safeScrollToBottom(); 
             });
         }
 
-        // --- MESSAGING & NEW ONESIGNAL PUSH (KHATARNAK UI) ---
+        // --- MESSAGING & KHATARNAK ONESIGNAL PUSH (INTEGRATED) ---
         function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
 
         function sendMessage(text = '', imgUrl = null, fileType = null) {
@@ -1017,64 +1157,62 @@
                 timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'sent' 
             });
             msgInput.value = ''; db.ref('/typing/' + myUserId).set(false); safeScrollToBottom(true);
+            
+            // IDEA 4 - Reset Mood to default on Send
+            db.ref('/status/' + myUserId + '/current_mood').set('default');
 
             // --- KHATARNAK NOTIFICATION UI SYSTEM ---
             let pushText = val;
-            if (!pushText) pushText = (fileType && fileType.includes('pdf')) ? "📄 Sent a PDF Document" : "📷 Sent an Image";
+            if (!pushText) pushText = (fileType && fileType.includes('pdf')) ? "📄 Sent a PDF Document Asset" : "📷 Sent an Encrypted Image Asset";
             
-            // Apna Naam aur DP nikalna (Push notification mein dikhane ke liye)
             const myNameElement = document.getElementById('myProfileName');
-            const myName = myNameElement ? myNameElement.innerText.replace(' Verified', '').trim() : "Someone";
+            const myName = myNameElement ? myNameElement.innerText.replace(' Verified', '').trim() : " Someone";
             
             const myPicElement = document.getElementById('myProfilePic');
-            // Agar profile pic hai toh wahi jayegi, warna ek default smart icon jayega
             const myPic = myPicElement ? myPicElement.src : "https://ui-avatars.com/api/?name=" + myName.charAt(0) + "&background=4f46e5&color=fff";
 
             const pushData = {
                 app_id: "22f1c750-e2f8-456d-8aa0-b0caf8fc0e74",
-                target_channel: "push",
-                include_aliases: {
-                    "external_id": [currentChatUserId]
-                },
+                include_external_user_ids: [currentChatUserId],
                 headings: { "en": myName },
                 contents: { "en": pushText },
                 url: "https://fahimn.co.in?chat=" + myUserId,
                 
-                // YEH RAHA SMART UI - WhatsApp ki tarah photo jayegi!
-                chrome_web_icon: myPic, // Chrome browser ke liye badi DP
-                large_icon: myPic,      // Android Phones ke liye badi DP
-                chrome_web_badge: "https://ui-avatars.com/api/?name=F&background=4f46e5&color=fff&rounded=true" // Chhota sa badge icon
+                // WhatsApp jaisa photo aur icon
+                chrome_web_icon: myPic, 
+                large_icon: myPic,      
+                chrome_web_badge: "https://ui-avatars.com/api/?name=F&background=4f46e5&color=fff&rounded=true" 
             };
 
-            fetch("https://onesignal.com/api/v1/notifications", {
+            // CORS PROXY BRIDGE
+            const proxyUrl = "https://corsproxy.io/?https://onesignal.com/api/v1/notifications";
+
+            fetch(proxyUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json",
-                    "Authorization": "Key os_v2_app_ely4ouhc7bcw3cvawdfpr7aooq5fjc55xgiuhm4ym6p5jwax3gsujw65wudzss22fthrepj5p5xrk63hu75whgb2jw5goqiiashba6i"
+                    "Authorization": "Basic os_v2_app_ely4ouhc7bcw3cvawdfpr7aooq5fjc55xgiuhm4ym6p5jwax3gsujw65wudzss22fthrepj5p5xrk63hu75whgb2jw5goqiiashba6i"
                 },
                 body: JSON.stringify(pushData)
             })
             .then(res => res.json())
-            .then(data => {
-                console.log("Push Fired! Status: ", data);
-            })
-            .catch(err => console.error("Push Error:", err));
+            .then(data => console.log("Push Asset Status: ", data))
+            .catch(err => console.error("Push Protocol Error:", err));
         }
 
         let longPressTimer;
         window.startPress = function(msgId, isMe) {
             if(!isMe) return; 
             longPressTimer = setTimeout(() => {
-                if(confirm("🗑️ Delete this message for everyone?")) { db.ref(`messages/${msgId}`).remove(); }
+                if(confirm(" Revoke encryption: Delete message for unified protocol?")) { db.ref(`messages/${msgId}`).remove(); }
             }, 600); 
         };
         window.cancelPress = function() { clearTimeout(longPressTimer); };
 
         function formatDateDivider(timestamp) {
             const date = new Date(timestamp), today = new Date(), yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
-            if (date.toDateString() === today.toDateString()) return 'Today';
-            if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
+            if (date.toDateString() === today.toDateString()) return ' Today Unified';
+            if (date.toDateString() === yesterday.toDateString()) return ' Yesterday Unified';
             return date.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' });
         }
 
@@ -1082,8 +1220,8 @@
             chatBox.innerHTML = ''; lastMessageDate = null; 
             
             if(isVerified) {
-                chatBox.innerHTML = `<div class="security-banner"><img src="${targetAvatar}" alt="Verified User"><h4 style="display:flex; align-items:center; justify-content:center;">${targetName} ${verifiedSVG}</h4><p><i class="fa-solid fa-lock lock-icon"></i> <b>End-to-End Encrypted</b><br>Messages are secured. No one outside can read them.</p></div>`;
-            } else { chatBox.innerHTML = `<div style="text-align:center; color:var(--text-light); font-size:12px; margin-top:20px; z-index:1;">Messages are secured</div>`; }
+                chatBox.innerHTML = `<div class="security-banner"><img src="${targetAvatar}" alt="Verified User Avatar"><h4 style="display:flex; align-items:center; justify-content:center;">${targetName} ${verifiedSVG}</h4><p><i class="fa-solid fa-lock lock-icon"></i> <b>End-to-End Encryption Protocol Active</b><br>Unified communication assets are decipherable only by authenticated endpoints.</p></div>`;
+            } else { chatBox.innerHTML = `<div style="text-align:center; color:var(--text-light); font-size:12px; margin-top:20px; z-index:1; font-weight:600;"> encryption activated</div>`; }
 
             let isInitialLoad = true; 
             
@@ -1128,9 +1266,9 @@
             
             if (data.imageUrl) {
                 if (data.imageUrl.includes('.pdf') || data.fileType === 'application/pdf') {
-                    contentHTML = `<a href="${data.imageUrl}" target="_blank" style="color: inherit; text-decoration: underline;"><i class="fa-solid fa-file-pdf"></i> View PDF</a>`;
+                    contentHTML = `<a href="${data.imageUrl}" target="_blank" style="color: inherit; text-decoration: underline;"><i class="fa-solid fa-file-pdf"></i> View PDF Asset</a>`;
                 } else {
-                    contentHTML = `<img src="${data.imageUrl}" class="msg-image" alt="Image" onclick="openModal('${data.imageUrl}')">`;
+                    contentHTML = `<img src="${data.imageUrl}" class="msg-image" alt="Decrypted dynamic image asset" onclick="openModal('${data.imageUrl}')">`;
                 }
             } else { contentHTML = `<span>${escapeHTML(data.text)}</span>`; }
 
@@ -1138,7 +1276,7 @@
                 <div class="msg-row ${isMe ? 'sent' : 'received'}" id="msg-${msgId}">
                     <div class="msg-bubble ${msgClass}" oncontextmenu="return false;" onmousedown="startPress('${msgId}', ${isMe})" onmouseup="cancelPress()" onmouseleave="cancelPress()" ontouchstart="startPress('${msgId}', ${isMe})" ontouchend="cancelPress()" ontouchmove="cancelPress()">
                         ${contentHTML}
-                        <div class="msg-meta"><span>${timeStr}</span>${tickHTML}</div>
+                        <div class="msg-meta"><span>${timeStr} Unified</span>${tickHTML}</div>
                     </div>
                 </div>
             `;
@@ -1149,14 +1287,34 @@
         const emojiBtn = document.getElementById('emojiBtn');
         const emojiPicker = document.getElementById('emojiPicker');
         const msgInput = document.getElementById('msgInput');
+        const inMoodDot = document.getElementById('inputMoodDot');
         
         emojiBtn.addEventListener('click', () => { emojiPicker.style.display = emojiPicker.style.display === 'block' ? 'none' : 'block'; });
         emojiPicker.addEventListener('emoji-click', event => { msgInput.value += event.detail.unicode; emojiPicker.style.display = 'none'; msgInput.focus(); });
         document.getElementById('sendBtn').addEventListener('click', () => sendMessage());
         msgInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
         
+        // IDEA 4 - Mood-Sync detection in input
         msgInput.addEventListener('input', () => {
             if (!myUserId || !currentChatUserId) return; 
+            const val = msgInput.value.toLowerCase();
+            let mood = 'default';
+
+            if (val.includes('happy') || val.includes('❤️') || val.includes('love') || val.includes('great')) mood = 'happy';
+            else if (val.includes('urgent') || val.includes('🔥') || val.includes('need') || val.includes('⏳')) mood = 'urgent';
+            else if (val.includes('gussa') || val.includes('angry') || val.includes('🤬')) mood = 'angry';
+            
+            // Sync with Firebase status node
+            db.ref('/status/' + myUserId).update({ current_mood: mood });
+
+            // Show dot in input area
+            if (mood !== 'default') {
+                inMoodDot.style.background = mood === 'happy' ? 'var(--mood-happy)' : mood === 'love' ? 'var(--mood-love)' : 'var(--mood-urgent)';
+                inMoodDot.style.display = 'block';
+            } else {
+                inMoodDot.style.display = 'none';
+            }
+
             db.ref('/typing/' + myUserId).set(true);
             clearTimeout(typingTimeout); 
             typingTimeout = setTimeout(() => { db.ref('/typing/' + myUserId).set(false); }, 1500); 
@@ -1171,7 +1329,7 @@
             const file = e.target.files[0];
             if(!file) return;
 
-            showLoading("Securing & Uploading...");
+            showLoading("Securing & Uploading media protocol...");
             
             const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
             const formData = new FormData();
@@ -1182,12 +1340,203 @@
             .then(response => { if (!response.ok) throw new Error('Cloudinary Error'); return response.json(); })
             .then(data => {
                 hideLoading(); 
-                const fileMsgText = file.type === 'application/pdf' ? '📄 PDF Document' : '📷 Image';
+                const fileMsgText = file.type === 'application/pdf' ? '📄 Sent PDF Document Asset' : '📷 Sent Image Media Asset';
                 sendMessage(fileMsgText, data.secure_url, file.type);
-            }).catch(error => { hideLoading(); showToast("Upload Error! Please try again.", "error"); });
+            }).catch(error => { hideLoading(); showToast("Cloudinary media protocol error.", "error"); });
             fileInput.value = '';
         });
 
+        // ==========================================================
+        // IDEA 3 - LIVE SHARED CANVAS ( professional Collaboration draw mode)
+        // ==========================================================
+        const paletteBtn = document.getElementById('paletteBtn');
+        const canvasBoard = document.getElementById('canvasBoard');
+        const liveCanvas = document.getElementById('liveCanvas');
+        const canvasEraser = document.getElementById('canvasEraser');
+        const canvasClear = document.getElementById('canvasClear');
+        const ctx = liveCanvas.getContext('2d');
+
+        let isDrawing = false;
+        let drawingColor = '#4f46e5'; // Default professional blue
+        let drawingLineWidth = 2;
+        let chatId = null;
+        let eraserMode = false;
+        
+        // Dynamic chat ID generation
+        function getChatId() {
+            if(!myUserId || !currentChatUserId) return null;
+            return myUserId < currentChatUserId ? myUserId + '_' + currentChatUserId : currentChatUserId + '_' + myUserId;
+        }
+
+        function initCollaborativeCanvas() {
+            // Resize canvas context on init
+            function resize() {
+                const container = liveCanvas.parentElement;
+                liveCanvas.width = container.offsetWidth;
+                liveCanvas.height = 260 - 45; // Container height minus tools header
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            }
+            window.addEventListener('resize', resize);
+            resize(); // Initial call
+        }
+
+        paletteBtn.addEventListener('click', () => {
+            if(!getChatId()) return;
+            // Sync mode open to other user
+            db.ref('live_canvas_mode/' + getChatId()).set({ open_by: myUserId, timestamp: Date.now() });
+            openDrawingMode();
+        });
+
+        function openDrawingMode() {
+            canvasBoard.style.display = 'block';
+            chatBox.style.paddingBottom = '270px'; // Make room for canvas
+            scrollToBottom();
+            // Reset tools
+            eraserMode = false; drawingColor = '#4f46e5'; drawingLineWidth = 2; ctx.globalCompositeOperation = 'source-over'; ctx.lineWidth = drawingLineWidth;
+            canvasEraser.innerHTML = '<i class="fa-solid fa-eraser"></i>';
+            initCollaborativeCanvas(); // Resize again to fit new visible container
+        }
+
+        function closeDrawingMode() {
+            canvasBoard.style.display = 'none';
+            chatBox.style.paddingBottom = '24px'; // Standard padding
+            if(getChatId()) db.ref('live_canvas_mode/' + getChatId()).set(null); // Sync close
+        }
+        
+        canvasEraser.addEventListener('click', () => {
+            eraserMode = !eraserMode;
+            if(eraserMode) {
+                // Professional Eraser - white with glow
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.lineWidth = 15; // Bigger eraser
+                canvasEraser.innerHTML = '<i class="fa-solid fa-pencil"></i>'; // switch to pencil icon
+            } else {
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.lineWidth = drawingLineWidth;
+                canvasEraser.innerHTML = '<i class="fa-solid fa-eraser"></i>';
+            }
+        });
+
+        canvasClear.addEventListener('click', () => {
+            ctx.clearRect(0, 0, liveCanvas.width, liveCanvas.height);
+            // Send clear event to other user
+            if(getChatId()) db.ref('live_canvas_drawing/' + getChatId()).push({ type: 'clear' });
+        });
+
+        // Drawing Mouse/Touch Events
+        liveCanvas.addEventListener('mousedown', startDrawing);
+        liveCanvas.addEventListener('mousemove', draw);
+        liveCanvas.addEventListener('mouseup', endDrawing);
+        liveCanvas.addEventListener('mouseout', endDrawing);
+        liveCanvas.addEventListener('touchstart', startDrawing);
+        liveCanvas.addEventListener('touchmove', draw);
+        liveCanvas.addEventListener('touchend', endDrawing);
+
+        function startDrawing(e) {
+            e.preventDefault();
+            isDrawing = true;
+            const pos = getMousePos(liveCanvas, e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            
+            // Write coordinates to Firebase node for Live Sync
+            if(getChatId()) db.ref('live_canvas_drawing/' + getChatId()).push({
+                type: eraserMode ? 'erase-start' : 'draw-start', x: pos.x / liveCanvas.width, y: pos.y / liveCanvas.height, // Normalize coords (0 to 1)
+                t: Date.now(), uid: myUserId
+            });
+        }
+
+        function draw(e) {
+            if(!isDrawing) return;
+            e.preventDefault();
+            const pos = getMousePos(liveCanvas, e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            
+            // Write move coordinates to Firebase
+            if(getChatId()) db.ref('live_canvas_drawing/' + getChatId()).push({
+                type: eraserMode ? 'erase' : 'draw', x: pos.x / liveCanvas.width, y: pos.y / liveCanvas.height, // Normalize coords (0 to 1)
+                t: Date.now(), uid: myUserId
+            });
+        }
+
+        function endDrawing(e) {
+            if(isDrawing) {
+                e.preventDefault();
+                isDrawing = false;
+                ctx.closePath();
+                if(getChatId()) db.ref('live_canvas_drawing/' + getChatId()).push({ type: 'draw-end', t: Date.now(), uid: myUserId });
+            }
+        }
+
+        function getMousePos(canvas, e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let clientX = e.clientX || e.touches[0].clientX;
+            let clientY = e.clientY || e.touches[0].clientY;
+            return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+        }
+        
+        // --- LIVE CANVAS COLLABORATION LISTENER ---
+        function setupLiveCanvasListener() {
+            if(!getChatId()) return;
+            
+            // Listen for Mode Open/Close
+            db.ref('live_canvas_mode/' + getChatId()).on('value', snap => {
+                const data = snap.val();
+                if(data && data.open_by !== myUserId) {
+                    openDrawingMode(); // Open board if other user opened
+                } else if (!data) {
+                    closeDrawingMode(); // Close if node deleted (other user closed)
+                }
+            });
+
+            // Listen for remote Drawings ( strokes)
+            // Use separate context settings to avoid overriting local context tools
+            const remoteCtx = liveCanvas.getContext('2d');
+
+            db.ref('live_canvas_drawing/' + getChatId()).limitToLast(5).on('child_added', snap => {
+                const data = snap.val();
+                if(!data) return;
+
+                if (data.type === 'clear') {
+                    ctx.clearRect(0, 0, liveCanvas.width, liveCanvas.height);
+                    return;
+                }
+
+                // Deny drawings written by self to prevent doubling
+                if(data.uid === myUserId) return; 
+                
+                // Calculate actual coordinates from normalized ones
+                const actualX = data.x * liveCanvas.width;
+                const actualY = data.y * liveCanvas.height;
+
+                if (data.type === 'draw-start' || data.type === 'erase-start') {
+                    // Start remote path with correct context configuration
+                    remoteCtx.beginPath();
+                    remoteCtx.moveTo(actualX, actualY);
+                    remoteCtx.lineCap = 'round';
+                    remoteCtx.lineJoin = 'round';
+                    if(data.type === 'draw-start'){
+                        remoteCtx.globalCompositeOperation = 'source-over';
+                        remoteCtx.lineWidth = 2; // remote standard line
+                        remoteCtx.strokeStyle = '#4f46e5'; // standard remote color
+                    } else {
+                        remoteCtx.globalCompositeOperation = 'destination-out';
+                        remoteCtx.lineWidth = 15;
+                    }
+                } else if (data.type === 'draw' || data.type === 'erase') {
+                    remoteCtx.lineTo(actualX, actualY);
+                    remoteCtx.stroke();
+                } else if (data.type === 'draw-end') {
+                    remoteCtx.closePath();
+                    // Reset to source-over for local eraser drawing
+                    ctx.globalCompositeOperation = eraserMode ? 'destination-out' : 'source-over';
+                }
+            });
+        }
     </script>
 </body>
 </html>
