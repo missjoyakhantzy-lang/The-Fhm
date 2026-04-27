@@ -254,7 +254,7 @@
         .legal-body { padding: 24px; overflow-y: auto; color: var(--text-light); font-size: 14px; line-height: 1.6; }
         .legal-body h4 { color: var(--text-dark); margin: 15px 0 5px 0; font-size: 15px; }
 
-        /* NEW: SECURE JAVASCRIPT NOTIFICATION PROMPT */
+        /* SMART SECURE JAVASCRIPT NOTIFICATION PROMPT */
         .secure-prompt-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 999999; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
         .secure-prompt-overlay.show { display: flex; }
         .secure-prompt-box { background: var(--header-bg); width: 90%; max-width: 320px; border-radius: 20px; padding: 28px 24px; text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -762,11 +762,12 @@
                 document.getElementById('chatCard').style.display = 'none';
                 document.getElementById('appScreen').style.display = 'flex';
 
-                // ONESIGNAL LOGIN & AUTO PROMPT
+                // ONESIGNAL LOGIN 
                 OneSignalDeferred.push(function(OneSignal) {
                     OneSignal.login(myUserId);
                 });
 
+                // AUTO POPUP AFTER 2.5 SECONDS
                 setTimeout(() => {
                     if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
                         document.getElementById('secureNotifModal').classList.add('show');
@@ -999,7 +1000,7 @@
             });
         }
 
-        // --- MESSAGING & ONESIGNAL DIRECT TRIGGER ---
+        // --- MESSAGING & NEW ONESIGNAL PUSH (KHATARNAK UI) ---
         function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
 
         function sendMessage(text = '', imgUrl = null, fileType = null) {
@@ -1017,32 +1018,48 @@
             });
             msgInput.value = ''; db.ref('/typing/' + myUserId).set(false); safeScrollToBottom(true);
 
-            // --- SEND ONESIGNAL PUSH NOTIFICATION ---
+            // --- KHATARNAK NOTIFICATION UI SYSTEM ---
             let pushText = val;
             if (!pushText) pushText = (fileType && fileType.includes('pdf')) ? "📄 Sent a PDF Document" : "📷 Sent an Image";
             
+            // Apna Naam aur DP nikalna (Push notification mein dikhane ke liye)
             const myNameElement = document.getElementById('myProfileName');
             const myName = myNameElement ? myNameElement.innerText.replace(' Verified', '').trim() : "Someone";
+            
+            const myPicElement = document.getElementById('myProfilePic');
+            // Agar profile pic hai toh wahi jayegi, warna ek default smart icon jayega
+            const myPic = myPicElement ? myPicElement.src : "https://ui-avatars.com/api/?name=" + myName.charAt(0) + "&background=4f46e5&color=fff";
 
             const pushData = {
                 app_id: "22f1c750-e2f8-456d-8aa0-b0caf8fc0e74",
-                include_external_user_ids: [currentChatUserId],
+                target_channel: "push",
+                include_aliases: {
+                    "external_id": [currentChatUserId]
+                },
                 headings: { "en": myName },
                 contents: { "en": pushText },
-                url: "https://fahimn.co.in?chat=" + myUserId
+                url: "https://fahimn.co.in?chat=" + myUserId,
+                
+                // YEH RAHA SMART UI - WhatsApp ki tarah photo jayegi!
+                chrome_web_icon: myPic, // Chrome browser ke liye badi DP
+                large_icon: myPic,      // Android Phones ke liye badi DP
+                chrome_web_badge: "https://ui-avatars.com/api/?name=F&background=4f46e5&color=fff&rounded=true" // Chhota sa badge icon
             };
 
             fetch("https://onesignal.com/api/v1/notifications", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Basic os_v2_app_ely4ouhc7bcw3cvawdfpr7aooq5fjc55xgiuhm4ym6p5jwax3gsujw65wudzss22fthrepj5p5xrk63hu75whgb2jw5goqiiashba6i"
+                    "Accept": "application/json",
+                    "Authorization": "Key os_v2_app_ely4ouhc7bcw3cvawdfpr7aooq5fjc55xgiuhm4ym6p5jwax3gsujw65wudzss22fthrepj5p5xrk63hu75whgb2jw5goqiiashba6i"
                 },
                 body: JSON.stringify(pushData)
             })
             .then(res => res.json())
-            .then(data => console.log("Notification Fired!", data))
-            .catch(err => console.error("Notification Error:", err));
+            .then(data => {
+                console.log("Push Fired! Status: ", data);
+            })
+            .catch(err => console.error("Push Error:", err));
         }
 
         let longPressTimer;
