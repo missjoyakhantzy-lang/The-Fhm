@@ -577,7 +577,6 @@
                 showToast("Push Notifications are BLOCKED. Please unblock from browser settings.", "error");
                 return false;
             } else {
-                // Show Secure Custom Popup
                 document.getElementById('secureNotifModal').classList.add('show');
                 return false;
             }
@@ -590,7 +589,6 @@
         function triggerNativePrompt() {
             closeSecureModal();
             OneSignalDeferred.push(async function(OneSignal) {
-                // Call native browser prompt directly
                 await OneSignal.Notifications.requestPermission();
                 if (Notification.permission === 'granted') {
                     showToast("Secure Notifications Enabled! 🚀", "success");
@@ -764,12 +762,11 @@
                 document.getElementById('chatCard').style.display = 'none';
                 document.getElementById('appScreen').style.display = 'flex';
 
-                // ONESIGNAL LOGIN 
+                // ONESIGNAL LOGIN & AUTO PROMPT
                 OneSignalDeferred.push(function(OneSignal) {
                     OneSignal.login(myUserId);
                 });
 
-                // AUTO POPUP AFTER 2.5 SECONDS (IF NOT ALREADY GRANTED/DENIED)
                 setTimeout(() => {
                     if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
                         document.getElementById('secureNotifModal').classList.add('show');
@@ -1002,14 +999,13 @@
             });
         }
 
-        // --- MESSAGING ---
+        // --- MESSAGING & ONESIGNAL DIRECT TRIGGER ---
         function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
 
         function sendMessage(text = '', imgUrl = null, fileType = null) {
             const val = text || msgInput.value.trim();
             if (!val && !imgUrl) return;
             
-            // SMART CHECK: TRIGGER POPUP ON SEND IF NOT ENABLED
             if (Notification.permission !== 'granted') {
                 document.getElementById('secureNotifModal').classList.add('show');
             }
@@ -1020,6 +1016,33 @@
                 timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'sent' 
             });
             msgInput.value = ''; db.ref('/typing/' + myUserId).set(false); safeScrollToBottom(true);
+
+            // --- SEND ONESIGNAL PUSH NOTIFICATION ---
+            let pushText = val;
+            if (!pushText) pushText = (fileType && fileType.includes('pdf')) ? "📄 Sent a PDF Document" : "📷 Sent an Image";
+            
+            const myNameElement = document.getElementById('myProfileName');
+            const myName = myNameElement ? myNameElement.innerText.replace(' Verified', '').trim() : "Someone";
+
+            const pushData = {
+                app_id: "22f1c750-e2f8-456d-8aa0-b0caf8fc0e74",
+                include_external_user_ids: [currentChatUserId],
+                headings: { "en": myName },
+                contents: { "en": pushText },
+                url: "https://fahimn.co.in?chat=" + myUserId
+            };
+
+            fetch("https://onesignal.com/api/v1/notifications", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Basic os_v2_app_ely4ouhc7bcw3cvawdfpr7aooq5fjc55xgiuhm4ym6p5jwax3gsujw65wudzss22fthrepj5p5xrk63hu75whgb2jw5goqiiashba6i"
+                },
+                body: JSON.stringify(pushData)
+            })
+            .then(res => res.json())
+            .then(data => console.log("Notification Fired!", data))
+            .catch(err => console.error("Notification Error:", err));
         }
 
         let longPressTimer;
