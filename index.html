@@ -13,7 +13,16 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "22f1c750-e2f8-456d-8aa0-b0caf8fc0e74",
+        });
+      });
+    </script>
 
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
 
@@ -90,17 +99,25 @@
         .eye-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer; }
         .options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 20px; }
         .toggle-mode-btn { color: var(--primary); text-decoration: none; font-weight: 600; cursor: pointer; text-align: right; width: 100%; }
+        
         .btn-login { width: 100%; padding: 12px; border: none; border-radius: 8px; background: var(--primary); color: white; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
         .btn-login:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); }
         .btn-login:disabled { opacity: 0.7; cursor: not-allowed; }
         .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255, 255, 255, 0.4); border-top-color: #ffffff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        
+        /* NEW: Big Google Button */
+        .btn-google-big { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--header-bg); color: var(--text-dark); font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; margin-top: 12px; }
+        .btn-google-big:hover { background: var(--bg-input); transform: translateY(-1px); }
+        .btn-google-big i { color: #EA4335; font-size: 18px; }
+
         .divider { margin: 20px 0; display: flex; align-items: center; text-align: center; font-size: 12px; color: var(--text-light); font-weight: 500; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
         .divider span { padding: 0 12px; }
-        .social-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-social { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--header-bg); color: var(--text-dark); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: 0.2s; }
+        
+        .social-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .btn-social { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--header-bg); color: var(--text-dark); font-size: 16px; cursor: pointer; text-decoration: none; transition: 0.2s; }
         .btn-social:hover { background: var(--bg-input); }
-        .btn-social.google i { color: #EA4335; } .btn-social.microsoft i { color: #00A4EF; } .btn-social.facebook i { color: #1877F2; } .btn-social.github i { color: var(--text-dark); }
+        .btn-social.microsoft i { color: #00A4EF; } .btn-social.facebook i { color: #1877F2; } .btn-social.github i { color: var(--text-dark); }
 
         /* =========================================
            MAIN APP SCREEN (LIST + TABS + NAV)
@@ -134,7 +151,7 @@
         .search-input-wrapper input:focus { border-color: var(--primary); background: var(--header-bg); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
         .empty-search { text-align: center; color: var(--text-light); font-size: 13px; margin-top: 30px; font-style: italic; }
 
-        /* Settings Tab */
+        /* Settings Tab - Professional UI */
         .profile-card { background: var(--header-bg); padding: 30px 24px; text-align: center; border-bottom: 1px solid var(--border-color); }
         .profile-pic-wrapper { position: relative; width: 90px; height: 90px; margin: 0 auto 12px auto; cursor: pointer; display: inline-block; }
         .profile-pic-wrapper img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary); padding: 2px; box-shadow: var(--shadow-md); object-fit: cover; transition: 0.3s; }
@@ -145,15 +162,18 @@
         .profile-card p { font-size: 14px; color: var(--text-light); }
         
         .settings-menu { padding: 10px 0; }
-        .settings-item { display: flex; align-items: center; padding: 16px 24px; cursor: pointer; transition: 0.2s; color: var(--text-dark); font-weight: 500; font-size: 15px; border-bottom: 1px solid var(--border-color); }
+        .settings-item { display: flex; align-items: center; padding: 14px 24px; cursor: pointer; transition: 0.2s; color: var(--text-dark); font-weight: 500; font-size: 15px; border-bottom: 1px solid var(--border-color); }
         .settings-item:hover { background: var(--list-hover); }
-        .settings-item i { width: 30px; font-size: 18px; color: var(--text-light); }
-        .settings-item.danger { color: #ef4444; } .settings-item.danger i { color: #ef4444; }
         
-        .settings-item.highlight { color: var(--primary); font-weight: 600; background: rgba(79, 70, 229, 0.05); }
-        .settings-item.highlight i { color: var(--primary); }
-        .settings-item.verification { color: #0095F6; font-weight: 600; }
-        .settings-item.verification i { color: #0095F6; }
+        /* NEW: Settings Icons Styling */
+        .s-icon-wrap { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; font-size: 18px; transition: 0.3s; }
+        .s-icon-blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .s-icon-green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .s-icon-purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .s-icon-red { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+        .s-icon-gray { background: rgba(100, 116, 139, 0.1); color: #64748b; }
+        
+        .settings-item.danger span { color: #ef4444; }
 
         .bottom-nav { display: flex; background: var(--header-bg); border-top: 1px solid var(--border-color); padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 10px rgba(0,0,0,0.02); z-index: 20; flex-shrink: 0; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; color: var(--nav-inactive); font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; }
@@ -312,14 +332,18 @@
                     <span class="btn-spinner" id="btnSpinner"></span>
                     <span class="btn-text" id="btnText">Sign Up</span>
                 </button>
+
+                <button type="button" class="btn-google-big" id="btnGoogleBig">
+                    <i class="fa-brands fa-google"></i> Continue with Google
+                </button>
+
             </form>
             
             <div class="divider"><span>or continue with</span></div>
             <div class="social-buttons">
-                <a href="#" class="btn-social google" id="btnGoogle"><i class="fa-brands fa-google"></i> Google</a>
-                <a href="#" class="btn-social microsoft" id="btnMicrosoft"><i class="fa-brands fa-windows"></i> Microsoft</a>
-                <a href="#" class="btn-social facebook" id="btnFacebook"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                <a href="#" class="btn-social github" id="btnGithub"><i class="fa-brands fa-github"></i> GitHub</a>
+                <a href="#" class="btn-social microsoft" id="btnMicrosoft"><i class="fa-brands fa-windows"></i></a>
+                <a href="#" class="btn-social facebook" id="btnFacebook"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="btn-social github" id="btnGithub"><i class="fa-brands fa-github"></i></a>
             </div>
         </div>
     </div>
@@ -371,23 +395,40 @@
                     <p id="myProfileEmail">...</p>
                 </div>
                 <div class="settings-menu">
-                    <div class="settings-item highlight" onclick="requestNotificationPermission()">
-                        <i class="fa-solid fa-bell"></i><span>Enable Push Notifications</span>
+                    
+                    <div class="settings-item" onclick="requestNotificationPermission()">
+                        <div class="s-icon-wrap s-icon-blue"><i class="fa-solid fa-bell"></i></div>
+                        <span>Enable Push Notifications</span>
                     </div>
 
-                    <div class="settings-item highlight" onclick="generateAndCopyLink()">
-                        <i class="fa-solid fa-link"></i><span>Generate Your Chat Link</span>
+                    <div class="settings-item" onclick="generateAndCopyLink()">
+                        <div class="s-icon-wrap s-icon-purple"><i class="fa-solid fa-link"></i></div>
+                        <span>Generate Your Chat Link</span>
                     </div>
                     
-                    <div class="settings-item verification" onclick="requestBlueTick()">
-                        <i class="fa-solid fa-certificate"></i><span>Get Verified Badge</span>
+                    <div class="settings-item" onclick="requestBlueTick()">
+                        <div class="s-icon-wrap s-icon-green"><i class="fa-solid fa-certificate"></i></div>
+                        <span style="font-weight: 600; color: #0095F6;">Get Verified Badge</span>
                     </div>
 
                     <div class="list-heading" style="margin-top:10px;">App Settings</div>
-                    <div class="settings-item" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i><span>Toggle Dark Mode</span></div>
-                    <div class="settings-item" onclick="document.getElementById('legalModal').classList.add('show')"><i class="fa-solid fa-shield-halved"></i><span>Privacy & Security</span></div>
+                    
+                    <div class="settings-item" onclick="toggleTheme()">
+                        <div class="s-icon-wrap s-icon-gray"><i class="fa-solid fa-moon"></i></div>
+                        <span>Toggle Dark Mode</span>
+                    </div>
+                    
+                    <div class="settings-item" onclick="document.getElementById('legalModal').classList.add('show')">
+                        <div class="s-icon-wrap s-icon-gray"><i class="fa-solid fa-shield-halved"></i></div>
+                        <span>Privacy & Security</span>
+                    </div>
+                    
                     <div class="list-heading">Account</div>
-                    <div class="settings-item danger" onclick="confirmLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Log Out</span></div>
+                    
+                    <div class="settings-item danger" onclick="confirmLogout()">
+                        <div class="s-icon-wrap s-icon-red"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                        <span>Log Out</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -452,17 +493,6 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const auth = firebase.auth();
-        
-        let messaging = null;
-        try {
-            if (firebase.messaging.isSupported()) {
-                messaging = firebase.messaging();
-            } else {
-                console.log("Firebase Messaging is not supported by this browser.");
-            }
-        } catch (e) {
-            console.log("Messaging initialization skipped:", e);
-        }
 
         const adminId = "admin_fahim";
         let myUserId = null; 
@@ -529,7 +559,6 @@
             else { unreadWhileScrolled++; scrollBadge.innerText = unreadWhileScrolled; scrollBadge.style.display = 'flex'; }
         }
 
-        // ANIMATED TAB SWITCHING
         window.switchTab = function(tabName) {
             showLoading("Loading...");
             setTimeout(() => {
@@ -541,57 +570,10 @@
             }, 150); 
         }
 
-        // --- PUSH NOTIFICATIONS SETUP ---
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./firebase-messaging-sw.js').then(function(reg) {
-                console.log('Service Worker Registered!');
-            }).catch(function(err) { console.log('Service Worker Failed!', err); });
-        }
-
-        window.requestNotificationPermission = async function() {
-            if (!messaging) {
-                return showToast("Push notifications are not supported on this browser.", "error");
-            }
-            
-            showLoading("Setting up Notifications...");
-            
-            try {
-                const permission = await Notification.requestPermission();
-                if (permission === 'granted') {
-                    const reg = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
-                    await navigator.serviceWorker.ready;
-
-                    const currentToken = await messaging.getToken({ 
-                        vapidKey: 'BJQWjpZKhdcB-o9oXrbxpTzyEkylHM-B9Uo2ZO0Kx-6vJRN9pycCYKtub4S42po-frFQp4iRSEB2qhdoMbqscAk',
-                        serviceWorkerRegistration: reg 
-                    });
-
-                    if (currentToken && myUserId) {
-                        await db.ref('users/' + myUserId).update({ fcmToken: currentToken });
-                        hideLoading();
-                        showToast("Notifications Enabled! 🔔", "success");
-                    } else { 
-                        hideLoading();
-                        showToast("No token generated.", "error"); 
-                    }
-                } else { 
-                    hideLoading();
-                    showToast("Notification permission denied.", "error"); 
-                }
-            } catch (err) {
-                hideLoading();
-                console.error('FCM Error:', err);
-                showToast("Failed: " + (err.message || "").substring(0, 40), "error");
-            }
-        }
-
-        // Foreground App Notification
-        if (messaging) {
-            messaging.onMessage((payload) => {
-                const msgText = payload.notification?.body || "New message received";
-                showToast(`💬 ${msgText}`, "info");
-                const sound = document.getElementById('msgSound');
-                if(sound) { sound.currentTime = 0; sound.play().catch(e=>e); }
+        // --- NEW: ONESIGNAL NOTIFICATION LOGIC ---
+        window.requestNotificationPermission = function() {
+            OneSignalDeferred.push(function(OneSignal) {
+                OneSignal.Slidedown.promptPush();
             });
         }
 
@@ -703,7 +685,7 @@
         });
 
         function handleSocialLogin(provider) { showLoading("Connecting..."); auth.signInWithPopup(provider).then(res => syncUserToDatabase(res.user)).catch(err => {hideLoading(); showToast("Error: " + err.message, "error")}); }
-        document.getElementById('btnGoogle').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GoogleAuthProvider()); });
+        document.getElementById('btnGoogleBig').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GoogleAuthProvider()); });
         document.getElementById('btnMicrosoft').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.OAuthProvider('microsoft.com')); });
         document.getElementById('btnFacebook').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.FacebookAuthProvider()); });
         document.getElementById('btnGithub').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GithubAuthProvider()); });
@@ -711,6 +693,10 @@
         window.confirmLogout = function() {
             if(confirm("Are you sure you want to log out?")) {
                 showLoading("Logging out...");
+                // Logout from OneSignal
+                OneSignalDeferred.push(function(OneSignal) {
+                    OneSignal.logout();
+                });
                 if(myUserId) db.ref('/status/' + myUserId).set('offline');
                 auth.signOut().then(() => window.location.reload());
             }
@@ -731,6 +717,20 @@
                 document.getElementById('loginWrapper').style.display = 'none';
                 document.getElementById('chatCard').style.display = 'none';
                 document.getElementById('appScreen').style.display = 'flex';
+
+                // ONESIGNAL LOGIN & AUTO PROMPT
+                OneSignalDeferred.push(function(OneSignal) {
+                    OneSignal.login(myUserId);
+                });
+
+                // Auto slide-down prompt after 2 seconds for smooth animation feel
+                setTimeout(() => {
+                    OneSignalDeferred.push(function(OneSignal) {
+                        if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+                            OneSignal.Slidedown.promptPush();
+                        }
+                    });
+                }, 2000);
                 
                 db.ref('users/' + user.uid).on('value', (snap) => {
                     const uData = snap.val();
@@ -842,7 +842,7 @@
             const file = e.target.files[0];
             if(!file) return;
 
-            showLoading("Updating Profile...");
+            showLoading("Updating Profile Picture...");
             
             const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
             const formData = new FormData();
@@ -965,6 +965,14 @@
             const val = text || msgInput.value.trim();
             if (!val && !imgUrl) return;
             
+            // PROMPT IF NOTIFICATION IS NOT ENABLED
+            if (Notification.permission !== 'granted') {
+                OneSignalDeferred.push(function(OneSignal) {
+                    OneSignal.Slidedown.promptPush();
+                });
+                showToast("Please allow notifications so you don't miss replies!", "info");
+            }
+
             db.ref(`messages`).push({ 
                 text: val, imageUrl: imgUrl || null, fileType: fileType || null,
                 senderId: myUserId, receiverId: currentChatUserId, 
