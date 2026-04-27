@@ -44,12 +44,7 @@
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --pattern-opacity: 0.06;
-            
-            /* Mood Colors (Professional Gradients) */
-            --mood-color: #4f46e5; /* Professional - Default */
-            --mood-happy: #facc15;
-            --mood-urgent: #ef4444;
-            --mood-love: #ec4899;
+            --mood-color: #4f46e5; 
         }
 
         body.dark-mode {
@@ -157,21 +152,21 @@
         .empty-search { text-align: center; color: var(--text-light); font-size: 13px; margin-top: 30px; font-style: italic; }
 
         /* Settings Tab - Professional UI */
-        .profile-card { background: var(--header-bg); padding: 30px 24px; text-align: center; border-bottom: 1px solid var(--border-color); }
+        .profile-card { background: var(--header-bg); padding: 30px 24px 20px; text-align: center; border-bottom: 1px solid var(--border-color); }
         .profile-pic-wrapper { position: relative; width: 90px; height: 90px; margin: 0 auto 12px auto; cursor: pointer; display: inline-block; }
         .profile-pic-wrapper img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary); padding: 2px; box-shadow: var(--shadow-md); object-fit: cover; transition: 0.3s; }
         .pic-edit-overlay { position: absolute; bottom: 0; right: -5px; background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--header-bg); font-size: 12px; transition: 0.2s; box-shadow: var(--shadow-sm); }
         .profile-pic-wrapper:hover .pic-edit-overlay { transform: scale(1.1); background: var(--primary-hover); }
 
-        .profile-card h3 { font-size: 20px; color: var(--text-dark); font-weight: 700; margin-bottom: 4px; display: flex; justify-content: center; align-items: center; }
-        .profile-card p { font-size: 14px; color: var(--text-light); }
+        .profile-card h3 { font-size: 20px; color: var(--text-dark); font-weight: 700; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; }
+        .profile-card .id-badge { display: inline-block; background: var(--bg-input); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; color: var(--primary); border: 1px solid var(--border-color); }
         
         .settings-menu { padding: 10px 0; }
         .settings-item { display: flex; align-items: center; padding: 14px 24px; cursor: pointer; transition: 0.2s; color: var(--text-dark); font-weight: 500; font-size: 15px; border-bottom: 1px solid var(--border-color); }
         .settings-item:hover { background: var(--list-hover); }
         
         .settings-text-block { flex: 1; min-width: 0; }
-        .settings-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; }
+        .settings-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
         .settings-desc { font-size: 12px; color: var(--text-light); font-weight: 400; }
 
         .s-icon-wrap { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; font-size: 18px; transition: 0.3s; }
@@ -180,6 +175,7 @@
         .s-icon-purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
         .s-icon-red { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
         .s-icon-gray { background: rgba(100, 116, 139, 0.1); color: #64748b; }
+        .s-icon-yellow { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
         
         .settings-item.danger .settings-title { color: #ef4444; }
 
@@ -195,21 +191,18 @@
            ========================================= */
         .chat-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 100; animation: fadeIn 0.3s ease; }
         
-        /* MoodSync Aura - Professional Dynamic Header */
         .chat-header { background: var(--header-bg); padding: 14px 20px calc(14px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); z-index: 100; flex-shrink: 0; box-shadow: var(--shadow-sm); position: relative; transition: box-shadow 0.5s ease;}
         .chat-header::before { content: ''; position: absolute; inset: -1px; background: var(--mood-color); opacity: 0.04; z-index: -1; transition: background 0.5s ease;}
         
         .back-btn { background: transparent; border: none; color: var(--text-dark); font-size: 20px; margin-right: 12px; cursor: pointer; padding: 5px; transition: 0.2s; }
         .back-btn:hover { color: var(--primary); transform: translateX(-3px); }
         
-        .user-details-wrapper { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+        .user-details-wrapper { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; cursor: pointer; padding: 4px; border-radius: 8px; transition: 0.2s;}
+        .user-details-wrapper:hover { background: var(--bg-input); }
+        
         .user-details { flex: 1; min-width: 0; }
         .user-details h3 { font-size: 16px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
         
-        .mood-indicator { font-size: 13px; margin-left: 6px; position: relative; width: 16px; height: 16px; display: none;}
-        .mood-indicator-dot { width: 10px; height: 10px; border-radius: 50%; display: block; border: 2px solid white; box-shadow: 0 0 0 2px var(--mood-color); animation: moodPulse 1.5s infinite; transition: box-shadow 0.5s ease; }
-        @keyframes moodPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }
-
         .status-text { font-size: 12px; color: var(--text-light); font-weight: 500; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
         .online-dot { width: 8px; height: 8px; background: #94a3b8; border-radius: 50%; display: inline-block; transition: background 0.3s;}
         
@@ -235,13 +228,15 @@
         .chat-input-area { background-color: var(--header-bg); padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--border-color); position: relative; flex-shrink: 0; }
         .icon-btn { background: transparent; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; transition: 0.2s; padding: 6px; }
         .icon-btn:hover { color: var(--primary); }
-        
-        /* MoodSync Input Dot */
-        .msg-input-mood-dot { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; border-radius: 50%; display: none; background: var(--mood-color); animation: moodPulse 1.5s infinite; transition: background 0.5s ease; border: 2px solid white; box-shadow: 0 0 2px rgba(0,0,0,0.2); z-index: 5;}
+        .icon-btn.active-bomb { color: var(--danger); animation: bombPulse 1s infinite; }
+        @keyframes bombPulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        .msg-input-mood-dot { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 20px; display: none; align-items: center; justify-content: center; z-index: 5; animation: popEmoji 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;}
+        @keyframes popEmoji { 0% { transform: translateY(-50%) scale(0); } 100% { transform: translateY(-50%) scale(1); } }
 
         .input-wrapper-chat { flex: 1; display: flex; align-items: center; background: var(--bg-input); border-radius: 24px; padding: 10px 18px; border: 1px solid var(--border-color); transition: border-color 0.2s; position: relative;}
         .input-wrapper-chat:focus-within { border-color: var(--primary); background: var(--header-bg); }
-        .input-wrapper-chat input { flex: 1; border: none; padding: 0 16px 0 0; background: transparent; font-size: 15px; color: var(--text-dark); outline: none; width: 100%; font-family: 'Inter', sans-serif; }
+        .input-wrapper-chat input { flex: 1; border: none; padding: 0 30px 0 0; background: transparent; font-size: 15px; color: var(--text-dark); outline: none; width: 100%; font-family: 'Inter', sans-serif; }
         .btn-send { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--primary); color: white; font-size: 16px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); flex-shrink: 0; }
         
         emoji-picker { position: absolute; bottom: 80px; left: 16px; display: none; z-index: 200; box-shadow: var(--shadow-lg); border-radius: 12px; border: 1px solid var(--border-color); }
@@ -278,6 +273,40 @@
         .legal-body { padding: 24px; overflow-y: auto; color: var(--text-light); font-size: 14px; line-height: 1.6; }
         .legal-body h4 { color: var(--text-dark); margin: 15px 0 5px 0; font-size: 15px; }
 
+        /* ADVANCED PROFILE DETAILS MODALS (VIEW & EDIT) */
+        .full-modal { display: none; position: fixed; inset: 0; background: var(--bg-body); z-index: 100000; flex-direction: column; animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; overflow-y: auto; }
+        .full-modal.show { display: flex; }
+        .modal-nav { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; background: var(--header-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 10; }
+        .modal-nav h2 { font-size: 18px; color: var(--text-dark); font-weight: 700; }
+        .modal-close-btn { background: none; border: none; font-size: 20px; color: var(--text-dark); cursor: pointer; }
+        
+        .profile-view-body { padding: 30px 24px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .profile-view-body img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary); box-shadow: var(--shadow-lg); margin-bottom: 16px; }
+        .profile-view-body h3 { font-size: 24px; color: var(--text-dark); font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .profile-view-body .bio-text { font-size: 15px; color: var(--text-light); line-height: 1.6; max-width: 90%; margin-bottom: 24px; font-style: italic; }
+        
+        .info-grid { width: 100%; max-width: 400px; display: grid; gap: 12px; }
+        .info-card { background: var(--header-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-sm); text-align: left;}
+        .info-card i { font-size: 20px; color: var(--primary); width: 24px; text-align: center; }
+        .info-card div h5 { font-size: 12px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .info-card div p { font-size: 15px; color: var(--text-dark); font-weight: 600; }
+
+        .edit-form-body { padding: 24px; max-width: 500px; margin: 0 auto; width: 100%; }
+        .edit-group { margin-bottom: 20px; }
+        .edit-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; }
+        .edit-group input, .edit-group select, .edit-group textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-input); font-size: 14px; color: var(--text-dark); font-family: 'Inter', sans-serif; outline: none; transition: 0.2s; }
+        .edit-group input:focus, .edit-group select:focus, .edit-group textarea:focus { border-color: var(--primary); background: var(--header-bg); }
+        .edit-group textarea { resize: vertical; min-height: 100px; }
+        .save-btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .save-btn:hover { background: var(--primary-hover); }
+
+        /* VIEW ONCE MODAL */
+        #viewOnceModal { background: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
+        #viewOnceModal .modal-nav { background: transparent; border: none; position: absolute; top:0; width:100%; }
+        #viewOnceModal .modal-nav h2 { color: white; }
+        #viewOnceModal .modal-nav button { color: white; }
+        #viewOnceContent { color: white; text-align: center; padding: 20px; font-size: 24px; max-width: 90%; word-break: break-word; }
+
         /* SMART SECURE JAVASCRIPT NOTIFICATION PROMPT */
         .secure-prompt-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 999999; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
         .secure-prompt-overlay.show { display: flex; }
@@ -296,7 +325,7 @@
         body.dark-mode .secure-tag { background: #1e293b; color: #cbd5e1; border-color: #334155; }
 
         /* =========================================
-           IDEA 3 - LIVE CANVAS ( collaborative professional Draw Board)
+           LIVE CANVAS (collaborative professional Draw Board)
            ========================================= */
         .canvas-container { display: none; position: absolute; left: 0; right: 0; bottom: calc(70px + env(safe-area-inset-bottom)); width: 100%; height: 260px; background: white; border-top: 1px solid var(--border-color); z-index: 101; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
         body.dark-mode .canvas-container { background: var(--header-bg); border-top-color: var(--border-color); }
@@ -327,6 +356,75 @@
     <div class="global-overlay" id="globalOverlay">
         <div class="spinner"></div>
         <div class="upload-text" id="overlayText">Authenticating... Please Wait</div>
+    </div>
+
+    <div class="full-modal" id="viewProfileModal">
+        <div class="modal-nav">
+            <h2>User Details</h2>
+            <button class="modal-close-btn" onclick="closeViewProfile()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="profile-view-body">
+            <img id="vpImage" src="" alt="Profile">
+            <h3 id="vpName">Loading...</h3>
+            <p class="bio-text" id="vpBio">"Hey there! I am using this secure platform."</p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fa-solid fa-heart"></i>
+                    <div>
+                        <h5>Relationship Status</h5>
+                        <p id="vpStatus">Not Specified</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <i class="fa-solid fa-fingerprint"></i>
+                    <div>
+                        <h5>VIP Chat ID</h5>
+                        <p id="vpID">-----</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-modal" id="editProfileModal">
+        <div class="modal-nav">
+            <h2>Edit My Profile</h2>
+            <button class="modal-close-btn" onclick="closeEditProfile()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="edit-form-body">
+            <div class="edit-group">
+                <label><i class="fa-solid fa-envelope" style="color:var(--primary);"></i> Your Registered Email (Private)</label>
+                <input type="text" id="privateEmailView" readonly style="background: var(--bg-body); font-weight: 600; color: var(--text-light); border: 1px dashed var(--border-color);">
+            </div>
+            <div class="edit-group">
+                <label>Your Bio (About You)</label>
+                <textarea id="editBioInput" placeholder="Write something interesting about yourself..."></textarea>
+            </div>
+            <div class="edit-group">
+                <label>Relationship Status</label>
+                <select id="editStatusInput">
+                    <option value="Not Specified">Not Specified</option>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="In a Relationship">In a Relationship</option>
+                    <option value="It's Complicated">It's Complicated</option>
+                </select>
+            </div>
+            <button class="save-btn" onclick="saveAdvancedProfile()">Save Profile</button>
+        </div>
+    </div>
+
+    <div class="full-modal" id="viewOnceModal">
+        <div class="modal-nav">
+            <h2><i class="fa-solid fa-fire"></i> View Once Message</h2>
+            <button class="modal-close-btn" onclick="closeViewOnce()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="viewOnceContent" style="width:100%; display:flex; justify-content:center; align-items:center; flex:1;">
+            </div>
+        <div style="text-align:center; padding: 20px; color: var(--text-light); font-size:12px;">
+            <i class="fa-solid fa-trash"></i> This message has self-destructed from the server.
+        </div>
     </div>
 
     <div class="secure-prompt-overlay" id="secureNotifModal">
@@ -465,31 +563,46 @@
                     <input type="file" id="profilePicInput" style="display:none" accept="image/*">
                     
                     <h3 id="myProfileName" style="display:flex; justify-content:center; align-items:center;">...</h3>
-                    <p id="myProfileEmail">...</p>
+                    <span class="id-badge" id="myKhatarnakID" style="margin-top:5px;">ID: -----</span>
                 </div>
                 <div class="settings-menu">
                     
+                    <div class="list-heading">Personal Details</div>
+
+                    <div class="settings-item" onclick="openEditProfile()">
+                        <div class="s-icon-wrap s-icon-yellow"><i class="fa-solid fa-user-pen"></i></div>
+                        <div class="settings-text-block">
+                            <div class="settings-title">Edit My Profile</div>
+                            <div class="settings-desc">Manage Bio, Relationship Status and hidden email.</div>
+                        </div>
+                    </div>
+
+                    <div class="list-heading">Configurations</div>
+
                     <div class="settings-item" onclick="checkAndPromptNotification()">
                         <div class="s-icon-wrap s-icon-blue"><i class="fa-solid fa-bell"></i></div>
                         <div class="settings-text-block">
-                            <div class="settings-title">Configure Secure Notifications</div>
-                            <div class="settings-desc">Enable professional real-time deliverability for direct messaging.</div>
+                            <div class="settings-title">Enable Push Notifications</div>
+                            <div class="settings-desc">Get instant alerts for secure messages.</div>
                         </div>
                     </div>
 
                     <div class="settings-item" onclick="generateAndCopyLink()">
                         <div class="s-icon-wrap s-icon-purple"><i class="fa-solid fa-link"></i></div>
                         <div class="settings-text-block">
-                            <div class="settings-title">Generate Dynamic Chat Identifier</div>
-                            <div class="settings-desc">Create your unique identifier link for professional collaboration.</div>
+                            <div class="settings-title">Copy VIP Chat Link</div>
+                            <div class="settings-desc">Share your 5-digit unique ID link to invite friends.</div>
                         </div>
                     </div>
                     
                     <div class="settings-item" onclick="requestBlueTick()">
                         <div class="s-icon-wrap s-icon-green"><i class="fa-solid fa-certificate"></i></div>
                         <div class="settings-text-block">
-                            <div class="settings-title" style="color: #0095F6;">Request Professional Verification</div>
-                            <div class="settings-desc">Submit authentication parameters to gain your Verified Badge status.</div>
+                            <div class="settings-title" style="color: #0095F6; display:flex; align-items:center;">
+                                Request Blue Tick 
+                                <svg style="width:16px; height:16px; margin-left:4px;" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>
+                            </div>
+                            <div class="settings-desc">Submit request to gain your Verified Badge status.</div>
                         </div>
                     </div>
 
@@ -498,8 +611,8 @@
                     <div class="settings-item" onclick="toggleTheme()">
                         <div class="s-icon-wrap s-icon-gray"><i class="fa-solid fa-moon"></i></div>
                         <div class="settings-text-block">
-                            <div class="settings-title">Configure Application Theme</div>
-                            <div class="settings-desc">Switch between dynamic Light and professional Dark modes.</div>
+                            <div class="settings-title">Dark / Light Mode</div>
+                            <div class="settings-desc">Switch between application themes easily.</div>
                         </div>
                     </div>
                     
@@ -516,8 +629,8 @@
                     <div class="settings-item danger" onclick="confirmLogout()">
                         <div class="s-icon-wrap s-icon-red"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
                         <div class="settings-text-block">
-                            <div class="settings-title">Deauthenticate Secure Session</div>
-                            <div class="settings-desc">Immediately revoke dynamic secure access and sign out.</div>
+                            <div class="settings-title">Logout Account</div>
+                            <div class="settings-desc">Securely sign out of this session.</div>
                         </div>
                     </div>
                 </div>
@@ -526,13 +639,13 @@
 
         <div class="bottom-nav">
             <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
-                <i class="fa-solid fa-house"></i><span>Unified Home</span>
+                <i class="fa-solid fa-house"></i><span>Home</span>
             </button>
             <button class="nav-item" id="nav-search" onclick="switchTab('search')">
-                <i class="fa-solid fa-magnifying-glass"></i><span>Verified Search</span>
+                <i class="fa-solid fa-magnifying-glass"></i><span>Search</span>
             </button>
             <button class="nav-item" id="nav-settings" onclick="switchTab('settings')">
-                <i class="fa-solid fa-gear"></i><span>Configurations</span>
+                <i class="fa-solid fa-gear"></i><span>Settings</span>
             </button>
         </div>
     </div>
@@ -540,14 +653,13 @@
     <div class="chat-container" id="chatCard">
         <div class="chat-header" id="chatHeader">
             <button class="back-btn" onclick="closeChatRoom()"><i class="fa-solid fa-arrow-left"></i></button>
-            <div class="user-details-wrapper">
+            <div class="user-details-wrapper" onclick="openViewProfile(currentChatUserId)">
                 <img id="chatHeaderImg" class="admin-img-chat" src="" alt="Collaborative User">
                 <div class="user-details">
                     <h3 id="chatHeaderName">Authorized User</h3>
                     
                     <div class="status-text" id="chatHeaderStatus">
                         <span class="online-dot" id="chatStatusDot"></span> Authenticating...
-                        <div class="mood-indicator" id="currentMoodIndicator"><span class="mood-indicator-dot"></span></div>
                     </div>
                 </div>
             </div>
@@ -578,6 +690,8 @@
             <button class="icon-btn" id="paletteBtn" title="Open Draw Board"><i class="fa-solid fa-palette"></i></button>
             <button class="icon-btn" id="attachBtn" title="Attach Document/Media"><i class="fa-solid fa-paperclip"></i></button>
             
+            <button class="icon-btn" id="viewOnceBtn" title="Send View Once Message"><i class="fa-solid fa-bomb"></i></button>
+            
             <div class="input-wrapper-chat">
                 <input type="text" id="msgInput" placeholder="Secure, encrypted message..." autocomplete="off">
                 <span class="msg-input-mood-dot" id="inputMoodDot"></span>
@@ -605,6 +719,7 @@
 
         const adminId = "admin_fahim";
         let myUserId = null; 
+        let myKhatarnakID = null;
         let currentChatUserId = null; 
         
         let activeChatQuery = null; 
@@ -626,7 +741,40 @@
 
         const verifiedSVG = `<svg aria-label="Verified" class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>`;
 
-        // --- UI HELPERS & MODALS ---
+        // --- VIEW ONCE STATE & LOGIC ---
+        window.viewOnceStore = {};
+        let isViewOnceMode = false;
+
+        document.getElementById('viewOnceBtn').addEventListener('click', function() {
+            isViewOnceMode = !isViewOnceMode;
+            this.classList.toggle('active-bomb', isViewOnceMode);
+            showToast(isViewOnceMode ? "🔥 View Once Mode Activated" : "Normal Mode Activated", isViewOnceMode ? "info" : "success");
+        });
+
+        function openViewOnce(msgId) {
+            const data = window.viewOnceStore[msgId];
+            if(!data) return;
+            
+            const modal = document.getElementById('viewOnceModal');
+            const contentDiv = document.getElementById('viewOnceContent');
+            
+            if (data.imageUrl) {
+                contentDiv.innerHTML = `<img src="${data.imageUrl}" style="max-width:100%; max-height:80vh; border-radius:12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); object-fit:contain;">`;
+            } else {
+                contentDiv.innerHTML = `<h3 style="font-size:28px;">${escapeHTML(data.text)}</h3>`;
+            }
+            
+            modal.classList.add('show');
+            // Permanently delete message from Firebase instantly upon viewing
+            db.ref('messages/' + msgId).remove();
+        }
+
+        window.closeViewOnce = function() {
+            document.getElementById('viewOnceModal').classList.remove('show');
+            document.getElementById('viewOnceContent').innerHTML = ''; // clear RAM
+        }
+
+        // --- UI HELPERS & MODALS (ORIGINAL DETAILED) ---
         function showToast(msg, type='error') {
             const box = document.getElementById('toastBox');
             const toast = document.createElement('div');
@@ -651,7 +799,68 @@
 
         function toggleTheme() { document.body.classList.toggle('dark-mode'); }
 
-        // --- SMART NOTIFICATION LOGIC (SECURE JAVASCRIPT) ---
+        // --- HARDWARE BACK BUTTON FIX ---
+        window.addEventListener('popstate', (e) => {
+            if (currentChatUserId) {
+                closeChatRoom(true); 
+            }
+        });
+
+        // --- ADVANCED PROFILE MODALS ---
+        function openEditProfile() {
+            document.getElementById('editProfileModal').classList.add('show');
+            db.ref('users/' + myUserId).once('value').then(snap => {
+                const u = snap.val();
+                if(u) {
+                    document.getElementById('editBioInput').value = u.bio || "";
+                    document.getElementById('editStatusInput').value = u.relationship || "Not Specified";
+                    document.getElementById('privateEmailView').value = u.email || auth.currentUser.email || "No Email";
+                }
+            });
+        }
+        window.closeEditProfile = function() { document.getElementById('editProfileModal').classList.remove('show'); }
+        
+        window.saveAdvancedProfile = function() {
+            showLoading("Saving Profile...");
+            const bio = document.getElementById('editBioInput').value.trim();
+            const relStatus = document.getElementById('editStatusInput').value;
+            db.ref('users/' + myUserId).update({ bio: bio, relationship: relStatus }).then(() => {
+                hideLoading();
+                showToast("Profile Details Updated!", "success");
+                closeEditProfile();
+            }).catch(err => {
+                hideLoading();
+                showToast("Error saving profile.", "error");
+            });
+        }
+
+        window.openViewProfile = function(targetUid) {
+            if(!targetUid) return;
+            if(targetUid === adminId) {
+                document.getElementById('vpImage').src = document.getElementById('adminProfileLogin').src;
+                document.getElementById('vpName').innerHTML = "Admin Fahim " + verifiedSVG;
+                document.getElementById('vpBio').innerText = "Official Platform Administrator & Support.";
+                document.getElementById('vpStatus').innerText = "Working";
+                document.getElementById('vpID').innerText = "ADMIN";
+                document.getElementById('viewProfileModal').classList.add('show');
+                return;
+            }
+
+            db.ref('users/' + targetUid).once('value').then(snap => {
+                const u = snap.val();
+                if(u) {
+                    document.getElementById('vpImage').src = u.profile_image || 'https://ui-avatars.com/api/?name=U';
+                    document.getElementById('vpName').innerHTML = escapeHTML(u.name) + (u.verified ? ' ' + verifiedSVG : '');
+                    document.getElementById('vpBio').innerText = u.bio ? `"${u.bio}"` : '"Hey there! I am using this secure platform."';
+                    document.getElementById('vpStatus').innerText = u.relationship || 'Not Specified';
+                    document.getElementById('vpID').innerText = u.khatarnak_id || '-----';
+                    document.getElementById('viewProfileModal').classList.add('show');
+                }
+            });
+        }
+        window.closeViewProfile = function() { document.getElementById('viewProfileModal').classList.remove('show'); }
+
+        // --- SMART NOTIFICATION LOGIC (SECURE JAVASCRIPT - ORIGINAL FULL) ---
         function checkAndPromptNotification() {
             if (Notification.permission === 'granted') {
                 showToast("Direct Notifications are already activated. 🔔", "success");
@@ -707,12 +916,12 @@
             }, 150); 
         }
 
-        // --- DEEP LINKS & BLUE TICK ---
+        // --- KHATARNAK 5-DIGIT DEEP LINKS ---
         window.generateAndCopyLink = function() {
-            if(!myUserId) return;
+            if(!myUserId || !myKhatarnakID) return;
             const baseUrl = window.location.origin + window.location.pathname;
-            const chatLink = `${baseUrl}?chat=${myUserId}`;
-            navigator.clipboard.writeText(chatLink).then(() => { showToast("Dynamic Chat Identifier copied to clipboard.", "success"); })
+            const chatLink = `${baseUrl}?id=${myKhatarnakID}`;
+            navigator.clipboard.writeText(chatLink).then(() => { showToast("VIP Chat Link Copied! Share with friends.", "success"); })
             .catch(err => { showToast("Failed to copy parameter.", "error"); });
         }
 
@@ -722,29 +931,26 @@
             db.ref('blue_tick_requests/' + myUserId).update({
                 uid: myUserId, name: myName.replace(' Verified', ''), email: auth.currentUser.email || 'No email',
                 timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'pending'
-            }).then(() => { showToast("Verification protocol submitted to Admin.", "info"); })
+            }).then(() => { showToast("Request sent to Admin.", "info"); })
             .catch(err => { showToast("Authentication protocol error.", "error"); });
         }
 
         function handleDeepLink() {
             const urlParams = new URLSearchParams(window.location.search);
-            const targetUid = urlParams.get('chat');
+            const targetId = urlParams.get('id'); 
             
-            if (targetUid && targetUid !== myUserId) {
-                if (targetUid === adminId) {
-                    const adminName = document.getElementById('chatAdminNameHeader')?.innerText || 'Admin Fahim';
-                    const adminPic = document.getElementById('adminProfileLogin').src;
-                    openChatRoom(adminId, adminName, adminPic, true);
+            if (targetId) {
+                db.ref('users').orderByChild('khatarnak_id').equalTo(targetId).once('value').then(snap => {
+                    const data = snap.val();
+                    if(data) {
+                        const userKey = Object.keys(data)[0];
+                        const tUser = data[userKey];
+                        if(userKey !== myUserId) {
+                            openChatRoom(userKey, escapeHTML(tUser.name), tUser.profile_image, tUser.verified === true);
+                        } else { showToast("You cannot chat with yourself.", "info"); }
+                    } else { showToast("Invalid VIP ID.", "error"); }
                     window.history.replaceState({}, document.title, window.location.pathname); 
-                } else {
-                    db.ref('users/' + targetUid).once('value').then(snap => {
-                        const tUser = snap.val();
-                        if (tUser) {
-                            openChatRoom(targetUid, escapeHTML(tUser.name), tUser.profile_image, tUser.verified === true);
-                            window.history.replaceState({}, document.title, window.location.pathname); 
-                        }
-                    });
-                }
+                });
             }
         }
 
@@ -781,10 +987,20 @@
         function resetButtonState(text) { mainBtn.disabled = false; btnText.textContent = text; btnSpinner.style.display = "none"; }
 
         function syncUserToDatabase(user, customName = null) {
-            const dName = customName || user.displayName || 'User';
-            const profileImg = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=4f46e5&color=fff&bold=true`;
-            return db.ref('users/' + user.uid).update({
-                uid: user.uid, name: dName, email: user.email || '', profile_image: profileImg, last_login: firebase.database.ServerValue.TIMESTAMP
+            return new Promise((resolve) => {
+                db.ref('users/' + user.uid).once('value').then(snap => {
+                    const existingData = snap.val();
+                    const dName = customName || user.displayName || 'User';
+                    const profileImg = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=4f46e5&color=fff&bold=true`;
+                    
+                    // Generate 5-digit ID if not exists
+                    let kid = existingData && existingData.khatarnak_id ? existingData.khatarnak_id : Math.floor(10000 + Math.random() * 90000).toString();
+
+                    db.ref('users/' + user.uid).update({
+                        uid: user.uid, name: dName, email: user.email || '', profile_image: profileImg, last_login: firebase.database.ServerValue.TIMESTAMP,
+                        khatarnak_id: kid
+                    }).then(resolve);
+                });
             });
         }
 
@@ -860,19 +1076,27 @@
                 db.ref('users/' + user.uid).on('value', (snap) => {
                     const uData = snap.val();
                     if(uData) {
+                        // AUTO VIP ID FIX FOR OLD USERS
+                        if (!uData.khatarnak_id) {
+                            let kid = Math.floor(10000 + Math.random() * 90000).toString();
+                            db.ref('users/' + user.uid).update({ khatarnak_id: kid });
+                            myKhatarnakID = kid;
+                        } else {
+                            myKhatarnakID = uData.khatarnak_id;
+                        }
+
                         const dName = uData.name || user.displayName || 'User';
                         const dp = uData.profile_image || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=4f46e5&color=fff&bold=true`;
                         const isVerified = uData.verified === true;
 
                         document.getElementById('myProfileName').innerHTML = escapeHTML(dName) + (isVerified ? ' ' + verifiedSVG : '');
-                        document.getElementById('myProfileEmail').innerText = user.email || 'No email';
                         document.getElementById('myProfilePic').src = dp;
+                        document.getElementById('myKhatarnakID').innerText = "ID: " + myKhatarnakID;
                     }
                 });
 
                 handleDeepLink(); 
                 setupPresence(); initDataListeners(); 
-                // Setup Collaborative Canvas parameters
                 initCollaborativeCanvas(); 
 
                 resetButtonState(isLoginMode ? "Sign In Securely" : "Gain Secure Access");
@@ -885,7 +1109,7 @@
 
         function setupPresence() {
             const myStatusRef = db.ref('/status/' + myUserId);
-            db.ref('.info/connected').on('value', (snap) => { if (snap.val() === true) { myStatusRef.set({status: 'online', current_mood: 'default'}); myStatusRef.onDisconnect().set({status: 'offline'}); } });
+            db.ref('.info/connected').on('value', (snap) => { if (snap.val() === true) { myStatusRef.set({status: 'online'}); myStatusRef.onDisconnect().set({status: 'offline'}); } });
             db.ref('/status/' + adminId).on('value', snap => {
                 const data = snap.val() || {status: 'offline'};
                 const status = data.status || 'offline';
@@ -1028,6 +1252,10 @@
         // --- CHAT ROOM ROUTING & CLEANUP ---
         window.openChatRoom = function(targetUid, targetName, targetAvatar, isVerified = false) {
             showLoading("Decrypting Secure Chat Channel...");
+            
+            // hardware back button history setup
+            history.pushState({ page: 'chat', id: targetUid }, "Chat", window.location.pathname + "?chat=" + targetUid);
+
             setTimeout(() => {
                 currentChatUserId = targetUid; 
                 
@@ -1045,25 +1273,22 @@
                 
                 activeStatusRef.on('value', snap => { 
                     if(currentChatUserId === targetUid) {
-                        const data = snap.val() || {status: 'offline', current_mood: 'default'};
+                        const data = snap.val() || {status: 'offline'};
                         targetUserRealStatus = data.status || 'offline';
-                        const currentMood = data.current_mood || 'default';
-                        
-                        renderHeaderStatus(false, currentMood); 
+                        renderHeaderStatus(false); 
                     } 
                 });
                 
                 setupTypingListener(targetUid); 
                 loadMessages(isVerified, targetName, targetAvatar);
                 
-                // Initialize Canvas Listener for this chatId
+                // Initialize Canvas Listener
                 setupLiveCanvasListener();
                 hideLoading();
             }, 150);
         }
 
-        window.closeChatRoom = function() {
-            // Close Collaborative Canvas if open
+        window.closeChatRoom = function(fromPopState = false) {
             closeDrawingMode();
 
             if(activeChatQuery) { activeChatQuery.off(); activeChatQuery = null; }
@@ -1072,47 +1297,23 @@
             if(activeTypingRef) { activeTypingRef.off(); activeTypingRef = null; }
             db.ref('/typing/' + currentChatUserId).off();
             
-            // Turn off canvas mode sync
             if(currentChatUserId) db.ref('live_canvas_mode/' + getChatId()).off();
 
             currentChatUserId = null; 
             targetUserRealStatus = 'offline';
-            
-            // Reset mood-sync colors in header
-            document.documentElement.style.setProperty('--mood-color', '#4f46e5');
-            document.getElementById('currentMoodIndicator').style.display = 'none';
-            document.getElementById('chatHeader').style.boxShadow = 'var(--shadow-sm)';
 
             document.getElementById('chatCard').style.display = 'none';
             document.getElementById('appScreen').style.display = 'flex';
+
+            if(!fromPopState) {
+                history.back(); // trigger the popstate so URL clears out
+            }
         }
 
-        // IDEA 4 - MoodSync Status Update
-        function renderHeaderStatus(isTyping, mood = 'default') {
+        function renderHeaderStatus(isTyping) {
             const statusEl = document.getElementById('chatHeaderStatus');
             const statusDot = document.getElementById('chatStatusDot');
-            const moodInd = document.getElementById('currentMoodIndicator');
-            const header = document.getElementById('chatHeader');
             
-            // Apply Dynamic professional Aura
-            let moodColor = '#4f46e5'; // default
-            let moodText = '';
-
-            if (mood === 'happy') { moodColor = 'var(--mood-happy)'; moodText = ' ❤️'; }
-            else if (mood === 'urgent') { moodColor = 'var(--mood-urgent)'; moodText = ' ⏳ Urgent'; }
-            else if (mood === 'angry') { moodColor = 'var(--mood-urgent)'; moodText = ' 🔥 (Mood: Heated)';}
-
-            // Sync colors to CSS Variable
-            document.documentElement.style.setProperty('--mood-color', moodColor);
-            
-            if (mood !== 'default' && targetUserRealStatus === 'online') {
-                moodInd.style.display = 'block';
-                header.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.02), 0 4px 6px -2px rgba(0,0,0,0.01), inset 0 -2px 0 ' + moodColor + '10';
-            } else {
-                moodInd.style.display = 'none';
-                header.style.boxShadow = 'var(--shadow-sm)';
-            }
-
             if (isTyping) {
                 statusDot.style.background = '#10b981'; // Green typing dot
                 statusEl.innerHTML = statusDot.outerHTML + ` <span style="color:#10b981; font-weight:600; font-style:italic;">Initializing message...</span>`;
@@ -1121,7 +1322,7 @@
                 const text = targetUserRealStatus === 'online' ? 'Active' : 'Offline';
                 statusDot.style.background = color;
                 
-                statusEl.innerHTML = statusDot.outerHTML + ` ${text}${moodText}`;
+                statusEl.innerHTML = statusDot.outerHTML + ` ${text}`;
             }
         }
 
@@ -1129,18 +1330,12 @@
             activeTypingRef = db.ref('/typing/' + targetUid);
             activeTypingRef.on('value', snap => {
                 const isTyping = snap.val();
-                
-                // Get current mood from activeStatusRef
-                activeStatusRef.once('value').then(statusSnap => {
-                    const data = statusSnap.val() || {current_mood: 'default'};
-                    renderHeaderStatus(isTyping, data.current_mood);
-                });
-
+                renderHeaderStatus(isTyping);
                 if (isTyping) safeScrollToBottom(); 
             });
         }
 
-        // --- MESSAGING & KHATARNAK ONESIGNAL PUSH (INTEGRATED) ---
+        // --- MESSAGING & KHATARNAK ONESIGNAL PUSH (FULL ORIGINAL LOGIC RESTORED) ---
         function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
 
         function sendMessage(text = '', imgUrl = null, fileType = null) {
@@ -1154,16 +1349,22 @@
             db.ref(`messages`).push({ 
                 text: val, imageUrl: imgUrl || null, fileType: fileType || null,
                 senderId: myUserId, receiverId: currentChatUserId, 
-                timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'sent' 
+                timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'sent',
+                viewOnce: isViewOnceMode 
             });
-            msgInput.value = ''; db.ref('/typing/' + myUserId).set(false); safeScrollToBottom(true);
+            msgInput.value = ''; db.ref('/typing/' + myUserId).set(false); 
+            document.getElementById('inputMoodDot').style.display = 'none';
+            safeScrollToBottom(true);
             
-            // IDEA 4 - Reset Mood to default on Send
-            db.ref('/status/' + myUserId + '/current_mood').set('default');
+            if(isViewOnceMode) {
+                isViewOnceMode = false;
+                document.getElementById('viewOnceBtn').classList.remove('active-bomb');
+            }
 
             // --- KHATARNAK NOTIFICATION UI SYSTEM ---
             let pushText = val;
-            if (!pushText) pushText = (fileType && fileType.includes('pdf')) ? "📄 Sent a PDF Document Asset" : "📷 Sent an Encrypted Image Asset";
+            if (isViewOnceMode) pushText = "💣 Sent a View Once Message";
+            else if (!pushText) pushText = (fileType && fileType.includes('pdf')) ? "📄 Sent a PDF Document Asset" : "📷 Sent an Encrypted Image Asset";
             
             const myNameElement = document.getElementById('myProfileName');
             const myName = myNameElement ? myNameElement.innerText.replace(' Verified', '').trim() : " Someone";
@@ -1264,7 +1465,14 @@
             let tickHTML = isMe ? `<i id="tick-${msgId}" class="fa-solid fa-check-double tick ${data.status === 'read' ? 'read' : ''}"></i>` : '';
             let contentHTML = '';
             
-            if (data.imageUrl) {
+            if (data.viewOnce) {
+                if (isMe) {
+                    contentHTML = `<div style="font-style:italic; font-size:12px; opacity:0.8; display:flex; align-items:center; gap:5px;"><i class="fa-solid fa-bomb"></i> View Once Message Sent</div>`;
+                } else {
+                    window.viewOnceStore[msgId] = data;
+                    contentHTML = `<button style="background:var(--danger); color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:14px; box-shadow:0 4px 6px rgba(0,0,0,0.1); display:flex; align-items:center; gap:5px;" onclick="openViewOnce('${msgId}')"><i class="fa-solid fa-fire"></i> Tap to View</button>`;
+                }
+            } else if (data.imageUrl) {
                 if (data.imageUrl.includes('.pdf') || data.fileType === 'application/pdf') {
                     contentHTML = `<a href="${data.imageUrl}" target="_blank" style="color: inherit; text-decoration: underline;"><i class="fa-solid fa-file-pdf"></i> View PDF Asset</a>`;
                 } else {
@@ -1294,23 +1502,21 @@
         document.getElementById('sendBtn').addEventListener('click', () => sendMessage());
         msgInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
         
-        // IDEA 4 - Mood-Sync detection in input
+        // --- EMOJI TRIGGER LOGIC (HEART & ANGRY) ---
         msgInput.addEventListener('input', () => {
             if (!myUserId || !currentChatUserId) return; 
             const val = msgInput.value.toLowerCase();
-            let mood = 'default';
-
-            if (val.includes('happy') || val.includes('❤️') || val.includes('love') || val.includes('great')) mood = 'happy';
-            else if (val.includes('urgent') || val.includes('🔥') || val.includes('need') || val.includes('⏳')) mood = 'urgent';
-            else if (val.includes('gussa') || val.includes('angry') || val.includes('🤬')) mood = 'angry';
             
-            // Sync with Firebase status node
-            db.ref('/status/' + myUserId).update({ current_mood: mood });
+            let emojiToShow = null;
+            if (val.includes('pyar') || val.includes('love') || val.includes('❤️') || val.includes('miss')) {
+                emojiToShow = '❤️';
+            } else if (val.includes('gussa') || val.includes('angry') || val.includes('🤬')) {
+                emojiToShow = '🤬';
+            }
 
-            // Show dot in input area
-            if (mood !== 'default') {
-                inMoodDot.style.background = mood === 'happy' ? 'var(--mood-happy)' : mood === 'love' ? 'var(--mood-love)' : 'var(--mood-urgent)';
-                inMoodDot.style.display = 'block';
+            if (emojiToShow) {
+                inMoodDot.innerText = emojiToShow;
+                inMoodDot.style.display = 'flex';
             } else {
                 inMoodDot.style.display = 'none';
             }
@@ -1320,7 +1526,7 @@
             typingTimeout = setTimeout(() => { db.ref('/typing/' + myUserId).set(false); }, 1500); 
         });
 
-        // Chat File Upload (Cloudinary)
+        // Chat File Upload (Cloudinary - ORIGINAL FULL LOGIC)
         const attachBtn = document.getElementById('attachBtn');
         const fileInput = document.getElementById('fileInput');
 
@@ -1347,7 +1553,7 @@
         });
 
         // ==========================================================
-        // IDEA 3 - LIVE SHARED CANVAS ( professional Collaboration draw mode)
+        // LIVE SHARED CANVAS (professional Collaboration draw mode)
         // ==========================================================
         const paletteBtn = document.getElementById('paletteBtn');
         const canvasBoard = document.getElementById('canvasBoard');
@@ -1357,60 +1563,54 @@
         const ctx = liveCanvas.getContext('2d');
 
         let isDrawing = false;
-        let drawingColor = '#4f46e5'; // Default professional blue
+        let drawingColor = '#4f46e5'; 
         let drawingLineWidth = 2;
-        let chatId = null;
         let eraserMode = false;
         
-        // Dynamic chat ID generation
         function getChatId() {
             if(!myUserId || !currentChatUserId) return null;
             return myUserId < currentChatUserId ? myUserId + '_' + currentChatUserId : currentChatUserId + '_' + myUserId;
         }
 
         function initCollaborativeCanvas() {
-            // Resize canvas context on init
             function resize() {
                 const container = liveCanvas.parentElement;
                 liveCanvas.width = container.offsetWidth;
-                liveCanvas.height = 260 - 45; // Container height minus tools header
+                liveCanvas.height = 260 - 45; 
                 ctx.lineCap = 'round';
                 ctx.lineJoin = 'round';
             }
             window.addEventListener('resize', resize);
-            resize(); // Initial call
+            resize(); 
         }
 
         paletteBtn.addEventListener('click', () => {
             if(!getChatId()) return;
-            // Sync mode open to other user
             db.ref('live_canvas_mode/' + getChatId()).set({ open_by: myUserId, timestamp: Date.now() });
             openDrawingMode();
         });
 
         function openDrawingMode() {
             canvasBoard.style.display = 'block';
-            chatBox.style.paddingBottom = '270px'; // Make room for canvas
+            chatBox.style.paddingBottom = '270px'; 
             scrollToBottom();
-            // Reset tools
             eraserMode = false; drawingColor = '#4f46e5'; drawingLineWidth = 2; ctx.globalCompositeOperation = 'source-over'; ctx.lineWidth = drawingLineWidth;
             canvasEraser.innerHTML = '<i class="fa-solid fa-eraser"></i>';
-            initCollaborativeCanvas(); // Resize again to fit new visible container
+            initCollaborativeCanvas(); 
         }
 
         function closeDrawingMode() {
             canvasBoard.style.display = 'none';
-            chatBox.style.paddingBottom = '24px'; // Standard padding
-            if(getChatId()) db.ref('live_canvas_mode/' + getChatId()).set(null); // Sync close
+            chatBox.style.paddingBottom = '24px'; 
+            if(getChatId()) db.ref('live_canvas_mode/' + getChatId()).set(null); 
         }
         
         canvasEraser.addEventListener('click', () => {
             eraserMode = !eraserMode;
             if(eraserMode) {
-                // Professional Eraser - white with glow
                 ctx.globalCompositeOperation = 'destination-out';
-                ctx.lineWidth = 15; // Bigger eraser
-                canvasEraser.innerHTML = '<i class="fa-solid fa-pencil"></i>'; // switch to pencil icon
+                ctx.lineWidth = 15; 
+                canvasEraser.innerHTML = '<i class="fa-solid fa-pencil"></i>'; 
             } else {
                 ctx.globalCompositeOperation = 'source-over';
                 ctx.lineWidth = drawingLineWidth;
@@ -1420,11 +1620,9 @@
 
         canvasClear.addEventListener('click', () => {
             ctx.clearRect(0, 0, liveCanvas.width, liveCanvas.height);
-            // Send clear event to other user
             if(getChatId()) db.ref('live_canvas_drawing/' + getChatId()).push({ type: 'clear' });
         });
 
-        // Drawing Mouse/Touch Events
         liveCanvas.addEventListener('mousedown', startDrawing);
         liveCanvas.addEventListener('mousemove', draw);
         liveCanvas.addEventListener('mouseup', endDrawing);
@@ -1440,9 +1638,8 @@
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
             
-            // Write coordinates to Firebase node for Live Sync
             if(getChatId()) db.ref('live_canvas_drawing/' + getChatId()).push({
-                type: eraserMode ? 'erase-start' : 'draw-start', x: pos.x / liveCanvas.width, y: pos.y / liveCanvas.height, // Normalize coords (0 to 1)
+                type: eraserMode ? 'erase-start' : 'draw-start', x: pos.x / liveCanvas.width, y: pos.y / liveCanvas.height, 
                 t: Date.now(), uid: myUserId
             });
         }
@@ -1454,9 +1651,8 @@
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
             
-            // Write move coordinates to Firebase
             if(getChatId()) db.ref('live_canvas_drawing/' + getChatId()).push({
-                type: eraserMode ? 'erase' : 'draw', x: pos.x / liveCanvas.width, y: pos.y / liveCanvas.height, // Normalize coords (0 to 1)
+                type: eraserMode ? 'erase' : 'draw', x: pos.x / liveCanvas.width, y: pos.y / liveCanvas.height, 
                 t: Date.now(), uid: myUserId
             });
         }
@@ -1479,22 +1675,18 @@
             return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
         }
         
-        // --- LIVE CANVAS COLLABORATION LISTENER ---
         function setupLiveCanvasListener() {
             if(!getChatId()) return;
             
-            // Listen for Mode Open/Close
             db.ref('live_canvas_mode/' + getChatId()).on('value', snap => {
                 const data = snap.val();
                 if(data && data.open_by !== myUserId) {
-                    openDrawingMode(); // Open board if other user opened
+                    openDrawingMode(); 
                 } else if (!data) {
-                    closeDrawingMode(); // Close if node deleted (other user closed)
+                    closeDrawingMode(); 
                 }
             });
 
-            // Listen for remote Drawings ( strokes)
-            // Use separate context settings to avoid overriting local context tools
             const remoteCtx = liveCanvas.getContext('2d');
 
             db.ref('live_canvas_drawing/' + getChatId()).limitToLast(5).on('child_added', snap => {
@@ -1506,23 +1698,20 @@
                     return;
                 }
 
-                // Deny drawings written by self to prevent doubling
                 if(data.uid === myUserId) return; 
                 
-                // Calculate actual coordinates from normalized ones
                 const actualX = data.x * liveCanvas.width;
                 const actualY = data.y * liveCanvas.height;
 
                 if (data.type === 'draw-start' || data.type === 'erase-start') {
-                    // Start remote path with correct context configuration
                     remoteCtx.beginPath();
                     remoteCtx.moveTo(actualX, actualY);
                     remoteCtx.lineCap = 'round';
                     remoteCtx.lineJoin = 'round';
                     if(data.type === 'draw-start'){
                         remoteCtx.globalCompositeOperation = 'source-over';
-                        remoteCtx.lineWidth = 2; // remote standard line
-                        remoteCtx.strokeStyle = '#4f46e5'; // standard remote color
+                        remoteCtx.lineWidth = 2; 
+                        remoteCtx.strokeStyle = '#4f46e5'; 
                     } else {
                         remoteCtx.globalCompositeOperation = 'destination-out';
                         remoteCtx.lineWidth = 15;
@@ -1532,7 +1721,6 @@
                     remoteCtx.stroke();
                 } else if (data.type === 'draw-end') {
                     remoteCtx.closePath();
-                    // Reset to source-over for local eraser drawing
                     ctx.globalCompositeOperation = eraserMode ? 'destination-out' : 'source-over';
                 }
             });
