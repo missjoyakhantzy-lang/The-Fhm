@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>fahimn.co.in - Pro Collaborative Chat Platform</title>
+    <title>fahimn.co.in - VIP Platform</title>
     
     <link rel="manifest" href="./manifest.json">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -31,15 +31,23 @@
            GLOBAL VARIABLES & CSS (PROFESSIONAL THEME)
            ========================================= */
         :root {
-            --primary: #4f46e5; --primary-hover: #4338ca; 
-            --text-dark: #0f172a; --text-light: #64748b;
+            --primary: #4f46e5; 
+            --primary-hover: #4338ca; 
+            --text-dark: #0f172a; 
+            --text-light: #64748b;
             --bg-body: #f8fafc; 
-            --bg-input: #f1f5f9; --border-color: #e2e8f0;
-            --chat-bg: #f0f2f5; --chat-bubble-received: #ffffff; --chat-bubble-sent: #4f46e5;
+            --bg-input: #f1f5f9; 
+            --border-color: #e2e8f0;
+            --chat-bg: #f0f2f5; 
+            --chat-bubble-received: #ffffff; 
+            --chat-bubble-sent: #4f46e5;
             --header-bg: #ffffff;
             --overlay-bg: rgba(255, 255, 255, 0.85);
-            --list-hover: #f1f5f9; --nav-inactive: #94a3b8;
-            --success: #10b981; --danger: #ef4444; --info: #0ea5e9;
+            --list-hover: #f1f5f9; 
+            --nav-inactive: #94a3b8;
+            --success: #10b981; 
+            --danger: #ef4444; 
+            --info: #0ea5e9;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -48,143 +56,612 @@
         }
 
         body.dark-mode {
-            --primary: #6366f1; --primary-hover: #818cf8;
-            --text-dark: #f8fafc; --text-light: #94a3b8;
+            --primary: #6366f1; 
+            --primary-hover: #818cf8;
+            --text-dark: #f8fafc; 
+            --text-light: #94a3b8;
             --bg-body: #020617; 
-            --bg-input: #1e293b; --border-color: #334155;
-            --chat-bg: #0b1121; --chat-bubble-received: #1e293b; --chat-bubble-sent: #6366f1;
+            --bg-input: #1e293b; 
+            --border-color: #334155;
+            --chat-bg: #0b1121; 
+            --chat-bubble-received: #1e293b; 
+            --chat-bubble-sent: #6366f1;
             --header-bg: #0f172a;
             --security-bg: rgba(99, 102, 241, 0.1);
             --overlay-bg: rgba(15, 23, 42, 0.9);
-            --list-hover: #1e293b; --nav-inactive: #64748b;
+            --list-hover: #1e293b; 
+            --nav-inactive: #64748b;
             --pattern-opacity: 0.03;
         }
 
-        body:not(.dark-mode) { --security-bg: #fefce8; }
+        body:not(.dark-mode) { 
+            --security-bg: #fefce8; 
+        }
   
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
 
-        html, body { height: 100%; width: 100%; overflow: hidden; position: fixed; top: 0; left: 0; }
-        body { background: var(--bg-body); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; transition: background 0.3s, color 0.3s; }
+        html, body { 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+        }
+        
+        body { 
+            background: var(--bg-body); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Inter', sans-serif; 
+            transition: background 0.3s, color 0.3s; 
+        }
 
-        /* 🌟 GLOBAL BUTTON ANIMATION 🌟 */
-        button { transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease, box-shadow 0.2s ease; }
-        button:active { transform: scale(0.92) !important; }
+        button { 
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease, box-shadow 0.2s ease; 
+        }
+        button:active { 
+            transform: scale(0.92) !important; 
+        }
+
+        /* Shimmer Animation for Download Button */
+        @keyframes shimmerAnimation {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .shimmer-btn {
+            background: linear-gradient(90deg, var(--primary) 0%, #a855f7 50%, var(--primary) 100%);
+            background-size: 200% auto;
+            color: white;
+            animation: shimmerAnimation 3s linear infinite;
+            border: none;
+            cursor: pointer;
+        }
 
         /* Toast Notifications */
-        .toast-box { position: fixed; top: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: var(--header-bg); color: var(--text-dark); padding: 16px 20px; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; transform: translateX(120%); border: 1px solid var(--border-color); animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; border-left: 4px solid; }
-        .toast.error { border-left-color: var(--danger); } .toast.success { border-left-color: var(--success); } .toast.info { border-left-color: var(--info); }
-        @keyframes slideIn { to { transform: translateX(0); } }
+        .toast-box { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            z-index: 99999; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
+        
+        .toast { 
+            background: var(--header-bg); 
+            color: var(--text-dark); 
+            padding: 16px 20px; 
+            border-radius: 8px; 
+            box-shadow: var(--shadow-lg); 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            transform: translateX(120%); 
+            border: 1px solid var(--border-color); 
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+            border-left: 4px solid; 
+        }
+        
+        .toast.error { border-left-color: var(--danger); } 
+        .toast.success { border-left-color: var(--success); } 
+        .toast.info { border-left-color: var(--info); }
+        
+        @keyframes slideIn { 
+            to { transform: translateX(0); } 
+        }
 
-        .verified-icon { width: 16px; height: 16px; flex-shrink: 0; display: inline-block; margin-left: 4px; vertical-align: middle; }
+        .verified-icon { 
+            width: 16px; 
+            height: 16px; 
+            flex-shrink: 0; 
+            display: inline-block; 
+            margin-left: 4px; 
+            vertical-align: middle; 
+        }
 
         /* Global Overlay (Loaders) */
-        .global-overlay { display: none; position: absolute; inset: 0; background: var(--overlay-bg); backdrop-filter: blur(5px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
-        .global-overlay .spinner { width: 45px; height: 45px; border: 4px solid var(--border-color); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
-        .global-overlay .upload-text { font-size: 15px; font-weight: 600; color: var(--text-dark); animation: pulseText 1.5s infinite; letter-spacing: 0.5px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .global-overlay { 
+            display: none; 
+            position: absolute; 
+            inset: 0; 
+            background: var(--overlay-bg); 
+            backdrop-filter: blur(5px); 
+            z-index: 9999; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            animation: fadeIn 0.3s ease; 
+        }
+        
+        .global-overlay .spinner { 
+            width: 45px; 
+            height: 45px; 
+            border: 4px solid var(--border-color); 
+            border-top-color: var(--primary); 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            margin-bottom: 16px; 
+        }
+        
+        .global-overlay .upload-text { 
+            font-size: 15px; 
+            font-weight: 600; 
+            color: var(--text-dark); 
+            animation: pulseText 1.5s infinite; 
+            letter-spacing: 0.5px; 
+        }
+        
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
+        @keyframes pulseText { 
+            0%, 100% { opacity: 1; } 
+            50% { opacity: 0.6; } 
+        }
 
         /* =========================================
-           KHATARNAK LOGIN SCREEN (PREMIUM GLASSMORPHISM)
+           RESTORED ORIGINAL LOGIN SCREEN
            ========================================= */
-        .login-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 10; transition: opacity 0.4s ease; 
-            background: linear-gradient(135deg, #e0e7ff, #c7d2fe, #ddd6fe); background-size: 300% 300%; animation: gradientBG 8s ease infinite; 
+        .login-wrapper { 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+            z-index: 10; 
+            background: var(--bg-body); 
+            transition: opacity 0.4s ease; 
         }
-        body.dark-mode .login-wrapper { background: linear-gradient(135deg, #0f172a, #1e1b4b, #172554); }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        .login-card { 
+            background: var(--header-bg); 
+            width: 100%; 
+            max-width: 400px; 
+            padding: 40px 32px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            border: 1px solid var(--border-color); 
+            position: relative; 
+            max-height: 95%; 
+            overflow-y: auto; 
+            animation: slideUpFade 0.4s ease forwards; 
+        }
+        
+        @keyframes slideUpFade { 
+            0% { transform: translateY(20px); opacity: 0; } 
+            100% { transform: translateY(0); opacity: 1; } 
+        }
+        
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        
+        .header img { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            margin-bottom: 15px; 
+            border: 3px solid var(--primary); 
+            box-shadow: 0 10px 20px rgba(79,70,229,0.2); 
+            animation: floatImage 4s ease-in-out infinite;
+        }
+        @keyframes floatImage { 
+            0% { transform: translateY(0px); } 
+            50% { transform: translateY(-8px); } 
+            100% { transform: translateY(0px); } 
+        }
 
-        .login-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); width: 100%; max-width: 400px; padding: 35px 35px; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid rgba(255, 255, 255, 0.5); position: relative; max-height: 95%; overflow-y: auto; animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
-        body.dark-mode .login-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); }
-        @keyframes bounceIn { 0% { transform: scale(0.8) translateY(50px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
-        
-        .header { text-align: center; margin-bottom: 24px; }
-        
-        /* Floating Profile Image Animation */
-        .header img { animation: floatImage 4s ease-in-out infinite; border: 3px solid white; box-shadow: 0 10px 20px rgba(79,70,229,0.3); }
-        body.dark-mode .header img { border-color: var(--primary); }
-        @keyframes floatImage { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+        .header h2 { 
+            font-size: 24px; 
+            font-weight: 800; 
+            color: var(--text-dark); 
+            margin-bottom: 6px; 
+            letter-spacing: -0.5px; 
+        }
+        .header p { 
+            font-size: 14px; 
+            color: var(--text-light); 
+        }
 
-        .header h2 { font-size: 22px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; letter-spacing: -0.5px; }
-        .header p { font-size: 13px; color: var(--text-light); }
-        .brand-text { color: var(--primary); font-weight: 800; }
-        .input-group { margin-bottom: 18px; text-align: left; }
-        .input-group label { display: block; font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .input-box { position: relative; }
-        .input-box i.icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; transition: 0.3s; }
-        .input-box input { width: 100%; padding: 14px 14px 14px 45px; background: var(--bg-input); border: 2px solid transparent; border-radius: 12px; font-size: 14px; color: var(--text-dark); outline: none; transition: 0.3s ease; font-family: 'Inter', sans-serif; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-        .input-box input:focus { background: var(--header-bg); border-color: var(--primary); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15); transform: translateY(-2px); }
-        .input-box input:focus + i.icon { color: var(--primary); }
-        .eye-btn { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer; transition: 0.2s; }
-        .eye-btn:hover { color: var(--primary); }
+        .input-box { 
+            position: relative; 
+            margin-bottom: 16px; 
+        }
         
-        .options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 24px; }
-        .toggle-mode-btn { color: var(--primary); text-decoration: none; font-weight: 700; cursor: pointer; text-align: right; width: 100%; transition: 0.2s; }
-        .toggle-mode-btn:hover { color: var(--primary-hover); text-decoration: underline; }
+        .input-box i.icon { 
+            position: absolute; 
+            left: 16px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: #94a3b8; 
+            font-size: 16px; 
+            transition: 0.2s; 
+            z-index: 2;
+        }
         
-        /* Khatarnak Login Button */
-        .btn-login { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(90deg, var(--primary), #8b5cf6); color: white; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .btn-login:hover:not(:disabled) { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5); }
-        .btn-login:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-        .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255, 255, 255, 0.4); border-top-color: #ffffff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        .input-box input { 
+            width: 100%; 
+            padding: 15px 16px 15px 45px; 
+            background: var(--bg-input); 
+            border: 1px solid transparent; 
+            border-radius: 12px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            color: var(--text-dark); 
+            outline: none; 
+            transition: 0.2s ease; 
+            font-family: 'Inter', sans-serif; 
+        }
         
-        /* Beautiful Google Button */
-        .btn-google-big { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--header-bg); color: var(--text-dark); font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .btn-google-big:hover { background: var(--bg-input); transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-md); border-color: #cbd5e1; }
-        .btn-google-big i { color: #EA4335; font-size: 18px; }
+        .input-box input:focus { 
+            background: var(--header-bg); 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); 
+        }
+        
+        .input-box input:focus + i.icon { 
+            color: var(--primary); 
+        }
+        
+        .eye-btn { 
+            position: absolute; 
+            right: 16px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: #94a3b8; 
+            font-size: 16px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            z-index: 2;
+        }
+        .eye-btn:hover { color: var(--text-dark); }
+        
+        .forgot-pass-wrap { 
+            text-align: right; 
+            margin-bottom: 20px; 
+            display: none; 
+        }
+        
+        .forgot-pass { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: var(--text-light); 
+            text-decoration: none; 
+            cursor: pointer; 
+            transition: 0.2s;
+        }
+        .forgot-pass:hover { color: var(--primary); }
 
-        .divider { margin: 24px 0; display: flex; align-items: center; text-align: center; font-size: 12px; color: var(--text-light); font-weight: 600; text-transform: uppercase; }
-        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
-        .divider span { padding: 0 12px; }
+        .btn-login { 
+            width: 100%; 
+            padding: 15px; 
+            border: none; 
+            border-radius: 12px; 
+            background: var(--primary); 
+            color: white; 
+            font-size: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            transition: 0.2s; 
+            margin-bottom: 20px; 
+            margin-top: 10px;
+        }
         
-        /* Smooth Social Buttons */
-        .social-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-        .btn-social { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--header-bg); color: var(--text-dark); font-size: 18px; cursor: pointer; text-decoration: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .btn-social:hover { background: var(--bg-input); transform: translateY(-3px) scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-color: #cbd5e1; }
-        .btn-social.microsoft i { color: #00A4EF; } .btn-social.facebook i { color: #1877F2; } .btn-social.github i { color: var(--text-dark); }
+        .btn-login:hover:not(:disabled) { 
+            background: var(--primary-hover); 
+            transform: translateY(-1px); 
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); 
+        }
+        
+        .btn-spinner { 
+            width: 18px; 
+            height: 18px; 
+            border: 2px solid rgba(255, 255, 255, 0.4); 
+            border-top-color: #ffffff; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            display: none; 
+        }
+        
+        .toggle-link-wrap { 
+            text-align: center; 
+            margin-bottom: 24px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            color: var(--text-light);
+        }
+        
+        .toggle-link-wrap a { 
+            color: var(--primary); 
+            cursor: pointer; 
+            transition: 0.2s; 
+            font-weight: 600; 
+        }
+        .toggle-link-wrap a:hover { 
+            color: var(--primary-hover); 
+            text-decoration: underline;
+        }
+
+        .divider { 
+            margin: 20px 0; 
+            display: flex; 
+            align-items: center; 
+            text-align: center; 
+            font-size: 12px; 
+            color: var(--text-light); 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+        
+        .divider::before, .divider::after { 
+            content: ''; 
+            flex: 1; 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        
+        .divider span { 
+            padding: 0 12px; 
+        }
+        
+        /* 🌟 ORIGINAL GOOGLE & SOCIAL BUTTONS 🌟 */
+        .btn-google-big { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            background: var(--header-bg); 
+            color: var(--text-dark); 
+            font-size: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            box-shadow: var(--shadow-sm); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-top: 14px; 
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        .btn-google-big:hover { 
+            background: var(--bg-input); 
+            transform: translateY(-2px) scale(1.02); 
+            box-shadow: var(--shadow-md); 
+            border-color: #cbd5e1; 
+        }
+        
+        /* ORIGINAL GOOGLE SVG ICON */
+        .google-icon-svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .social-buttons { 
+            display: flex; 
+            justify-content: space-between; 
+            gap: 12px; 
+            margin-top: 12px;
+        }
+        
+        .btn-social { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 12px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            background: var(--header-bg); 
+            font-size: 18px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            color: var(--text-dark); 
+        }
+        
+        .btn-social:hover { 
+            background: var(--bg-input); 
+            border-color: #cbd5e1; 
+        }
+        
+        .btn-social.facebook i { color: #1877F2; } 
+        .btn-social.github i { color: var(--text-dark); } 
 
         /* =========================================
            MAIN APP SCREEN (LIST + TABS + NAV)
            ========================================= */
-        .app-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 50; animation: fadeIn 0.3s ease; }
-        .app-header { background: var(--header-bg); padding: 16px 24px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow-sm); z-index: 10; flex-shrink: 0; }
-        .app-header h2 { font-size: 18px; font-weight: 800; color: var(--primary); letter-spacing: 0.5px; }
-
-        .main-content { flex: 1; overflow-y: auto; position: relative; background: var(--header-bg); min-height: 0; }
+        .app-container { 
+            display: none; 
+            position: absolute; 
+            inset: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: var(--chat-bg); 
+            flex-direction: column; 
+            z-index: 50; 
+            animation: fadeIn 0.3s ease; 
+        }
         
-        /* TAB TRANSITION ANIMATION */
-        .tab-view { display: none; padding-bottom: 20px; }
-        .tab-view.active { display: block; animation: slideInFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes slideInFade { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
-
-        .list-heading { font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 24px 10px 24px; }
+        .app-header { 
+            background: var(--header-bg); 
+            padding: 16px 24px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-bottom: 1px solid var(--border-color); 
+            box-shadow: var(--shadow-sm); 
+            z-index: 10; 
+            flex-shrink: 0; 
+        }
         
-        /* LIST CASCADE ANIMATION */
-        .user-list-item { display: flex; align-items: center; padding: 12px 24px; cursor: pointer; transition: background 0.2s, transform 0.2s; border-bottom: 1px solid var(--border-color); opacity: 0; animation: cascadeUp 0.4s forwards; }
-        .user-list-item:nth-child(1) { animation-delay: 0.05s; } .user-list-item:nth-child(2) { animation-delay: 0.1s; } .user-list-item:nth-child(3) { animation-delay: 0.15s; } .user-list-item:nth-child(4) { animation-delay: 0.2s; }
-        @keyframes cascadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(10px); } }
+        .app-header h2 { 
+            font-size: 18px; 
+            font-weight: 800; 
+            color: var(--primary); 
+            letter-spacing: 0.5px; 
+        }
+
+        .main-content { 
+            flex: 1; 
+            overflow-y: auto; 
+            position: relative; 
+            background: var(--header-bg); 
+            min-height: 0; 
+        }
+        
+        .tab-view { 
+            display: none; 
+            padding-bottom: 20px; 
+        }
+        
+        .tab-view.active { 
+            display: block; 
+            animation: fadeIn 0.3s ease forwards; 
+        }
+        
+        @keyframes fadeIn { 
+            0% { opacity: 0; } 
+            100% { opacity: 1; } 
+        }
+
+        .list-heading { 
+            font-size: 12px; 
+            font-weight: 700; 
+            color: var(--text-light); 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            margin: 20px 24px 10px 24px; 
+        }
+        
+        .user-list-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 12px 24px; 
+            cursor: pointer; 
+            transition: background 0.2s, transform 0.2s; 
+            border-bottom: 1px solid var(--border-color); 
+            opacity: 0; 
+            animation: cascadeUp 0.4s forwards; 
+        }
+        
+        .user-list-item:nth-child(1) { animation-delay: 0.05s; } 
+        .user-list-item:nth-child(2) { animation-delay: 0.1s; } 
+        .user-list-item:nth-child(3) { animation-delay: 0.15s; } 
+        .user-list-item:nth-child(4) { animation-delay: 0.2s; }
+        
+        @keyframes cascadeUp { 
+            to { opacity: 1; transform: translateY(0); } 
+            from { opacity: 0; transform: translateY(10px); } 
+        }
         
         .user-list-item:last-child { border-bottom: none; }
         .user-list-item:hover { background: var(--list-hover); transform: translateX(4px); }
-        .user-list-item img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); margin-right: 14px; box-shadow: var(--shadow-sm); flex-shrink: 0; }
+        
+        .user-list-item img { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 1px solid var(--border-color); 
+            margin-right: 14px; 
+            box-shadow: var(--shadow-sm); 
+            flex-shrink: 0; 
+        }
+        
         .user-list-info { flex: 1; min-width: 0; }
         .user-list-info h4 { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
         .user-list-info p { font-size: 13px; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
         
-        .unread-indicator { background: var(--success); color: white; font-size: 11px; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); flex-shrink: 0; animation: pulseBadge 2s infinite; }
-        @keyframes pulseBadge { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        .chevron-icon { color: var(--border-color); font-size: 14px; transition: 0.3s; }
+        .unread-indicator { background: var(--success); color: white; font-size: 11px; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); flex-shrink: 0; }
+        .chevron-icon { color: var(--border-color); font-size: 14px; transition: 0.2s; }
         .user-list-item:hover .chevron-icon { color: var(--primary); transform: translateX(3px); }
 
         .smart-search-box { padding: 16px 24px; background: var(--header-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 5; }
         .search-input-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
         .search-input-wrapper i { position: absolute; left: 16px; color: #94a3b8; font-size: 14px; }
-        .search-input-wrapper input { width: 100%; background: var(--bg-input); border: 1px solid var(--border-color); padding: 12px 16px 12px 42px; border-radius: 24px; font-size: 14px; color: var(--text-dark); outline: none; transition: 0.3s; font-family: 'Inter', sans-serif; }
+        .search-input-wrapper input { width: 100%; background: var(--bg-input); border: 1px solid transparent; padding: 12px 16px 12px 42px; border-radius: 24px; font-size: 14px; color: var(--text-dark); outline: none; transition: 0.2s; font-family: 'Inter', sans-serif; }
         .search-input-wrapper input:focus { border-color: var(--primary); background: var(--header-bg); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
         .empty-search { text-align: center; color: var(--text-light); font-size: 13px; margin-top: 30px; font-style: italic; }
 
-        /* Settings & Store Tab - Professional UI */
+        /* 🌟 VIP APP LAUNCHER GRID (STORE) 🌟 */
+        .store-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
+            gap: 16px; 
+            padding: 16px 24px; 
+        }
+        
+        .store-app-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            background: var(--bg-input); 
+            border: 1px solid var(--border-color); 
+            border-radius: 18px; 
+            padding: 20px 10px; 
+            box-shadow: var(--shadow-sm); 
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            opacity: 0; 
+            animation: cascadeUp 0.4s forwards; 
+            position: relative;
+        }
+        
+        .store-app-item:hover { 
+            transform: translateY(-5px); 
+            box-shadow: var(--shadow-md); 
+            border-color: var(--border-color); 
+            background: var(--header-bg); 
+        }
+        
+        .store-app-icon { 
+            width: 70px; 
+            height: 70px; 
+            border-radius: 18px; 
+            object-fit: cover; 
+            margin-bottom: 12px; 
+            box-shadow: var(--shadow-md); 
+        }
+        
+        .store-app-title { 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            line-height: 1.2; 
+            margin-bottom: 6px; 
+        }
+        
+        .store-app-modded { 
+            font-size: 10px; 
+            color: #f59e0b; 
+            font-weight: 800; 
+            background: rgba(245, 158, 11, 0.1); 
+            padding: 4px 8px; 
+            border-radius: 12px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            border: 1px solid rgba(245, 158, 11, 0.2); 
+            margin-bottom: 14px;
+        }
+
+        /* Settings Tab - Professional UI */
         .profile-card { background: var(--header-bg); padding: 30px 24px 20px; text-align: center; border-bottom: 1px solid var(--border-color); animation: fadeIn 0.5s; }
         .profile-pic-wrapper { position: relative; width: 90px; height: 90px; margin: 0 auto 12px auto; cursor: pointer; display: inline-block; }
         .profile-pic-wrapper img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary); padding: 2px; box-shadow: var(--shadow-md); object-fit: cover; transition: 0.3s; }
@@ -216,23 +693,12 @@
         
         .settings-item.danger .settings-title { color: #ef4444; }
 
-        /* Store App Promo Card */
-        .app-promo-card { display: flex; align-items: center; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 12px; margin: 10px 24px; padding: 12px 16px; cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-sm); opacity: 0; animation: cascadeUp 0.4s 0.1s forwards; }
-        .app-promo-card:hover { background: var(--header-bg); border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow-md); }
-        .app-promo-icon { width: 48px; height: 48px; border-radius: 12px; margin-right: 14px; box-shadow: var(--shadow-sm); object-fit: cover; transition: 0.3s; }
-        .app-promo-card:hover .app-promo-icon { transform: scale(1.05); }
-        .app-promo-info { flex: 1; min-width: 0; }
-        .app-promo-title { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; }
-        .app-promo-desc { font-size: 12px; color: var(--text-light); line-height: 1.3; }
-        .direct-dl-btn { background: var(--primary); color: white; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; margin-left: 10px; box-shadow: var(--shadow-sm); transition: 0.3s; }
-        .app-promo-card:hover .direct-dl-btn { background: var(--primary-hover); transform: scale(1.05); }
-
         .bottom-nav { display: flex; background: var(--header-bg); border-top: 1px solid var(--border-color); padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 10px rgba(0,0,0,0.02); z-index: 20; flex-shrink: 0; justify-content: space-around;}
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; color: var(--nav-inactive); font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-family: 'Inter', sans-serif; }
-        .nav-item i { font-size: 20px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .nav-item i { font-size: 20px; transition: 0.2s; }
         .nav-item:hover { color: var(--primary); }
         .nav-item.active { color: var(--primary); transform: translateY(-2px); }
-        .nav-item.active i { transform: scale(1.2); color: var(--primary); }
+        .nav-item.active i { transform: scale(1.1); color: var(--primary); }
 
         /* =========================================
            CHAT SCREEN & MODALS
@@ -273,7 +739,7 @@
         .msg-sent .msg-meta { color: rgba(255, 255, 255, 0.8); }
         .tick { font-size: 10px; color: rgba(255, 255, 255, 0.7); } .tick.read { color: #60a5fa; }
         
-        /* 🌟 ADVANCED WIDE INPUT WITH TOOLS POPUP 🌟 */
+        /* ADVANCED WIDE INPUT WITH TOOLS POPUP */
         .chat-input-area { background-color: var(--header-bg); padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--border-color); position: relative; flex-shrink: 0; }
         
         .icon-btn { background: transparent; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 4px; display: flex; align-items: center; justify-content: center; }
@@ -289,12 +755,10 @@
         .tool-item i { font-size: 18px; color: var(--primary); width: 20px; text-align: center; transition: 0.2s; }
         .tool-item:hover i { transform: scale(1.2); }
         .tool-item.active-bomb i { color: var(--danger); animation: bombPulse 1s infinite; }
-        @keyframes bombPulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
-
+        
         .msg-input-mood-dot { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 20px; display: none; align-items: center; justify-content: center; z-index: 5; animation: popEmoji 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;}
-        @keyframes popEmoji { 0% { transform: translateY(-50%) scale(0); } 100% { transform: translateY(-50%) scale(1); } }
-
-        .input-wrapper-chat { flex: 1; display: flex; align-items: center; background: var(--bg-input); border-radius: 24px; padding: 12px 18px; border: 1px solid var(--border-color); transition: 0.3s; position: relative;}
+        
+        .input-wrapper-chat { flex: 1; display: flex; align-items: center; background: var(--bg-input); border-radius: 24px; padding: 10px 18px; border: 1px solid transparent; transition: 0.3s; position: relative;}
         .input-wrapper-chat:focus-within { border-color: var(--primary); background: var(--header-bg); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
         .input-wrapper-chat input { flex: 1; border: none; padding: 0 30px 0 0; background: transparent; font-size: 15px; color: var(--text-dark); outline: none; width: 100%; font-family: 'Inter', sans-serif; }
         .btn-send { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--primary); color: white; font-size: 16px; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); flex-shrink: 0; }
@@ -434,22 +898,9 @@
             <img id="vpImage" src="" alt="Profile">
             <h3 id="vpName">Loading...</h3>
             <p class="bio-text" id="vpBio">"Hey there! I am using this secure platform."</p>
-            
             <div class="info-grid">
-                <div class="info-card">
-                    <i class="fa-solid fa-heart"></i>
-                    <div>
-                        <h5>Relationship Status</h5>
-                        <p id="vpStatus">Not Specified</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <i class="fa-solid fa-fingerprint"></i>
-                    <div>
-                        <h5>VIP Chat ID</h5>
-                        <p id="vpID">-----</p>
-                    </div>
-                </div>
+                <div class="info-card"><i class="fa-solid fa-heart"></i><div><h5>Relationship Status</h5><p id="vpStatus">Not Specified</p></div></div>
+                <div class="info-card"><i class="fa-solid fa-fingerprint"></i><div><h5>VIP Chat ID</h5><p id="vpID">-----</p></div></div>
             </div>
         </div>
     </div>
@@ -464,18 +915,11 @@
                 <label><i class="fa-solid fa-envelope" style="color:var(--primary);"></i> Your Registered Email (Private)</label>
                 <input type="text" id="privateEmailView" readonly style="background: var(--bg-body); font-weight: 600; color: var(--text-light); border: 1px dashed var(--border-color);">
             </div>
-            <div class="edit-group">
-                <label>Your Bio (About You)</label>
-                <textarea id="editBioInput" placeholder="Write something interesting about yourself..."></textarea>
-            </div>
-            <div class="edit-group">
-                <label>Relationship Status</label>
+            <div class="edit-group"><label>Your Bio (About You)</label><textarea id="editBioInput" placeholder="Write something interesting about yourself..."></textarea></div>
+            <div class="edit-group"><label>Relationship Status</label>
                 <select id="editStatusInput">
-                    <option value="Not Specified">Not Specified</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="In a Relationship">In a Relationship</option>
-                    <option value="It's Complicated">It's Complicated</option>
+                    <option value="Not Specified">Not Specified</option><option value="Single">Single</option><option value="Married">Married</option>
+                    <option value="In a Relationship">In a Relationship</option><option value="It's Complicated">It's Complicated</option>
                 </select>
             </div>
             <button class="save-btn" onclick="saveAdvancedProfile()">Save Profile</button>
@@ -483,15 +927,9 @@
     </div>
 
     <div class="full-modal" id="viewOnceModal">
-        <div class="modal-nav">
-            <h2><i class="fa-solid fa-fire"></i> View Once Message</h2>
-            <button class="modal-close-btn" onclick="closeViewOnce()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div id="viewOnceContent" style="width:100%; display:flex; justify-content:center; align-items:center; flex:1;">
-            </div>
-        <div style="text-align:center; padding: 20px; color: var(--text-light); font-size:12px;">
-            <i class="fa-solid fa-trash"></i> This message has self-destructed from the server.
-        </div>
+        <div class="modal-nav"><h2><i class="fa-solid fa-fire"></i> View Once Message</h2><button class="modal-close-btn" onclick="closeViewOnce()"><i class="fa-solid fa-xmark"></i></button></div>
+        <div id="viewOnceContent" style="width:100%; display:flex; justify-content:center; align-items:center; flex:1;"></div>
+        <div style="text-align:center; padding: 20px; color: var(--text-light); font-size:12px;"><i class="fa-solid fa-trash"></i> This message has self-destructed from the server.</div>
     </div>
 
     <div class="secure-prompt-overlay" id="secureNotifModal">
@@ -505,27 +943,15 @@
         </div>
     </div>
 
-    <div class="image-modal" id="imageModal">
-        <button class="close-modal-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-        <img id="modalImg" src="" alt="Fullscreen Secure Image">
-    </div>
+    <div class="image-modal" id="imageModal"><button class="close-modal-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button><img id="modalImg" src="" alt="Fullscreen Secure Image"></div>
 
     <div class="legal-modal" id="legalModal">
         <div class="legal-content">
-            <div class="legal-header">
-                <h3>End-to-End Encryption & Privacy</h3>
-                <button onclick="closeLegalModal()"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+            <div class="legal-header"><h3>End-to-End Encryption & Privacy</h3><button onclick="closeLegalModal()"><i class="fa-solid fa-xmark"></i></button></div>
             <div class="legal-body">
                 <p>Welcome to fahimn.co.in. Your collaborative privacy is our highest priority.</p>
-                <h4>Advanced End-to-End Encryption</h4>
-                <p>All personal messages, professional collaborative drawings, and media are secured using advanced, protocol-level end-to-end encryption. No one outside of this chat can read, access, or decipher them.</p>
-                <h4>Data Governance</h4>
-                <p>We adhere to strict data minimize governance policies. Data collection is limited to strictly necessary service parameters (Name, Email, Profile Picture). No data is ever monetized.</p>
-                <h4>Secure Collaborative Media Sharing</h4>
-                <p>All shared media assets (Images, PDFs) and professional shared canvas drawings are securely uploaded and delivered via Cloudinary CDN, ensuring high availability and secure delivery.</p>
-                <h4>Account Security Management</h4>
-                <p>Ensure your password meets professional complexity standards. You retain full data deletion rights by contacting Admin Fahim.</p>
+                <h4>Advanced End-to-End Encryption</h4><p>All personal messages, professional collaborative drawings, and media are secured using advanced, protocol-level end-to-end encryption. No one outside of this chat can read, access, or decipher them.</p>
+                <h4>Data Governance</h4><p>We adhere to strict data minimize governance policies. Data collection is limited to strictly necessary service parameters (Name, Email, Profile Picture). No data is ever monetized.</p>
             </div>
         </div>
     </div>
@@ -533,55 +959,56 @@
     <div class="login-wrapper" id="loginWrapper">
         <div class="login-card">
             <div class="header">
-                <img id="adminProfileLogin" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; box-shadow: var(--shadow-md); border: 2px solid var(--border-color);" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin">
-                <h2 id="formTitle">Fahimn.co.in Secure Access</h2>
-                <p id="formSubtitle">Gain secure access to the <span class="brand-text"> fahimn.co.in</span> platform</p>
+                <img id="adminProfileLogin" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin">
+                <h2 id="formTitle">fahimn.co.in</h2>
+                <p id="formSubtitle">Join the secure platform today.</p>
             </div>
             
             <form id="premiumForm">
-                <div class="input-group" id="nameInputGroup" style="display: block;">
-                    <label>Professional Full Name</label>
-                    <div class="input-box">
-                        <input type="text" id="fullname" placeholder="Enter your full name" required>
-                        <i class="fa-regular fa-user icon"></i>
-                    </div>
+                <div class="input-box" id="nameInputGroup">
+                    <i class="fa-regular fa-user icon"></i>
+                    <input type="text" id="fullname" placeholder="Full Name" required>
                 </div>
-                <div class="input-group">
-                    <label>Corporate/Personal Email Address</label>
-                    <div class="input-box">
-                        <input type="email" id="email" placeholder="name@example.com" required>
-                        <i class="fa-regular fa-envelope icon"></i>
-                    </div>
+                <div class="input-box">
+                    <i class="fa-regular fa-envelope icon"></i>
+                    <input type="email" id="email" placeholder="Email Address" required>
                 </div>
-                <div class="input-group">
-                    <label>Authorization Password</label>
-                    <div class="input-box">
-                        <input type="password" id="password" placeholder="••••••••" required>
-                        <i class="fa-solid fa-lock icon"></i>
-                        <i class="fa-regular fa-eye eye-btn" id="togglePass"></i>
-                    </div>
+                <div class="input-box">
+                    <i class="fa-solid fa-lock icon"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <i class="fa-regular fa-eye eye-btn" id="togglePass"></i>
                 </div>
                 
-                <div class="options">
-                    <a class="toggle-mode-btn" id="toggleModeBtn">Have an active account? Sign in securely</a>
+                <div class="forgot-pass-wrap" id="forgotPassWrap">
+                    <a class="forgot-pass" onclick="resetPassword()">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="btn-login" id="mainBtn">
                     <span class="btn-spinner" id="btnSpinner"></span>
-                    <span class="btn-text" id="btnText">Gain Secure Access</span>
+                    <span id="btnText">Sign Up</span>
                 </button>
 
-                <button type="button" class="btn-google-big" id="btnGoogleBig">
-                    <i class="fa-brands fa-google"></i> Authenticate with Google
-                </button>
-
+                <div class="toggle-link-wrap">
+                    <a id="toggleModeBtn">Already have an account? Sign in</a>
+                </div>
             </form>
             
             <div class="divider"><span>or continue with</span></div>
+            
+            <button type="button" class="btn-google-big" id="btnGoogleBig">
+                <svg class="google-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                  <path fill="none" d="M0 0h48v48H0z"/>
+                </svg>
+                Continue with Google
+            </button>
+            
             <div class="social-buttons">
-                <a href="#" class="btn-social microsoft" id="btnMicrosoft"><i class="fa-brands fa-windows"></i></a>
-                <a href="#" class="btn-social facebook" id="btnFacebook"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="btn-social github" id="btnGithub"><i class="fa-brands fa-github"></i></a>
+                <button type="button" class="btn-social facebook" id="btnFacebook"><i class="fa-brands fa-facebook"></i></button>
+                <button type="button" class="btn-social github" id="btnGithub"><i class="fa-brands fa-github"></i></button>
             </div>
         </div>
     </div>
@@ -593,6 +1020,7 @@
             
             <div id="homeView" class="tab-view active">
                 <div class="list-heading">Pinned & Official channels</div>
+                
                 <div class="user-list-item" onclick="openChatRoom('admin_fahim', 'Admin Fahim', document.getElementById('adminProfileLogin').src, true)">
                     <img id="listAdminImg" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin">
                     <div class="user-list-info">
@@ -606,6 +1034,7 @@
                     <i class="fa-solid fa-chevron-right chevron-icon"></i>
                 </div>
 
+                <div class="list-heading">Recent professional collaboration</div>
                 <div id="recentChatsList"></div>
             </div>
 
@@ -622,16 +1051,10 @@
             </div>
 
             <div id="storeView" class="tab-view">
-                <div class="list-heading">VIP Downloads</div>
-                
-                <div class="app-promo-card" onclick="downloadApk('vanced.to_vanced_gms_microg_v0.3.13.2.250932.apk', 'Vanced_MicroG_v0.3.13.apk')">
-                    <img id="vancedAppIcon" src="https://ui-avatars.com/api/?name=VM&background=10b981&color=fff&rounded=true" alt="App Icon" class="app-promo-icon">
-                    <div class="app-promo-info">
-                        <div class="app-promo-title">Vanced MicroG</div>
-                        <div class="app-promo-desc">Required component for advanced YouTube mods. Secure & verified.</div>
-                    </div>
-                    <div class="direct-dl-btn">
-                        <i class="fa-solid fa-download"></i> Get
+                <div class="list-heading">VIP App Launcher</div>
+                <div id="apkStoreList" class="store-grid">
+                    <div class="empty-search" style="grid-column: 1 / -1; margin-top: 50px;">
+                        <i class="fa-solid fa-spinner fa-spin" style="font-size:24px; color:var(--primary); margin-bottom:10px;"></i><br>Loading VIP Apps...
                     </div>
                 </div>
             </div>
@@ -650,7 +1073,6 @@
                 <div class="settings-menu">
                     
                     <div class="list-heading">VIP Downloads</div>
-                    
                     <div class="settings-item" onclick="switchTab('store')">
                         <div class="s-icon-wrap s-icon-orange"><i class="fa-brands fa-android"></i></div>
                         <div class="settings-text-block">
@@ -661,7 +1083,6 @@
                     </div>
 
                     <div class="list-heading">Personal Details</div>
-
                     <div class="settings-item" onclick="openEditProfile()">
                         <div class="s-icon-wrap s-icon-yellow"><i class="fa-solid fa-user-pen"></i></div>
                         <div class="settings-text-block">
@@ -671,7 +1092,6 @@
                     </div>
 
                     <div class="list-heading">Configurations</div>
-
                     <div class="settings-item" onclick="checkAndPromptNotification()">
                         <div class="s-icon-wrap s-icon-blue"><i class="fa-solid fa-bell"></i></div>
                         <div class="settings-text-block">
@@ -700,7 +1120,6 @@
                     </div>
 
                     <div class="list-heading" style="margin-top:10px;">Security & App Parameters</div>
-                    
                     <div class="settings-item" onclick="toggleTheme()">
                         <div class="s-icon-wrap s-icon-gray"><i class="fa-solid fa-moon"></i></div>
                         <div class="settings-text-block">
@@ -718,7 +1137,6 @@
                     </div>
                     
                     <div class="list-heading">Access Management</div>
-                    
                     <div class="settings-item danger" onclick="confirmLogout()">
                         <div class="s-icon-wrap s-icon-red"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
                         <div class="settings-text-block">
@@ -828,7 +1246,7 @@
         let activeTypingRef = null;
         let dataInitialized = false;
 
-        let isLoginMode = false; 
+        let isLoginMode = false; // Default is Sign Up
         let lastMessageDate = null; 
         let typingTimeout = null;
         let unreadWhileScrolled = 0;
@@ -841,17 +1259,15 @@
 
         const verifiedSVG = `<svg aria-label="Verified" class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>`;
 
-        // --- 🌟 FIXED: UNIVERSAL APK DOWNLOAD FUNCTION (Directly integrated) 🌟 ---
-        window.downloadApk = function(filename, saveAsName) {
-            // Yahan Maine 'missjoyakhantzy-lang' update kar diya hai!
-            const apkUrl = "https://github.com/missjoyakhantzy-lang/The-Fhm/releases/download/v1.0/" + filename; 
-            
-            showToast("Downloading " + saveAsName + "... 🚀", "success");
-            
+        // --- UNIVERSAL APK DOWNLOAD FUNCTION ---
+        window.downloadDynamicApk = function(url, title) {
+            if(!url) { showToast("App link is not available.", "error"); return; }
+            showToast("Downloading " + title + "... 🚀", "success");
             const link = document.createElement('a');
-            link.href = apkUrl;
-            link.setAttribute('download', saveAsName); 
-            
+            link.href = url;
+            // Safari/Chrome direct download trigger
+            link.setAttribute('download', title.replace(/\s+/g, '_') + '.apk'); 
+            link.setAttribute('target', '_blank');
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -963,7 +1379,7 @@
         }
         window.closeViewProfile = function() { document.getElementById('viewProfileModal').classList.remove('show'); }
 
-        // --- SMART NOTIFICATION LOGIC (FIXED FOR IN-APP BROWSERS) ---
+        // --- SMART NOTIFICATION LOGIC ---
         function checkAndPromptNotification() {
             if (typeof Notification === 'undefined') {
                 showToast("Push notifications are not supported in this browser.", "info");
@@ -1057,7 +1473,7 @@
             }
         }
 
-        // --- AUTH UI & LOGOUT ---
+        // --- 🌟 AUTH UI LOGIC 🌟 ---
         const toggleModeBtn = document.getElementById('toggleModeBtn');
         const formTitle = document.getElementById('formTitle');
         const formSubtitle = document.getElementById('formSubtitle');
@@ -1071,15 +1487,33 @@
             e.preventDefault();
             isLoginMode = !isLoginMode;
             if (isLoginMode) {
-                formTitle.textContent = 'Authenticated Access'; formSubtitle.innerHTML = 'Sign in securely to <span class="brand-text">fahimn.co.in</span>';
-                btnText.textContent = "Sign In Securely"; nameInputGroup.style.display = "none"; fullnameInput.removeAttribute('required');
-                toggleModeBtn.textContent = "Authenticate new secure account";
+                formTitle.textContent = 'Welcome Back';
+                formSubtitle.textContent = 'Sign in to continue to fahimn.co.in';
+                btnText.textContent = "Sign In"; 
+                nameInputGroup.style.display = "none"; 
+                fullnameInput.removeAttribute('required');
+                document.getElementById('forgotPassWrap').style.display = "block"; 
+                toggleModeBtn.textContent = "Don't have an account? Sign up";
             } else {
-                formTitle.textContent = 'Gain Secure Access'; formSubtitle.innerHTML = 'Initialize session with <span class="brand-text">fahimn.co.in</span>';
-                btnText.textContent = "Gain Secure Access"; nameInputGroup.style.display = "block"; fullnameInput.setAttribute('required', 'true');
-                toggleModeBtn.textContent = "Have active credentials? Sign in";
+                formTitle.textContent = 'Create Account';
+                formSubtitle.textContent = 'Join the secure platform today.';
+                btnText.textContent = "Sign Up"; 
+                nameInputGroup.style.display = "block"; 
+                fullnameInput.setAttribute('required', 'true');
+                document.getElementById('forgotPassWrap').style.display = "none"; 
+                toggleModeBtn.textContent = "Already have an account? Sign in";
             }
         });
+
+        window.resetPassword = function() {
+            const eVal = document.getElementById('email').value.trim();
+            if(!eVal) { showToast("Please enter your Email first.", "info"); return; }
+            auth.sendPasswordResetEmail(eVal).then(() => {
+                showToast("Password reset link sent to your email!", "success");
+            }).catch((err) => {
+                showToast(err.message, "error");
+            });
+        }
 
         document.getElementById('togglePass').addEventListener('click', function() {
             const passwordInput = document.getElementById('password');
@@ -1112,11 +1546,11 @@
             const pVal = document.getElementById('password').value;
             const nVal = document.getElementById('fullname').value.trim();
             
-            showLoading("Initializing Security Handshake...");
-            mainBtn.disabled = true; btnText.textContent = "Authenticating Process..."; btnSpinner.style.display = "block";
+            showLoading("Authenticating...");
+            mainBtn.disabled = true; btnText.textContent = "Please wait..."; btnSpinner.style.display = "block";
             
             if(isLoginMode) {
-                auth.signInWithEmailAndPassword(eVal, pVal).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign In Securely"); });
+                auth.signInWithEmailAndPassword(eVal, pVal).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign In"); });
             } else {
                 auth.createUserWithEmailAndPassword(eVal, pVal).then((userCredential) => {
                     const user = userCredential.user;
@@ -1128,19 +1562,18 @@
                             document.getElementById('myProfileName').innerText = nVal;
                             document.getElementById('myProfilePic').src = profileImg;
                         });
-                }).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Gain Secure Access"); });
+                }).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign Up"); });
             }
         });
 
-        function handleSocialLogin(provider) { showLoading("Dynamic OAuth Authentication..."); auth.signInWithPopup(provider).then(res => syncUserToDatabase(res.user)).catch(err => {hideLoading(); showToast("OAuth Error: " + err.message, "error")}); }
+        function handleSocialLogin(provider) { showLoading("Connecting..."); auth.signInWithPopup(provider).then(res => syncUserToDatabase(res.user)).catch(err => {hideLoading(); showToast("OAuth Error: " + err.message, "error")}); }
         document.getElementById('btnGoogleBig').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GoogleAuthProvider()); });
-        document.getElementById('btnMicrosoft').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.OAuthProvider('microsoft.com')); });
         document.getElementById('btnFacebook').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.FacebookAuthProvider()); });
         document.getElementById('btnGithub').addEventListener('click', e => { e.preventDefault(); handleSocialLogin(new firebase.auth.GithubAuthProvider()); });
 
         window.confirmLogout = function() {
-            if(confirm("Confirm security parameter: Revoke current session?")) {
-                showLoading("Deauthenticating Session...");
+            if(confirm("Log out completely?")) {
+                showLoading("Signing Out...");
                 if(typeof OneSignal !== 'undefined') OneSignalDeferred.push(function(OneSignal) { OneSignal.logout(); });
                 if(myUserId) db.ref('/status/' + myUserId).set('offline');
                 auth.signOut().then(() => window.location.reload());
@@ -1194,8 +1627,8 @@
                     }
                 });
 
-                handleDeepLink(); setupPresence(); initDataListeners(); initCollaborativeCanvas(); 
-                resetButtonState(isLoginMode ? "Sign In Securely" : "Gain Secure Access");
+                handleDeepLink(); setupPresence(); initDataListeners(); initCollaborativeCanvas(); initStoreAppLoader();
+                resetButtonState(isLoginMode ? "Sign In" : "Sign Up");
             } else {
                 document.getElementById('loginWrapper').style.display = 'flex';
                 document.getElementById('appScreen').style.display = 'none';
@@ -1213,16 +1646,52 @@
             });
         }
 
+        // --- 🌟 LIVE STORE APP LOADER 🌟 ---
+        function initStoreAppLoader() {
+            db.ref('admin_settings/store_apps').on('value', snap => {
+                const storeList = document.getElementById('apkStoreList');
+                storeList.innerHTML = '';
+                const apps = snap.val();
+                
+                if (apps && Object.keys(apps).length > 0) {
+                    Object.keys(apps).forEach(key => {
+                        const app = apps[key];
+                        // fallback default icon
+                        const safeIcon = app.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(app.title || 'A')}&background=10b981&color=fff&rounded=true`;
+                        const safeTitle = escapeHTML(app.title || "Unknown App");
+                        const safeUrl = app.url || "";
+                        
+                        storeList.innerHTML += `
+                            <div class="store-app-item">
+                                <img src="${safeIcon}" alt="App Icon" class="store-app-icon">
+                                <div class="store-app-title">${safeTitle}</div>
+                                <div class="store-app-modded">modded by Fahim</div>
+                                <button class="shimmer-btn" style="width:100%; border-radius:12px; padding:10px; font-weight:700; font-size:12px; margin-top:10px;" onclick="downloadDynamicApk('${safeUrl}', '${safeTitle}')">
+                                    <i class="fa-solid fa-download"></i> Get App
+                                </button>
+                            </div>
+                        `;
+                    });
+                } else {
+                    // Fallback injection if Database is empty
+                    storeList.innerHTML = `
+                        <div class="store-app-item">
+                            <img src="https://ui-avatars.com/api/?name=VM&background=10b981&color=fff&rounded=true" alt="App Icon" class="store-app-icon">
+                            <div class="store-app-title">Vanced MicroG</div>
+                            <div class="store-app-modded">modded by Fahim</div>
+                            <button class="shimmer-btn" style="width:100%; border-radius:12px; padding:10px; font-weight:700; font-size:12px; margin-top:10px;" onclick="downloadDynamicApk('https://github.com/missjoyakhantzy-lang/The-Fhm/releases/download/v1.0/vanced.to_vanced_gms_microg_v0.3.13.2.250932.apk', 'Vanced_MicroG_v0.3.13.apk')">
+                                <i class="fa-solid fa-download"></i> Get App
+                            </button>
+                        </div>
+                    `;
+                }
+            });
+        }
+
         // --- DATA SYNC & UNREAD BADGES ---
         function initDataListeners() {
             if(dataInitialized) return;
             dataInitialized = true;
-
-            // 🌟 DYNAMIC STORE ICON LISTENER 🌟
-            db.ref('admin_settings/store_apps/vanced_microg/icon').on('value', snap => {
-                const iconUrl = snap.val();
-                if(iconUrl) document.getElementById('vancedAppIcon').src = iconUrl;
-            });
 
             db.ref('users').on('value', snap => {
                 allUsersData = [];
@@ -1253,10 +1722,12 @@
 
         function renderRecentChats() {
             const recentChatsList = document.getElementById('recentChatsList');
-            recentChatsList.innerHTML = '<div class="list-heading">Recent professional collaboration</div>';
+            // CLEARED: The hardcoded Admin block is removed from here since it's now permanently in HTML above.
+            recentChatsList.innerHTML = '';
+            
             if(recentChatsIds.length > 0) {
                 recentChatsIds.forEach(uid => {
-                    if(uid === adminId) return; 
+                    if(uid === adminId) return; // Skip admin from recent chats to avoid duplicates
                     const u = allUsersData.find(user => user.uid === uid);
                     if(u) {
                         const safeName = escapeHTML(u.name || 'Authorized User');
@@ -1335,7 +1806,10 @@
         // --- CHAT ROOM ROUTING & CLEANUP ---
         window.openChatRoom = function(targetUid, targetName, targetAvatar, isVerified = false) {
             showLoading("Decrypting Secure Chat Channel...");
-            history.pushState({ page: 'chat', id: targetUid }, "Chat", window.location.pathname + "?chat=" + targetUid);
+            
+            try {
+                history.pushState({ page: 'chat', id: targetUid }, "Chat", window.location.pathname + "?chat=" + targetUid);
+            } catch(e) { console.warn("Browser blocked pushState."); }
 
             setTimeout(() => {
                 currentChatUserId = targetUid; 
@@ -1524,7 +1998,7 @@
             safeScrollToBottom(); 
         }
 
-        // --- NEW: ADVANCED TOOLS POPUP LOGIC ---
+        // --- ADVANCED TOOLS POPUP LOGIC ---
         const toggleToolsBtn = document.getElementById('toggleToolsBtn');
         const chatToolsPopup = document.getElementById('chatToolsPopup');
         
@@ -1710,3 +2184,4 @@
     </script>
 </body>
 </html>
+.
