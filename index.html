@@ -67,9 +67,9 @@
         html, body { height: 100%; width: 100%; overflow: hidden; position: fixed; top: 0; left: 0; }
         body { background: var(--bg-body); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; transition: background 0.3s, color 0.3s; }
 
-        /* 🌟 NEW: GLOBAL BUTTON ANIMATION 🌟 */
-        button { transition: transform 0.1s ease, background 0.2s ease; }
-        button:active { transform: scale(0.95); }
+        /* 🌟 GLOBAL BUTTON ANIMATION 🌟 */
+        button { transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease, box-shadow 0.2s ease; }
+        button:active { transform: scale(0.92) !important; }
 
         /* Toast Notifications */
         .toast-box { position: fixed; top: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; }
@@ -87,42 +87,61 @@
         @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
         /* =========================================
-           LOGIN SCREEN
+           KHATARNAK LOGIN SCREEN (PREMIUM GLASSMORPHISM)
            ========================================= */
-        .login-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 10; transition: opacity 0.4s ease; }
-        .login-card { background: var(--header-bg); width: 100%; max-width: 400px; padding: 30px 35px; border-radius: 16px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); position: relative; max-height: 95%; overflow-y: auto; animation: popUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes popUp { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .login-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 10; transition: opacity 0.4s ease; 
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe, #ddd6fe); background-size: 300% 300%; animation: gradientBG 8s ease infinite; 
+        }
+        body.dark-mode .login-wrapper { background: linear-gradient(135deg, #0f172a, #1e1b4b, #172554); }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .login-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); width: 100%; max-width: 400px; padding: 35px 35px; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid rgba(255, 255, 255, 0.5); position: relative; max-height: 95%; overflow-y: auto; animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+        body.dark-mode .login-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); }
+        @keyframes bounceIn { 0% { transform: scale(0.8) translateY(50px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
         
         .header { text-align: center; margin-bottom: 24px; }
-        .header h2 { font-size: 22px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+        
+        /* Floating Profile Image Animation */
+        .header img { animation: floatImage 4s ease-in-out infinite; border: 3px solid white; box-shadow: 0 10px 20px rgba(79,70,229,0.3); }
+        body.dark-mode .header img { border-color: var(--primary); }
+        @keyframes floatImage { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+
+        .header h2 { font-size: 22px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; letter-spacing: -0.5px; }
         .header p { font-size: 13px; color: var(--text-light); }
         .brand-text { color: var(--primary); font-weight: 800; }
-        .input-group { margin-bottom: 16px; text-align: left; }
-        .input-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
+        .input-group { margin-bottom: 18px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .input-box { position: relative; }
-        .input-box i.icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; }
-        .input-box input { width: 100%; padding: 12px 14px 12px 42px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; color: var(--text-dark); outline: none; transition: 0.3s ease; font-family: 'Inter', sans-serif; }
-        .input-box input:focus { background: var(--header-bg); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); transform: translateY(-1px); }
-        .eye-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer; }
-        .options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 20px; }
-        .toggle-mode-btn { color: var(--primary); text-decoration: none; font-weight: 600; cursor: pointer; text-align: right; width: 100%; }
+        .input-box i.icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; transition: 0.3s; }
+        .input-box input { width: 100%; padding: 14px 14px 14px 45px; background: var(--bg-input); border: 2px solid transparent; border-radius: 12px; font-size: 14px; color: var(--text-dark); outline: none; transition: 0.3s ease; font-family: 'Inter', sans-serif; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        .input-box input:focus { background: var(--header-bg); border-color: var(--primary); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15); transform: translateY(-2px); }
+        .input-box input:focus + i.icon { color: var(--primary); }
+        .eye-btn { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer; transition: 0.2s; }
+        .eye-btn:hover { color: var(--primary); }
         
-        .btn-login { width: 100%; padding: 12px; border: none; border-radius: 8px; background: var(--primary); color: white; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .btn-login:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 24px; }
+        .toggle-mode-btn { color: var(--primary); text-decoration: none; font-weight: 700; cursor: pointer; text-align: right; width: 100%; transition: 0.2s; }
+        .toggle-mode-btn:hover { color: var(--primary-hover); text-decoration: underline; }
+        
+        /* Khatarnak Login Button */
+        .btn-login { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(90deg, var(--primary), #8b5cf6); color: white; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-login:hover:not(:disabled) { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5); }
         .btn-login:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
         .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255, 255, 255, 0.4); border-top-color: #ffffff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
         
-        .btn-google-big { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--header-bg); color: var(--text-dark); font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; }
-        .btn-google-big:hover { background: var(--bg-input); transform: translateY(-1px); }
+        /* Beautiful Google Button */
+        .btn-google-big { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--header-bg); color: var(--text-dark); font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-google-big:hover { background: var(--bg-input); transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-md); border-color: #cbd5e1; }
         .btn-google-big i { color: #EA4335; font-size: 18px; }
 
-        .divider { margin: 20px 0; display: flex; align-items: center; text-align: center; font-size: 12px; color: var(--text-light); font-weight: 500; }
+        .divider { margin: 24px 0; display: flex; align-items: center; text-align: center; font-size: 12px; color: var(--text-light); font-weight: 600; text-transform: uppercase; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
         .divider span { padding: 0 12px; }
         
-        .social-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .btn-social { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--header-bg); color: var(--text-dark); font-size: 16px; cursor: pointer; text-decoration: none; }
-        .btn-social:hover { background: var(--bg-input); transform: translateY(-1px); }
+        /* Smooth Social Buttons */
+        .social-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .btn-social { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--header-bg); color: var(--text-dark); font-size: 18px; cursor: pointer; text-decoration: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-social:hover { background: var(--bg-input); transform: translateY(-3px) scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-color: #cbd5e1; }
         .btn-social.microsoft i { color: #00A4EF; } .btn-social.facebook i { color: #1877F2; } .btn-social.github i { color: var(--text-dark); }
 
         /* =========================================
@@ -134,14 +153,14 @@
 
         .main-content { flex: 1; overflow-y: auto; position: relative; background: var(--header-bg); min-height: 0; }
         
-        /* 🌟 NEW: TAB TRANSITION ANIMATION 🌟 */
+        /* TAB TRANSITION ANIMATION */
         .tab-view { display: none; padding-bottom: 20px; }
         .tab-view.active { display: block; animation: slideInFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes slideInFade { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
 
         .list-heading { font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 24px 10px 24px; }
         
-        /* 🌟 NEW: LIST CASCADE ANIMATION 🌟 */
+        /* LIST CASCADE ANIMATION */
         .user-list-item { display: flex; align-items: center; padding: 12px 24px; cursor: pointer; transition: background 0.2s, transform 0.2s; border-bottom: 1px solid var(--border-color); opacity: 0; animation: cascadeUp 0.4s forwards; }
         .user-list-item:nth-child(1) { animation-delay: 0.05s; } .user-list-item:nth-child(2) { animation-delay: 0.1s; } .user-list-item:nth-child(3) { animation-delay: 0.15s; } .user-list-item:nth-child(4) { animation-delay: 0.2s; }
         @keyframes cascadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(10px); } }
@@ -822,13 +841,17 @@
 
         const verifiedSVG = `<svg aria-label="Verified" class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>`;
 
-        // --- UNIVERSAL APK DOWNLOAD FUNCTION ---
+        // --- 🌟 FIXED: UNIVERSAL APK DOWNLOAD FUNCTION (Directly integrated) 🌟 ---
         window.downloadApk = function(filename, saveAsName) {
-            const apkUrl = "https://github.com/The-Fhm/The-Fhm/releases/download/v1.0/" + filename; 
+            // Yahan Maine 'missjoyakhantzy-lang' update kar diya hai!
+            const apkUrl = "https://github.com/missjoyakhantzy-lang/The-Fhm/releases/download/v1.0/" + filename; 
+            
             showToast("Downloading " + saveAsName + "... 🚀", "success");
+            
             const link = document.createElement('a');
             link.href = apkUrl;
             link.setAttribute('download', saveAsName); 
+            
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -942,7 +965,6 @@
 
         // --- SMART NOTIFICATION LOGIC (FIXED FOR IN-APP BROWSERS) ---
         function checkAndPromptNotification() {
-            // Check if Notification object exists (fixes IG/FB in-app browser crash)
             if (typeof Notification === 'undefined') {
                 showToast("Push notifications are not supported in this browser.", "info");
                 return false;
@@ -1387,8 +1409,6 @@
             const val = text || msgInput.value.trim();
             if (!val && !imgUrl) return;
             
-            // FIX FOR IN-APP BROWSER (FB/IG) 
-            // Ensures code doesn't crash here if Notification is undefined
             if (typeof Notification !== 'undefined' && Notification.permission !== 'granted') { 
                 document.getElementById('secureNotifModal').classList.add('show'); 
             }
