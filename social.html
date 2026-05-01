@@ -1,1 +1,606 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>fahimn.co.in - VIP Social Feed</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-body: #f0f2f5; 
+            --card-bg: #ffffff;
+            --bg-input: #f1f5f9;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-glow: 0 0 15px rgba(79, 70, 229, 0.15);
+            --like-color: #ef4444; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { background: var(--bg-body); color: var(--text-dark); overflow-x: hidden; }
+
+        /* --- MODERN VIP HEADER --- */
+        .app-header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 16px 20px calc(16px + env(safe-area-inset-top));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .app-header h2 { font-size: 20px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-transform: uppercase;}
+        .app-header h2 i { color: var(--primary); }
+        .back-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-dark); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .back-btn:active { transform: scale(0.9); }
+
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; border: 2px solid var(--primary); display: none; cursor: pointer; transition: 0.2s;}
+        .user-avatar:active { transform: scale(0.9); }
+
+        /* --- FEED SCROLL --- */
+        .feed-wrapper { max-width: 650px; margin: 0 auto; padding: 20px 10px 100px 10px; }
+
+        /* --- YOUTUBE STYLE SKELETON LOADER --- */
+        .yt-skeleton-card { background: var(--card-bg); margin-bottom: 25px; border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); overflow: hidden;}
+        .yt-skel-anim { background: linear-gradient(90deg, #e2e8f0 25%, #f8fafc 50%, #e2e8f0 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; }
+        @keyframes ytShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .yt-skel-header { display: flex; align-items: center; padding: 15px; gap: 12px; }
+        .yt-skel-avatar { width: 45px; height: 45px; border-radius: 50%; flex-shrink: 0; }
+        .yt-skel-text-group { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .yt-skel-line-short { width: 40%; height: 12px; border-radius: 6px; }
+        .yt-skel-line-long { width: 70%; height: 12px; border-radius: 6px; }
+        .yt-skel-media { width: 100%; height: 350px; }
+        
+        /* --- NEXT-GEN POST CARD --- */
+        .post-card { 
+            background: var(--card-bg); 
+            margin-bottom: 25px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border); 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04); 
+            animation: popIn 0.5s ease forwards; 
+            opacity: 0; 
+            overflow: hidden;
+            transform: translateY(20px);
+        }
+        @keyframes popIn { 
+            to { transform: translateY(0); opacity: 1; } 
+        }
+
+        .post-header { display: flex; align-items: center; padding: 16px; gap: 14px; }
+        
+        /* 🌟 PREMIUM ADMIN AVATAR ROTATING BORDER 🌟 */
+        .admin-avatar-wrapper {
+            position: relative;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            padding: 3px; /* Border thickness */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .admin-avatar-wrapper::before {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            /* 3 Premium Colors: Neon Pink, Royal Purple, Bright Orange */
+            background: conic-gradient(#ff007f, #7928ca, #ff8a00, #ff007f);
+            animation: spinAdminBorder 3s linear infinite;
+        }
+        @keyframes spinAdminBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .admin-avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            border: 2px solid var(--card-bg); /* Inner ring to make it clean */
+        }
+
+        .post-header .admin-meta { flex: 1; }
+        .post-header .admin-name { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+        .post-header .post-time { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-top: 2px;}
+        .post-caption { padding: 5px 16px 16px 16px; font-size: 14px; line-height: 1.5; color: var(--text-dark); font-weight: 500; }
+
+        .post-media-container { width: 100%; background: #0f172a; position: relative; display: flex; align-items: center; justify-content: center; min-height: 300px; overflow: hidden; cursor: pointer; }
+        .post-media-container img, .post-media-container video { width: 100%; height: auto; max-height: 500px; object-fit: contain; display: block; }
+        video::-webkit-media-controls-panel { background-image: linear-gradient(transparent, rgba(0,0,0,0.5)); }
+
+        .verified-icon { width: 15px; height: 15px; fill: #0095F6; }
+
+        /* --- ACTION BAR --- */
+        .action-bar-wrapper { padding: 12px 16px; border-top: 1px solid var(--border); }
+        .action-bar { display: flex; align-items: center; justify-content: space-between; }
+        .action-left { display: flex; gap: 15px; }
+        .action-btn { background: var(--bg-input); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 16px; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; font-weight: 700; }
+        .action-btn:active { transform: scale(0.9); }
+        .action-btn .count { font-size: 13px; font-weight: 700; }
+        .action-btn.liked { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: var(--like-color); animation: heartPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        /* --- 🌟 NEW: SIDE MENU (DRAWER) 🌟 --- */
+        .side-menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2999; backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease; }
+        .side-menu-overlay.show { display: block; opacity: 1; }
+        
+        .side-menu { position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background: var(--card-bg); z-index: 3000; transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-shadow: -5px 0 20px rgba(0,0,0,0.1); }
+        .side-menu.open { right: 0; }
+        
+        .side-menu-header { padding: 25px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
+        .side-menu-header img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .side-menu-header div { flex: 1; }
+        .side-menu-header h3 { font-size: 16px; font-weight: 800; color: var(--text-dark); margin-bottom: 3px;}
+        .side-menu-header p { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+        
+        .side-menu-links { padding: 15px 0; flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        .menu-link { padding: 16px 20px; display: flex; align-items: center; gap: 15px; font-size: 15px; font-weight: 700; color: var(--text-dark); cursor: pointer; transition: 0.2s; }
+        .menu-link:hover, .menu-link:active { background: var(--bg-input); color: var(--primary); }
+        .menu-link i { font-size: 18px; width: 24px; text-align: center; color: var(--text-muted); transition: 0.2s; }
+        .menu-link:hover i { color: var(--primary); }
+        
+        .menu-footer { padding: 20px; border-top: 1px solid var(--border); }
+        .logout-btn { width: 100%; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .logout-btn:active { transform: scale(0.95); background: #ef4444; color: white; }
+
+        /* --- COMMENTS SHEET --- */
+        .comment-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 2000; animation: fadeIn 0.3s ease; }
+        .comment-overlay.show { display: block; }
+        .comment-sheet { position: fixed; bottom: -100%; left: 0; right: 0; height: 75vh; background: var(--card-bg); border-radius: 24px 24px 0 0; z-index: 2001; display: flex; flex-direction: column; transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
+        .comment-sheet.show { bottom: 0; }
+        .sheet-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .sheet-header h3 { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .sheet-header button { background: var(--bg-input); border: none; width: 32px; height: 32px; border-radius: 50%; color: var(--text-dark); cursor: pointer; transition: 0.2s; }
+        .sheet-header button:active { transform: scale(0.8); background: var(--like-color); color: white;}
+        .comment-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+        .comment-item { display: flex; gap: 12px; animation: slideUpFade 0.3s ease forwards; }
+        .comment-item img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border);}
+        .comment-content { background: var(--bg-input); padding: 12px 16px; border-radius: 16px; border-top-left-radius: 4px; flex: 1;}
+        .comment-name { font-weight: 800; color: var(--text-dark); font-size: 13px; margin-bottom: 4px; }
+        .comment-text { color: var(--text-dark); font-size: 14px; line-height: 1.4;}
+        .comment-input-area { padding: 15px 20px calc(15px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: var(--card-bg); display: flex; gap: 10px; align-items: center; }
+        .comment-input-area input { flex: 1; background: var(--bg-input); border: 1px solid transparent; padding: 14px 18px; border-radius: 20px; color: var(--text-dark); font-size: 14px; outline: none; transition: 0.3s; font-weight: 500;}
+        .comment-input-area input:focus { border-color: var(--primary); background: var(--card-bg); box-shadow: var(--shadow-glow); }
+        .send-comment-btn { background: var(--primary); border: none; color: white; width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-glow);}
+        .send-comment-btn:active { transform: scale(0.85); }
+
+        /* Toast Notifications */
+        .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
+        .toast { background: var(--card-bg); color: var(--text-dark); padding: 15px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; border: 1px solid var(--border); border-left: 4px solid var(--primary); }
+        @keyframes slideDown { from { transform: translateY(-40px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+    </style>
+</head>
+<body> 
+    <div id="toastBox" class="toast-box"></div>
+
+    <div class="app-container">
+        <header class="app-header">
+            <button class="back-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2><i class="fa-solid fa-bolt" style="color:var(--primary);"></i> EXPLORE</h2>
+            <div class="header-right">
+                <img id="currentUserAvatar" class="user-avatar" src="" alt="My Profile" onclick="openSideMenu()">
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="feed-wrapper" id="feedContainer">
+                
+                <div class="yt-skeleton-card">
+                    <div class="yt-skel-header">
+                        <div class="yt-skel-avatar yt-skel-anim"></div>
+                        <div class="yt-skel-text-group"><div class="yt-skel-line-short yt-skel-anim"></div><div class="yt-skel-line-long yt-skel-anim"></div></div>
+                    </div>
+                    <div class="yt-skel-media yt-skel-anim"></div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeSideMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <img id="sideMenuAvatar" src="https://ui-avatars.com/api/?name=User" alt="User">
+            <div>
+                <h3 id="sideMenuName">VIP User</h3>
+                <p>Premium Member</p>
+            </div>
+            <button onclick="closeSideMenu()" style="background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="side-menu-links">
+            <div class="menu-link" onclick="showToast('Feature coming soon!')"><i class="fa-solid fa-screwdriver-wrench"></i> VIP Tools</div>
+            <div class="menu-link" onclick="showToast('Analytics loaded!')"><i class="fa-solid fa-chart-pie"></i> Analytics</div>
+            <div class="menu-link" onclick="showToast('Opening Saved Posts...')"><i class="fa-solid fa-bookmark"></i> Saved Posts</div>
+            <div class="menu-link" onclick="showToast('Settings opened.')"><i class="fa-solid fa-gear"></i> Settings</div>
+        </div>
+        <div class="menu-footer">
+            <button class="logout-btn" onclick="logoutUser()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+        </div>
+    </div>
+
+    <div class="comment-overlay" id="commentOverlay" onclick="closeComments()"></div>
+    <div class="comment-sheet" id="commentSheet">
+        <div class="sheet-header">
+            <h3><i class="fa-solid fa-messages"></i> Comments</h3>
+            <button onclick="closeComments()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="comment-list" id="commentListArea"></div>
+        <div class="comment-input-area">
+            <input type="text" id="newCommentInput" placeholder="Add a comment..." autocomplete="off">
+            <button class="send-comment-btn" onclick="submitComment()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // --- FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
+            authDomain: "fahimn-co-in.firebaseapp.com",
+            databaseURL: "https://fahimn-co-in-default-rtdb.firebaseio.com",
+            projectId: "fahimn-co-in",
+            storageBucket: "fahimn-co-in.firebasestorage.app",
+            messagingSenderId: "698585907618",
+            appId: "1:698585907618:web:c8e4a6646b6b8f5c7932fb"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        const verifiedSVG = `<svg class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"></path></svg>`;
+
+        // --- GLOBAL USER STATE ---
+        let currentUid = null;
+        let currentUserData = null;
+        let activeCommentPostId = null; 
+
+        // 🌟 UPDATE: Passing Profile picture & Name to Side Menu automatically
+        auth.onAuthStateChanged(user => {
+            if(user) {
+                currentUid = user.uid;
+                db.ref('users/' + user.uid).once('value', snap => {
+                    currentUserData = snap.val();
+                    if(currentUserData) {
+                        if(currentUserData.profile_image) {
+                            const avatarEl = document.getElementById('currentUserAvatar');
+                            avatarEl.src = currentUserData.profile_image;
+                            avatarEl.style.display = 'block';
+                            
+                            // Set DP in Side Menu
+                            document.getElementById('sideMenuAvatar').src = currentUserData.profile_image;
+                        }
+                        if(currentUserData.name) {
+                            // Set Name in Side Menu
+                            document.getElementById('sideMenuName').innerText = currentUserData.name;
+                        }
+                    }
+                });
+            }
+        });
+
+        let adminData = { name: "Admin Fahim", pic: "https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" };
+        db.ref('admin_details').on('value', snap => {
+            if(snap.val() && snap.val().profile_image) { adminData.pic = snap.val().profile_image; }
+        });
+
+        function showToast(msg) {
+            const box = document.getElementById('toastBox');
+            const toast = document.createElement('div');
+            toast.className = `toast`;
+            toast.innerHTML = `<i class="fa-solid fa-bell" style="color:var(--primary);"></i> <span>${msg}</span>`;
+            box.appendChild(toast);
+            setTimeout(() => { toast.style.transform='translateY(-40px) scale(0.9)'; toast.style.opacity='0'; setTimeout(()=>toast.remove(),400); }, 3000);
+        }
+
+        function escapeHTML(str) { return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])) : ''; }
+
+        function timeAgo(time) {
+            const date = new Date(time);
+            const seconds = Math.floor((new Date() - date) / 1000);
+            let interval = seconds / 31536000; if (interval > 1) return Math.floor(interval) + "y ago";
+            interval = seconds / 2592000; if (interval > 1) return Math.floor(interval) + "mo ago";
+            interval = seconds / 86400; if (interval > 1) return Math.floor(interval) + "d ago";
+            interval = seconds / 3600; if (interval > 1) return Math.floor(interval) + "h ago";
+            interval = seconds / 60; if (interval > 1) return Math.floor(interval) + "m ago";
+            return "Just now";
+        }
+
+        db.ref('social_feed').once('value', snap => {
+            if (!snap.exists() || snap.numChildren() === 0) {
+                db.ref('social_feed/welcome_post').set({
+                    caption: "Welcome to the VIP platform! No posts uploaded yet. Admin will drop something soon! 🚀",
+                    mediaUrl: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop",
+                    mediaType: "image",
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+            }
+        });
+
+        function initSocialFeed() {
+            const container = document.getElementById('feedContainer');
+
+            db.ref('social_feed').orderByChild('timestamp').limitToLast(20).on('value', snap => {
+                const posts = [];
+                snap.forEach(child => { posts.push({ id: child.key, ...child.val() }); });
+                posts.reverse(); 
+
+                document.querySelectorAll('.yt-skeleton-card').forEach(e => e.remove());
+
+                if(posts.length === 0) {
+                    container.innerHTML = `<div class="empty-state" style="text-align:center; padding:100px 20px; color:var(--text-muted);"><i class="fa-solid fa-ghost" style="font-size:50px; margin-bottom:15px; opacity:0.3;"></i><br>Feed is empty.</div>`;
+                    return;
+                }
+
+                const emptyState = container.querySelector('.empty-state');
+                if(emptyState) emptyState.remove();
+
+                posts.forEach((post) => {
+                    let existingCard = document.getElementById('post-' + post.id);
+                    
+                    const likesObj = post.likes || {};
+                    const likesCount = Object.keys(likesObj).length;
+                    const hasLiked = currentUid && likesObj[currentUid] ? true : false;
+                    const likeIcon = hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+                    const likeClass = hasLiked ? 'liked' : '';
+
+                    const commentsObj = post.comments || {};
+                    const commentsCount = Object.keys(commentsObj).length;
+
+                    if (existingCard) {
+                        const actionBar = existingCard.querySelector('.action-bar-wrapper');
+                        if (actionBar) {
+                            actionBar.innerHTML = `
+                                <div class="action-bar">
+                                    <div class="action-left">
+                                        <button class="action-btn btn-like ${likeClass}" onclick="toggleLike('${post.id}')">
+                                            <i class="${likeIcon}"></i> <span class="count">${likesCount > 0 ? likesCount : 'Like'}</span>
+                                        </button>
+                                        <button class="action-btn" onclick="openComments('${post.id}')">
+                                            <i class="fa-regular fa-comment-dots"></i> <span class="count">${commentsCount > 0 ? commentsCount : 'Comment'}</span>
+                                        </button>
+                                        <button class="action-btn" onclick="sharePost('${post.id}')">
+                                            <i class="fa-solid fa-share-nodes"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        let mediaHtml = '';
+                        if(post.mediaUrl) {
+                            if(post.mediaType === 'video') {
+                                mediaHtml = `
+                                    <div class="post-media-container" ondblclick="toggleLike('${post.id}')">
+                                        <video src="${post.mediaUrl}" loop muted playsinline onclick="this.paused ? this.play() : this.pause()"></video>
+                                    </div>`;
+                            } else {
+                                mediaHtml = `
+                                    <div class="post-media-container" ondblclick="toggleLike('${post.id}')">
+                                        <img src="${post.mediaUrl}" alt="Feed Media" loading="lazy">
+                                    </div>`;
+                            }
+                        }
+
+                        // 🌟 UPDATE: Implemented the "admin-avatar-wrapper" logic here for the Premium Effect!
+                        const cardHTML = `
+                            <article class="post-card" id="post-${post.id}">
+                                <div class="post-header">
+                                    <div class="admin-avatar-wrapper">
+                                        <img src="${adminData.pic}" alt="Admin">
+                                    </div>
+                                    <div class="admin-meta">
+                                        <div class="admin-name">${adminData.name} ${verifiedSVG}</div>
+                                        <div class="post-time">${timeAgo(post.timestamp)}</div>
+                                    </div>
+                                    <i class="fa-solid fa-ellipsis" style="color: var(--text-muted); cursor:pointer;"></i>
+                                </div>
+                                
+                                ${post.caption ? `<div class="post-caption">${escapeHTML(post.caption)}</div>` : ''}
+                                ${mediaHtml}
+                                
+                                <div class="action-bar-wrapper">
+                                    <div class="action-bar">
+                                        <div class="action-left">
+                                            <button class="action-btn btn-like ${likeClass}" onclick="toggleLike('${post.id}')">
+                                                <i class="${likeIcon}"></i> <span class="count">${likesCount > 0 ? likesCount : 'Like'}</span>
+                                            </button>
+                                            <button class="action-btn" onclick="openComments('${post.id}')">
+                                                <i class="fa-regular fa-comment-dots"></i> <span class="count">${commentsCount > 0 ? commentsCount : 'Comment'}</span>
+                                            </button>
+                                            <button class="action-btn" onclick="sharePost('${post.id}')">
+                                                <i class="fa-solid fa-share-nodes"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="padding: 0 16px 16px 16px; font-size: 10px; color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
+                                    MODDED BY FAHIM
+                                </div>
+                            </article>
+                        `;
+                        container.insertAdjacentHTML('beforeend', cardHTML);
+                    }
+                });
+
+                const currentPostIds = posts.map(p => 'post-' + p.id);
+                document.querySelectorAll('.post-card').forEach(card => {
+                    if(!currentPostIds.includes(card.id)) { card.remove(); }
+                });
+
+                setupVideoAutoPlay();
+            });
+        }
+
+        // --- NEW VIP INTERACTIONS ---
+
+        window.toggleLike = function(postId) {
+            if(!currentUid) { showToast("Log in from Home to Like!"); return; }
+            const likeRef = db.ref(`social_feed/${postId}/likes/${currentUid}`);
+            
+            const btn = document.querySelector(`#post-${postId} .btn-like`);
+            if(btn) {
+                btn.classList.toggle('liked');
+                const icon = btn.querySelector('i');
+                if(btn.classList.contains('liked')) {
+                    icon.className = 'fa-solid fa-heart';
+                } else {
+                    icon.className = 'fa-regular fa-heart';
+                }
+            }
+
+            likeRef.once('value', snap => {
+                if(snap.exists()) { likeRef.remove(); } else { likeRef.set(true); }
+            });
+        }
+
+        window.sharePost = function(postId) {
+            const url = window.location.origin + window.location.pathname;
+            const textToShare = "Check out this VIP Post from Admin Fahim! ✨";
+            if (navigator.share) {
+                navigator.share({ title: 'fahimn.co.in - VIP Post', text: textToShare, url: url }).catch(err => {});
+            } else {
+                navigator.clipboard.writeText(url); showToast("Link copied to clipboard!");
+            }
+        }
+
+        function setupVideoAutoPlay() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    if (entry.isIntersecting) { video.play().catch(e => {}); } 
+                    else { video.pause(); }
+                });
+            }, { threshold: 0.7 });
+            document.querySelectorAll('video').forEach(v => observer.observe(v));
+        }
+
+        // --- 🌟 NEW: SIDE MENU SYSTEM 🌟 ---
+        window.openSideMenu = function() {
+            // Only open if user is logged in
+            if(currentUid) {
+                document.getElementById('sideMenuOverlay').classList.add('show');
+                document.getElementById('sideMenu').classList.add('open');
+                document.body.style.overflow = 'hidden'; 
+            } else {
+                showToast("Please log in first!");
+            }
+        }
+
+        window.closeSideMenu = function() {
+            document.getElementById('sideMenuOverlay').classList.remove('show');
+            document.getElementById('sideMenu').classList.remove('open');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        window.logoutUser = function() {
+            auth.signOut().then(() => {
+                showToast("Logged out successfully!");
+                closeSideMenu();
+                // Hide avatar from header
+                document.getElementById('currentUserAvatar').style.display = 'none';
+                currentUid = null;
+                // Optional: Redirect them to your login/home page
+                setTimeout(() => window.location.href = 'index.html', 1500); 
+            }).catch((error) => {
+                showToast("Error logging out.");
+            });
+        }
+
+        // --- BOTTOM SHEET COMMENT SYSTEM ---
+        const commentOverlay = document.getElementById('commentOverlay');
+        const commentSheet = document.getElementById('commentSheet');
+        const commentListArea = document.getElementById('commentListArea');
+        const commentInput = document.getElementById('newCommentInput');
+        let activeCommentsListener = null;
+
+        window.openComments = function(postId) {
+            activeCommentPostId = postId;
+            commentOverlay.classList.add('show');
+            commentSheet.classList.add('show');
+            document.body.style.overflow = 'hidden'; 
+            
+            activeCommentsListener = db.ref(`social_feed/${postId}/comments`).on('value', snap => {
+                commentListArea.innerHTML = '';
+                const comments = [];
+                snap.forEach(c => comments.push(c.val()));
+                
+                if(comments.length === 0) {
+                    commentListArea.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:30px;">Be the first to discuss!</div>';
+                } else {
+                    comments.forEach(c => {
+                        commentListArea.innerHTML += `
+                            <div class="comment-item">
+                                <img src="${c.pic || 'https://ui-avatars.com/api/?name=U'}" alt="User">
+                                <div class="comment-content">
+                                    <div class="comment-name">${escapeHTML(c.name)} <span style="font-weight:400; color:var(--text-muted); font-size:11px; float:right;">${timeAgo(c.timestamp)}</span></div>
+                                    <div class="comment-text">${escapeHTML(c.text)}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    commentListArea.scrollTop = commentListArea.scrollHeight;
+                }
+            });
+        }
+
+        window.closeComments = function() {
+            commentOverlay.classList.remove('show');
+            commentSheet.classList.remove('show');
+            document.body.style.overflow = 'auto';
+            if(activeCommentPostId && activeCommentsListener) {
+                db.ref(`social_feed/${activeCommentPostId}/comments`).off('value', activeCommentsListener);
+            }
+            activeCommentPostId = null;
+        }
+
+        window.submitComment = function() {
+            if(!currentUid) { showToast("Log in from Home to comment!"); return; }
+            if(!activeCommentPostId) return;
+            
+            const text = commentInput.value.trim();
+            if(text) {
+                db.ref(`social_feed/${activeCommentPostId}/comments`).push({
+                    uid: currentUid,
+                    name: currentUserData ? currentUserData.name : "User",
+                    pic: currentUserData ? currentUserData.profile_image : "",
+                    text: text,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+                commentInput.value = ''; 
+            }
+        }
+
+        commentInput.addEventListener('keypress', e => {
+            if(e.key === 'Enter') submitComment();
+        });
+
+        // Initialize Feed
+        initSocialFeed();
+
+    </script>
+</body>
+</html>
