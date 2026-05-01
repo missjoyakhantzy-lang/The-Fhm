@@ -499,12 +499,13 @@
             animation: fadeIn 0.3s ease; 
         }
         
+        /* 🌟 TOP RIGHT SEARCH FIX 🌟 */
         .app-header { 
             background: var(--header-bg); 
             padding: 16px 24px; 
             display: flex; 
             align-items: center; 
-            justify-content: center; 
+            justify-content: space-between; 
             border-bottom: 1px solid var(--border-color); 
             box-shadow: var(--shadow-sm); 
             z-index: 10; 
@@ -517,6 +518,18 @@
             color: var(--primary); 
             letter-spacing: 0.5px; 
         }
+
+        /* NEW SEARCH BUTTON IN HEADER */
+        .header-search-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            transition: 0.2s;
+        }
+        .header-search-btn:active { transform: scale(0.9); }
 
         .main-content { 
             flex: 1; 
@@ -889,6 +902,22 @@
         <div class="upload-text" id="overlayText">Authenticating... Please Wait</div>
     </div>
 
+    <div id="fiveDotsLoader" style="display:none; position:absolute; top:60px; bottom:60px; left:0; right:0; background:var(--bg-body); z-index:40; align-items:center; justify-content:center; gap:10px;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <style>
+        .dot { width: 16px; height: 16px; background-color: var(--primary); border-radius: 50%; animation: bounceDot 0.6s infinite alternate; }
+        .dot:nth-child(2) { animation-delay: 0.1s; background-color: #8b5cf6; }
+        .dot:nth-child(3) { animation-delay: 0.2s; background-color: #ec4899; }
+        .dot:nth-child(4) { animation-delay: 0.3s; background-color: #f43f5e; }
+        .dot:nth-child(5) { animation-delay: 0.4s; background-color: #f59e0b; }
+        @keyframes bounceDot { to { transform: translateY(-20px); } }
+    </style>
+
     <div class="full-modal" id="viewProfileModal">
         <div class="modal-nav">
             <h2>User Details</h2>
@@ -1014,7 +1043,10 @@
     </div>
 
     <div class="app-container" id="appScreen">
-        <div class="app-header"><h2>fahimn.co.in Platform</h2></div>
+        <div class="app-header">
+            <h2>fahimn.co.in Platform</h2>
+            <button class="header-search-btn" style="background:none; border:none; color:var(--primary); font-size:20px; cursor:pointer; padding:5px; transition:0.2s;" onclick="switchTab('search')" onmousedown="this.style.transform='scale(0.9)'" onmouseup="this.style.transform='scale(1)'"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
 
         <div class="main-content" id="mainContent">
             
@@ -1152,8 +1184,8 @@
             <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
                 <i class="fa-solid fa-house"></i><span>Home</span>
             </button>
-            <button class="nav-item" id="nav-search" onclick="switchTab('search')">
-                <i class="fa-solid fa-magnifying-glass"></i><span>Search</span>
+            <button class="nav-item" id="nav-social" onclick="openSocialFileSmoothly()">
+                <i class="fa-solid fa-photo-film"></i><span>Feed</span>
             </button>
             <button class="nav-item" id="nav-store" onclick="switchTab('store')">
                 <i class="fa-brands fa-android"></i><span>Store</span>
@@ -1408,7 +1440,6 @@
             });
         }
 
-
         const chatBox = document.getElementById('chatBox');
         const scrollBtn = document.getElementById('scrollBottomBtn');
         const scrollBadge = document.getElementById('scrollBadge');
@@ -1428,11 +1459,38 @@
             else { unreadWhileScrolled++; scrollBadge.innerText = unreadWhileScrolled; scrollBadge.style.display = 'flex'; }
         }
 
+        // 🌟 5 DOTS LOADER SCREEN SWITCHER 🌟
         window.switchTab = function(tabName) {
             document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabName + 'View').classList.add('active');
-            document.getElementById('nav-' + tabName).classList.add('active');
+            
+            if (document.getElementById('nav-' + tabName)) {
+                document.getElementById('nav-' + tabName).classList.add('active');
+            }
+
+            const loader = document.getElementById('fiveDotsLoader');
+            if(loader) loader.style.display = 'flex';
+            
+            setTimeout(() => {
+                if(loader) loader.style.display = 'none';
+                if(document.getElementById(tabName + 'View')) {
+                    document.getElementById(tabName + 'View').classList.add('active');
+                }
+            }, 600); 
+        }
+
+        // 🌟 SMOOTH SOCIAL FEED REDIRECT 🌟
+        window.openSocialFileSmoothly = function() {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('nav-social').classList.add('active');
+            
+            const loader = document.getElementById('fiveDotsLoader');
+            if(loader) loader.style.display = 'flex';
+            
+            // RELATIVE URL DIRECT FIX FOR GITHUB REPOSITORY
+            setTimeout(() => {
+                window.location.href = 'social.html';
+            }, 800); 
         }
 
         // --- KHATARNAK 5-DIGIT DEEP LINKS ---
@@ -1646,7 +1704,6 @@
             });
         }
 
-        // --- 🌟 LIVE STORE APP LOADER 🌟 ---
         function initStoreAppLoader() {
             db.ref('admin_settings/store_apps').on('value', snap => {
                 const storeList = document.getElementById('apkStoreList');
@@ -1656,7 +1713,6 @@
                 if (apps && Object.keys(apps).length > 0) {
                     Object.keys(apps).forEach(key => {
                         const app = apps[key];
-                        // fallback default icon
                         const safeIcon = app.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(app.title || 'A')}&background=10b981&color=fff&rounded=true`;
                         const safeTitle = escapeHTML(app.title || "Unknown App");
                         const safeUrl = app.url || "";
@@ -1673,7 +1729,6 @@
                         `;
                     });
                 } else {
-                    // Fallback injection if Database is empty
                     storeList.innerHTML = `
                         <div class="store-app-item">
                             <img src="https://ui-avatars.com/api/?name=VM&background=10b981&color=fff&rounded=true" alt="App Icon" class="store-app-icon">
@@ -1688,7 +1743,6 @@
             });
         }
 
-        // --- DATA SYNC & UNREAD BADGES ---
         function initDataListeners() {
             if(dataInitialized) return;
             dataInitialized = true;
@@ -1722,7 +1776,6 @@
 
         function renderRecentChats() {
             const recentChatsList = document.getElementById('recentChatsList');
-            // CLEARED: The hardcoded Admin block is removed from here since it's now permanently in HTML above.
             recentChatsList.innerHTML = '';
             
             if(recentChatsIds.length > 0) {
@@ -1752,7 +1805,6 @@
             } else { recentChatsList.innerHTML += '<div class="empty-search">No dynamic collaboration initialized. Search verified users to commence.</div>'; }
         }
 
-        // --- PROFILE DP UPLOAD ---
         const profilePicInput = document.getElementById('profilePicInput');
         profilePicInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -1774,7 +1826,6 @@
             profilePicInput.value = '';
         });
 
-        // --- SMART SEARCH ---
         const userSearch = document.getElementById('userSearch');
         const searchResultsDiv = document.getElementById('searchResults');
         
@@ -1803,7 +1854,6 @@
             } else { searchResultsDiv.innerHTML += '<div class="empty-search">Null unified search result.</div>'; }
         });
 
-        // --- CHAT ROOM ROUTING & CLEANUP ---
         window.openChatRoom = function(targetUid, targetName, targetAvatar, isVerified = false) {
             showLoading("Decrypting Secure Chat Channel...");
             
@@ -1876,7 +1926,6 @@
             });
         }
 
-        // --- MESSAGING ---
         function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
 
         function sendMessage(text = '', imgUrl = null, fileType = null) {
@@ -1998,7 +2047,6 @@
             safeScrollToBottom(); 
         }
 
-        // --- ADVANCED TOOLS POPUP LOGIC ---
         const toggleToolsBtn = document.getElementById('toggleToolsBtn');
         const chatToolsPopup = document.getElementById('chatToolsPopup');
         
@@ -2072,9 +2120,6 @@
             fileInput.value = '';
         });
 
-        // ==========================================================
-        // LIVE SHARED CANVAS
-        // ==========================================================
         const paletteBtn = document.getElementById('paletteBtn');
         const canvasBoard = document.getElementById('canvasBoard');
         const liveCanvas = document.getElementById('liveCanvas');
@@ -2184,4 +2229,3 @@
     </script>
 </body>
 </html>
-.
