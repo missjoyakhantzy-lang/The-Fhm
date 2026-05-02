@@ -110,7 +110,7 @@
             transform: scale(0.92) !important; 
         }
 
-        /* Shimmer Animation for Download Button */
+        /* Shimmer Animation */
         @keyframes shimmerAnimation {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
@@ -211,7 +211,7 @@
         }
 
         /* =========================================
-           RESTORED ORIGINAL LOGIN SCREEN
+           LOGIN SCREEN
            ========================================= */
         .login-wrapper { 
             width: 100%; 
@@ -244,364 +244,75 @@
             100% { transform: translateY(0); opacity: 1; } 
         }
         
-        .header { 
-            text-align: center; 
-            margin-bottom: 30px; 
-        }
-        
-        .header img { 
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            object-fit: cover; 
-            margin-bottom: 15px; 
-            border: 3px solid var(--primary); 
-            box-shadow: 0 10px 20px rgba(79,70,229,0.2); 
-            animation: floatImage 4s ease-in-out infinite;
-        }
-        @keyframes floatImage { 
-            0% { transform: translateY(0px); } 
-            50% { transform: translateY(-8px); } 
-            100% { transform: translateY(0px); } 
-        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid var(--primary); box-shadow: 0 10px 20px rgba(79,70,229,0.2); animation: floatImage 4s ease-in-out infinite; }
+        @keyframes floatImage { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
 
-        .header h2 { 
-            font-size: 24px; 
-            font-weight: 800; 
-            color: var(--text-dark); 
-            margin-bottom: 6px; 
-            letter-spacing: -0.5px; 
-        }
-        .header p { 
-            font-size: 14px; 
-            color: var(--text-light); 
-        }
+        .header h2 { font-size: 24px; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; letter-spacing: -0.5px; }
+        .header p { font-size: 14px; color: var(--text-light); }
 
-        .input-box { 
-            position: relative; 
-            margin-bottom: 16px; 
-        }
+        .input-box { position: relative; margin-bottom: 16px; }
+        .input-box i.icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; transition: 0.2s; z-index: 2; }
+        .input-box input { width: 100%; padding: 15px 16px 15px 45px; background: var(--bg-input); border: 1px solid transparent; border-radius: 12px; font-size: 14px; font-weight: 500; color: var(--text-dark); outline: none; transition: 0.2s ease; font-family: 'Inter', sans-serif; }
+        .input-box input:focus { background: var(--header-bg); border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        .input-box input:focus + i.icon { color: var(--primary); }
         
-        .input-box i.icon { 
-            position: absolute; 
-            left: 16px; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            color: #94a3b8; 
-            font-size: 16px; 
-            transition: 0.2s; 
-            z-index: 2;
-        }
-        
-        .input-box input { 
-            width: 100%; 
-            padding: 15px 16px 15px 45px; 
-            background: var(--bg-input); 
-            border: 1px solid transparent; 
-            border-radius: 12px; 
-            font-size: 14px; 
-            font-weight: 500; 
-            color: var(--text-dark); 
-            outline: none; 
-            transition: 0.2s ease; 
-            font-family: 'Inter', sans-serif; 
-        }
-        
-        .input-box input:focus { 
-            background: var(--header-bg); 
-            border-color: var(--primary); 
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); 
-        }
-        
-        .input-box input:focus + i.icon { 
-            color: var(--primary); 
-        }
-        
-        .eye-btn { 
-            position: absolute; 
-            right: 16px; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            color: #94a3b8; 
-            font-size: 16px; 
-            cursor: pointer; 
-            transition: 0.2s; 
-            z-index: 2;
-        }
+        .eye-btn { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; cursor: pointer; transition: 0.2s; z-index: 2; }
         .eye-btn:hover { color: var(--text-dark); }
         
-        .forgot-pass-wrap { 
-            text-align: right; 
-            margin-bottom: 20px; 
-            display: none; 
-        }
-        
-        .forgot-pass { 
-            font-size: 13px; 
-            font-weight: 600; 
-            color: var(--text-light); 
-            text-decoration: none; 
-            cursor: pointer; 
-            transition: 0.2s;
-        }
+        .forgot-pass-wrap { text-align: right; margin-bottom: 20px; display: none; }
+        .forgot-pass { font-size: 13px; font-weight: 600; color: var(--text-light); text-decoration: none; cursor: pointer; transition: 0.2s; }
         .forgot-pass:hover { color: var(--primary); }
 
-        .btn-login { 
-            width: 100%; 
-            padding: 15px; 
-            border: none; 
-            border-radius: 12px; 
-            background: var(--primary); 
-            color: white; 
-            font-size: 15px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-            transition: 0.2s; 
-            margin-bottom: 20px; 
-            margin-top: 10px;
-        }
+        .btn-login { width: 100%; padding: 15px; border: none; border-radius: 12px; background: var(--primary); color: white; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; margin-bottom: 20px; margin-top: 10px; }
+        .btn-login:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
         
-        .btn-login:hover:not(:disabled) { 
-            background: var(--primary-hover); 
-            transform: translateY(-1px); 
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); 
-        }
+        .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255, 255, 255, 0.4); border-top-color: #ffffff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
         
-        .btn-spinner { 
-            width: 18px; 
-            height: 18px; 
-            border: 2px solid rgba(255, 255, 255, 0.4); 
-            border-top-color: #ffffff; 
-            border-radius: 50%; 
-            animation: spin 1s linear infinite; 
-            display: none; 
-        }
-        
-        .toggle-link-wrap { 
-            text-align: center; 
-            margin-bottom: 24px; 
-            font-size: 14px; 
-            font-weight: 500; 
-            color: var(--text-light);
-        }
-        
-        .toggle-link-wrap a { 
-            color: var(--primary); 
-            cursor: pointer; 
-            transition: 0.2s; 
-            font-weight: 600; 
-        }
-        .toggle-link-wrap a:hover { 
-            color: var(--primary-hover); 
-            text-decoration: underline;
-        }
+        .toggle-link-wrap { text-align: center; margin-bottom: 24px; font-size: 14px; font-weight: 500; color: var(--text-light); }
+        .toggle-link-wrap a { color: var(--primary); cursor: pointer; transition: 0.2s; font-weight: 600; }
+        .toggle-link-wrap a:hover { color: var(--primary-hover); text-decoration: underline; }
 
-        .divider { 
-            margin: 20px 0; 
-            display: flex; 
-            align-items: center; 
-            text-align: center; 
-            font-size: 12px; 
-            color: var(--text-light); 
-            font-weight: 600; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-        }
+        .divider { margin: 20px 0; display: flex; align-items: center; text-align: center; font-size: 12px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
+        .divider span { padding: 0 12px; }
         
-        .divider::before, .divider::after { 
-            content: ''; 
-            flex: 1; 
-            border-bottom: 1px solid var(--border-color); 
-        }
-        
-        .divider span { 
-            padding: 0 12px; 
-        }
-        
-        /* 🌟 ORIGINAL GOOGLE & SOCIAL BUTTONS 🌟 */
-        .btn-google-big { 
-            width: 100%; 
-            padding: 14px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 12px; 
-            background: var(--header-bg); 
-            color: var(--text-dark); 
-            font-size: 15px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            box-shadow: var(--shadow-sm); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-            margin-top: 14px; 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-        }
-        .btn-google-big:hover { 
-            background: var(--bg-input); 
-            transform: translateY(-2px) scale(1.02); 
-            box-shadow: var(--shadow-md); 
-            border-color: #cbd5e1; 
-        }
-        
-        /* ORIGINAL GOOGLE SVG ICON */
-        .google-icon-svg {
-            width: 20px;
-            height: 20px;
-        }
+        .btn-google-big { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--header-bg); color: var(--text-dark); font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-google-big:hover { background: var(--bg-input); transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-md); border-color: #cbd5e1; }
+        .google-icon-svg { width: 20px; height: 20px; }
 
-        .social-buttons { 
-            display: flex; 
-            justify-content: space-between; 
-            gap: 12px; 
-            margin-top: 12px;
-        }
-        
-        .btn-social { 
-            flex: 1; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 12px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 12px; 
-            background: var(--header-bg); 
-            font-size: 18px; 
-            cursor: pointer; 
-            transition: 0.2s; 
-            color: var(--text-dark); 
-        }
-        
-        .btn-social:hover { 
-            background: var(--bg-input); 
-            border-color: #cbd5e1; 
-        }
-        
+        .social-buttons { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; }
+        .btn-social { flex: 1; display: flex; align-items: center; justify-content: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--header-bg); font-size: 18px; cursor: pointer; transition: 0.2s; color: var(--text-dark); }
+        .btn-social:hover { background: var(--bg-input); border-color: #cbd5e1; }
         .btn-social.facebook i { color: #1877F2; } 
         .btn-social.github i { color: var(--text-dark); } 
 
         /* =========================================
            MAIN APP SCREEN (LIST + TABS + NAV)
            ========================================= */
-        .app-container { 
-            display: none; 
-            position: absolute; 
-            inset: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: var(--chat-bg); 
-            flex-direction: column; 
-            z-index: 50; 
-            animation: fadeIn 0.3s ease; 
-        }
+        .app-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 50; animation: fadeIn 0.3s ease; }
         
-        /* 🌟 TOP RIGHT SEARCH FIX 🌟 */
-        .app-header { 
-            background: var(--header-bg); 
-            padding: 16px 24px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            border-bottom: 1px solid var(--border-color); 
-            box-shadow: var(--shadow-sm); 
-            z-index: 10; 
-            flex-shrink: 0; 
-        }
-        
-        .app-header h2 { 
-            font-size: 18px; 
-            font-weight: 800; 
-            color: var(--primary); 
-            letter-spacing: 0.5px; 
-        }
-
-        /* NEW SEARCH BUTTON IN HEADER */
-        .header-search-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 5px;
-            transition: 0.2s;
-        }
+        .app-header { background: var(--header-bg); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow-sm); z-index: 10; flex-shrink: 0; }
+        .app-header h2 { font-size: 18px; font-weight: 800; color: var(--primary); letter-spacing: 0.5px; }
+        .header-search-btn { background: none; border: none; color: var(--primary); font-size: 20px; cursor: pointer; padding: 5px; transition: 0.2s; }
         .header-search-btn:active { transform: scale(0.9); }
 
-        .main-content { 
-            flex: 1; 
-            overflow-y: auto; 
-            position: relative; 
-            background: var(--header-bg); 
-            min-height: 0; 
-        }
-        
-        .tab-view { 
-            display: none; 
-            padding-bottom: 20px; 
-        }
-        
-        .tab-view.active { 
-            display: block; 
-            animation: fadeIn 0.3s ease forwards; 
-        }
-        
-        @keyframes fadeIn { 
-            0% { opacity: 0; } 
-            100% { opacity: 1; } 
-        }
+        .main-content { flex: 1; overflow-y: auto; position: relative; background: var(--header-bg); min-height: 0; }
+        .tab-view { display: none; padding-bottom: 20px; }
+        .tab-view.active { display: block; animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
 
-        .list-heading { 
-            font-size: 12px; 
-            font-weight: 700; 
-            color: var(--text-light); 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-            margin: 20px 24px 10px 24px; 
-        }
+        .list-heading { font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 24px 10px 24px; }
         
-        .user-list-item { 
-            display: flex; 
-            align-items: center; 
-            padding: 12px 24px; 
-            cursor: pointer; 
-            transition: background 0.2s, transform 0.2s; 
-            border-bottom: 1px solid var(--border-color); 
-            opacity: 0; 
-            animation: cascadeUp 0.4s forwards; 
-        }
-        
-        .user-list-item:nth-child(1) { animation-delay: 0.05s; } 
-        .user-list-item:nth-child(2) { animation-delay: 0.1s; } 
-        .user-list-item:nth-child(3) { animation-delay: 0.15s; } 
-        .user-list-item:nth-child(4) { animation-delay: 0.2s; }
-        
-        @keyframes cascadeUp { 
-            to { opacity: 1; transform: translateY(0); } 
-            from { opacity: 0; transform: translateY(10px); } 
-        }
-        
+        .user-list-item { display: flex; align-items: center; padding: 12px 24px; cursor: pointer; transition: background 0.2s, transform 0.2s; border-bottom: 1px solid var(--border-color); opacity: 0; animation: cascadeUp 0.4s forwards; }
+        .user-list-item:nth-child(1) { animation-delay: 0.05s; } .user-list-item:nth-child(2) { animation-delay: 0.1s; } .user-list-item:nth-child(3) { animation-delay: 0.15s; } .user-list-item:nth-child(4) { animation-delay: 0.2s; }
+        @keyframes cascadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(10px); } }
         .user-list-item:last-child { border-bottom: none; }
         .user-list-item:hover { background: var(--list-hover); transform: translateX(4px); }
-        
-        .user-list-item img { 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 50%; 
-            object-fit: cover; 
-            border: 1px solid var(--border-color); 
-            margin-right: 14px; 
-            box-shadow: var(--shadow-sm); 
-            flex-shrink: 0; 
-        }
-        
+        .user-list-item img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); margin-right: 14px; box-shadow: var(--shadow-sm); flex-shrink: 0; }
         .user-list-info { flex: 1; min-width: 0; }
         .user-list-info h4 { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
         .user-list-info p { font-size: 13px; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-        
         .unread-indicator { background: var(--success); color: white; font-size: 11px; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); flex-shrink: 0; }
         .chevron-icon { color: var(--border-color); font-size: 14px; transition: 0.2s; }
         .user-list-item:hover .chevron-icon { color: var(--primary); transform: translateX(3px); }
@@ -613,68 +324,13 @@
         .search-input-wrapper input:focus { border-color: var(--primary); background: var(--header-bg); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
         .empty-search { text-align: center; color: var(--text-light); font-size: 13px; margin-top: 30px; font-style: italic; }
 
-        /* 🌟 VIP APP LAUNCHER GRID (STORE) 🌟 */
-        .store-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
-            gap: 16px; 
-            padding: 16px 24px; 
-        }
-        
-        .store-app-item { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-            background: var(--bg-input); 
-            border: 1px solid var(--border-color); 
-            border-radius: 18px; 
-            padding: 20px 10px; 
-            box-shadow: var(--shadow-sm); 
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            opacity: 0; 
-            animation: cascadeUp 0.4s forwards; 
-            position: relative;
-        }
-        
-        .store-app-item:hover { 
-            transform: translateY(-5px); 
-            box-shadow: var(--shadow-md); 
-            border-color: var(--border-color); 
-            background: var(--header-bg); 
-        }
-        
-        .store-app-icon { 
-            width: 70px; 
-            height: 70px; 
-            border-radius: 18px; 
-            object-fit: cover; 
-            margin-bottom: 12px; 
-            box-shadow: var(--shadow-md); 
-        }
-        
-        .store-app-title { 
-            font-size: 14px; 
-            font-weight: 700; 
-            color: var(--text-dark); 
-            line-height: 1.2; 
-            margin-bottom: 6px; 
-        }
-        
-        .store-app-modded { 
-            font-size: 10px; 
-            color: #f59e0b; 
-            font-weight: 800; 
-            background: rgba(245, 158, 11, 0.1); 
-            padding: 4px 8px; 
-            border-radius: 12px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-            border: 1px solid rgba(245, 158, 11, 0.2); 
-            margin-bottom: 14px;
-        }
+        .store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px; padding: 16px 24px; }
+        .store-app-item { display: flex; flex-direction: column; align-items: center; text-align: center; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px 10px; box-shadow: var(--shadow-sm); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; animation: cascadeUp 0.4s forwards; position: relative; }
+        .store-app-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--border-color); background: var(--header-bg); }
+        .store-app-icon { width: 70px; height: 70px; border-radius: 18px; object-fit: cover; margin-bottom: 12px; box-shadow: var(--shadow-md); }
+        .store-app-title { font-size: 14px; font-weight: 700; color: var(--text-dark); line-height: 1.2; margin-bottom: 6px; }
+        .store-app-modded { font-size: 10px; color: #f59e0b; font-weight: 800; background: rgba(245, 158, 11, 0.1); padding: 4px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(245, 158, 11, 0.2); margin-bottom: 14px; }
 
-        /* Settings Tab - Professional UI */
         .profile-card { background: var(--header-bg); padding: 30px 24px 20px; text-align: center; border-bottom: 1px solid var(--border-color); animation: fadeIn 0.5s; }
         .profile-pic-wrapper { position: relative; width: 90px; height: 90px; margin: 0 auto 12px auto; cursor: pointer; display: inline-block; }
         .profile-pic-wrapper img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary); padding: 2px; box-shadow: var(--shadow-md); object-fit: cover; transition: 0.3s; }
@@ -689,21 +345,12 @@
         .settings-item { display: flex; align-items: center; padding: 14px 24px; cursor: pointer; transition: 0.3s; color: var(--text-dark); font-weight: 500; font-size: 15px; border-bottom: 1px solid var(--border-color); opacity: 0; animation: cascadeUp 0.4s forwards; }
         .settings-item:nth-child(2) { animation-delay: 0.1s; } .settings-item:nth-child(4) { animation-delay: 0.15s; } .settings-item:nth-child(6) { animation-delay: 0.2s; }
         .settings-item:hover { background: var(--list-hover); padding-left: 28px; }
-        
         .settings-text-block { flex: 1; min-width: 0; }
         .settings-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
         .settings-desc { font-size: 12px; color: var(--text-light); font-weight: 400; }
-
         .s-icon-wrap { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; font-size: 18px; transition: 0.3s; }
         .settings-item:hover .s-icon-wrap { transform: scale(1.1); }
-        .s-icon-blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-        .s-icon-green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .s-icon-purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-        .s-icon-red { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .s-icon-gray { background: rgba(100, 116, 139, 0.1); color: #64748b; }
-        .s-icon-yellow { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-        .s-icon-orange { background: rgba(249, 115, 22, 0.1); color: #f97316; } 
-        
+        .s-icon-blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; } .s-icon-green { background: rgba(16, 185, 129, 0.1); color: #10b981; } .s-icon-purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; } .s-icon-red { background: rgba(239, 68, 68, 0.1); color: #ef4444; } .s-icon-gray { background: rgba(100, 116, 139, 0.1); color: #64748b; } .s-icon-yellow { background: rgba(245, 158, 11, 0.1); color: #f59e0b; } .s-icon-orange { background: rgba(249, 115, 22, 0.1); color: #f97316; } 
         .settings-item.danger .settings-title { color: #ef4444; }
 
         .bottom-nav { display: flex; background: var(--header-bg); border-top: 1px solid var(--border-color); padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 10px rgba(0,0,0,0.02); z-index: 20; flex-shrink: 0; justify-content: space-around;}
@@ -717,7 +364,6 @@
            CHAT SCREEN & MODALS
            ========================================= */
         .chat-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 100; animation: slideInFade 0.3s ease; }
-        
         .chat-header { background: var(--header-bg); padding: 14px 20px calc(14px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); z-index: 100; flex-shrink: 0; box-shadow: var(--shadow-sm); position: relative; transition: box-shadow 0.5s ease;}
         .chat-header::before { content: ''; position: absolute; inset: -1px; background: var(--mood-color); opacity: 0.04; z-index: -1; transition: background 0.5s ease;}
         
@@ -729,7 +375,6 @@
         
         .user-details { flex: 1; min-width: 0; }
         .user-details h3 { font-size: 16px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
-        
         .status-text { font-size: 12px; color: var(--text-light); font-weight: 500; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
         .online-dot { width: 8px; height: 8px; background: #94a3b8; border-radius: 50%; display: inline-block; transition: background 0.3s;}
         
@@ -740,7 +385,6 @@
         .chat-messages::before { content: ''; position: absolute; inset: 0; background: var(--chat-bg); opacity: calc(1 - var(--pattern-opacity)); z-index: 0; pointer-events: none; }
         
         .msg-row { display: flex; flex-direction: column; position: relative; width: 100%; z-index: 1; }
-        
         .msg-bubble { max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; position: relative; box-shadow: 0 1px 2px rgba(0,0,0,0.1); display: inline-block; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; cursor: pointer; transition: filter 0.2s, transform 0.2s; -webkit-user-select: none; user-select: none; }
         .msg-bubble:active { filter: brightness(0.9); transform: scale(0.98); }
         @keyframes slideUp { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
@@ -752,9 +396,7 @@
         .msg-sent .msg-meta { color: rgba(255, 255, 255, 0.8); }
         .tick { font-size: 10px; color: rgba(255, 255, 255, 0.7); } .tick.read { color: #60a5fa; }
         
-        /* ADVANCED WIDE INPUT WITH TOOLS POPUP */
         .chat-input-area { background-color: var(--header-bg); padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--border-color); position: relative; flex-shrink: 0; }
-        
         .icon-btn { background: transparent; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 4px; display: flex; align-items: center; justify-content: center; }
         .icon-btn:hover { color: var(--primary); transform: scale(1.1); }
         .icon-btn.rotated { transform: rotate(45deg) scale(1.1); color: var(--danger); }
@@ -897,26 +539,49 @@
     <audio id="msgSound" src="https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3" preload="auto"></audio>
     <div id="toastBox" class="toast-box"></div>
 
-    <div class="global-overlay" id="globalOverlay">
+    <div class="global-overlay" id="globalOverlay" style="display: flex;">
         <div class="spinner"></div>
-        <div class="upload-text" id="overlayText">Authenticating... Please Wait</div>
+        <div class="upload-text" id="overlayText">Initializing Platform...</div>
     </div>
 
-    <div id="fiveDotsLoader" style="display:none; position:absolute; top:60px; bottom:60px; left:0; right:0; background:var(--bg-body); z-index:40; align-items:center; justify-content:center; gap:10px;">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+    <div id="tabSkeletonLoader" style="display:none; padding:0; flex-direction:column; position:absolute; top:60px; bottom:60px; left:0; right:0; background:var(--header-bg); z-index:90; overflow:hidden;">
+        
+        <div style="margin: 20px 24px 10px 24px; width: 150px; height: 12px; border-radius: 6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+        
+        <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
+            <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;"></div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+                <div style="width:50%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+                <div style="width:30%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+            </div>
+        </div>
+        
+        <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
+            <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;"></div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+                <div style="width:60%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+                <div style="width:40%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+            </div>
+        </div>
+
+        <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
+            <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;"></div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+                <div style="width:45%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+                <div style="width:25%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+            </div>
+        </div>
+        
+        <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
+            <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;"></div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+                <div style="width:55%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+                <div style="width:35%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
+            </div>
+        </div>
+
     </div>
-    <style>
-        .dot { width: 16px; height: 16px; background-color: var(--primary); border-radius: 50%; animation: bounceDot 0.6s infinite alternate; }
-        .dot:nth-child(2) { animation-delay: 0.1s; background-color: #8b5cf6; }
-        .dot:nth-child(3) { animation-delay: 0.2s; background-color: #ec4899; }
-        .dot:nth-child(4) { animation-delay: 0.3s; background-color: #f43f5e; }
-        .dot:nth-child(5) { animation-delay: 0.4s; background-color: #f59e0b; }
-        @keyframes bounceDot { to { transform: translateY(-20px); } }
-    </style>
+    <style>@keyframes ytShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }</style>
 
     <div class="full-modal" id="viewProfileModal">
         <div class="modal-nav">
@@ -985,7 +650,7 @@
         </div>
     </div>
 
-    <div class="login-wrapper" id="loginWrapper">
+    <div class="login-wrapper" id="loginWrapper" style="display: none;">
         <div class="login-card">
             <div class="header">
                 <img id="adminProfileLogin" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin">
@@ -1185,7 +850,7 @@
                 <i class="fa-solid fa-house"></i><span>Home</span>
             </button>
             <button class="nav-item" id="nav-social" onclick="openSocialFileSmoothly()">
-                <i class="fa-solid fa-photo-film"></i><span>Feed</span>
+                <i class="fa-solid fa-clapperboard"></i><span>Feed</span>
             </button>
             <button class="nav-item" id="nav-store" onclick="switchTab('store')">
                 <i class="fa-brands fa-android"></i><span>Store</span>
@@ -1297,7 +962,6 @@
             showToast("Downloading " + title + "... 🚀", "success");
             const link = document.createElement('a');
             link.href = url;
-            // Safari/Chrome direct download trigger
             link.setAttribute('download', title.replace(/\s+/g, '_') + '.apk'); 
             link.setAttribute('target', '_blank');
             document.body.appendChild(link);
@@ -1459,7 +1123,7 @@
             else { unreadWhileScrolled++; scrollBadge.innerText = unreadWhileScrolled; scrollBadge.style.display = 'flex'; }
         }
 
-        // 🌟 5 DOTS LOADER SCREEN SWITCHER 🌟
+        // 🌟 SKELETON LOADER SCREEN SWITCHER 🌟
         window.switchTab = function(tabName) {
             document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -1468,15 +1132,17 @@
                 document.getElementById('nav-' + tabName).classList.add('active');
             }
 
-            const loader = document.getElementById('fiveDotsLoader');
-            if(loader) loader.style.display = 'flex';
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+
+            const skeleton = document.getElementById('tabSkeletonLoader');
+            if(skeleton) skeleton.style.display = 'flex';
             
             setTimeout(() => {
-                if(loader) loader.style.display = 'none';
+                if(skeleton) skeleton.style.display = 'none';
                 if(document.getElementById(tabName + 'View')) {
                     document.getElementById(tabName + 'View').classList.add('active');
                 }
-            }, 600); 
+            }, 2000); 
         }
 
         // 🌟 SMOOTH SOCIAL FEED REDIRECT 🌟
@@ -1484,13 +1150,14 @@
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById('nav-social').classList.add('active');
             
-            const loader = document.getElementById('fiveDotsLoader');
-            if(loader) loader.style.display = 'flex';
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+
+            const skeleton = document.getElementById('tabSkeletonLoader');
+            if(skeleton) skeleton.style.display = 'flex';
             
-            // RELATIVE URL DIRECT FIX FOR GITHUB REPOSITORY
             setTimeout(() => {
-                window.location.href = 'social.html';
-            }, 800); 
+                window.location.href = 'https://fahimn.co.in/social.html';
+            }, 2000); 
         }
 
         // --- KHATARNAK 5-DIGIT DEEP LINKS ---
@@ -1650,9 +1317,11 @@
             hideLoading();
             if (user) {
                 myUserId = user.uid;
+                
                 document.getElementById('loginWrapper').style.display = 'none';
                 document.getElementById('chatCard').style.display = 'none';
                 document.getElementById('appScreen').style.display = 'flex';
+                switchTab('home');
 
                 if (typeof OneSignal !== 'undefined') {
                     OneSignalDeferred.push(function(OneSignal) { OneSignal.login(myUserId); });
@@ -1713,6 +1382,7 @@
                 if (apps && Object.keys(apps).length > 0) {
                     Object.keys(apps).forEach(key => {
                         const app = apps[key];
+                        // fallback default icon
                         const safeIcon = app.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(app.title || 'A')}&background=10b981&color=fff&rounded=true`;
                         const safeTitle = escapeHTML(app.title || "Unknown App");
                         const safeUrl = app.url || "";
@@ -1855,20 +1525,30 @@
         });
 
         window.openChatRoom = function(targetUid, targetName, targetAvatar, isVerified = false) {
-            showLoading("Decrypting Secure Chat Channel...");
-            
             try {
                 history.pushState({ page: 'chat', id: targetUid }, "Chat", window.location.pathname + "?chat=" + targetUid);
             } catch(e) { console.warn("Browser blocked pushState."); }
 
+            document.getElementById('appScreen').style.display = 'none';
+            
+            const skeleton = document.getElementById('tabSkeletonLoader');
+            if(skeleton) {
+                skeleton.style.zIndex = "9999"; 
+                skeleton.style.display = 'flex';
+            }
+
             setTimeout(() => {
+                if(skeleton) {
+                    skeleton.style.display = 'none';
+                    skeleton.style.zIndex = "90"; 
+                }
+
                 currentChatUserId = targetUid; 
                 if(targetUid !== adminId) {
                     db.ref('users/' + myUserId + '/recent_chats/' + targetUid).set(Date.now());
                     db.ref('users/' + targetUid + '/recent_chats/' + myUserId).set(Date.now());
                 }
 
-                document.getElementById('appScreen').style.display = 'none';
                 document.getElementById('chatCard').style.display = 'flex';
                 document.getElementById('chatHeaderName').innerHTML = targetName + (isVerified ? ' ' + verifiedSVG : '');
                 document.getElementById('chatHeaderImg').src = targetAvatar;
@@ -1882,8 +1562,8 @@
                     } 
                 });
                 
-                setupTypingListener(targetUid); loadMessages(isVerified, targetName, targetAvatar); setupLiveCanvasListener(); hideLoading();
-            }, 150);
+                setupTypingListener(targetUid); loadMessages(isVerified, targetName, targetAvatar); setupLiveCanvasListener();
+            }, 2000); 
         }
 
         window.closeChatRoom = function(fromPopState = false) {
@@ -1896,8 +1576,22 @@
             if(currentChatUserId) db.ref('live_canvas_mode/' + getChatId()).off();
 
             currentChatUserId = null; targetUserRealStatus = 'offline';
+            
             document.getElementById('chatCard').style.display = 'none';
-            document.getElementById('appScreen').style.display = 'flex';
+
+            const skeleton = document.getElementById('tabSkeletonLoader');
+            if(skeleton) {
+                skeleton.style.zIndex = "9999";
+                skeleton.style.display = 'flex';
+            }
+
+            setTimeout(() => {
+                if(skeleton) {
+                    skeleton.style.display = 'none';
+                    skeleton.style.zIndex = "90";
+                }
+                document.getElementById('appScreen').style.display = 'flex';
+            }, 2000); 
 
             if(!fromPopState) { history.back(); }
         }
@@ -2120,6 +1814,9 @@
             fileInput.value = '';
         });
 
+        // ==========================================================
+        // LIVE SHARED CANVAS
+        // ==========================================================
         const paletteBtn = document.getElementById('paletteBtn');
         const canvasBoard = document.getElementById('canvasBoard');
         const liveCanvas = document.getElementById('liveCanvas');
