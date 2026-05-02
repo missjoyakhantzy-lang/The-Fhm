@@ -93,7 +93,7 @@
             width: 46px;
             height: 46px;
             border-radius: 50%;
-            padding: 3px; /* Border thickness */
+            padding: 3px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -105,7 +105,6 @@
             position: absolute;
             width: 150%;
             height: 150%;
-            /* 3 Premium Colors: Neon Pink, Royal Purple, Bright Orange */
             background: conic-gradient(#ff007f, #7928ca, #ff8a00, #ff007f);
             animation: spinAdminBorder 3s linear infinite;
         }
@@ -120,7 +119,7 @@
             object-fit: cover;
             position: relative;
             z-index: 2;
-            border: 2px solid var(--card-bg); /* Inner ring to make it clean */
+            border: 2px solid var(--card-bg); 
         }
 
         .post-header .admin-meta { flex: 1; }
@@ -130,7 +129,13 @@
 
         .post-media-container { width: 100%; background: #0f172a; position: relative; display: flex; align-items: center; justify-content: center; min-height: 300px; overflow: hidden; cursor: pointer; }
         .post-media-container img, .post-media-container video { width: 100%; height: auto; max-height: 500px; object-fit: contain; display: block; }
-        video::-webkit-media-controls-panel { background-image: linear-gradient(transparent, rgba(0,0,0,0.5)); }
+
+        /* --- 🌟 NEW: PROFESSIONAL VIDEO CONTROLLER CSS 🌟 --- */
+        .video-controls-overlay { position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+        .play-pause-indicator { background: rgba(0,0,0,0.6); color: white; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .play-pause-indicator.show { opacity: 1; transform: scale(1); }
+        .mute-toggle-btn { position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; pointer-events: auto; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 10;}
+        .mute-toggle-btn:active { transform: scale(0.85); background: var(--primary); border-color: var(--primary); }
 
         .verified-icon { width: 15px; height: 15px; fill: #0095F6; }
 
@@ -144,25 +149,21 @@
         .action-btn.liked { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: var(--like-color); animation: heartPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
 
-        /* --- 🌟 NEW: SIDE MENU (DRAWER) 🌟 --- */
+        /* --- SIDE MENU (DRAWER) --- */
         .side-menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2999; backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease; }
         .side-menu-overlay.show { display: block; opacity: 1; }
-        
         .side-menu { position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background: var(--card-bg); z-index: 3000; transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-shadow: -5px 0 20px rgba(0,0,0,0.1); }
         .side-menu.open { right: 0; }
-        
         .side-menu-header { padding: 25px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
         .side-menu-header img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
         .side-menu-header div { flex: 1; }
         .side-menu-header h3 { font-size: 16px; font-weight: 800; color: var(--text-dark); margin-bottom: 3px;}
         .side-menu-header p { font-size: 12px; color: var(--text-muted); font-weight: 600; }
-        
         .side-menu-links { padding: 15px 0; flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
         .menu-link { padding: 16px 20px; display: flex; align-items: center; gap: 15px; font-size: 15px; font-weight: 700; color: var(--text-dark); cursor: pointer; transition: 0.2s; }
         .menu-link:hover, .menu-link:active { background: var(--bg-input); color: var(--primary); }
         .menu-link i { font-size: 18px; width: 24px; text-align: center; color: var(--text-muted); transition: 0.2s; }
         .menu-link:hover i { color: var(--primary); }
-        
         .menu-footer { padding: 20px; border-top: 1px solid var(--border); }
         .logout-btn { width: 100%; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
         .logout-btn:active { transform: scale(0.95); background: #ef4444; color: white; }
@@ -273,12 +274,10 @@
 
         const verifiedSVG = `<svg class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"></path></svg>`;
 
-        // --- GLOBAL USER STATE ---
         let currentUid = null;
         let currentUserData = null;
         let activeCommentPostId = null; 
 
-        // 🌟 UPDATE: Passing Profile picture & Name to Side Menu automatically
         auth.onAuthStateChanged(user => {
             if(user) {
                 currentUid = user.uid;
@@ -289,12 +288,9 @@
                             const avatarEl = document.getElementById('currentUserAvatar');
                             avatarEl.src = currentUserData.profile_image;
                             avatarEl.style.display = 'block';
-                            
-                            // Set DP in Side Menu
                             document.getElementById('sideMenuAvatar').src = currentUserData.profile_image;
                         }
                         if(currentUserData.name) {
-                            // Set Name in Side Menu
                             document.getElementById('sideMenuName').innerText = currentUserData.name;
                         }
                     }
@@ -328,17 +324,6 @@
             interval = seconds / 60; if (interval > 1) return Math.floor(interval) + "m ago";
             return "Just now";
         }
-
-        db.ref('social_feed').once('value', snap => {
-            if (!snap.exists() || snap.numChildren() === 0) {
-                db.ref('social_feed/welcome_post').set({
-                    caption: "Welcome to the VIP platform! No posts uploaded yet. Admin will drop something soon! 🚀",
-                    mediaUrl: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop",
-                    mediaType: "image",
-                    timestamp: firebase.database.ServerValue.TIMESTAMP
-                });
-            }
-        });
 
         function initSocialFeed() {
             const container = document.getElementById('feedContainer');
@@ -393,9 +378,17 @@
                         let mediaHtml = '';
                         if(post.mediaUrl) {
                             if(post.mediaType === 'video') {
+                                // 🌟 NEW: Custom Video Player UI
                                 mediaHtml = `
                                     <div class="post-media-container" ondblclick="toggleLike('${post.id}')">
-                                        <video src="${post.mediaUrl}" loop muted playsinline onclick="this.paused ? this.play() : this.pause()"></video>
+                                        <video id="vid-${post.id}" src="${post.mediaUrl}" loop muted playsinline onclick="togglePlayPause('vid-${post.id}')"></video>
+                                        
+                                        <div class="video-controls-overlay">
+                                            <div class="play-pause-indicator" id="indicator-${post.id}"></div>
+                                            <button class="mute-toggle-btn" onclick="toggleMute(event, 'vid-${post.id}', this)">
+                                                <i class="fa-solid fa-volume-xmark"></i>
+                                            </button>
+                                        </div>
                                     </div>`;
                             } else {
                                 mediaHtml = `
@@ -405,7 +398,6 @@
                             }
                         }
 
-                        // 🌟 UPDATE: Implemented the "admin-avatar-wrapper" logic here for the Premium Effect!
                         const cardHTML = `
                             <article class="post-card" id="post-${post.id}">
                                 <div class="post-header">
@@ -455,8 +447,46 @@
             });
         }
 
-        // --- NEW VIP INTERACTIONS ---
+        // --- 🌟 NEW: VIDEO CONTROLLER FUNCTIONS 🌟 ---
+        window.togglePlayPause = function(videoId) {
+            const video = document.getElementById(videoId);
+            const indicatorId = videoId.replace('vid-', 'indicator-');
+            const indicator = document.getElementById(indicatorId);
+            
+            if(!video) return;
 
+            if(video.paused) {
+                video.play();
+                showIndicator(indicator, 'fa-play');
+            } else {
+                video.pause();
+                showIndicator(indicator, 'fa-pause');
+            }
+        }
+
+        function showIndicator(element, iconClass) {
+            if(!element) return;
+            element.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+            element.classList.add('show');
+            setTimeout(() => { element.classList.remove('show'); }, 800);
+        }
+
+        window.toggleMute = function(event, videoId, btnElement) {
+            event.stopPropagation(); // Prevents clicking the video underneath
+            const video = document.getElementById(videoId);
+            if(!video) return;
+
+            video.muted = !video.muted;
+            
+            if(video.muted) {
+                btnElement.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+            } else {
+                btnElement.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                showToast("Sound On 🔊");
+            }
+        }
+
+        // --- VIP INTERACTIONS ---
         window.toggleLike = function(postId) {
             if(!currentUid) { showToast("Log in from Home to Like!"); return; }
             const likeRef = db.ref(`social_feed/${postId}/likes/${currentUid}`);
@@ -498,9 +528,8 @@
             document.querySelectorAll('video').forEach(v => observer.observe(v));
         }
 
-        // --- 🌟 NEW: SIDE MENU SYSTEM 🌟 ---
+        // --- SIDE MENU SYSTEM ---
         window.openSideMenu = function() {
-            // Only open if user is logged in
             if(currentUid) {
                 document.getElementById('sideMenuOverlay').classList.add('show');
                 document.getElementById('sideMenu').classList.add('open');
@@ -520,10 +549,8 @@
             auth.signOut().then(() => {
                 showToast("Logged out successfully!");
                 closeSideMenu();
-                // Hide avatar from header
                 document.getElementById('currentUserAvatar').style.display = 'none';
                 currentUid = null;
-                // Optional: Redirect them to your login/home page
                 setTimeout(() => window.location.href = 'index.html', 1500); 
             }).catch((error) => {
                 showToast("Error logging out.");
@@ -598,7 +625,6 @@
             if(e.key === 'Enter') submitComment();
         });
 
-        // Initialize Feed
         initSocialFeed();
 
     </script>
