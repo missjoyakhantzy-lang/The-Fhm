@@ -7,16 +7,12 @@
       fahimn.co.in - VIP Platform
     </title>
     <link rel="manifest" href="./manifest.json" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js">
-    </script>
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer="">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer=""></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
@@ -25,11 +21,10 @@
         });
       });
     </script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js">
-    </script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
     <style>
       /* =========================================
-           GLOBAL VARIABLES &amp; CSS (PROFESSIONAL THEME)
+           GLOBAL VARIABLES & CSS (PROFESSIONAL THEME)
            ========================================= */
         :root {
             --primary: #4f46e5; 
@@ -326,11 +321,6 @@
         .empty-search { text-align: center; color: var(--text-light); font-size: 13px; margin-top: 30px; font-style: italic; }
 
         .store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px; padding: 16px 24px; }
-        .store-app-item { display: flex; flex-direction: column; align-items: center; text-align: center; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px 10px; box-shadow: var(--shadow-sm); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; animation: cascadeUp 0.4s forwards; position: relative; }
-        .store-app-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--border-color); background: var(--header-bg); }
-        .store-app-icon { width: 70px; height: 70px; border-radius: 18px; object-fit: cover; margin-bottom: 12px; box-shadow: var(--shadow-md); }
-        .store-app-title { font-size: 14px; font-weight: 700; color: var(--text-dark); line-height: 1.2; margin-bottom: 6px; }
-        .store-app-modded { font-size: 10px; color: #f59e0b; font-weight: 800; background: rgba(245, 158, 11, 0.1); padding: 4px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(245, 158, 11, 0.2); margin-bottom: 14px; }
 
         .profile-card { background: var(--header-bg); padding: 30px 24px 20px; text-align: center; border-bottom: 1px solid var(--border-color); animation: fadeIn 0.5s; }
         .profile-pic-wrapper { position: relative; width: 90px; height: 90px; margin: 0 auto 12px auto; cursor: pointer; display: inline-block; }
@@ -362,7 +352,7 @@
         .nav-item.active i { transform: scale(1.1); color: var(--primary); }
 
         /* =========================================
-           CHAT SCREEN &amp; MODALS
+           CHAT SCREEN & MODALS
            ========================================= */
         .chat-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 100; animation: slideInFade 0.3s ease; }
         .chat-header { background: var(--header-bg); padding: 14px 20px calc(14px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); z-index: 100; flex-shrink: 0; box-shadow: var(--shadow-sm); position: relative; transition: box-shadow 0.5s ease;}
@@ -422,7 +412,7 @@
         
         emoji-picker { position: absolute; bottom: 80px; left: 16px; display: none; z-index: 200; box-shadow: var(--shadow-lg); border-radius: 12px; border: 1px solid var(--border-color); animation: fadeIn 0.2s; }
         
-        /* Modals &amp; Rest Details */
+        /* Modals & Rest Details */
         .admin-img-chat { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); }
         .date-divider { text-align: center; margin: 24px 0 12px 0; position: relative; display: flex; justify-content: center; z-index: 1; }
         .date-divider span { background: var(--header-bg); color: var(--text-light); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
@@ -458,7 +448,7 @@
         .legal-body { padding: 24px; overflow-y: auto; color: var(--text-light); font-size: 14px; line-height: 1.6; }
         .legal-body h4 { color: var(--text-dark); margin: 15px 0 5px 0; font-size: 15px; }
 
-        /* ADVANCED PROFILE DETAILS MODALS (VIEW &amp; EDIT) */
+        /* ADVANCED PROFILE DETAILS MODALS (VIEW & EDIT) */
         .full-modal { display: none; position: fixed; inset: 0; background: var(--bg-body); z-index: 100000; flex-direction: column; animation: slideInFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; overflow-y: auto; }
         .full-modal.show { display: flex; }
         .modal-nav { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; background: var(--header-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 10; }
@@ -765,7 +755,7 @@
     <div class="login-wrapper" id="loginWrapper" style="display: none;">
       <div class="login-card">
         <div class="header">
-          <img id="adminProfileLogin" src="https://ui-avatars.com/api/?name=Admin+Fahim&amp;background=4f46e5&amp;color=fff&amp;bold=true" alt="Admin" />
+          <img id="adminProfileLogin" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin" />
           <h2 id="formTitle">
             fahimn.co.in
           </h2>
@@ -845,7 +835,7 @@
             Pinned &amp; Official channels
           </div>
           <div class="user-list-item" onclick="openChatRoom('admin_fahim', 'Admin Fahim', document.getElementById('adminProfileLogin').src, true)">
-            <img id="listAdminImg" src="https://ui-avatars.com/api/?name=Admin+Fahim&amp;background=4f46e5&amp;color=fff&amp;bold=true" alt="Admin" />
+            <img id="listAdminImg" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin" />
             <div class="user-list-info">
               <h4 style="display:flex; align-items:center;">
                 Admin Fahim
@@ -1184,7 +1174,7 @@
             document.body.removeChild(link);
         }
 
-        // --- VIEW ONCE STATE &amp; LOGIC ---
+        // --- VIEW ONCE STATE & LOGIC ---
         window.viewOnceStore = {};
         let isViewOnceMode = false;
 
@@ -1212,7 +1202,7 @@
             document.getElementById('viewOnceContent').innerHTML = ''; 
         }
 
-        // --- UI HELPERS &amp; MODALS ---
+        // --- UI HELPERS & MODALS ---
         function showToast(msg, type='error') {
             const box = document.getElementById('toastBox');
             const toast = document.createElement('div');
@@ -1470,7 +1460,7 @@
                     const dName = customName || user.displayName || 'User';
                     const profileImg = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=4f46e5&color=fff&bold=true`;
                     
-                    let kid = existingData &amp;&amp; existingData.khatarnak_id ? existingData.khatarnak_id : Math.floor(10000 + Math.random() * 90000).toString();
+                    let kid = existingData && existingData.khatarnak_id ? existingData.khatarnak_id : Math.floor(10000 + Math.random() * 90000).toString();
 
                     db.ref('users/' + user.uid).update({
                         uid: user.uid, name: dName, email: user.email || '', profile_image: profileImg, last_login: firebase.database.ServerValue.TIMESTAMP,
@@ -1543,7 +1533,7 @@
                 }
 
                 setTimeout(() => {
-                    if (typeof Notification !== 'undefined' &amp;&amp; Notification.permission !== 'granted' &amp;&amp; Notification.permission !== 'denied') {
+                    if (typeof Notification !== 'undefined' && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
                         document.getElementById('secureNotifModal').classList.add('show');
                     }
                 }, 2500);
@@ -1560,7 +1550,7 @@
                         }
 
                         const dName = uData.name || user.displayName || 'User';
-                        const dp = uData.profile_image || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&amp;background=4f46e5&amp;color=fff&amp;bold=true`;
+                        const dp = uData.profile_image || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=4f46e5&color=fff&bold=true`;
                         const isVerified = uData.verified === true;
 
                         document.getElementById('myProfileName').innerHTML = escapeHTML(dName) + (isVerified ? ' ' + verifiedSVG : '');
@@ -1584,13 +1574,12 @@
             db.ref('/status/' + adminId).on('value', snap => {
                 const data = snap.val() || {status: 'offline'};
                 const status = data.status || 'offline';
-                document.getElementById('listAdminStatus').innerHTML = status === 'online' ? '<span style="color:#10b981">Online &amp; Active</span>' : 'Offline';
+                document.getElementById('listAdminStatus').innerHTML = status === 'online' ? '<span style="color:#10b981">Online & Active</span>' : 'Offline';
             });
         }
 
         function initStoreAppLoader() {
-            // Keep this for any future needs or remove it if you don't need app loading logic anymore. 
-            // It won't break anything to leave it.
+            // Function preserved to avoid breaking reference, safely does nothing.
         }
 
         function initDataListeners() {
@@ -1607,7 +1596,7 @@
                 unreadCounts = {};
                 snap.forEach(child => {
                     const msg = child.val();
-                    if (msg.receiverId === myUserId &amp;&amp; msg.status !== 'read') { unreadCounts[msg.senderId] = (unreadCounts[msg.senderId] || 0) + 1; }
+                    if (msg.receiverId === myUserId && msg.status !== 'read') { unreadCounts[msg.senderId] = (unreadCounts[msg.senderId] || 0) + 1; }
                 });
                 
                 const adminUnread = unreadCounts[adminId] || 0;
@@ -1630,7 +1619,7 @@
             
             if(recentChatsIds.length > 0) {
                 recentChatsIds.forEach(uid => {
-                    if(uid === adminId) return; // Skip admin from recent chats to avoid duplicates
+                    if(uid === adminId) return; 
                     const u = allUsersData.find(user => user.uid === uid);
                     if(u) {
                         const safeName = escapeHTML(u.name || 'Authorized User');
@@ -1800,13 +1789,21 @@
             });
         }
 
-        function escapeHTML(str) { return str.replace(/[&amp;&lt;&gt;'""]/g, tag => ({ '&amp;': '&amp;amp;', '&lt;': '&amp;lt;', '&gt;': '&amp;gt;', "'": '&amp;#39;', '"': '&amp;quot;' }[tag])); }
+        function escapeHTML(str) { 
+            return str.replace(/[<>'"]/g, tag => ({ 
+                '&': '&amp;', 
+                '<': '&lt;', 
+                '>': '&gt;', 
+                "'": '&#39;', 
+                '"': '&quot;' 
+            }[tag])); 
+        }
 
         function sendMessage(text = '', imgUrl = null, fileType = null) {
             const val = text || msgInput.value.trim();
-            if (!val &amp;&amp; !imgUrl) return;
+            if (!val && !imgUrl) return;
             
-            if (typeof Notification !== 'undefined' &amp;&amp; Notification.permission !== 'granted') { 
+            if (typeof Notification !== 'undefined' && Notification.permission !== 'granted') { 
                 document.getElementById('secureNotifModal').classList.add('show'); 
             }
 
@@ -1822,17 +1819,17 @@
 
             let pushText = val;
             if (isViewOnceMode) pushText = "💣 Sent a View Once Message";
-            else if (!pushText) pushText = (fileType &amp;&amp; fileType.includes('pdf')) ? "📄 Sent a PDF Document Asset" : "📷 Sent an Encrypted Image Asset";
+            else if (!pushText) pushText = (fileType && fileType.includes('pdf')) ? "📄 Sent a PDF Document Asset" : "📷 Sent an Encrypted Image Asset";
             
             const myNameElement = document.getElementById('myProfileName');
             const myName = myNameElement ? myNameElement.innerText.replace(' Verified', '').trim() : " Someone";
             const myPicElement = document.getElementById('myProfilePic');
-            const myPic = myPicElement ? myPicElement.src : "https://ui-avatars.com/api/?name=" + myName.charAt(0) + "&amp;background=4f46e5&amp;color=fff";
+            const myPic = myPicElement ? myPicElement.src : "https://ui-avatars.com/api/?name=" + myName.charAt(0) + "&background=4f46e5&color=fff";
 
             const pushData = {
                 app_id: "22f1c750-e2f8-456d-8aa0-b0caf8fc0e74", include_external_user_ids: [currentChatUserId],
                 headings: { "en": myName }, contents: { "en": pushText }, url: "https://fahimn.co.in?chat=" + myUserId,
-                chrome_web_icon: myPic, large_icon: myPic, chrome_web_badge: "https://ui-avatars.com/api/?name=F&amp;background=4f46e5&amp;color=fff&amp;rounded=true" 
+                chrome_web_icon: myPic, large_icon: myPic, chrome_web_badge: "https://ui-avatars.com/api/?name=F&background=4f46e5&color=fff&rounded=true" 
             };
 
             const proxyUrl = "https://corsproxy.io/?https://onesignal.com/api/v1/notifications";
@@ -1869,11 +1866,11 @@
             activeChatQuery.once('value').then(() => { isInitialLoad = false; scrollToBottom(); });
             activeChatQuery.on('child_added', (snap) => {
                 const data = snap.val(); 
-                const isMyChat = (data.senderId === myUserId &amp;&amp; data.receiverId === currentChatUserId) || (data.senderId === currentChatUserId &amp;&amp; data.receiverId === myUserId);
+                const isMyChat = (data.senderId === myUserId && data.receiverId === currentChatUserId) || (data.senderId === currentChatUserId && data.receiverId === myUserId);
                 
                 if(isMyChat) {
                     renderMessage(data, snap.key);
-                    if(data.senderId !== myUserId &amp;&amp; data.status !== 'read') {
+                    if(data.senderId !== myUserId && data.status !== 'read') {
                         activeChatRef.child(snap.key).update({ status: 'read' });
                         if (!isInitialLoad) { const sound = document.getElementById('msgSound'); sound.currentTime = 0; sound.play().catch(e=>e); }
                     }
@@ -1882,7 +1879,7 @@
             activeChatRef.on('child_removed', (snap) => { const el = document.getElementById('msg-' + snap.key); if(el) el.remove(); });
             activeChatRef.on('child_changed', (snap) => {
                 const data = snap.val(), tickEl = document.getElementById('tick-' + snap.key);
-                if(tickEl &amp;&amp; data.senderId === myUserId) { tickEl.className = `fa-solid fa-check-double tick ${data.status === 'read' ? 'read' : ''}`; }
+                if(tickEl && data.senderId === myUserId) { tickEl.className = `fa-solid fa-check-double tick ${data.status === 'read' ? 'read' : ''}`; }
             });
         }
 
@@ -1932,7 +1929,7 @@
         });
 
         document.addEventListener('click', (e) => {
-            if(!chatToolsPopup.contains(e.target) &amp;&amp; e.target !== toggleToolsBtn) { closeToolsMenu(); }
+            if(!chatToolsPopup.contains(e.target) && e.target !== toggleToolsBtn) { closeToolsMenu(); }
         });
 
         function closeToolsMenu() {
@@ -1979,7 +1976,7 @@
             const file = e.target.files[0];
             if(!file) return;
 
-            showLoading("Securing &amp; Uploading media protocol...");
+            showLoading("Securing & Uploading media protocol...");
             const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
             const formData = new FormData();
             formData.append('file', file); formData.append('upload_preset', 'qrkdzja7');
@@ -2017,7 +2014,7 @@
         
         function getChatId() {
             if(!myUserId || !currentChatUserId) return null;
-            return myUserId &lt; currentChatUserId ? myUserId + '_' + currentChatUserId : currentChatUserId + '_' + myUserId;
+            return myUserId < currentChatUserId ? myUserId + '_' + currentChatUserId : currentChatUserId + '_' + myUserId;
         }
 
         function initCollaborativeCanvas() {
@@ -2084,7 +2081,7 @@
             if(!getChatId()) return;
             db.ref('live_canvas_mode/' + getChatId()).on('value', snap => {
                 const data = snap.val();
-                if(data &amp;&amp; data.open_by !== myUserId) { openDrawingMode(); } 
+                if(data && data.open_by !== myUserId) { openDrawingMode(); } 
                 else if (!data) { closeDrawingMode(); }
             });
 
