@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>fahimn.co.in - VIP Store</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <style>
+        /* =========================================
+           GLOBAL VARIABLES & CSS
+           ========================================= */
+        :root {
+            --primary: #4f46e5; 
+            --primary-hover: #4338ca;
+            --success: #10b981; 
+            --danger: #ef4444; 
+            --warning: #f59e0b; 
+            --info: #38bdf8; /* Neon Blue */
+            --bg-body: #f4f6f8; 
+            --card-bg: #ffffff; 
+            --bg-input: #f1f5f9;
+            --text-dark: #0f172a; 
+            --text-muted: #64748b;
+            --border: #e2e8f0; 
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 20px -3px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode {
+            --primary: #6366f1; --primary-hover: #818cf8;
+            --bg-body: #020617; --card-bg: #0f172a; --bg-input: #1e293b;
+            --text-dark: #f8fafc; --text-muted: #94a3b8;
+            --border: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { height: 100%; width: 100%; overflow: hidden; background: var(--bg-body); color: var(--text-dark); }
+        button { transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+        button:active { transform: scale(0.92); }
+
+        .app-container { display: flex; flex-direction: column; height: 100%; width: 100%; position: absolute; inset: 0; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- PROFESSIONAL HEADER --- */
+        .app-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 16px 20px calc(16px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); z-index: 10; position: relative; }
+        body.dark-mode .app-header { background: rgba(15, 23, 42, 0.95); }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .back-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-dark); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: var(--shadow-sm); }
+        .back-btn:hover { background: var(--border); }
+        
+        /* 🌟 CLEAN BRANDED TITLE (No Icon) 🌟 */
+        .app-header h2 { font-size: 18px; font-weight: 800; color: var(--text-dark); }
+        
+        /* 🌟 PROFILE DP & DROPDOWN 🌟 */
+        .header-right { display: flex; align-items: center; position: relative; }
+        .user-dp { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; box-shadow: var(--shadow-sm); display: none; cursor: pointer; transition: 0.2s;}
+        .user-dp:active { transform: scale(0.9); }
+
+        .profile-dropdown { position: absolute; top: 50px; right: 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); width: 230px; display: none; flex-direction: column; overflow: hidden; z-index: 100; animation: slideDownFade 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: top right; }
+        .profile-dropdown.show { display: flex; }
+        @keyframes slideDownFade { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .pd-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: rgba(79, 70, 229, 0.03); }
+        .pd-header img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
+        .pd-info { flex: 1; overflow: hidden; }
+        .pd-info h4 { font-size: 14px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .pd-info p { font-size: 11px; color: var(--primary); font-weight: 700; }
+        
+        .pd-menu { padding: 8px; }
+        .pd-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; font-size: 13px; font-weight: 700; color: var(--text-dark); border-radius: 10px; text-decoration: none; cursor: pointer; transition: 0.2s; background: transparent; border: none; width: 100%; text-align: left;}
+        .pd-item:hover { background: var(--bg-input); color: var(--primary); transform: translateX(3px); }
+        .pd-item i { font-size: 16px; width: 20px; text-align: center; color: var(--text-muted); transition: 0.2s;}
+        .pd-item:hover i { color: var(--primary); }
+        .pd-item.danger { color: var(--danger); margin-top: 4px; border-top: 1px solid var(--border); border-radius: 0 0 10px 10px; }
+        .pd-item.danger i { color: var(--danger); }
+        .pd-item.danger:hover { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .main-content { flex: 1; overflow-y: auto; background: var(--bg-body); padding-bottom: 30px;}
+        .list-heading { font-size: 13px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; padding: 0 20px; margin: 24px 0 12px 0; letter-spacing: 0.5px; }
+
+        /* 🔥 AUTO-SLIDING BANNERS WRAPPER 🔥 */
+        .banner-slider-container {
+            position: relative;
+            margin: 20px 20px 10px 20px;
+            height: 125px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.2);
+        }
+        
+        .slide {
+            position: absolute; inset: 0;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 24px; color: white;
+        }
+        .slide.active { opacity: 1; visibility: visible; z-index: 2;}
+
+        /* Banner 1: Killer VIP */
+        .featured-banner { background: linear-gradient(135deg, #0f172a, #1e1b4b); border: 1px solid rgba(56, 189, 248, 0.2); }
+        body:not(.dark-mode) .featured-banner { background: linear-gradient(135deg, #111827, #312e81); }
+        .featured-banner::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 60%);
+            animation: pulseGlow 4s infinite alternate; z-index: 1; pointer-events: none;
+        }
+        @keyframes pulseGlow { 0% { transform: scale(0.8) translateY(0); } 100% { transform: scale(1.1) translateY(-10px); } }
+
+        .featured-icon-wrap { width: 70px; height: 70px; background: rgba(0, 0, 0, 0.6); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 2px solid var(--info); box-shadow: 0 0 15px var(--info), inset 0 0 10px rgba(56,189,248,0.5); font-size: 30px; color: var(--info); z-index: 2; animation: neonFlicker 3s infinite alternate; flex-shrink: 0; }
+        @keyframes neonFlicker { 0%, 100% { box-shadow: 0 0 15px var(--info), inset 0 0 10px rgba(56,189,248,0.5); } 50% { box-shadow: 0 0 25px var(--info), inset 0 0 20px rgba(56,189,248,0.8); transform: translateY(-2px); } }
+
+        .featured-info { flex: 1; z-index: 2; margin-left: 15px;}
+        .featured-badge { background: linear-gradient(90deg, #38bdf8, #4f46e5); color: white; font-size: 9px; font-weight: 800; padding: 4px 10px; border-radius: 12px; text-transform: uppercase; display: inline-block; margin-bottom: 6px; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(56, 189, 248, 0.4);}
+        .featured-info h3 { font-size: 17px; font-weight: 800; margin-bottom: 2px; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.5);}
+        .featured-info p { font-size: 11px; opacity: 0.9; font-weight: 500;}
+        .featured-bg-icon { position: absolute; right: -15px; bottom: -15px; font-size: 100px; opacity: 0.04; color: white; z-index: 1; transform: rotate(-15deg);}
+
+        /* Banner 2: Request App */
+        .request-banner { background: linear-gradient(135deg, var(--primary), #a855f7); z-index: 2;}
+        .req-content { z-index: 2; max-width: 60%;}
+        .req-content h4 { font-size: 19px; font-weight: 800; margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);}
+        .req-content p { font-size: 11px; font-weight: 600; opacity: 0.9; }
+        .request-banner button { background: white; color: var(--primary); border: none; padding: 12px 16px; border-radius: 14px; font-weight: 800; font-size: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 2; flex-shrink: 0;}
+        .request-banner button:hover { transform: translateY(-2px); }
+
+        /* 🌟 STORE SEARCH & TABS 🌟 */
+        .store-search-wrap { padding: 10px 20px; position: sticky; top: 0; background: var(--bg-body); z-index: 5; margin-bottom: 5px;}
+        .store-search { position: relative; width: 100%; display: flex; align-items: center; }
+        .store-search i { position: absolute; left: 16px; color: var(--text-muted); font-size: 14px; }
+        .store-search input { width: 100%; background: var(--card-bg); border: 1px solid var(--border); padding: 12px 16px 12px 40px; border-radius: 16px; font-size: 14px; color: var(--text-dark); font-weight: 500; outline: none; transition: 0.2s; box-shadow: var(--shadow-sm);}
+        .store-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+
+        .cat-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 5px 20px 15px 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .cat-scroll::-webkit-scrollbar { display: none; }
+        .cat-pill { flex-shrink: 0; padding: 8px 18px; border-radius: 20px; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-sm);}
+        .cat-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); }
+
+        /* 🌟 ADMIN FORM CSS 🌟 */
+        .admin-form-card { background: var(--card-bg); margin: 0 20px 20px 20px; padding: 24px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-md); }
+        .admin-form-group { margin-bottom: 18px; }
+        .admin-form-group label { display: block; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .admin-form-group input[type="text"], .admin-form-group textarea, .admin-form-group select { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-dark); font-size: 14px; font-weight: 500; outline: none; transition: 0.2s; font-family: 'Inter', sans-serif;}
+        .admin-form-group input:focus, .admin-form-group textarea:focus, .admin-form-group select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); background: var(--card-bg); }
+        .admin-form-group textarea { min-height: 80px; resize: vertical; }
+        .file-upload-btn { width: 100%; background: var(--bg-input); border: 2px dashed var(--primary); color: var(--primary); padding: 16px; border-radius: 12px; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s;}
+        
+        .btn-publish { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); transition: 0.3s; }
+        .btn-publish:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .btn-cancel-edit { width: 100%; padding: 14px; background: var(--bg-input); color: var(--text-dark); border: 1px solid var(--border); border-radius: 12px; font-size: 14px; font-weight: 700; margin-top: 10px; display: none; transition: 0.2s;}
+        .btn-cancel-edit:hover { background: var(--border); }
+
+        /* 🌟 COMPACT APP CARD SIZE (NO RATING/STATS IN LIST) 🌟 */
+        .store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 14px; padding: 0 20px; }
+        .store-app-item { display: flex; flex-direction: column; align-items: center; text-align: center; background: var(--card-bg); border: 1px solid var(--border); border-radius: 18px; padding: 18px 12px; box-shadow: var(--shadow-sm); position: relative; transition: 0.3s; }
+        .store-app-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary); }
+        .store-app-icon { width: 70px; height: 70px; border-radius: 18px; object-fit: cover; margin-bottom: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border);}
+        .store-app-title { font-size: 14px; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; width: 100%;}
+        
+        /* 🔥 HIGH VISIBILITY BLACK & NEON SHIMMER BUTTON 🔥 */
+        .app-btn-group { display: flex; gap: 8px; width: 100%; margin-top: auto; align-items: center; }
+        
+        .btn-details { width: 40px; height: 40px; flex-shrink: 0; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-muted); font-size: 18px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.2s;}
+        .btn-details:hover { background: var(--border); color: var(--text-dark); transform: translateY(-2px);}
+        
+        @keyframes killerShimmer { 
+            0% { background-position: 200% center; } 
+            100% { background-position: -200% center; } 
+        }
+        .shimmer-btn-black { 
+            flex: 1; height: 40px; 
+            /* Hard contrast gradient for obvious shimmer */
+            background: linear-gradient(110deg, #111111 30%, var(--info) 50%, #111111 70%); 
+            background-size: 200% auto; 
+            color: #ffffff; 
+            animation: killerShimmer 2.5s linear infinite; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            border-radius: 12px; 
+            font-weight: 800; font-size: 13px; 
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            transition: 0.3s;
+        }
+        body.dark-mode .shimmer-btn-black { background: linear-gradient(110deg, #000000 30%, var(--info) 50%, #000000 70%); }
+        .shimmer-btn-black i { color: var(--info); font-size: 15px; } /* Glowing Neon Icon */
+        .shimmer-btn-black:active { transform: scale(0.92); }
+
+        /* Admin Action Buttons */
+        .admin-actions { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; z-index: 5;}
+        .btn-action-app { border: none; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: 0.2s;}
+        .btn-action-app.edit { background: rgba(14, 165, 233, 0.1); color: var(--info); }
+        .btn-action-app.edit:hover { background: var(--info); color: white;}
+        .btn-action-app.del { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .btn-action-app.del:hover { background: var(--danger); color: white;}
+
+        /* APP DETAILS MODAL & RATING */
+        .details-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 100000; align-items: center; justify-content: center; animation: fadeIn 0.2s ease;}
+        .details-overlay.show { display: flex; }
+        .details-modal { background: var(--card-bg); width: 90%; max-width: 400px; border-radius: 24px; padding: 24px; text-align: center; box-shadow: var(--shadow-lg); position: relative; animation: slideUpFade 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes slideUpFade { from { transform: translateY(20px) scale(0.95); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+        .dm-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; background: var(--bg-input); border: none; border-radius: 50%; color: var(--text-dark); cursor: pointer; transition: 0.2s;}
+        
+        .dm-icon { width: 85px; height: 85px; border-radius: 22px; object-fit: cover; margin-bottom: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);}
+        .dm-title { font-size: 20px; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; }
+        .dm-desc-box { background: var(--bg-input); padding: 18px; border-radius: 16px; border: 1px solid var(--border); font-size: 13px; color: var(--text-muted); line-height: 1.6; text-align: left; margin-bottom: 20px; max-height: 160px; overflow-y: auto;}
+
+        /* 🔥 VIP RATING SYSTEM 🔥 */
+        .star-rating-box { margin-bottom: 15px; background: rgba(245, 158, 11, 0.05); padding: 12px; border-radius: 16px; border: 1px dashed rgba(245, 158, 11, 0.3);}
+        .star-rating-box p { font-size: 12px; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; text-transform: uppercase;}
+        .stars-container i { font-size: 26px; color: var(--border); cursor: pointer; transition: 0.2s; margin: 0 4px;}
+        .stars-container i.active { color: #f59e0b; filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.5));}
+        .stars-container i:hover { transform: scale(1.2); }
+
+        /* Toast & Overlays */
+        .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
+        .toast { background: var(--card-bg); color: var(--text-dark); padding: 16px; border-radius: 14px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; animation: slideDown 0.4s forwards; border: 1px solid var(--border); border-left: 4px solid; }
+        .toast.success { border-left-color: var(--success); } .toast.error { border-left-color: var(--danger); }
+        @keyframes slideDown { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .global-overlay { display: none; position: absolute; inset: 0; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; color: var(--text-dark); }
+        .global-overlay .spinner { width: 50px; height: 50px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        .global-overlay .upload-text { font-size: 16px; font-weight: 800; animation: pulseText 1.5s infinite; color: var(--primary);}
+    </style>
+</head>
+<body>
+
+    <div id="toastBox" class="toast-box"></div>
+    <div class="global-overlay" id="globalOverlay"><div class="spinner"></div><div class="upload-text" id="overlayText">Processing...</div></div>
+
+    <div id="appDetailsModal" class="details-overlay">
+        <div class="details-modal">
+            <button class="dm-close" onclick="closeAppDetails()"><i class="fa-solid fa-xmark"></i></button>
+            <img id="detailIcon" class="dm-icon" src="" alt="App Icon">
+            <h3 id="detailTitle" class="dm-title">App Title</h3>
+            <div style="font-size:10px; color:#f59e0b; font-weight:800; background:rgba(245, 158, 11, 0.1); padding:5px 10px; border-radius:12px; display:inline-block; margin-bottom:16px; border: 1px solid rgba(245, 158, 11, 0.2);">MODDED BY FAHIM</div>
+            
+            <div id="detailDesc" class="dm-desc-box">Loading details...</div>
+
+            <div class="star-rating-box">
+                <p><i class="fa-solid fa-ranking-star" style="color: #f59e0b;"></i> Rate this App</p>
+                <div class="stars-container" id="modalStars">
+                    <i class="fa-solid fa-star" data-val="1"></i>
+                    <i class="fa-solid fa-star" data-val="2"></i>
+                    <i class="fa-solid fa-star" data-val="3"></i>
+                    <i class="fa-solid fa-star" data-val="4"></i>
+                    <i class="fa-solid fa-star" data-val="5"></i>
+                </div>
+            </div>
+
+            <button id="detailDownloadBtn" class="shimmer-btn-black" style="width: 100%; height: 54px; font-size: 15px; border-radius: 16px; margin-bottom: 12px;">
+                <i class="fa-solid fa-cloud-arrow-down" style="color: var(--info); font-size: 18px;"></i> DOWNLOAD NOW
+            </button>
+            
+            <button onclick="openRequestModal()" style="width: 100%; padding: 14px; border-radius: 14px; background: transparent; border: 2px dashed var(--border); color: var(--text-muted); font-weight: 700; font-size: 13px; transition: 0.2s;">
+                <i class="fa-solid fa-code-pull-request"></i> Need a different app? Request Here
+            </button>
+        </div>
+    </div>
+
+    <div id="requestAppModal" class="details-overlay">
+        <div class="details-modal" style="text-align: left;">
+            <button class="dm-close" onclick="closeRequestModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-paper-plane" style="color: var(--primary);"></i> Request App
+            </h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">Send a direct request to Admin Fahim for an app or mod you need.</p>
+            
+            <div class="admin-form-group">
+                <label>App Name</label>
+                <input type="text" id="reqAppName" placeholder="e.g. Spotify Premium Mod">
+            </div>
+            <div class="admin-form-group">
+                <label>App Details / Why you need it</label>
+                <textarea id="reqAppDetails" placeholder="Write any specific features you are looking for..."></textarea>
+            </div>
+            <button class="btn-publish" onclick="submitAppRequest()" style="margin-top: 5px;">
+                <i class="fa-solid fa-paper-plane"></i> Submit Request
+            </button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        
+        <header class="app-header">
+            <div class="header-left">
+                <button class="back-btn" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2>fahimn.co.in App Store</h2>
+            </div>
+            <div class="header-right">
+                <img id="myDp" class="user-dp" src="" alt="My Profile" onclick="toggleProfileMenu()">
+                <div id="profileDropdown" class="profile-dropdown">
+                    <div class="pd-header">
+                        <img id="pdDp" src="" alt="DP">
+                        <div class="pd-info">
+                            <h4 id="pdName">Loading...</h4>
+                            <p id="pdId">ID: -----</p>
+                        </div>
+                    </div>
+                    <div class="pd-menu">
+                        <button class="pd-item" onclick="openRequestModal()"><i class="fa-solid fa-code-pull-request"></i> Request App</button>
+                        <button class="pd-item" onclick="window.location.href='settings.html'"><i class="fa-solid fa-gear"></i> Settings</button>
+                        <button class="pd-item" id="pdAdminBtn" style="display:none;" onclick="window.location.href='admin.html'"><i class="fa-solid fa-bolt" style="color:#f59e0b;"></i> God Mode Panel</button>
+                        <button class="pd-item danger" onclick="confirmLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            
+            <div class="banner-slider-container">
+                <div class="featured-banner slide active">
+                    <i class="fa-brands fa-android featured-bg-icon"></i>
+                    <div class="featured-icon-wrap">
+                        <i class="fa-brands fa-android"></i>
+                    </div>
+                    <div class="featured-info">
+                        <span class="featured-badge"><i class="fa-solid fa-bolt"></i> Elite Choice</span>
+                        <h3>VIP Platform Tools</h3>
+                        <p>Unlock the most exclusive modded apps curated by Admin.</p>
+                    </div>
+                </div>
+                
+                <div class="request-banner slide">
+                    <div class="req-content">
+                        <h4>Missing an App?</h4>
+                        <p>Request Admin directly for any mod or tool.</p>
+                    </div>
+                    <button onclick="openRequestModal()">Request Now</button>
+                </div>
+            </div>
+
+            <div class="store-search-wrap">
+                <div class="store-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="appSearchInput" placeholder="Search for games, mods, tools..." onkeyup="filterStoreApps()">
+                </div>
+            </div>
+
+            <div class="cat-scroll" id="catFilterBox">
+                <button class="cat-pill active" onclick="setCategoryFilter('all', this)">All Apps</button>
+                <button class="cat-pill" onclick="setCategoryFilter('mods', this)">Premium Mods</button>
+                <button class="cat-pill" onclick="setCategoryFilter('games', this)">Games</button>
+                <button class="cat-pill" onclick="setCategoryFilter('tools', this)">VIP Tools</button>
+            </div>
+
+            <div id="adminStoreControls" style="display: none;">
+                <div class="list-heading" id="storeFormHeading">Upload New App to Store</div>
+                <div class="admin-form-card">
+                    <div class="admin-form-group">
+                        <label>App Title</label>
+                        <input type="text" id="storeAppTitle" placeholder="e.g. Spotify Mod">
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Category</label>
+                        <select id="storeAppCat">
+                            <option value="mods">Premium Mod</option>
+                            <option value="games">Game</option>
+                            <option value="tools">VIP Tool</option>
+                        </select>
+                    </div>
+                    <div class="admin-form-group">
+                        <label>App Description (Details)</label>
+                        <textarea id="storeAppDesc" placeholder="Write full details about the app features..."></textarea>
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Download URL (Direct Link)</label>
+                        <input type="text" id="storeAppUrl" placeholder="https://github.com/...">
+                    </div>
+                    <div class="admin-form-group" style="margin-top: 15px;">
+                        <input type="file" id="storeAppIconInput" style="display:none" accept="image/*">
+                        <button class="file-upload-btn" id="iconUploadBtn" onclick="document.getElementById('storeAppIconInput').click()">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Upload App Icon
+                        </button>
+                        <input type="hidden" id="hiddenIconUrl">
+                    </div>
+                    <button class="btn-publish" id="publishAppBtn" onclick="publishAppToStore()">
+                        <i class="fa-solid fa-rocket"></i> Publish to VIP Store
+                    </button>
+                    <button class="btn-cancel-edit" id="cancelEditBtn" onclick="resetStoreForm()">Cancel Editing</button>
+                </div>
+            </div>
+
+            <div class="list-heading" id="storeResultHeading">All Live Apps</div>
+            <div id="apkStoreList" class="store-grid">
+                <div style="grid-column: 1 / -1; text-align:center; padding: 50px; color: var(--text-muted);">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size:24px; color:var(--primary); margin-bottom:10px;"></i><br><b style="font-size: 14px;">Loading VIP Apps...</b>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- FIREBASE SETUP ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
+            authDomain: "fahimn-co-in.firebaseapp.com",
+            databaseURL: "https://fahimn-co-in-default-rtdb.firebaseio.com",
+            projectId: "fahimn-co-in",
+            storageBucket: "fahimn-co-in.firebasestorage.app",
+            messagingSenderId: "698585907618",
+            appId: "1:698585907618:web:c8e4a6646b6b8f5c7932fb"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        let isAdmin = false;
+        let editingAppKey = null;
+        let myUserId = null;
+        let currentOpenAppId = null; 
+        
+        let allStoreAppsData = []; 
+        let currentCatFilter = 'all';
+
+        // --- SLIDER LOGIC ---
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        if(slides.length > 0) {
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 2500); // Changes every 2.5 seconds smoothly
+        }
+
+        function showToast(msg, type='info') {
+            const box = document.getElementById('toastBox');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            let icon = type === 'success' ? 'fa-check' : type === 'error' ? 'fa-xmark' : 'fa-info';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${msg}</span>`;
+            box.appendChild(toast);
+            setTimeout(() => { toast.style.transform='translateY(-40px) scale(0.9)'; toast.style.opacity='0'; setTimeout(()=>toast.remove(),400); }, 3000);
+        }
+
+        function escapeHTML(str) { return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])) : ''; }
+        function escapeForJS(str) { return str ? escapeHTML(str).replace(/'/g, "\\'").replace(/"/g, "&quot;") : ''; }
+
+        // --- AUTH CHECK & DP LOAD ---
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                myUserId = user.uid;
+                db.ref('users/' + user.uid).once('value').then(snap => {
+                    const uData = snap.val();
+                    if(uData) {
+                        if(uData.profile_image) {
+                            document.getElementById('myDp').src = uData.profile_image;
+                            document.getElementById('myDp').style.display = 'block';
+                            document.getElementById('pdDp').src = uData.profile_image;
+                        }
+                        document.getElementById('pdName').innerText = uData.name || "User";
+                        document.getElementById('pdId').innerText = "ID: " + (uData.khatarnak_id || '-----');
+
+                        if(uData.khatarnak_id === "ADMIN" || user.email === "YOUR_ADMIN_EMAIL@domain.com") {
+                            isAdmin = true;
+                            document.getElementById('adminStoreControls').style.display = 'block';
+                            document.getElementById('pdAdminBtn').style.display = 'flex';
+                        }
+                    }
+                    initStoreAppLoader();
+                });
+            } else {
+                window.location.href = 'index.html'; 
+            }
+        });
+
+        // --- DROPDOWN LOGIC ---
+        window.toggleProfileMenu = function() { document.getElementById('profileDropdown').classList.toggle('show'); }
+        document.addEventListener('click', function(e) {
+            const dp = document.getElementById('myDp'); const dropdown = document.getElementById('profileDropdown');
+            if(e.target !== dp && !dropdown.contains(e.target)) { dropdown.classList.remove('show'); }
+        });
+
+        window.confirmLogout = function() {
+            if(confirm("Log out completely?")) {
+                document.getElementById('globalOverlay').style.display = 'flex';
+                document.getElementById('overlayText').innerText = "Signing Out...";
+                auth.signOut().then(() => window.location.href = 'index.html');
+            }
+        }
+
+        // --- DOWNLOAD LOGIC ---
+        window.downloadDynamicApk = function(url, title, appId) {
+            if(!url) { showToast("App link is not available.", "error"); return; }
+            showToast("Starting Download... 🚀", "success");
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', title.replace(/\s+/g, '_') + '.apk'); 
+            link.setAttribute('target', '_blank');
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
+        // --- APP RATING LOGIC ---
+        const stars = document.querySelectorAll('#modalStars i');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                if(!currentOpenAppId || !myUserId) return;
+                const val = parseInt(this.getAttribute('data-val'));
+                
+                // Color UI instantly
+                stars.forEach(s => {
+                    if(parseInt(s.getAttribute('data-val')) <= val) s.classList.add('active');
+                    else s.classList.remove('active');
+                });
+                
+                // Save to Firebase DB
+                db.ref(`admin_settings/store_apps/${currentOpenAppId}/ratings/${myUserId}`).set(val).then(()=> {
+                    showToast(`Rated ${val} Stars! ⭐`, "success");
+                });
+            });
+        });
+
+        // --- APP DETAILS MODAL LOGIC ---
+        window.openAppDetails = function(id, title, iconUrl, appUrl, desc) {
+            currentOpenAppId = id;
+            document.getElementById('detailTitle').innerText = title;
+            document.getElementById('detailIcon').src = iconUrl;
+            document.getElementById('detailDesc').innerText = desc ? desc : "No additional details are available for this app. It is modded and secured by Admin Fahim.";
+            
+            document.getElementById('detailDownloadBtn').onclick = function() { downloadDynamicApk(appUrl, title, id); };
+
+            // Fetch My User Rating from DB
+            db.ref(`admin_settings/store_apps/${id}/ratings/${myUserId}`).once('value').then(snap => {
+                const myRating = snap.val() || 0;
+                stars.forEach(s => {
+                    if(parseInt(s.getAttribute('data-val')) <= myRating) s.classList.add('active');
+                    else s.classList.remove('active');
+                });
+            });
+
+            document.getElementById('appDetailsModal').classList.add('show');
+        }
+
+        window.closeAppDetails = function() {
+            document.getElementById('appDetailsModal').classList.remove('show');
+            currentOpenAppId = null;
+        }
+
+        // --- FILTERING & SEARCH LOGIC ---
+        window.setCategoryFilter = function(cat, btnElement) {
+            currentCatFilter = cat;
+            document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.getElementById('storeResultHeading').innerText = cat === 'all' ? "All Live Apps" : cat.toUpperCase() + " Apps";
+            renderStoreApps();
+        }
+
+        window.filterStoreApps = function() { renderStoreApps(); }
+
+        function renderStoreApps() {
+            const storeList = document.getElementById('apkStoreList');
+            const searchQ = document.getElementById('appSearchInput').value.toLowerCase().trim();
+            storeList.innerHTML = '';
+
+            let filtered = allStoreAppsData.filter(app => {
+                const matchCat = (currentCatFilter === 'all') || (app.category === currentCatFilter);
+                const matchSearch = app.title.toLowerCase().includes(searchQ);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length > 0) {
+                filtered.forEach(app => {
+                    const safeIcon = app.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(app.title || 'A')}&background=10b981&color=fff&rounded=true`;
+                    const cleanTitleForJS = escapeForJS(app.title);
+                    const cleanUrlForJS = escapeForJS(app.url);
+                    const cleanDescForJS = escapeForJS(app.desc);
+
+                    let adminControls = '';
+                    if(isAdmin) {
+                        adminControls = `
+                            <div class="admin-actions">
+                                <button class="btn-action-app edit" onclick="editAppInStore('${app.id}', '${cleanTitleForJS}', '${cleanUrlForJS}', '${app.icon}', '${cleanDescForJS}', '${app.category}')"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action-app del" onclick="removeAppFromStore('${app.id}')"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        `;
+                    }
+                    
+                    storeList.innerHTML += `
+                        <div class="store-app-item">
+                            ${adminControls}
+                            <img src="${safeIcon}" alt="Icon" class="store-app-icon">
+                            <div class="store-app-title">${escapeHTML(app.title)}</div>
+                            
+                            <div class="app-btn-group">
+                                <button class="btn-details" onclick="openAppDetails('${app.id}', '${cleanTitleForJS}', '${safeIcon}', '${cleanUrlForJS}', '${cleanDescForJS}')" title="Details">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </button>
+                                <button class="shimmer-btn-black" onclick="downloadDynamicApk('${app.url}', '${cleanTitleForJS}', '${app.id}')">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i> GET
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                storeList.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:var(--text-muted); font-weight:800; font-size:14px; margin-top:20px;"><i class="fa-solid fa-ghost" style="font-size:30px; margin-bottom:10px; opacity:0.3;"></i><br>No apps found.</div>`;
+            }
+        }
+
+        // --- LOAD STORE APPS FROM DB ---
+        function initStoreAppLoader() {
+            db.ref('admin_settings/store_apps').on('value', snap => {
+                allStoreAppsData = [];
+                snap.forEach(child => {
+                    allStoreAppsData.push({ id: child.key, ...child.val() });
+                });
+                // Reverse to show newest first
+                allStoreAppsData.reverse();
+                renderStoreApps();
+            });
+        }
+
+        // --- ADMIN UPLOAD & EDIT LOGIC ---
+        document.getElementById('storeAppIconInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+            document.getElementById('globalOverlay').style.display = 'flex'; document.getElementById('overlayText').innerText = "Uploading App Icon...";
+            const formData = new FormData(); formData.append('file', file); formData.append('upload_preset', 'qrkdzja7'); 
+            fetch('https://api.cloudinary.com/v1_1/dowwvgffp/upload', { method: 'POST', body: formData })
+            .then(res => res.json()).then(data => {
+                document.getElementById('hiddenIconUrl').value = data.secure_url;
+                document.getElementById('globalOverlay').style.display = 'none'; 
+                document.getElementById('iconUploadBtn').innerHTML = '<i class="fa-solid fa-check"></i> Icon Ready';
+                document.getElementById('iconUploadBtn').style.borderColor = 'var(--success)';
+                document.getElementById('iconUploadBtn').style.color = 'var(--success)';
+            }).catch(err => { document.getElementById('globalOverlay').style.display = 'none'; showToast("Upload Failed!", "error"); });
+        });
+
+        window.publishAppToStore = function() {
+            const title = document.getElementById('storeAppTitle').value.trim();
+            const desc = document.getElementById('storeAppDesc').value.trim();
+            const url = document.getElementById('storeAppUrl').value.trim();
+            const cat = document.getElementById('storeAppCat').value;
+            const icon = document.getElementById('hiddenIconUrl').value;
+            
+            if(!title || !url || !icon) { showToast("Provide Title, URL, and Icon.", "error"); return; }
+            
+            if (editingAppKey) {
+                db.ref('admin_settings/store_apps/' + editingAppKey).update({ title: title, desc: desc, category: cat, url: url, icon: icon }).then(() => {
+                    showToast("App Updated!", "success"); resetStoreForm();
+                });
+            } else {
+                db.ref('admin_settings/store_apps').push({ title: title, desc: desc, category: cat, url: url, icon: icon, timestamp: firebase.database.ServerValue.TIMESTAMP, downloads: 0 }).then(() => {
+                    showToast("App Published!", "success"); resetStoreForm();
+                });
+            }
+        }
+
+        window.editAppInStore = function(key, title, url, icon, desc, cat) {
+            editingAppKey = key;
+            document.getElementById('storeFormHeading').innerText = "Edit App Details";
+            document.getElementById('storeAppTitle').value = title;
+            document.getElementById('storeAppDesc').value = desc;
+            document.getElementById('storeAppUrl').value = url;
+            if(cat) document.getElementById('storeAppCat').value = cat;
+            document.getElementById('hiddenIconUrl').value = icon;
+            
+            document.getElementById('iconUploadBtn').innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Change Icon (Optional)';
+            document.getElementById('iconUploadBtn').style.borderColor = 'var(--primary)';
+            document.getElementById('iconUploadBtn').style.color = 'var(--primary)';
+            
+            const pubBtn = document.getElementById('publishAppBtn');
+            pubBtn.innerHTML = '<i class="fa-solid fa-save"></i> Update Live App';
+            pubBtn.style.background = 'var(--info)';
+            document.getElementById('cancelEditBtn').style.display = 'block';
+            document.querySelector('.main-content').scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        window.resetStoreForm = function() {
+            editingAppKey = null;
+            document.getElementById('storeFormHeading').innerText = "Upload New App to Store";
+            document.getElementById('storeAppTitle').value = ''; document.getElementById('storeAppDesc').value = ''; 
+            document.getElementById('storeAppUrl').value = ''; document.getElementById('hiddenIconUrl').value = '';
+            
+            document.getElementById('iconUploadBtn').innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload App Icon';
+            document.getElementById('iconUploadBtn').style.borderColor = 'var(--primary)'; document.getElementById('iconUploadBtn').style.color = 'var(--primary)';
+            
+            const pubBtn = document.getElementById('publishAppBtn');
+            pubBtn.innerHTML = '<i class="fa-solid fa-rocket"></i> Publish to All Users'; pubBtn.style.background = 'var(--primary)';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+        }
+
+        window.removeAppFromStore = function(appKey) {
+            if(confirm("Delete this app from Store?")) {
+                db.ref('admin_settings/store_apps/' + appKey).remove().then(() => showToast("App removed.", "success"));
+                if(editingAppKey === appKey) resetStoreForm(); 
+            }
+        }
+
+        // --- APP REQUEST LOGIC ---
+        window.openRequestModal = function() { closeAppDetails(); document.getElementById('profileDropdown').classList.remove('show'); document.getElementById('requestAppModal').classList.add('show'); }
+        window.closeRequestModal = function() { document.getElementById('requestAppModal').classList.remove('show'); }
+
+        window.submitAppRequest = function() {
+            const appName = document.getElementById('reqAppName').value.trim();
+            const appDetails = document.getElementById('reqAppDetails').value.trim();
+            if(!appName) { showToast("App Name is required!", "error"); return; }
+            
+            document.getElementById('globalOverlay').style.display = 'flex';
+            document.getElementById('overlayText').innerText = "Submitting Request...";
+            
+            db.ref('app_requests').push({ uid: myUserId, appName: appName, appDetails: appDetails, timestamp: firebase.database.ServerValue.TIMESTAMP, status: 'pending' }).then(() => {
+                document.getElementById('globalOverlay').style.display = 'none';
+                showToast("Request Sent to Admin!", "success");
+                closeRequestModal(); document.getElementById('reqAppName').value = ''; document.getElementById('reqAppDetails').value = '';
+            }).catch(err => { document.getElementById('globalOverlay').style.display = 'none'; showToast("Failed to send request.", "error"); });
+        }
+
+    </script>
+</body>
+</html>
