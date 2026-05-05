@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>fahimn.co.in - VIP Platform</title>
-    
-    <link rel="manifest" href="./manifest.json">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>
+      fahimn.co.in - VIP Platform
+    </title>
+    <link rel="manifest" href="./manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js">
+    </script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer="">
+    </script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
@@ -23,12 +25,11 @@
         });
       });
     </script>
-
-    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
-
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js">
+    </script>
     <style>
-        /* =========================================
-           GLOBAL VARIABLES & CSS (PROFESSIONAL THEME)
+      /* =========================================
+           GLOBAL VARIABLES &amp; CSS (PROFESSIONAL THEME)
            ========================================= */
         :root {
             --primary: #4f46e5; 
@@ -361,7 +362,7 @@
         .nav-item.active i { transform: scale(1.1); color: var(--primary); }
 
         /* =========================================
-           CHAT SCREEN & MODALS
+           CHAT SCREEN &amp; MODALS
            ========================================= */
         .chat-container { display: none; position: absolute; inset: 0; width: 100%; height: 100%; background-color: var(--chat-bg); flex-direction: column; z-index: 100; animation: slideInFade 0.3s ease; }
         .chat-header { background: var(--header-bg); padding: 14px 20px calc(14px + env(safe-area-inset-top)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); z-index: 100; flex-shrink: 0; box-shadow: var(--shadow-sm); position: relative; transition: box-shadow 0.5s ease;}
@@ -421,7 +422,7 @@
         
         emoji-picker { position: absolute; bottom: 80px; left: 16px; display: none; z-index: 200; box-shadow: var(--shadow-lg); border-radius: 12px; border: 1px solid var(--border-color); animation: fadeIn 0.2s; }
         
-        /* Modals & Rest Details */
+        /* Modals &amp; Rest Details */
         .admin-img-chat { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); }
         .date-divider { text-align: center; margin: 24px 0 12px 0; position: relative; display: flex; justify-content: center; z-index: 1; }
         .date-divider span { background: var(--header-bg); color: var(--text-light); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
@@ -457,7 +458,7 @@
         .legal-body { padding: 24px; overflow-y: auto; color: var(--text-light); font-size: 14px; line-height: 1.6; }
         .legal-body h4 { color: var(--text-dark); margin: 15px 0 5px 0; font-size: 15px; }
 
-        /* ADVANCED PROFILE DETAILS MODALS (VIEW & EDIT) */
+        /* ADVANCED PROFILE DETAILS MODALS (VIEW &amp; EDIT) */
         .full-modal { display: none; position: fixed; inset: 0; background: var(--bg-body); z-index: 100000; flex-direction: column; animation: slideInFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; overflow-y: auto; }
         .full-modal.show { display: flex; }
         .modal-nav { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; background: var(--header-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 10; }
@@ -531,394 +532,608 @@
         .canvas-tool-btn-big:hover { background: var(--primary-hover); transform: translateY(-2px) scale(1.05); }
         .canvas-tool-btn-big.eraser { background: var(--danger); }
         .canvas-tool-btn-big.eraser:hover { background: #b91c1c; }
-        
     </style>
-</head>
-<body>
-
-    <audio id="msgSound" src="https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3" preload="auto"></audio>
-    <div id="toastBox" class="toast-box"></div>
-
+  </head>
+  <body>
+    <audio id="msgSound" src="https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3" preload="auto">
+    </audio>
+    <div id="toastBox" class="toast-box">
+    </div>
     <div class="global-overlay" id="globalOverlay" style="display: flex;">
-        <div class="spinner"></div>
-        <div class="upload-text" id="overlayText">Initializing Platform...</div>
+      <div class="spinner">
+      </div>
+      <div class="upload-text" id="overlayText">
+        Initializing Platform...
+      </div>
     </div>
-
     <div id="tabSkeletonLoader" style="display:none; padding:0; flex-direction:column; position:absolute; top:60px; bottom:60px; left:0; right:0; background:var(--header-bg); z-index:90; overflow:hidden;">
-        
-        <div style="margin: 20px 24px 10px 24px; width: 150px; height: 12px; border-radius: 6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-        
-        <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
-            <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;"></div>
-            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
-                <div style="width:50%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-                <div style="width:30%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-            </div>
+      <div style="margin: 20px 24px 10px 24px; width: 150px; height: 12px; border-radius: 6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+      </div>
+      <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
+        <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;">
         </div>
-        
-        <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
-            <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;"></div>
-            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
-                <div style="width:60%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-                <div style="width:40%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-            </div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+          <div style="width:50%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+          </div>
+          <div style="width:30%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+          </div>
         </div>
-
-        <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
-            <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;"></div>
-            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
-                <div style="width:45%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-                <div style="width:25%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-            </div>
+      </div>
+      <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
+        <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;">
         </div>
-        
-        <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
-            <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;"></div>
-            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
-                <div style="width:55%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-                <div style="width:35%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;"></div>
-            </div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+          <div style="width:60%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+          </div>
+          <div style="width:40%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+          </div>
         </div>
-
+      </div>
+      <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
+        <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;">
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+          <div style="width:45%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+          </div>
+          <div style="width:25%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; padding:12px 24px; border-bottom:1px solid var(--border-color);">
+        <div style="width:50px; height:50px; border-radius:50%; margin-right:14px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear; flex-shrink: 0;">
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+          <div style="width:55%; height:14px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+          </div>
+          <div style="width:35%; height:12px; border-radius:6px; background: linear-gradient(90deg, var(--bg-input) 25%, var(--border-color) 50%, var(--bg-input) 75%); background-size: 200% 100%; animation: ytShimmer 1.5s infinite linear;">
+          </div>
+        </div>
+      </div>
     </div>
-    <style>@keyframes ytShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }</style>
-
+    <style>
+      @keyframes ytShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
     <div class="full-modal" id="viewProfileModal">
-        <div class="modal-nav">
-            <h2>User Details</h2>
-            <button class="modal-close-btn" onclick="closeViewProfile()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="profile-view-body">
-            <img id="vpImage" src="" alt="Profile">
-            <h3 id="vpName">Loading...</h3>
-            <p class="bio-text" id="vpBio">"Hey there! I am using this secure platform."</p>
-            <div class="info-grid">
-                <div class="info-card"><i class="fa-solid fa-heart"></i><div><h5>Relationship Status</h5><p id="vpStatus">Not Specified</p></div></div>
-                <div class="info-card"><i class="fa-solid fa-fingerprint"></i><div><h5>VIP Chat ID</h5><p id="vpID">-----</p></div></div>
+      <div class="modal-nav">
+        <h2>
+          User Details
+        </h2>
+        <button class="modal-close-btn" onclick="closeViewProfile()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="profile-view-body">
+        <img id="vpImage" src="" alt="Profile" />
+        <h3 id="vpName">
+          Loading...
+        </h3>
+        <p class="bio-text" id="vpBio">
+          "Hey there! I am using this secure platform."
+        </p>
+        <div class="info-grid">
+          <div class="info-card">
+            <i class="fa-solid fa-heart"></i>
+            <div>
+              <h5>
+                Relationship Status
+              </h5>
+              <p id="vpStatus">
+                Not Specified
+              </p>
             </div>
+          </div>
+          <div class="info-card">
+            <i class="fa-solid fa-fingerprint"></i>
+            <div>
+              <h5>
+                VIP Chat ID
+              </h5>
+              <p id="vpID">
+                -----
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-
     <div class="full-modal" id="editProfileModal">
-        <div class="modal-nav">
-            <h2>Edit My Profile</h2>
-            <button class="modal-close-btn" onclick="closeEditProfile()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-nav">
+        <h2>
+          Edit My Profile
+        </h2>
+        <button class="modal-close-btn" onclick="closeEditProfile()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="edit-form-body">
+        <div class="edit-group">
+          <label>
+            <i class="fa-solid fa-envelope" style="color:var(--primary);"></i>
+            Your Registered Email (Private)
+          </label>
+          <input type="text" id="privateEmailView" readonly="" style="background: var(--bg-body); font-weight: 600; color: var(--text-light); border: 1px dashed var(--border-color);" />
         </div>
-        <div class="edit-form-body">
-            <div class="edit-group">
-                <label><i class="fa-solid fa-envelope" style="color:var(--primary);"></i> Your Registered Email (Private)</label>
-                <input type="text" id="privateEmailView" readonly style="background: var(--bg-body); font-weight: 600; color: var(--text-light); border: 1px dashed var(--border-color);">
-            </div>
-            <div class="edit-group"><label>Your Bio (About You)</label><textarea id="editBioInput" placeholder="Write something interesting about yourself..."></textarea></div>
-            <div class="edit-group"><label>Relationship Status</label>
-                <select id="editStatusInput">
-                    <option value="Not Specified">Not Specified</option><option value="Single">Single</option><option value="Married">Married</option>
-                    <option value="In a Relationship">In a Relationship</option><option value="It's Complicated">It's Complicated</option>
-                </select>
-            </div>
-            <button class="save-btn" onclick="saveAdvancedProfile()">Save Profile</button>
+        <div class="edit-group">
+          <label>
+            Your Bio (About You)
+          </label>
+          <textarea id="editBioInput" placeholder="Write something interesting about yourself...">
+          </textarea>
         </div>
+        <div class="edit-group">
+          <label>
+            Relationship Status
+          </label>
+          <select id="editStatusInput">
+            <option value="Not Specified">
+              Not Specified
+            </option>
+            <option value="Single">
+              Single
+            </option>
+            <option value="Married">
+              Married
+            </option>
+            <option value="In a Relationship">
+              In a Relationship
+            </option>
+            <option value="It's Complicated">
+              It's Complicated
+            </option>
+          </select>
+        </div>
+        <button class="save-btn" onclick="saveAdvancedProfile()">
+          Save Profile
+        </button>
+      </div>
     </div>
-
     <div class="full-modal" id="viewOnceModal">
-        <div class="modal-nav"><h2><i class="fa-solid fa-fire"></i> View Once Message</h2><button class="modal-close-btn" onclick="closeViewOnce()"><i class="fa-solid fa-xmark"></i></button></div>
-        <div id="viewOnceContent" style="width:100%; display:flex; justify-content:center; align-items:center; flex:1;"></div>
-        <div style="text-align:center; padding: 20px; color: var(--text-light); font-size:12px;"><i class="fa-solid fa-trash"></i> This message has self-destructed from the server.</div>
+      <div class="modal-nav">
+        <h2>
+          <i class="fa-solid fa-fire"></i>
+          View Once Message
+        </h2>
+        <button class="modal-close-btn" onclick="closeViewOnce()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="viewOnceContent" style="width:100%; display:flex; justify-content:center; align-items:center; flex:1;">
+      </div>
+      <div style="text-align:center; padding: 20px; color: var(--text-light); font-size:12px;">
+        <i class="fa-solid fa-trash"></i>
+        This message has self-destructed from the server.
+      </div>
     </div>
-
     <div class="secure-prompt-overlay" id="secureNotifModal">
-        <div class="secure-prompt-box">
-            <div class="secure-icon-wrap-main"><i class="fa-solid fa-shield-check"></i></div>
-            <div class="secure-tag"><i class="fa-solid fa-lock"></i> SECURE JAVASCRIPT PLATFORM</div>
-            <h3>Enable Direct Notifications</h3>
-            <p>Please grant notification permission to ensure real-time deliverability of your secure, encrypted messages instantly.</p>
-            <button class="secure-btn-allow" onclick="triggerNativePrompt()">Allow Secure Notifications</button>
-            <button class="secure-btn-deny" onclick="closeSecureModal()">Review Later</button>
+      <div class="secure-prompt-box">
+        <div class="secure-icon-wrap-main">
+          <i class="fa-solid fa-shield-check"></i>
         </div>
+        <div class="secure-tag">
+          <i class="fa-solid fa-lock"></i>
+          SECURE JAVASCRIPT PLATFORM
+        </div>
+        <h3>
+          Enable Direct Notifications
+        </h3>
+        <p>
+          Please grant notification permission to ensure real-time deliverability of your secure, encrypted messages instantly.
+        </p>
+        <button class="secure-btn-allow" onclick="triggerNativePrompt()">
+          Allow Secure Notifications
+        </button>
+        <button class="secure-btn-deny" onclick="closeSecureModal()">
+          Review Later
+        </button>
+      </div>
     </div>
-
-    <div class="image-modal" id="imageModal"><button class="close-modal-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button><img id="modalImg" src="" alt="Fullscreen Secure Image"></div>
-
+    <div class="image-modal" id="imageModal">
+      <button class="close-modal-btn" onclick="closeModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img id="modalImg" src="" alt="Fullscreen Secure Image" />
+    </div>
     <div class="legal-modal" id="legalModal">
-        <div class="legal-content">
-            <div class="legal-header"><h3>End-to-End Encryption & Privacy</h3><button onclick="closeLegalModal()"><i class="fa-solid fa-xmark"></i></button></div>
-            <div class="legal-body">
-                <p>Welcome to fahimn.co.in. Your collaborative privacy is our highest priority.</p>
-                <h4>Advanced End-to-End Encryption</h4><p>All personal messages, professional collaborative drawings, and media are secured using advanced, protocol-level end-to-end encryption. No one outside of this chat can read, access, or decipher them.</p>
-                <h4>Data Governance</h4><p>We adhere to strict data minimize governance policies. Data collection is limited to strictly necessary service parameters (Name, Email, Profile Picture). No data is ever monetized.</p>
-            </div>
+      <div class="legal-content">
+        <div class="legal-header">
+          <h3>
+            End-to-End Encryption &amp; Privacy
+          </h3>
+          <button onclick="closeLegalModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
+        <div class="legal-body">
+          <p>
+            Welcome to fahimn.co.in. Your collaborative privacy is our highest priority.
+          </p>
+          <h4>
+            Advanced End-to-End Encryption
+          </h4>
+          <p>
+            All personal messages, professional collaborative drawings, and media are secured using advanced, protocol-level end-to-end encryption. No one outside of this chat can read, access, or decipher them.
+          </p>
+          <h4>
+            Data Governance
+          </h4>
+          <p>
+            We adhere to strict data minimize governance policies. Data collection is limited to strictly necessary service parameters (Name, Email, Profile Picture). No data is ever monetized.
+          </p>
+        </div>
+      </div>
     </div>
-
     <div class="login-wrapper" id="loginWrapper" style="display: none;">
-        <div class="login-card">
-            <div class="header">
-                <img id="adminProfileLogin" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin">
-                <h2 id="formTitle">fahimn.co.in</h2>
-                <p id="formSubtitle">Join the secure platform today.</p>
-            </div>
-            
-            <form id="premiumForm">
-                <div class="input-box" id="nameInputGroup">
-                    <i class="fa-regular fa-user icon"></i>
-                    <input type="text" id="fullname" placeholder="Full Name" required>
-                </div>
-                <div class="input-box">
-                    <i class="fa-regular fa-envelope icon"></i>
-                    <input type="email" id="email" placeholder="Email Address" required>
-                </div>
-                <div class="input-box">
-                    <i class="fa-solid fa-lock icon"></i>
-                    <input type="password" id="password" placeholder="Password" required>
-                    <i class="fa-regular fa-eye eye-btn" id="togglePass"></i>
-                </div>
-                
-                <div class="forgot-pass-wrap" id="forgotPassWrap">
-                    <a class="forgot-pass" onclick="resetPassword()">Forgot Password?</a>
-                </div>
-
-                <button type="submit" class="btn-login" id="mainBtn">
-                    <span class="btn-spinner" id="btnSpinner"></span>
-                    <span id="btnText">Sign Up</span>
-                </button>
-
-                <div class="toggle-link-wrap">
-                    <a id="toggleModeBtn">Already have an account? Sign in</a>
-                </div>
-            </form>
-            
-            <div class="divider"><span>or continue with</span></div>
-            
-            <button type="button" class="btn-google-big" id="btnGoogleBig">
-                <svg class="google-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                  <path fill="none" d="M0 0h48v48H0z"/>
-                </svg>
-                Continue with Google
-            </button>
-            
-            <div class="social-buttons">
-                <button type="button" class="btn-social facebook" id="btnFacebook"><i class="fa-brands fa-facebook"></i></button>
-                <button type="button" class="btn-social github" id="btnGithub"><i class="fa-brands fa-github"></i></button>
-            </div>
+      <div class="login-card">
+        <div class="header">
+          <img id="adminProfileLogin" src="https://ui-avatars.com/api/?name=Admin+Fahim&amp;background=4f46e5&amp;color=fff&amp;bold=true" alt="Admin" />
+          <h2 id="formTitle">
+            fahimn.co.in
+          </h2>
+          <p id="formSubtitle">
+            Join the secure platform today.
+          </p>
         </div>
+        <form id="premiumForm">
+          <div class="input-box" id="nameInputGroup">
+            <i class="fa-regular fa-user icon"></i>
+            <input type="text" id="fullname" placeholder="Full Name" required="" />
+          </div>
+          <div class="input-box">
+            <i class="fa-regular fa-envelope icon"></i>
+            <input type="email" id="email" placeholder="Email Address" required="" />
+          </div>
+          <div class="input-box">
+            <i class="fa-solid fa-lock icon"></i>
+            <input type="password" id="password" placeholder="Password" required="" />
+            <i class="fa-regular fa-eye eye-btn" id="togglePass"></i>
+          </div>
+          <div class="forgot-pass-wrap" id="forgotPassWrap">
+            <a class="forgot-pass" onclick="resetPassword()">            Forgot Password?
+</a>
+          </div>
+          <button type="submit" class="btn-login" id="mainBtn">
+            <span class="btn-spinner" id="btnSpinner"></span>
+            <span id="btnText">            Sign Up
+</span>
+          </button>
+          <div class="toggle-link-wrap">
+            <a id="toggleModeBtn">            Already have an account? Sign in
+</a>
+          </div>
+        </form>
+        <div class="divider">
+          <span>          or continue with
+</span>
+        </div>
+        <button type="button" class="btn-google-big" id="btnGoogleBig">
+          <svg class="google-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+            </path>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+            </path>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+            </path>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+            </path>
+            <path fill="none" d="M0 0h48v48H0z">
+            </path>
+          </svg>
+          Continue with Google
+        </button>
+        <div class="social-buttons">
+          <button type="button" class="btn-social facebook" id="btnFacebook">
+            <i class="fa-brands fa-facebook"></i>
+          </button>
+          <button type="button" class="btn-social github" id="btnGithub">
+            <i class="fa-brands fa-github"></i>
+          </button>
+        </div>
+      </div>
     </div>
-
     <div class="app-container" id="appScreen">
-        <div class="app-header">
-            <h2>fahimn.co.in Platform</h2>
-            <button class="header-search-btn" style="background:none; border:none; color:var(--primary); font-size:20px; cursor:pointer; padding:5px; transition:0.2s;" onclick="switchTab('search')" onmousedown="this.style.transform='scale(0.9)'" onmouseup="this.style.transform='scale(1)'"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <div class="app-header">
+        <h2>
+          fahimn.co.in Platform
+        </h2>
+        <button class="header-search-btn" style="background:none; border:none; color:var(--primary); font-size:20px; cursor:pointer; padding:5px; transition:0.2s;" onclick="switchTab('search')" onmousedown="this.style.transform='scale(0.9)'" onmouseup="this.style.transform='scale(1)'">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+      <div class="main-content" id="mainContent">
+        <div id="homeView" class="tab-view active">
+          <div class="list-heading">
+            Pinned &amp; Official channels
+          </div>
+          <div class="user-list-item" onclick="openChatRoom('admin_fahim', 'Admin Fahim', document.getElementById('adminProfileLogin').src, true)">
+            <img id="listAdminImg" src="https://ui-avatars.com/api/?name=Admin+Fahim&amp;background=4f46e5&amp;color=fff&amp;bold=true" alt="Admin" />
+            <div class="user-list-info">
+              <h4 style="display:flex; align-items:center;">
+                Admin Fahim
+                <svg aria-label="Verified" class="verified-icon" viewBox="0 0 40 40">
+                  <path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6">
+                  </path>
+                </svg>
+              </h4>
+              <p id="listAdminStatus">
+                Official Platform Support
+              </p>
+            </div>
+            <div class="unread-indicator" id="adminUnreadCount" style="display:none;">
+              0
+            </div>
+            <i class="fa-solid fa-chevron-right chevron-icon"></i>
+          </div>
+          <div class="list-heading">
+            Recent professional collaboration
+          </div>
+          <div id="recentChatsList">
+          </div>
         </div>
-
-        <div class="main-content" id="mainContent">
-            
-            <div id="homeView" class="tab-view active">
-                <div class="list-heading">Pinned & Official channels</div>
-                
-                <div class="user-list-item" onclick="openChatRoom('admin_fahim', 'Admin Fahim', document.getElementById('adminProfileLogin').src, true)">
-                    <img id="listAdminImg" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin">
-                    <div class="user-list-info">
-                        <h4 style="display:flex; align-items:center;">
-                            Admin Fahim 
-                            <svg aria-label="Verified" class="verified-icon" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>
-                        </h4>
-                        <p id="listAdminStatus">Official Platform Support</p>
-                    </div>
-                    <div class="unread-indicator" id="adminUnreadCount" style="display:none;">0</div>
-                    <i class="fa-solid fa-chevron-right chevron-icon"></i>
-                </div>
-
-                <div class="list-heading">Recent professional collaboration</div>
-                <div id="recentChatsList"></div>
+        <div id="searchView" class="tab-view">
+          <div class="smart-search-box">
+            <div class="search-input-wrapper">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="userSearch" placeholder="Search verified users..." autocomplete="off" />
             </div>
-
-            <div id="searchView" class="tab-view">
-                <div class="smart-search-box">
-                    <div class="search-input-wrapper">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="userSearch" placeholder="Search verified users..." autocomplete="off">
-                    </div>
-                </div>
-                <div id="searchResults" style="display: block;">
-                    <div class="empty-search">Enter dynamic query to search professional users globally.</div>
-                </div>
+          </div>
+          <div id="searchResults" style="display: block;">
+            <div class="empty-search">
+              Enter dynamic query to search professional users globally.
             </div>
-
-            <div id="storeView" class="tab-view">
-                <div class="list-heading">VIP App Launcher</div>
-                <div id="apkStoreList" class="store-grid">
-                    <div class="empty-search" style="grid-column: 1 / -1; margin-top: 50px;">
-                        <i class="fa-solid fa-spinner fa-spin" style="font-size:24px; color:var(--primary); margin-bottom:10px;"></i><br>Loading VIP Apps...
-                    </div>
-                </div>
-            </div>
-
-            <div id="settingsView" class="tab-view">
-                <div class="profile-card">
-                    <div class="profile-pic-wrapper" onclick="document.getElementById('profilePicInput').click()" title="Update Profile Picture">
-                        <img id="myProfilePic" src="" alt="Authorized User Profile">
-                        <div class="pic-edit-overlay"><i class="fa-solid fa-camera"></i></div>
-                    </div>
-                    <input type="file" id="profilePicInput" style="display:none" accept="image/*">
-                    
-                    <h3 id="myProfileName" style="display:flex; justify-content:center; align-items:center;">...</h3>
-                    <span class="id-badge" id="myKhatarnakID" style="margin-top:5px;">ID: -----</span>
-                </div>
-                <div class="settings-menu">
-                    
-                    <div class="list-heading">VIP Downloads</div>
-                    <div class="settings-item" onclick="switchTab('store')">
-                        <div class="s-icon-wrap s-icon-orange"><i class="fa-brands fa-android"></i></div>
-                        <div class="settings-text-block">
-                            <div class="settings-title">Fahim APK Store</div>
-                            <div class="settings-desc">Explore and download exclusive official apps.</div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right chevron-icon"></i>
-                    </div>
-
-                    <div class="list-heading">Personal Details</div>
-                    <div class="settings-item" onclick="openEditProfile()">
-                        <div class="s-icon-wrap s-icon-yellow"><i class="fa-solid fa-user-pen"></i></div>
-                        <div class="settings-text-block">
-                            <div class="settings-title">Edit My Profile</div>
-                            <div class="settings-desc">Manage Bio, Relationship Status and hidden email.</div>
-                        </div>
-                    </div>
-
-                    <div class="list-heading">Configurations</div>
-                    <div class="settings-item" onclick="checkAndPromptNotification()">
-                        <div class="s-icon-wrap s-icon-blue"><i class="fa-solid fa-bell"></i></div>
-                        <div class="settings-text-block">
-                            <div class="settings-title">Enable Push Notifications</div>
-                            <div class="settings-desc">Get instant alerts for secure messages.</div>
-                        </div>
-                    </div>
-
-                    <div class="settings-item" onclick="generateAndCopyLink()">
-                        <div class="s-icon-wrap s-icon-purple"><i class="fa-solid fa-link"></i></div>
-                        <div class="settings-text-block">
-                            <div class="settings-title">Copy VIP Chat Link</div>
-                            <div class="settings-desc">Share your 5-digit unique ID link to invite friends.</div>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-item" onclick="requestBlueTick()">
-                        <div class="s-icon-wrap s-icon-green"><i class="fa-solid fa-robot"></i></div>
-                        <div class="settings-text-block">
-                            <div class="settings-title" style="color: #0095F6; display:flex; align-items:center;">
-                                Request Verification 
-                                <svg style="width:16px; height:16px; margin-left:4px;" viewBox="0 0 40 40"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"></path></svg>
-                            </div>
-                            <div class="settings-desc">Submit request to gain your Verified Badge status.</div>
-                        </div>
-                    </div>
-
-                    <div class="list-heading" style="margin-top:10px;">Security & App Parameters</div>
-                    <div class="settings-item" onclick="toggleTheme()">
-                        <div class="s-icon-wrap s-icon-gray"><i class="fa-solid fa-moon"></i></div>
-                        <div class="settings-text-block">
-                            <div class="settings-title">Dark / Light Mode</div>
-                            <div class="settings-desc">Switch between application themes easily.</div>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-item" onclick="document.getElementById('legalModal').classList.add('show')">
-                        <div class="s-icon-wrap s-icon-gray"><i class="fa-solid fa-shield-halved"></i></div>
-                        <div class="settings-text-block">
-                            <div class="settings-title">Advanced Security & Privacy Protocol</div>
-                            <div class="settings-desc">Review End-to-End Encryption specifications and Data Governance.</div>
-                        </div>
-                    </div>
-                    
-                    <div class="list-heading">Access Management</div>
-                    <div class="settings-item danger" onclick="confirmLogout()">
-                        <div class="s-icon-wrap s-icon-red"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
-                        <div class="settings-text-block">
-                            <div class="settings-title">Logout Account</div>
-                            <div class="settings-desc">Securely sign out of this session.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-
-        <div class="bottom-nav">
-            <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
-                <i class="fa-solid fa-house"></i><span>Home</span>
-            </button>
-            <button class="nav-item" id="nav-social" onclick="openSocialFileSmoothly()">
-                <i class="fa-solid fa-clapperboard"></i><span>Feed</span>
-            </button>
-            <button class="nav-item" id="nav-store" onclick="switchTab('store')">
-                <i class="fa-brands fa-android"></i><span>Store</span>
-            </button>
-            <button class="nav-item" id="nav-settings" onclick="switchTab('settings')">
-                <i class="fa-solid fa-gear"></i><span>Settings</span>
-            </button>
+        <div id="settingsView" class="tab-view">
+          <div class="profile-card">
+            <div class="profile-pic-wrapper" onclick="document.getElementById('profilePicInput').click()" title="Update Profile Picture">
+              <img id="myProfilePic" src="" alt="Authorized User Profile" />
+              <div class="pic-edit-overlay">
+                <i class="fa-solid fa-camera"></i>
+              </div>
+            </div>
+            <input type="file" id="profilePicInput" style="display:none" accept="image/*" />
+            <h3 id="myProfileName" style="display:flex; justify-content:center; align-items:center;">
+              ...
+            </h3>
+            <span class="id-badge" id="myKhatarnakID" style="margin-top:5px;">            ID: -----
+</span>
+          </div>
+          <div class="settings-menu">
+            <div class="list-heading">
+              VIP Downloads
+            </div>
+            <div class="settings-item" onclick="window.location.href='store.app.html'">
+              <div class="s-icon-wrap s-icon-orange">
+                <i class="fa-brands fa-android"></i>
+              </div>
+              <div class="settings-text-block">
+                <div class="settings-title">
+                  Fahim APK Store
+                </div>
+                <div class="settings-desc">
+                  Explore and download exclusive official apps.
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right chevron-icon"></i>
+            </div>
+            <div class="list-heading">
+              Personal Details
+            </div>
+            <div class="settings-item" onclick="openEditProfile()">
+              <div class="s-icon-wrap s-icon-yellow">
+                <i class="fa-solid fa-user-pen"></i>
+              </div>
+              <div class="settings-text-block">
+                <div class="settings-title">
+                  Edit My Profile
+                </div>
+                <div class="settings-desc">
+                  Manage Bio, Relationship Status and hidden email.
+                </div>
+              </div>
+            </div>
+            <div class="list-heading">
+              Configurations
+            </div>
+            <div class="settings-item" onclick="checkAndPromptNotification()">
+              <div class="s-icon-wrap s-icon-blue">
+                <i class="fa-solid fa-bell"></i>
+              </div>
+              <div class="settings-text-block">
+                <div class="settings-title">
+                  Enable Push Notifications
+                </div>
+                <div class="settings-desc">
+                  Get instant alerts for secure messages.
+                </div>
+              </div>
+            </div>
+            <div class="settings-item" onclick="generateAndCopyLink()">
+              <div class="s-icon-wrap s-icon-purple">
+                <i class="fa-solid fa-link"></i>
+              </div>
+              <div class="settings-text-block">
+                <div class="settings-title">
+                  Copy VIP Chat Link
+                </div>
+                <div class="settings-desc">
+                  Share your 5-digit unique ID link to invite friends.
+                </div>
+              </div>
+            </div>
+            <div class="settings-item" onclick="requestBlueTick()">
+              <div class="s-icon-wrap s-icon-green">
+                <i class="fa-solid fa-robot"></i>
+              </div>
+              <div class="settings-text-block">
+                <div class="settings-title" style="color: #0095F6; display:flex; align-items:center;">
+                  Request Verification
+                  <svg style="width:16px; height:16px; margin-left:4px;" viewBox="0 0 40 40">
+                    <path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6">
+                    </path>
+                  </svg>
+                </div>
+                <div class="settings-desc">
+                  Submit request to gain your Verified Badge status.
+                </div>
+              </div>
+            </div>
+            <div class="list-heading" style="margin-top:10px;">
+              Security &amp; App Parameters
+            </div>
+            <div class="settings-item" onclick="toggleTheme()">
+              <div class="s-icon-wrap s-icon-gray">
+                <i class="fa-solid fa-moon"></i>
+              </div>
+              <div class="settings-text-block">
+                <div class="settings-title">
+                  Dark / Light Mode
+                </div>
+                <div class="settings-desc">
+                  Switch between application themes easily.
+                </div>
+              </div>
+            </div>
+            <div class="settings-item" onclick="document.getElementById('legalModal').classList.add('show')">
+              <div class="s-icon-wrap s-icon-gray">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div class="settings-text-block">
+                <div class="settings-title">
+                  Advanced Security &amp; Privacy Protocol
+                </div>
+                <div class="settings-desc">
+                  Review End-to-End Encryption specifications and Data Governance.
+                </div>
+              </div>
+            </div>
+            <div class="list-heading">
+              Access Management
+            </div>
+            <div class="settings-item danger" onclick="confirmLogout()">
+              <div class="s-icon-wrap s-icon-red">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              </div>
+              <div class="settings-text-block">
+                <div class="settings-title">
+                  Logout Account
+                </div>
+                <div class="settings-desc">
+                  Securely sign out of this session.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="bottom-nav">
+        <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
+          <i class="fa-solid fa-house"></i>
+          <span>          Home
+</span>
+        </button>
+        <button class="nav-item" id="nav-social" onclick="openSocialFileSmoothly()">
+          <i class="fa-solid fa-clapperboard"></i>
+          <span>          Feed
+</span>
+        </button>
+        <button class="nav-item" id="nav-store" onclick="window.location.href='store.app.html'">
+          <i class="fa-brands fa-android"></i>
+          <span>          Store
+</span>
+        </button>
+        <button class="nav-item" id="nav-settings" onclick="switchTab('settings')">
+          <i class="fa-solid fa-gear"></i>
+          <span>          Settings
+</span>
+        </button>
+      </div>
     </div>
-
     <div class="chat-container" id="chatCard">
-        <div class="chat-header" id="chatHeader">
-            <button class="back-btn" onclick="closeChatRoom()"><i class="fa-solid fa-arrow-left"></i></button>
-            <div class="user-details-wrapper" onclick="openViewProfile(currentChatUserId)">
-                <img id="chatHeaderImg" class="admin-img-chat" src="" alt="Collaborative User">
-                <div class="user-details">
-                    <h3 id="chatHeaderName">Authorized User</h3>
-                    
-                    <div class="status-text" id="chatHeaderStatus">
-                        <span class="online-dot" id="chatStatusDot"></span> Authenticating...
-                    </div>
-                </div>
+      <div class="chat-header" id="chatHeader">
+        <button class="back-btn" onclick="closeChatRoom()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="user-details-wrapper" onclick="openViewProfile(currentChatUserId)">
+          <img id="chatHeaderImg" class="admin-img-chat" src="" alt="Collaborative User" />
+          <div class="user-details">
+            <h3 id="chatHeaderName">
+              Authorized User
+            </h3>
+            <div class="status-text" id="chatHeaderStatus">
+              <span class="online-dot" id="chatStatusDot"></span>
+              Authenticating...
             </div>
+          </div>
         </div>
-
-        <div class="canvas-container" id="canvasBoard">
-            <div class="canvas-tools-header">
-                <h4><i class="fa-solid fa-palette"></i> Live Collaboration Draw Board</h4>
-                <button class="canvas-btn-close" onclick="closeDrawingMode()"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <canvas id="liveCanvas"></canvas>
-            <div class="canvas-bottom-tools">
-                <button class="canvas-tool-btn-big eraser" id="canvasEraser" title="Eraser Tool (Draw White)"><i class="fa-solid fa-eraser"></i></button>
-                <button class="canvas-tool-btn-big" id="canvasClear" title="Clear Board (Only for you)"><i class="fa-solid fa-trash"></i></button>
-            </div>
+      </div>
+      <div class="canvas-container" id="canvasBoard">
+        <div class="canvas-tools-header">
+          <h4>
+            <i class="fa-solid fa-palette"></i>
+            Live Collaboration Draw Board
+          </h4>
+          <button class="canvas-btn-close" onclick="closeDrawingMode()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
-        
-        <div class="chat-messages" id="chatBox"></div>
-        
-        <div class="scroll-bottom-btn" id="scrollBottomBtn" onclick="scrollToBottom()">
-            <i class="fa-solid fa-arrow-down"></i>
-            <span class="scroll-badge" id="scrollBadge">1</span>
+        <canvas id="liveCanvas">
+        </canvas>
+        <div class="canvas-bottom-tools">
+          <button class="canvas-tool-btn-big eraser" id="canvasEraser" title="Eraser Tool (Draw White)">
+            <i class="fa-solid fa-eraser"></i>
+          </button>
+          <button class="canvas-tool-btn-big" id="canvasClear" title="Clear Board (Only for you)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
         </div>
-
-        <div class="chat-input-area">
-            <input type="file" id="fileInput" style="display:none" accept="image/*, .pdf">
-            
-            <button class="icon-btn" id="toggleToolsBtn" title="More Tools"><i class="fa-solid fa-circle-plus"></i></button>
-            
-            <div class="chat-tools-popup" id="chatToolsPopup">
-                <button class="tool-item" id="emojiBtn"><i class="fa-regular fa-face-smile"></i> <span>Send Emojis</span></button>
-                <button class="tool-item" id="paletteBtn"><i class="fa-solid fa-palette"></i> <span>Draw & Share</span></button>
-                <button class="tool-item" id="attachBtn"><i class="fa-solid fa-paperclip"></i> <span>Attach Media</span></button>
-                <button class="tool-item" id="viewOnceBtn"><i class="fa-solid fa-bomb"></i> <span>View Once Message</span></button>
-            </div>
-            
-            <div class="input-wrapper-chat">
-                <input type="text" id="msgInput" placeholder="Secure message..." autocomplete="off">
-                <span class="msg-input-mood-dot" id="inputMoodDot"></span>
-            </div>
-            <button class="btn-send" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
-            
-            <emoji-picker id="emojiPicker"></emoji-picker>
+      </div>
+      <div class="chat-messages" id="chatBox">
+      </div>
+      <div class="scroll-bottom-btn" id="scrollBottomBtn" onclick="scrollToBottom()">
+        <i class="fa-solid fa-arrow-down"></i>
+        <span class="scroll-badge" id="scrollBadge">        1
+</span>
+      </div>
+      <div class="chat-input-area">
+        <input type="file" id="fileInput" style="display:none" accept="image/*, .pdf" />
+        <button class="icon-btn" id="toggleToolsBtn" title="More Tools">
+          <i class="fa-solid fa-circle-plus"></i>
+        </button>
+        <div class="chat-tools-popup" id="chatToolsPopup">
+          <button class="tool-item" id="emojiBtn">
+            <i class="fa-regular fa-face-smile"></i>
+            <span>            Send Emojis
+</span>
+          </button>
+          <button class="tool-item" id="paletteBtn">
+            <i class="fa-solid fa-palette"></i>
+            <span>            Draw &amp; Share
+</span>
+          </button>
+          <button class="tool-item" id="attachBtn">
+            <i class="fa-solid fa-paperclip"></i>
+            <span>            Attach Media
+</span>
+          </button>
+          <button class="tool-item" id="viewOnceBtn">
+            <i class="fa-solid fa-bomb"></i>
+            <span>            View Once Message
+</span>
+          </button>
         </div>
+        <div class="input-wrapper-chat">
+          <input type="text" id="msgInput" placeholder="Secure message..." autocomplete="off" />
+          <span class="msg-input-mood-dot" id="inputMoodDot"></span>
+        </div>
+        <button class="btn-send" id="sendBtn">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+        <emoji-picker id="emojiPicker">
+        </emoji-picker>
+      </div>
     </div>
-
     <script>
-        // --- FIREBASE SETUP ---
+      // --- FIREBASE SETUP ---
         const firebaseConfig = {
             apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
             authDomain: "fahimn-co-in.firebaseapp.com",
@@ -969,7 +1184,7 @@
             document.body.removeChild(link);
         }
 
-        // --- VIEW ONCE STATE & LOGIC ---
+        // --- VIEW ONCE STATE &amp; LOGIC ---
         window.viewOnceStore = {};
         let isViewOnceMode = false;
 
@@ -997,7 +1212,7 @@
             document.getElementById('viewOnceContent').innerHTML = ''; 
         }
 
-        // --- UI HELPERS & MODALS ---
+        // --- UI HELPERS &amp; MODALS ---
         function showToast(msg, type='error') {
             const box = document.getElementById('toastBox');
             const toast = document.createElement('div');
@@ -1255,7 +1470,7 @@
                     const dName = customName || user.displayName || 'User';
                     const profileImg = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=4f46e5&color=fff&bold=true`;
                     
-                    let kid = existingData && existingData.khatarnak_id ? existingData.khatarnak_id : Math.floor(10000 + Math.random() * 90000).toString();
+                    let kid = existingData &amp;&amp; existingData.khatarnak_id ? existingData.khatarnak_id : Math.floor(10000 + Math.random() * 90000).toString();
 
                     db.ref('users/' + user.uid).update({
                         uid: user.uid, name: dName, email: user.email || '', profile_image: profileImg, last_login: firebase.database.ServerValue.TIMESTAMP,
@@ -1328,7 +1543,7 @@
                 }
 
                 setTimeout(() => {
-                    if (typeof Notification !== 'undefined' && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+                    if (typeof Notification !== 'undefined' &amp;&amp; Notification.permission !== 'granted' &amp;&amp; Notification.permission !== 'denied') {
                         document.getElementById('secureNotifModal').classList.add('show');
                     }
                 }, 2500);
@@ -1345,7 +1560,7 @@
                         }
 
                         const dName = uData.name || user.displayName || 'User';
-                        const dp = uData.profile_image || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=4f46e5&color=fff&bold=true`;
+                        const dp = uData.profile_image || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&amp;background=4f46e5&amp;color=fff&amp;bold=true`;
                         const isVerified = uData.verified === true;
 
                         document.getElementById('myProfileName').innerHTML = escapeHTML(dName) + (isVerified ? ' ' + verifiedSVG : '');
@@ -1369,48 +1584,13 @@
             db.ref('/status/' + adminId).on('value', snap => {
                 const data = snap.val() || {status: 'offline'};
                 const status = data.status || 'offline';
-                document.getElementById('listAdminStatus').innerHTML = status === 'online' ? '<span style="color:#10b981">Online & Active</span>' : 'Offline';
+                document.getElementById('listAdminStatus').innerHTML = status === 'online' ? '<span style="color:#10b981">Online &amp; Active</span>' : 'Offline';
             });
         }
 
         function initStoreAppLoader() {
-            db.ref('admin_settings/store_apps').on('value', snap => {
-                const storeList = document.getElementById('apkStoreList');
-                storeList.innerHTML = '';
-                const apps = snap.val();
-                
-                if (apps && Object.keys(apps).length > 0) {
-                    Object.keys(apps).forEach(key => {
-                        const app = apps[key];
-                        // fallback default icon
-                        const safeIcon = app.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(app.title || 'A')}&background=10b981&color=fff&rounded=true`;
-                        const safeTitle = escapeHTML(app.title || "Unknown App");
-                        const safeUrl = app.url || "";
-                        
-                        storeList.innerHTML += `
-                            <div class="store-app-item">
-                                <img src="${safeIcon}" alt="App Icon" class="store-app-icon">
-                                <div class="store-app-title">${safeTitle}</div>
-                                <div class="store-app-modded">modded by Fahim</div>
-                                <button class="shimmer-btn" style="width:100%; border-radius:12px; padding:10px; font-weight:700; font-size:12px; margin-top:10px;" onclick="downloadDynamicApk('${safeUrl}', '${safeTitle}')">
-                                    <i class="fa-solid fa-download"></i> Get App
-                                </button>
-                            </div>
-                        `;
-                    });
-                } else {
-                    storeList.innerHTML = `
-                        <div class="store-app-item">
-                            <img src="https://ui-avatars.com/api/?name=VM&background=10b981&color=fff&rounded=true" alt="App Icon" class="store-app-icon">
-                            <div class="store-app-title">Vanced MicroG</div>
-                            <div class="store-app-modded">modded by Fahim</div>
-                            <button class="shimmer-btn" style="width:100%; border-radius:12px; padding:10px; font-weight:700; font-size:12px; margin-top:10px;" onclick="downloadDynamicApk('https://github.com/missjoyakhantzy-lang/The-Fhm/releases/download/v1.0/vanced.to_vanced_gms_microg_v0.3.13.2.250932.apk', 'Vanced_MicroG_v0.3.13.apk')">
-                                <i class="fa-solid fa-download"></i> Get App
-                            </button>
-                        </div>
-                    `;
-                }
-            });
+            // Keep this for any future needs or remove it if you don't need app loading logic anymore. 
+            // It won't break anything to leave it.
         }
 
         function initDataListeners() {
@@ -1427,7 +1607,7 @@
                 unreadCounts = {};
                 snap.forEach(child => {
                     const msg = child.val();
-                    if (msg.receiverId === myUserId && msg.status !== 'read') { unreadCounts[msg.senderId] = (unreadCounts[msg.senderId] || 0) + 1; }
+                    if (msg.receiverId === myUserId &amp;&amp; msg.status !== 'read') { unreadCounts[msg.senderId] = (unreadCounts[msg.senderId] || 0) + 1; }
                 });
                 
                 const adminUnread = unreadCounts[adminId] || 0;
@@ -1620,13 +1800,13 @@
             });
         }
 
-        function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
+        function escapeHTML(str) { return str.replace(/[&amp;&lt;&gt;'""]/g, tag => ({ '&amp;': '&amp;amp;', '&lt;': '&amp;lt;', '&gt;': '&amp;gt;', "'": '&amp;#39;', '"': '&amp;quot;' }[tag])); }
 
         function sendMessage(text = '', imgUrl = null, fileType = null) {
             const val = text || msgInput.value.trim();
-            if (!val && !imgUrl) return;
+            if (!val &amp;&amp; !imgUrl) return;
             
-            if (typeof Notification !== 'undefined' && Notification.permission !== 'granted') { 
+            if (typeof Notification !== 'undefined' &amp;&amp; Notification.permission !== 'granted') { 
                 document.getElementById('secureNotifModal').classList.add('show'); 
             }
 
@@ -1642,17 +1822,17 @@
 
             let pushText = val;
             if (isViewOnceMode) pushText = "💣 Sent a View Once Message";
-            else if (!pushText) pushText = (fileType && fileType.includes('pdf')) ? "📄 Sent a PDF Document Asset" : "📷 Sent an Encrypted Image Asset";
+            else if (!pushText) pushText = (fileType &amp;&amp; fileType.includes('pdf')) ? "📄 Sent a PDF Document Asset" : "📷 Sent an Encrypted Image Asset";
             
             const myNameElement = document.getElementById('myProfileName');
             const myName = myNameElement ? myNameElement.innerText.replace(' Verified', '').trim() : " Someone";
             const myPicElement = document.getElementById('myProfilePic');
-            const myPic = myPicElement ? myPicElement.src : "https://ui-avatars.com/api/?name=" + myName.charAt(0) + "&background=4f46e5&color=fff";
+            const myPic = myPicElement ? myPicElement.src : "https://ui-avatars.com/api/?name=" + myName.charAt(0) + "&amp;background=4f46e5&amp;color=fff";
 
             const pushData = {
                 app_id: "22f1c750-e2f8-456d-8aa0-b0caf8fc0e74", include_external_user_ids: [currentChatUserId],
                 headings: { "en": myName }, contents: { "en": pushText }, url: "https://fahimn.co.in?chat=" + myUserId,
-                chrome_web_icon: myPic, large_icon: myPic, chrome_web_badge: "https://ui-avatars.com/api/?name=F&background=4f46e5&color=fff&rounded=true" 
+                chrome_web_icon: myPic, large_icon: myPic, chrome_web_badge: "https://ui-avatars.com/api/?name=F&amp;background=4f46e5&amp;color=fff&amp;rounded=true" 
             };
 
             const proxyUrl = "https://corsproxy.io/?https://onesignal.com/api/v1/notifications";
@@ -1689,11 +1869,11 @@
             activeChatQuery.once('value').then(() => { isInitialLoad = false; scrollToBottom(); });
             activeChatQuery.on('child_added', (snap) => {
                 const data = snap.val(); 
-                const isMyChat = (data.senderId === myUserId && data.receiverId === currentChatUserId) || (data.senderId === currentChatUserId && data.receiverId === myUserId);
+                const isMyChat = (data.senderId === myUserId &amp;&amp; data.receiverId === currentChatUserId) || (data.senderId === currentChatUserId &amp;&amp; data.receiverId === myUserId);
                 
                 if(isMyChat) {
                     renderMessage(data, snap.key);
-                    if(data.senderId !== myUserId && data.status !== 'read') {
+                    if(data.senderId !== myUserId &amp;&amp; data.status !== 'read') {
                         activeChatRef.child(snap.key).update({ status: 'read' });
                         if (!isInitialLoad) { const sound = document.getElementById('msgSound'); sound.currentTime = 0; sound.play().catch(e=>e); }
                     }
@@ -1702,7 +1882,7 @@
             activeChatRef.on('child_removed', (snap) => { const el = document.getElementById('msg-' + snap.key); if(el) el.remove(); });
             activeChatRef.on('child_changed', (snap) => {
                 const data = snap.val(), tickEl = document.getElementById('tick-' + snap.key);
-                if(tickEl && data.senderId === myUserId) { tickEl.className = `fa-solid fa-check-double tick ${data.status === 'read' ? 'read' : ''}`; }
+                if(tickEl &amp;&amp; data.senderId === myUserId) { tickEl.className = `fa-solid fa-check-double tick ${data.status === 'read' ? 'read' : ''}`; }
             });
         }
 
@@ -1752,7 +1932,7 @@
         });
 
         document.addEventListener('click', (e) => {
-            if(!chatToolsPopup.contains(e.target) && e.target !== toggleToolsBtn) { closeToolsMenu(); }
+            if(!chatToolsPopup.contains(e.target) &amp;&amp; e.target !== toggleToolsBtn) { closeToolsMenu(); }
         });
 
         function closeToolsMenu() {
@@ -1799,7 +1979,7 @@
             const file = e.target.files[0];
             if(!file) return;
 
-            showLoading("Securing & Uploading media protocol...");
+            showLoading("Securing &amp; Uploading media protocol...");
             const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
             const formData = new FormData();
             formData.append('file', file); formData.append('upload_preset', 'qrkdzja7');
@@ -1837,7 +2017,7 @@
         
         function getChatId() {
             if(!myUserId || !currentChatUserId) return null;
-            return myUserId < currentChatUserId ? myUserId + '_' + currentChatUserId : currentChatUserId + '_' + myUserId;
+            return myUserId &lt; currentChatUserId ? myUserId + '_' + currentChatUserId : currentChatUserId + '_' + myUserId;
         }
 
         function initCollaborativeCanvas() {
@@ -1904,7 +2084,7 @@
             if(!getChatId()) return;
             db.ref('live_canvas_mode/' + getChatId()).on('value', snap => {
                 const data = snap.val();
-                if(data && data.open_by !== myUserId) { openDrawingMode(); } 
+                if(data &amp;&amp; data.open_by !== myUserId) { openDrawingMode(); } 
                 else if (!data) { closeDrawingMode(); }
             });
 
@@ -1924,5 +2104,5 @@
             });
         }
     </script>
-</body>
+  </body>
 </html>
