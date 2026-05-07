@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>fahimn.co.in - VIP Social Feed</title>
@@ -9,8 +9,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
     <style>
-        :root {
+      :root {
             --primary: #4f46e5;
             --primary-hover: #4338ca;
             --bg-body: #f0f2f5; 
@@ -62,9 +63,9 @@
         .post-card { 
             background: var(--card-bg); margin-bottom: 25px; border-radius: 20px; 
             border: 1px solid var(--border); box-shadow: 0 5px 20px rgba(0,0,0,0.04); 
-            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(30px); overflow: hidden; position: relative; transition: box-shadow 0.5s ease, transform 0.3s ease, background 0.3s ease;
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; overflow: hidden; position: relative; transition: box-shadow 0.5s ease, transform 0.3s ease, background 0.3s ease;
         }
-        @keyframes slideUpFade { to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUpFade { 0% { transform: translateY(30px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
 
         .post-header { display: flex; align-items: center; padding: 16px; gap: 14px; position: relative; }
         .admin-avatar-wrapper { position: relative; width: 46px; height: 46px; border-radius: 50%; padding: 3px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
@@ -110,43 +111,87 @@
         .action-btn.liked { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: var(--like-color); animation: heartPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
-        /* SIDEBAR */
+        /* =========================================
+           🌟 NEW PREMIUM SIDEBAR DESIGN 🌟
+           ========================================= */
         .side-menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2999; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.3s ease; }
         .side-menu-overlay.show { display: block; opacity: 1; }
         
         .side-menu { 
-            position: fixed; top: 0; right: -340px; width: 320px; height: 100vh; 
-            background: var(--card-bg); z-index: 3000; transition: right 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            position: fixed; top: 0; right: -320px; width: 85%; max-width: 320px; height: 100vh; 
+            background: var(--card-bg); z-index: 3000; transition: right 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
             display: flex; flex-direction: column; border-left: 1px solid var(--border);
-            box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
         }
         .side-menu.open { right: 0; }
         
-        .close-menu-btn { position: absolute; top: 15px; left: 15px; background: none; border: none; font-size: 22px; color: var(--text-muted); cursor: pointer; transition: 0.2s; z-index: 10;}
-        .close-menu-btn:active { transform: scale(0.8); color: var(--text-dark); }
-
-        .sidebar-profile-card { 
-            margin-top: 50px; padding: 25px 20px; border-bottom: 1px solid var(--border);
-            display: flex; flex-direction: column; align-items: center; text-align: center; 
+        /* Close Button styling fixed */
+        .close-menu-btn { 
+            position: absolute; top: 20px; left: 20px; background: var(--bg-input); 
+            border: 1px solid var(--border); width: 36px; height: 36px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; color: var(--text-dark); cursor: pointer; transition: 0.2s; z-index: 10;
         }
-        .sidebar-profile-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); margin-bottom: 12px;}
-        .sidebar-profile-card h3 { font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; letter-spacing: -0.3px;}
-        .sidebar-profile-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; font-weight: 500;}
-        .status-online { background: rgba(16, 185, 129, 0.1); padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 6px;}
+        .close-menu-btn:active { transform: scale(0.85); background: var(--border); }
+
+        /* Premium Profile Card */
+        .sidebar-profile-card { 
+            padding: 50px 20px 25px; 
+            display: flex; flex-direction: column; align-items: center; text-align: center; 
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(79, 70, 229, 0) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .sidebar-profile-card img { 
+            width: 85px; height: 85px; border-radius: 50%; object-fit: cover; 
+            border: 3px solid var(--card-bg); margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+        }
+        .sidebar-profile-card h3 { font-size: 19px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
+        .sidebar-profile-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; font-weight: 500;}
+        .status-online { 
+            background: rgba(16, 185, 129, 0.1); padding: 6px 14px; border-radius: 20px; 
+            font-size: 12px; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 6px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
         .status-online i { font-size: 8px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        .side-menu-links { flex: 1; overflow-y: auto; padding: 10px 0; display: flex; flex-direction: column; }
-        .std-menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 25px; cursor: pointer; transition: 0.2s; color: var(--text-dark); font-weight: 600; font-size: 15px; }
-        .std-menu-item .left-part { display: flex; align-items: center; gap: 16px; }
-        .std-menu-item .left-part i { font-size: 18px; color: var(--text-muted); width: 24px; text-align: center; transition: 0.2s;}
-        .std-menu-item:hover, .std-menu-item:active { background: var(--bg-input); }
-        .std-menu-item:hover .left-part i { color: var(--primary); }
-        .std-menu-item .arrow-icon { color: var(--text-muted); font-size: 14px; opacity: 0.5;}
+        /* Modern Links List */
+        .side-menu-links { 
+            flex: 1; overflow-y: auto; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; 
+        }
+        .std-menu-item { 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 12px 15px; cursor: pointer; transition: 0.2s ease; 
+            color: var(--text-dark); font-weight: 600; font-size: 15px; 
+            border-radius: 14px; background: transparent;
+        }
+        .std-menu-item .left-part { display: flex; align-items: center; gap: 14px; }
         
-        .menu-footer { padding: 20px; border-top: 1px solid var(--border);}
-        .logout-btn { width: 100%; background: none; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 12px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
-        .logout-btn:active { background: rgba(239, 68, 68, 0.1); }
+        /* Glass effect on icons */
+        .std-menu-item .left-part i { 
+            font-size: 16px; color: var(--primary); width: 36px; height: 36px; 
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(79, 70, 229, 0.1); border-radius: 10px; transition: 0.2s;
+        }
+        
+        .std-menu-item:hover, .std-menu-item:active { background: var(--bg-input); transform: translateX(4px); }
+        .std-menu-item:active .left-part i { background: var(--primary); color: white; }
+        
+        .std-menu-item .arrow-icon { color: var(--text-muted); font-size: 14px; opacity: 0.5; background: none !important;}
+
+        /* Safely Anchored Footer */
+        .menu-footer { 
+            padding: 20px; border-top: 1px solid var(--border); background: var(--card-bg);
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+        .logout-btn { 
+            width: 100%; background: rgba(239, 68, 68, 0.05); color: #ef4444; 
+            border: 1px solid rgba(239, 68, 68, 0.2); padding: 14px; 
+            border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; 
+        }
+        .logout-btn:active { background: #ef4444; color: white; transform: scale(0.96); }
 
         /* Toast Notifications */
         .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; pointer-events: none;}
@@ -167,10 +212,10 @@
         .btn-secondary:active { transform: scale(0.95); }
         @keyframes popIn { 0% { transform: scale(0.9); opacity: 0;} 100% { transform: scale(1); opacity: 1;} }
 
-        /* --- 🔥 NEW FULL SCREEN BLUR COMMENT UI (CHATGPT STYLE) 🔥 --- */
+        /* --- 🔥 FULL SCREEN BLUR COMMENT UI 🔥 --- */
         .fs-comment-modal {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.85); /* Glassmorphism background */
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             z-index: 5000; display: flex; flex-direction: column;
             transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -209,7 +254,6 @@
         .action-btn-mini.active-like { color: var(--primary); }
         .action-btn-mini.active-dislike { color: #ef4444; }
 
-        /* 🔥 NEW CHATGPT STYLE INPUT FORM 🔥 */
         .chat-input-wrapper {
             margin: 10px 15px calc(15px + env(safe-area-inset-bottom));
             background: var(--card-bg); border-radius: 30px;
@@ -230,129 +274,112 @@
         body.dark-theme .chat-input-wrapper button { background: var(--primary); color: white; }
         .chat-input-wrapper button:active { transform: scale(0.85); background: var(--primary); color: white;}
         .chat-input-wrapper button:disabled { opacity: 0.5; cursor: not-allowed; }
-
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="toastBox" class="toast-box"></div>
     
     <div class="app-container">
-        <header class="app-header">
-            <div class="header-left">
-                <button class="back-btn" onclick="window.location.href='index.html'">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <h2><i class="fa-solid fa-bolt"></i> EXPLORE</h2>
-            </div>
-            <div class="header-actions">
-                <img id="headerAvatar" class="header-dp" src="https://ui-avatars.com/api/?name=U&background=f1f5f9&color=0f172a" onclick="openSideMenu()" alt="Menu">
-            </div>
-        </header>
-
-        <main class="main-content">
-            <div class="feed-wrapper" id="feedContainer">
-                <div style="text-align:center; padding: 50px; color: var(--text-muted);"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
-            </div>
-        </main>
+      <header class="app-header">
+        <div class="header-left">
+          <button class="back-btn" onclick="window.location.href='index.html'">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <h2><i class="fa-solid fa-bolt"></i> EXPLORE</h2>
+        </div>
+        <div class="header-actions">
+          <img id="headerAvatar" class="header-dp" src="https://ui-avatars.com/api/?name=U&background=f1f5f9&color=0f172a" onclick="openSideMenu()" alt="Menu" />
+        </div>
+      </header>
+      <main class="main-content">
+        <div class="feed-wrapper" id="feedContainer">
+          <div id="initialSpinnerWrapper" style="text-align:center; padding: 50px; color: var(--text-muted);">
+            <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+          </div>
+        </div>
+      </main>
     </div>
 
     <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeSideMenu()"></div>
     <div class="side-menu" id="sideMenu">
-        <button class="close-menu-btn" onclick="closeSideMenu()"><i class="fa-solid fa-arrow-right"></i></button>
-        
-        <div class="sidebar-profile-card">
-            <img id="sideMenuAvatar" src="https://ui-avatars.com/api/?name=User" alt="User" />
-            <h3 id="sideMenuName">VIP User</h3>
-            <p id="sideMenuEmail">Loading email...</p>
-            <span class="status-online" id="sideMenuStatus"><i class="fa-solid fa-circle"></i> Online</span>
-        </div>
+      
+      <button class="close-menu-btn" onclick="closeSideMenu()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
 
-        <div class="side-menu-links">
-            <div class="std-menu-item" onclick="window.location.href='index.html'">
-                <div class="left-part"><i class="fa-solid fa-house"></i><span>Home Feed</span></div>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </div>
-            <div class="std-menu-item" onclick="showToast('Refreshing...'); initSocialFeed(); closeSideMenu();">
-                <div class="left-part"><i class="fa-solid fa-rotate-right"></i><span>Refresh App</span></div>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </div>
-            <div class="std-menu-item" onclick="openModal('editProfileModal'); closeSideMenu();">
-                <div class="left-part"><i class="fa-solid fa-user-pen"></i><span>Edit Profile</span></div>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </div>
-            <div class="std-menu-item" onclick="openModal('notificationsModal'); closeSideMenu();">
-                <div class="left-part"><i class="fa-solid fa-bell"></i><span>Notifications</span></div>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </div>
-            <div class="std-menu-item" onclick="toggleDarkMode()">
-                <div class="left-part"><i class="fa-solid fa-moon" id="sidebarDarkIcon"></i><span>Dark Mode</span></div>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </div>
-            <div class="std-menu-item" onclick="shareApp()">
-                <div class="left-part"><i class="fa-solid fa-share-nodes"></i><span>Share App</span></div>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </div>
+      <div class="sidebar-profile-card">
+        <img id="sideMenuAvatar" src="https://ui-avatars.com/api/?name=User" alt="User" />
+        <h3 id="sideMenuName">VIP User</h3>
+        <p id="sideMenuEmail">Loading email...</p>
+        <span class="status-online" id="sideMenuStatus"><i class="fa-solid fa-circle"></i> Online</span>
+      </div>
+
+      <div class="side-menu-links">
+        <div class="std-menu-item" onclick="window.location.href='index.html'">
+          <div class="left-part"><i class="fa-solid fa-house"></i><span>Home Feed</span></div>
+          <i class="fa-solid fa-chevron-right arrow-icon"></i>
         </div>
-        <div class="menu-footer">
-            <button class="logout-btn" onclick="logoutUser()">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-            </button>
+        <div class="std-menu-item" onclick="showToast('Refreshing...'); location.reload();">
+          <div class="left-part"><i class="fa-solid fa-rotate-right"></i><span>Refresh App</span></div>
+          <i class="fa-solid fa-chevron-right arrow-icon"></i>
         </div>
+        <div class="std-menu-item" onclick="openModal('editProfileModal'); closeSideMenu();">
+          <div class="left-part"><i class="fa-solid fa-user-pen"></i><span>Edit Profile</span></div>
+          <i class="fa-solid fa-chevron-right arrow-icon"></i>
+        </div>
+        <div class="std-menu-item" onclick="toggleDarkMode()">
+          <div class="left-part"><i class="fa-solid fa-moon" id="sidebarDarkIcon"></i><span>Dark Mode</span></div>
+          <i class="fa-solid fa-chevron-right arrow-icon"></i>
+        </div>
+        <div class="std-menu-item" onclick="shareApp()">
+          <div class="left-part"><i class="fa-solid fa-share-nodes"></i><span>Share App</span></div>
+          <i class="fa-solid fa-chevron-right arrow-icon"></i>
+        </div>
+      </div>
+
+      <div class="menu-footer">
+        <button class="logout-btn" onclick="logoutUser()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout Account
+        </button>
+      </div>
+
     </div>
 
     <div class="custom-modal" id="editProfileModal">
-        <div class="custom-modal-content">
-            <h3><i class="fa-solid fa-user-pen" style="color:var(--primary);"></i> Edit Profile</h3>
-            <p>Apna display name change karein:</p>
-            <input type="text" id="editNameInput" class="custom-input" placeholder="New Name">
-            <div class="modal-btn-group">
-                <button class="btn-secondary" onclick="closeModal('editProfileModal')">Cancel</button>
-                <button class="btn-primary" onclick="saveProfile()">Save</button>
-            </div>
+      <div class="custom-modal-content">
+        <h3><i class="fa-solid fa-user-pen" style="color:var(--primary);"></i> Edit Profile</h3>
+        <input type="text" id="editNameInput" class="custom-input" placeholder="New Name" />
+        <div class="modal-btn-group">
+            <button class="btn-secondary" onclick="closeModal('editProfileModal')">Cancel</button>
+            <button class="btn-primary" onclick="saveProfile()">Save</button>
         </div>
+      </div>
     </div>
-
     <div class="custom-modal" id="detailsModal">
-        <div class="custom-modal-content">
-            <h3><i class="fa-solid fa-circle-info" style="color:var(--primary);"></i> Post Details</h3>
-            <p id="detailsText">Description...</p>
-            <button class="btn-secondary" style="width:100%;" onclick="closeModal('detailsModal')">Close</button>
-        </div>
+      <div class="custom-modal-content">
+        <h3><i class="fa-solid fa-circle-info" style="color:var(--primary);"></i> Post Details</h3>
+        <p id="detailsText">Description...</p>
+        <button class="btn-secondary" style="width:100%;" onclick="closeModal('detailsModal')">Close</button>
+      </div>
     </div>
-
     <div class="custom-modal" id="likesModal">
-        <div class="custom-modal-content">
-            <h3><i class="fa-solid fa-heart" style="color:var(--like-color);"></i> Liked By</h3>
-            <div id="likesListArea" style="display:flex; flex-direction:column; gap:10px; max-height: 300px; overflow-y:auto; margin-top: 10px;"></div>
-            <button class="btn-secondary" style="margin-top:15px; width:100%;" onclick="closeModal('likesModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="custom-modal" id="notificationsModal">
-        <div class="custom-modal-content">
-            <h3><i class="fa-solid fa-bell" style="color:var(--primary);"></i> Notifications</h3>
-            <div style="display:flex; flex-direction:column; gap:10px; max-height: 250px; overflow-y:auto;">
-                <div style="padding: 12px; background: var(--bg-input); border-radius: 12px; font-size: 13px; color: var(--text-dark); font-weight: 600; display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-star" style="color:var(--primary);"></i> Welcome to VIP Social Feed!</div>
-            </div>
-            <button class="btn-secondary" style="margin-top:10px; width:100%;" onclick="closeModal('notificationsModal')">Close</button>
-        </div>
+      <div class="custom-modal-content">
+        <h3><i class="fa-solid fa-heart" style="color:var(--like-color);"></i> Liked By</h3>
+        <div id="likesListArea" style="display:flex; flex-direction:column; gap:10px; max-height: 300px; overflow-y:auto; margin-top: 10px;"></div>
+        <button class="btn-secondary" style="margin-top:15px; width:100%;" onclick="closeModal('likesModal')">Close</button>
+      </div>
     </div>
 
     <div class="fs-comment-modal" id="fsCommentModal">
-        <div class="fs-cmnt-header">
-            <h3>Comments</h3>
-            <button class="fs-close-btn" onclick="closeComments()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        
-        <div class="fs-cmnt-list" id="commentListArea">
-            </div>
-
-        <form id="commentForm" class="chat-input-wrapper">
-            <input type="text" id="newCommentInput" placeholder="Message..." autocomplete="off" required>
-            <button type="submit" id="sendCommentBtn">
-                <i class="fa-solid fa-arrow-up"></i>
-            </button>
-        </form>
+      <div class="fs-cmnt-header">
+        <h3>Comments</h3>
+        <button class="fs-close-btn" onclick="closeComments()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="fs-cmnt-list" id="commentListArea"></div>
+      <form id="commentForm" class="chat-input-wrapper">
+        <input type="text" id="newCommentInput" placeholder="Message..." autocomplete="off" required />
+        <button type="submit" id="sendCommentBtn"><i class="fa-solid fa-arrow-up"></i></button>
+      </form>
     </div>
 
     <script>
@@ -375,6 +402,22 @@
         let currentUid = null;
         let currentUserData = null;
         let activeCommentPostId = null; 
+
+        // 🌟 KILL SWITCH LOGIC IN FRONTEND 🌟
+        db.ref('admin_settings/page_status/social_html').on('value', (snap) => {
+            if (snap.val() === false) {
+                document.documentElement.innerHTML = `
+                    <body style="margin:0; padding:0; background:#020617; font-family:sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; color:white; text-align:center;">
+                        <div style="padding:20px;">
+                            <h1 style="font-size:80px; margin:0;">⚠️</h1>
+                            <h2 style="color:#ef4444; text-transform:uppercase; letter-spacing:2px;">Access Denied</h2>
+                            <p style="color:#94a3b8; font-size:16px;">This section is temporarily disabled by Admin Fahim.</p>
+                            <br><button onclick="location.reload()" style="background:#4f46e5; color:white; border:none; padding:12px 25px; border-radius:8px; font-weight:bold; cursor:pointer;">Try Again</button>
+                        </div>
+                    </body>
+                `;
+            }
+        });
 
         auth.onAuthStateChanged(user => {
             const statusEl = document.getElementById('sideMenuStatus');
@@ -412,19 +455,18 @@
             if(snap.val() && snap.val().profile_image) { adminData.pic = snap.val().profile_image; }
         });
 
+        // UI HELPERS
         window.toggleDarkMode = function() {
             document.body.classList.toggle('dark-theme');
             const isDark = document.body.classList.contains('dark-theme');
             document.getElementById('sidebarDarkIcon').className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
             showToast(isDark ? "Dark Mode Enabled 🌙" : "Light Mode Enabled ☀️");
         }
-
         window.openModal = function(modalId, textData = null) {
             if(textData && modalId === 'detailsModal') { document.getElementById('detailsText').innerText = textData; }
             document.getElementById(modalId).style.display = 'flex';
         }
         window.closeModal = function(modalId) { document.getElementById(modalId).style.display = 'none'; }
-
         window.saveProfile = function() {
             if(!currentUid) { showToast("Please login first!"); return; }
             const newName = document.getElementById('editNameInput').value.trim();
@@ -432,30 +474,25 @@
                 db.ref('users/' + currentUid).update({ name: newName }).then(() => {
                     showToast("Profile Updated Successfully! ✅");
                     closeModal('editProfileModal');
-                }).catch(err => showToast("Error updating profile."));
+                });
             } else { showToast("Name cannot be empty!"); }
         }
-
         window.shareApp = function() {
             const shareUrl = window.location.origin;
             if (navigator.share) { navigator.share({ title: 'fahimn.co.in', text: "Join the VIP Social Feed! ✨", url: shareUrl }).catch(err => {}); } 
             else { navigator.clipboard.writeText(shareUrl); showToast("App Link Copied!"); }
         }
-
         window.toggleDropdown = function(event, menuId) {
             event.stopPropagation();
-            const menus = document.querySelectorAll('.post-dropdown');
-            menus.forEach(menu => { if(menu.id !== menuId) menu.classList.remove('show'); });
+            document.querySelectorAll('.post-dropdown').forEach(m => { if(m.id !== menuId) m.classList.remove('show'); });
             const targetMenu = document.getElementById(menuId);
             if(targetMenu) targetMenu.classList.toggle('show');
         }
-
         window.onclick = function(event) {
             if (!event.target.closest('.post-three-dot')) {
-                document.querySelectorAll('.post-dropdown').forEach(menu => menu.classList.remove('show'));
+                document.querySelectorAll('.post-dropdown').forEach(m => m.classList.remove('show'));
             }
         }
-
         function showToast(msg) {
             const box = document.getElementById('toastBox');
             const toast = document.createElement('div');
@@ -464,9 +501,9 @@
             box.appendChild(toast);
             setTimeout(() => { toast.style.transform='translateY(-40px) scale(0.9)'; toast.style.opacity='0'; setTimeout(()=>toast.remove(),400); }, 3000);
         }
-
         function escapeHTML(str) { return str ? str.replace(/[<>'"]/g, tag => ({ '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])) : ''; }
         function timeAgo(time) {
+            if(!time) return "Just now";
             const date = new Date(time); const seconds = Math.floor((new Date() - date) / 1000);
             let interval = seconds / 31536000; if (interval > 1) return Math.floor(interval) + "y ago";
             interval = seconds / 2592000; if (interval > 1) return Math.floor(interval) + "mo ago";
@@ -476,138 +513,184 @@
             return "Just now";
         }
 
+        // 🌟 🔥 THE MAGIC GLITCH-FREE RENDERER 🔥 🌟
         function initSocialFeed() {
             const container = document.getElementById('feedContainer');
+            const feedRef = db.ref('social_feed').orderByChild('timestamp').limitToLast(20);
 
-            db.ref('social_feed').orderByChild('timestamp').limitToLast(20).on('value', snap => {
-                const posts = [];
-                snap.forEach(child => { posts.push({ id: child.key, ...child.val() }); });
-                posts.reverse(); 
+            feedRef.once('value', snap => {
+                const spinnerDiv = document.getElementById('initialSpinnerWrapper');
+                if (spinnerDiv) spinnerDiv.remove();
 
-                container.innerHTML = ''; 
-                if(posts.length === 0) {
-                    container.innerHTML = `<div style="text-align:center; padding:100px 20px; color:var(--text-muted);">Feed is empty.</div>`;
-                    return;
+                if(!snap.exists()) {
+                    container.innerHTML = `<div style="text-align:center; padding:100px 20px; color:var(--text-muted);" id="emptyFeedMsg">Feed is empty.</div>`;
                 }
+            });
 
-                posts.forEach((post, index) => {
-                    const likesCount = Object.keys(post.likes || {}).length;
-                    const hasLiked = currentUid && (post.likes || {})[currentUid];
-                    const likeIcon = hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
-                    const likeClass = hasLiked ? 'liked' : '';
-                    
-                    const commentsCount = Object.keys(post.comments || {}).length;
-                    const safeCaption = post.caption ? escapeHTML(post.caption).replace(/'/g, "\\'") : "No Description available.";
+            feedRef.on('child_added', snap => {
+                const emptyMsg = document.getElementById('emptyFeedMsg');
+                if(emptyMsg) emptyMsg.remove();
+                
+                const spinnerDiv = document.getElementById('initialSpinnerWrapper');
+                if (spinnerDiv) spinnerDiv.remove();
 
-                    let mediaHtml = '';
-                    if(post.mediaUrl) {
-                        if(post.mediaType === 'video') {
-                            mediaHtml = `
-                                <div class="post-media-container" ondblclick="toggleLike('${post.id}')">
-                                    <video id="vid-${post.id}" src="${post.mediaUrl}" loop muted playsinline onclick="togglePlayPause('vid-${post.id}')"></video>
-                                    <div class="video-controls-overlay">
-                                        <div class="play-pause-indicator" id="indicator-${post.id}"></div>
-                                        <button class="mute-toggle-btn" onclick="toggleMute(event, 'vid-${post.id}', this)"><i class="fa-solid fa-volume-xmark"></i></button>
-                                    </div>
-                                </div>`;
-                        } else {
-                            mediaHtml = `
-                                <div class="post-media-container" ondblclick="toggleLike('${post.id}')">
-                                    <img src="${post.mediaUrl}" alt="Feed Media" loading="lazy">
-                                </div>`;
-                        }
-                    }
-
-                    const cardHTML = `
-                        <article class="post-card" id="post-${post.id}" style="animation-delay: ${index * 0.1}s">
-                            <div class="post-header">
-                                <div class="admin-avatar-wrapper"><img src="${adminData.pic}" alt="Admin"></div>
-                                <div class="admin-meta">
-                                    <div class="admin-name">${adminData.name} ${verifiedSVG}</div>
-                                    <div class="post-time">${timeAgo(post.timestamp)}</div>
-                                </div>
-                                <button class="post-three-dot" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; padding:5px;" onclick="toggleDropdown(event, 'postMenu-${post.id}')">
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-                                <div class="post-dropdown" id="postMenu-${post.id}">
-                                    <button class="dropdown-item" onclick="openModal('detailsModal', '${safeCaption}')"><i class="fa-solid fa-circle-info"></i> Details</button>
-                                    <button class="dropdown-item" onclick="window.open('${post.mediaUrl}', '_blank')"><i class="fa-solid fa-download"></i> Download</button>
-                                    <div class="dropdown-divider"></div>
-                                    <button class="dropdown-item" style="color:#ef4444;" onclick="showToast('Video Reported to Admin')"><i class="fa-solid fa-flag"></i> Report</button>
-                                </div>
-                            </div>
-                            ${post.caption ? `<div class="post-caption">${escapeHTML(post.caption)}</div>` : ''}
-                            ${mediaHtml}
-                            <div class="action-bar-wrapper">
-                                <div class="action-bar">
-                                    <div class="action-left">
-                                        <button class="action-btn btn-like ${likeClass}" id="likeBtn-${post.id}"
-                                            onpointerdown="startLikePress('${post.id}')"
-                                            onpointerup="endLikePress('${post.id}')"
-                                            onpointerleave="endLikePress('${post.id}')"
-                                            onclick="handleLikeClick(event, '${post.id}')"
-                                            oncontextmenu="return false;">
-                                            <i class="${likeIcon}"></i> <span class="count">${likesCount > 0 ? likesCount : 'Like'}</span>
-                                        </button>
-                                        
-                                        <button class="action-btn" onclick="openComments('${post.id}')">
-                                            <i class="fa-regular fa-comment-dots"></i> <span class="count">${commentsCount > 0 ? commentsCount : 'Comment'}</span>
-                                        </button>
-                                        <button class="action-btn" onclick="sharePost('${post.id}')">
-                                            <i class="fa-regular fa-paper-plane"></i> Share
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    `;
-                    container.insertAdjacentHTML('beforeend', cardHTML);
-                });
-
+                const post = { id: snap.key, ...snap.val() };
+                const cardHTML = buildPostCardHTML(post);
+                
+                container.insertAdjacentHTML('afterbegin', cardHTML);
                 setupVideoAutoPlay();
+            });
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const targetPostId = urlParams.get('post');
-                if (targetPostId) {
-                    setTimeout(() => {
-                        const targetPost = document.getElementById('post-' + targetPostId);
-                        if(targetPost) {
-                            targetPost.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            targetPost.classList.add('highlight-post');
-                            showToast("Viewing shared post ✨");
-                            setTimeout(() => { targetPost.classList.remove('highlight-post'); }, 3500); 
-                        }
-                    }, 500);
-                }
+            feedRef.on('child_changed', snap => {
+                const post = { id: snap.key, ...snap.val() };
+                updatePostUI(post); 
+            });
+
+            feedRef.on('child_removed', snap => {
+                const card = document.getElementById('post-' + snap.key);
+                if(card) card.remove();
             });
         }
 
-        // --- 🔥 3.5s LONG PRESS LOGIC 🔥 ---
+        // HTML BUILDER FOR POSTS
+        function buildPostCardHTML(post) {
+            const likesCount = Object.keys(post.likes || {}).length;
+            const hasLiked = currentUid && (post.likes || {})[currentUid];
+            const likeIcon = hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+            const likeClass = hasLiked ? 'liked' : '';
+            
+            const commentsCount = Object.keys(post.comments || {}).length;
+            const displayTitle = post.title || post.caption || post.video_title || post.name || "Untitled Post";
+            const safeTitle = escapeHTML(displayTitle).replace(/'/g, "\\'");
+
+            const url = post.mediaUrl || post.video_url || post.url || '';
+            const isVideo = url.includes('.mp4') || url.includes('.m4v') || url.includes('video') || post.mediaType === 'video';
+            
+            let mediaHtml = '';
+            if(url) {
+                if(isVideo) {
+                    mediaHtml = `
+                        <div class="post-media-container" ondblclick="toggleLike('${post.id}')">
+                            <video id="vid-${post.id}" src="${url}" loop muted playsinline onclick="togglePlayPause('vid-${post.id}')"></video>
+                            <div class="video-controls-overlay">
+                                <div class="play-pause-indicator" id="indicator-${post.id}"></div>
+                                <button class="mute-toggle-btn" onclick="toggleMute(event, 'vid-${post.id}', this)"><i class="fa-solid fa-volume-xmark"></i></button>
+                            </div>
+                        </div>`;
+                } else {
+                    mediaHtml = `
+                        <div class="post-media-container" ondblclick="toggleLike('${post.id}')">
+                            <img src="${url}" alt="Feed Media" loading="lazy">
+                        </div>`;
+                }
+            }
+
+            return `
+                <article class="post-card" id="post-${post.id}">
+                    <div class="post-header">
+                        <div class="admin-avatar-wrapper"><img src="${adminData.pic}" alt="Admin"></div>
+                        <div class="admin-meta">
+                            <div class="admin-name">${adminData.name} ${verifiedSVG}</div>
+                            <div class="post-time">${timeAgo(post.timestamp)}</div>
+                        </div>
+                        <button class="post-three-dot" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; padding:5px;" onclick="toggleDropdown(event, 'postMenu-${post.id}')">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                        <div class="post-dropdown" id="postMenu-${post.id}">
+                            <button class="dropdown-item" onclick="openModal('detailsModal', '${safeTitle}')"><i class="fa-solid fa-circle-info"></i> Details</button>
+                            <button class="dropdown-item" onclick="window.open('${url}', '_blank')"><i class="fa-solid fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="post-caption">${escapeHTML(displayTitle)}</div>
+                    ${mediaHtml}
+                    <div class="action-bar-wrapper">
+                        <div class="action-bar">
+                            <div class="action-left">
+                                <button class="action-btn btn-like ${likeClass}" id="likeBtn-${post.id}"
+                                    onpointerdown="startLikePress('${post.id}')"
+                                    onpointerup="endLikePress('${post.id}')"
+                                    onpointerleave="endLikePress('${post.id}')"
+                                    onclick="handleLikeClick(event, '${post.id}')"
+                                    oncontextmenu="return false;">
+                                    <i class="${likeIcon}"></i> <span class="count">${likesCount > 0 ? likesCount : 'Like'}</span>
+                                </button>
+                                
+                                <button class="action-btn btn-comment" onclick="openComments('${post.id}')">
+                                    <i class="fa-regular fa-comment-dots"></i> <span class="count">${commentsCount > 0 ? commentsCount : 'Comment'}</span>
+                                </button>
+                                <button class="action-btn" onclick="sharePost('${post.id}')">
+                                    <i class="fa-regular fa-paper-plane"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function updatePostUI(post) {
+            const card = document.getElementById('post-' + post.id);
+            if(!card) return;
+
+            const likesCount = Object.keys(post.likes || {}).length;
+            const hasLiked = currentUid && (post.likes || {})[currentUid];
+            const likeBtn = card.querySelector('.btn-like');
+            
+            if (likeBtn) {
+                const likeIcon = likeBtn.querySelector('i');
+                const likeCountSpan = likeBtn.querySelector('.count');
+
+                if(hasLiked) {
+                    likeBtn.classList.add('liked');
+                    likeIcon.className = 'fa-solid fa-heart';
+                } else {
+                    likeBtn.classList.remove('liked');
+                    likeIcon.className = 'fa-regular fa-heart';
+                }
+                likeCountSpan.innerText = likesCount > 0 ? likesCount : 'Like';
+            }
+
+            const commentsCount = Object.keys(post.comments || {}).length;
+            const commentBtn = card.querySelector('.btn-comment');
+            if (commentBtn) {
+                const commentCountSpan = commentBtn.querySelector('.count');
+                commentCountSpan.innerText = commentsCount > 0 ? commentsCount : 'Comment';
+            }
+        }
+
+
+        // --- LIKES LOGIC ---
         let pressTimer;
         let isLongPress = false;
 
         window.startLikePress = function(postId) {
             isLongPress = false;
-            pressTimer = setTimeout(() => {
-                isLongPress = true;
-                showLikesList(postId);
-            }, 3500); 
+            pressTimer = setTimeout(() => { isLongPress = true; showLikesList(postId); }, 3500); 
         };
-
-        window.endLikePress = function(postId) {
-            clearTimeout(pressTimer);
-        };
-
+        window.endLikePress = function(postId) { clearTimeout(pressTimer); };
+        
         window.handleLikeClick = function(event, postId) {
-            if (isLongPress) {
-                event.preventDefault();
-                event.stopPropagation();
-                return;
-            }
+            if (isLongPress) { event.preventDefault(); event.stopPropagation(); return; }
             toggleLike(postId);
         };
 
-        // SHOW LIKED USERS (WITH MESSAGE BUTTON)
+        window.toggleLike = function(postId) {
+            if(!currentUid) { showToast("Log in to Like!"); return; }
+            const likeRef = db.ref(`social_feed/${postId}/likes/${currentUid}`);
+            
+            const btn = document.getElementById(`likeBtn-${postId}`);
+            if(btn) {
+                btn.classList.toggle('liked');
+                const icon = btn.querySelector('i');
+                if(btn.classList.contains('liked')) { icon.className = 'fa-solid fa-heart'; } 
+                else { icon.className = 'fa-regular fa-heart'; }
+            }
+            
+            likeRef.once('value', snap => {
+                if(snap.exists()) { likeRef.remove(); } else { likeRef.set(true); }
+            });
+        }
+
         window.showLikesList = function(postId) {
             openModal('likesModal');
             const likesListArea = document.getElementById('likesListArea');
@@ -650,6 +733,7 @@
             });
         }
 
+        // --- VIDEO LOGIC ---
         window.togglePlayPause = function(videoId) {
             const video = document.getElementById(videoId);
             const indicator = document.getElementById(videoId.replace('vid-', 'indicator-'));
@@ -674,23 +758,6 @@
             else { btnElement.innerHTML = '<i class="fa-solid fa-volume-high"></i>'; showToast("Sound On 🔊"); }
         }
 
-        window.toggleLike = function(postId) {
-            if(!currentUid) { showToast("Log in to Like!"); return; }
-            const likeRef = db.ref(`social_feed/${postId}/likes/${currentUid}`);
-            
-            const btn = document.getElementById(`likeBtn-${postId}`);
-            if(btn) {
-                btn.classList.toggle('liked');
-                const icon = btn.querySelector('i');
-                if(btn.classList.contains('liked')) { icon.className = 'fa-solid fa-heart'; } 
-                else { icon.className = 'fa-regular fa-heart'; }
-            }
-            
-            likeRef.once('value', snap => {
-                if(snap.exists()) { likeRef.remove(); } else { likeRef.set(true); }
-            });
-        }
-
         window.sharePost = function(postId) {
             const shareUrl = window.location.origin + window.location.pathname + '?post=' + postId;
             if (navigator.share) { navigator.share({ title: 'VIP Post', text: "Check this out! ✨", url: shareUrl }).catch(err => {}); } 
@@ -710,6 +777,7 @@
             document.querySelectorAll('video').forEach(v => globalVideoObserver.observe(v));
         }
 
+        // --- MENU LOGIC ---
         window.openSideMenu = function() {
             document.getElementById('sideMenuOverlay').classList.add('show');
             document.getElementById('sideMenu').classList.add('open');
@@ -720,7 +788,6 @@
             document.getElementById('sideMenu').classList.remove('open');
             document.body.style.overflow = 'auto'; 
         }
-
         window.logoutUser = function() {
             auth.signOut().then(() => {
                 showToast("Logged out successfully! 👋");
@@ -729,7 +796,7 @@
             }).catch((error) => { showToast("Error logging out."); });
         }
 
-        /* --- 🔥 CHATGPT STYLE COMMENT SYSTEM (FULL BLUR SCREEN) 🔥 --- */
+        /* --- 🔥 CHATGPT STYLE COMMENT SYSTEM 🔥 --- */
         const fsCommentModal = document.getElementById('fsCommentModal');
         const commentListArea = document.getElementById('commentListArea');
         const commentInput = document.getElementById('newCommentInput');
@@ -741,10 +808,8 @@
             const dislikesObj = c.dislikes || {};
             const likeCount = Object.keys(likesObj).length;
             const dislikeCount = Object.keys(dislikesObj).length;
-            
             const hasLiked = currentUid && likesObj[currentUid];
             const hasDisliked = currentUid && dislikesObj[currentUid];
-            
             const likeClass = hasLiked ? "active-like" : "";
             const dislikeClass = hasDisliked ? "active-dislike" : "";
             const likeIcon = hasLiked ? "fa-solid fa-thumbs-up" : "fa-regular fa-thumbs-up";
@@ -819,16 +884,13 @@
                 if(!snap.exists()) { commentListArea.innerHTML = emptyStateHTML; }
             });
             
-            // Render without flicker
             activeCommentsRef.on('child_added', snap => {
                 const emptyEl = document.getElementById('emptyCommentState');
                 if(emptyEl) emptyEl.remove();
 
                 const c = { id: snap.key, ...snap.val() };
                 const html = buildCommentHTML(postId, c);
-                
-                // Add new comments at the TOP
-                commentListArea.insertAdjacentHTML('afterbegin', html);
+                commentListArea.insertAdjacentHTML('beforeend', html); 
             });
 
             activeCommentsRef.on('child_changed', snap => {
@@ -851,9 +913,7 @@
             fsCommentModal.classList.remove('show');
             document.body.style.overflow = 'auto';
             if(activeCommentsRef) {
-                activeCommentsRef.off('child_added');
-                activeCommentsRef.off('child_changed');
-                activeCommentsRef.off('child_removed');
+                activeCommentsRef.off();
             }
             activeCommentPostId = null;
         }
@@ -886,23 +946,19 @@
             if(newText !== null && newText.trim() !== "" && newText !== currentText) {
                 db.ref(`social_feed/${postId}/comments/${commentId}`).update({
                     text: newText.trim()
-                }).then(() => showToast("Comment updated! ✏️"))
-                .catch(() => showToast("Error updating comment."));
+                }).then(() => showToast("Comment updated! ✏️")).catch(() => showToast("Error updating comment."));
             }
         }
 
         window.deleteComment = function(postId, commentId) {
             if(confirm("Are you sure you want to delete this comment? 🗑️")) {
                 db.ref(`social_feed/${postId}/comments/${commentId}`).remove()
-                .then(() => showToast("Comment deleted!"))
-                .catch(() => showToast("Error deleting comment."));
+                .then(() => showToast("Comment deleted!")).catch(() => showToast("Error deleting comment."));
             }
         }
 
-        // Submitting with ChatGPT style button
         commentForm.addEventListener('submit', function(e) {
             e.preventDefault(); 
-            
             if(!currentUid) { showToast("Please login to comment!"); return; }
             if(!activeCommentPostId) return;
             
@@ -913,9 +969,7 @@
             btn.disabled = true; 
             commentInput.value = '';
             
-            const newCommentRef = db.ref(`social_feed/${activeCommentPostId}/comments`).push();
-            
-            newCommentRef.set({
+            db.ref(`social_feed/${activeCommentPostId}/comments`).push({
                 uid: currentUid,
                 name: currentUserData && currentUserData.name ? currentUserData.name : "VIP User",
                 pic: currentUserData && currentUserData.profile_image ? currentUserData.profile_image : "https://ui-avatars.com/api/?name=U",
@@ -923,14 +977,15 @@
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
                 btn.disabled = false;
-                commentListArea.scrollTop = 0; 
+                setTimeout(() => { commentListArea.scrollTop = commentListArea.scrollHeight; }, 100); 
             }).catch(err => {
                 btn.disabled = false;
                 showToast("Error posting comment.");
             });
         });
 
+        // Initialize the app
         initSocialFeed();
     </script>
-</body>
+  </body>
 </html>
