@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>App Settings - fahimn.co.in</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <style>
+        /* =========================================
+           GLOBAL VARIABLES & ADVANCED UI DESIGN
+           ========================================= */
+        :root {
+            --primary: #261c59; 
+            --primary-light: #3a2c82;
+            --bg-body: #f4f7fe; 
+            --text-dark: #111111; 
+            --text-light: #6c757d;
+            --border-color: #e2e8f0;
+            --danger: #ef4444; 
+            --bg-input: #ffffff;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body.dark-mode {
+            --bg-body: #0f111a; 
+            --text-dark: #f8f9fa; 
+            --text-light: #94a3b8;
+            --border-color: #1e2433;
+            --bg-input: #171a26;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            --glass-bg: rgba(23, 26, 38, 0.95);
+        }
+  
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { height: 100%; width: 100%; background: var(--bg-body); font-family: 'Inter', sans-serif; transition: background 0.3s, color 0.3s; overflow-x: hidden; }
+
+        /* Toast Notifications */
+        .toast-box { position: fixed; top: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--bg-input); color: var(--text-dark); padding: 16px 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; transform: translateX(120%); animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; border-left: 4px solid var(--primary); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.success { border-left-color: #10b981; }
+        @keyframes slideIn { to { transform: translateX(0); } }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+
+        /* --- SKELETON LOADER ANIMATION --- */
+        .skeleton-line {
+            background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-body) 50%, var(--border-color) 75%);
+            background-size: 200% 100%;
+            animation: skeletonLoading 1.5s infinite linear;
+            border-radius: 6px;
+        }
+        .skeleton-title { width: 55%; height: 22px; margin-bottom: 8px; }
+        .skeleton-subtitle { width: 35%; height: 14px; }
+        @keyframes skeletonLoading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* --- HEADER DESIGN --- */
+        .top-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 20px 20px 30px 20px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(38, 28, 89, 0.2);
+        }
+
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .back-btn { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        .back-btn:hover { background: white; color: var(--primary); transform: translateX(-3px); }
+        .header-title { font-size: 19px; font-weight: 700; letter-spacing: 0.5px; }
+        
+        .header-right { display: flex; align-items: center; gap: 18px; font-size: 20px; }
+        .header-right i { cursor: pointer; transition: 0.3s; position: relative; }
+        .header-right i:hover { transform: scale(1.1); color: #00e5ff; }
+
+        /* Header Small Profile DP */
+        .header-profile-pic { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid white; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header-profile-pic:hover { transform: scale(1.1); }
+
+        /* Notification Badge */
+        .notif-badge { position: absolute; top: -6px; right: -6px; background: var(--danger); color: white; font-size: 10px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary); z-index: 2; pointer-events: none; animation: popUp 0.3s ease; }
+        @keyframes popUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        /* --- CONTENT AREA & PROFILE BLOCK --- */
+        .content-area { padding: 30px 24px 30px 24px; max-width: 600px; margin: 0 auto; }
+
+        /* Search Bar Animation */
+        .search-bar-container {
+            background: var(--bg-input);
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin: 0 24px;
+            position: relative;
+            z-index: 5;
+        }
+        .search-bar-container.active {
+            max-height: 60px;
+            padding: 12px 18px;
+            margin-top: 20px; 
+            border: 1px solid var(--primary);
+        }
+        .search-bar-container input {
+            width: 100%; border: none; outline: none; background: transparent; color: var(--text-dark); font-size: 15px; font-family: 'Inter', sans-serif;
+        }
+        
+        /* Clean Profile Header Block */
+        .profile-header-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 35px;
+            padding: 20px 24px;
+            background: var(--bg-input);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-height: 85px; /* Ensures block size doesn't jump */
+        }
+        .profile-header-block:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: var(--primary); }
+        .profile-header-block:active { transform: scale(0.97); }
+        
+        .profile-info { flex: 1; min-width: 0; }
+        .profile-info h1 { font-size: 22px; color: var(--text-dark); font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .profile-info p { font-size: 14px; color: var(--text-light); font-weight: 500; }
+        
+        .edit-action { background: rgba(38, 28, 89, 0.08); color: var(--primary); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: 0.3s; flex-shrink: 0; }
+        .profile-header-block:hover .edit-action { background: var(--primary); color: white; transform: rotate(15deg); }
+
+        /* List Styling */
+        .section-title { font-size: 13px; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 12px; margin-top: 25px; letter-spacing: 1px; }
+        
+        .list-container { display: flex; flex-direction: column; background: var(--bg-input); border-radius: 16px; padding: 5px 20px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color); }
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--border-color); cursor: pointer; font-size: 15px; font-weight: 600; color: var(--text-dark); transition: 0.2s; }
+        .list-item:hover { padding-left: 5px; color: var(--primary); }
+        .list-item:last-child { border-bottom: none; }
+        .list-item i.arrow { font-size: 14px; color: var(--text-light); transition: 0.2s; }
+        .list-item:hover i.arrow { color: var(--primary); transform: translateX(3px); }
+        
+        .list-item.danger-text { color: var(--danger); }
+        .list-item.danger-text:hover { color: #b91c1c; }
+        .list-item.danger-text i { color: var(--danger); }
+
+        /* Toggle Switch */
+        .switch { position: relative; display: inline-block; width: 48px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* App Footer Style */
+        .app-footer { text-align: center; margin-top: 40px; padding-bottom: 20px; }
+        .app-footer p.copyright { font-size: 12px; color: var(--text-light); font-weight: 600; margin-bottom: 8px; letter-spacing: 0.3px; }
+        .app-footer p.footer-links { font-size: 11px; color: var(--text-light); font-weight: 500; }
+        .app-footer p.footer-links span.link { cursor: pointer; transition: 0.2s; }
+        .app-footer p.footer-links span.link:hover { color: var(--primary); text-decoration: underline; }
+
+        #profilePicInput { display: none; }
+
+        /* Modals */
+        .full-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 100000; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
+        .full-modal.show { display: flex; opacity: 1; }
+        
+        .modal-content-box { background: var(--glass-bg); width: 100%; max-width: 500px; max-height: 85vh; border-radius: 24px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); overflow: hidden; transform: translateY(30px) scale(0.95); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid var(--border-color); }
+        .full-modal.show .modal-content-box { transform: translateY(0) scale(1); }
+
+        .modal-nav { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); background: transparent; }
+        .modal-nav h2 { font-size: 19px; color: var(--text-dark); font-weight: 800; display: flex; align-items: center; gap: 8px;}
+        .modal-nav h2 i { color: var(--primary); }
+        .modal-close-btn { background: var(--border-color); border: none; font-size: 16px; color: var(--text-dark); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .modal-close-btn:hover { background: var(--danger); color: white; transform: rotate(90deg); }
+        
+        .modal-body-scroll { padding: 24px; overflow-y: auto; color: var(--text-light); font-size: 14px; line-height: 1.7; flex: 1; }
+        .modal-body-scroll h4 { color: var(--text-dark); margin: 20px 0 8px 0; font-size: 16px; font-weight: 700; }
+        .modal-body-scroll h4:first-child { margin-top: 0; }
+        .modal-body-scroll p { margin-bottom: 12px; text-align: justify; }
+
+        /* Support & UI */
+        .support-card { background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 15px; margin-bottom: 15px; cursor: pointer; transition: 0.3s; text-decoration: none; color: var(--text-dark); }
+        .support-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(38, 28, 89, 0.1); }
+        .support-icon { width: 50px; height: 50px; background: rgba(38, 28, 89, 0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .support-details h5 { font-size: 13px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .support-details p { font-size: 16px; font-weight: 700; margin: 0; color: var(--text-dark); word-break: break-all; }
+
+        /* ================= NEW EDIT PROFILE DESIGN ================= */
+        .modal-pic-editor { position: relative; display: inline-block; margin-bottom: 25px; cursor: pointer; text-align: center; }
+        .modal-pic-editor-wrapper { display: flex; justify-content: center; width: 100%; }
+        .modal-pic-editor img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; }
+        
+        .modal-camera-badge { position: absolute; bottom: 0; right: 0; background: var(--primary); color: white; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 3px solid var(--glass-bg); transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .modal-pic-editor:hover img { filter: brightness(0.8); transform: scale(0.95); }
+        .modal-pic-editor:hover .modal-camera-badge { transform: scale(1.15); background: var(--danger); }
+
+        .edit-group { margin-bottom: 20px; position: relative; }
+        .edit-group label { display: block; font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+        .edit-group input, .edit-group textarea { width: 100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-body); font-size: 15px; color: var(--text-dark); font-family: 'Inter', sans-serif; outline: none; transition: 0.3s; }
+        .edit-group input:focus, .edit-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(38, 28, 89, 0.1); background: transparent; }
+        
+        /* Custom Relationship Select Dropdown */
+        .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
+        .custom-select-trigger { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-body); font-size: 15px; color: var(--text-dark); cursor: pointer; transition: 0.3s; }
+        .custom-select-trigger:hover { border-color: var(--primary); }
+        .custom-options { position: absolute; top: 100%; left: 0; right: 0; background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-color); border-radius: 12px; margin-top: 5px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; overflow: hidden; }
+        .custom-select-wrapper.open .custom-options { opacity: 1; visibility: visible; transform: translateY(0); }
+        .custom-option { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 600; color: var(--text-dark); cursor: pointer; transition: 0.2s; border-bottom: 1px solid var(--border-color); }
+        .custom-option:last-child { border-bottom: none; }
+        .custom-option:hover { background: rgba(38, 28, 89, 0.05); color: var(--primary); padding-left: 20px; }
+        .custom-option.selected { color: var(--primary); background: rgba(38, 28, 89, 0.08); }
+        .custom-option i { display: none; color: var(--primary); }
+        .custom-option.selected i { display: block; animation: popUp 0.3s forwards; }
+
+        .save-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: 0.3s; box-shadow: 0 8px 15px rgba(38, 28, 89, 0.2); }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(38, 28, 89, 0.3); }
+
+        /* LIVE NOTIFICATION SCREEN STYLES */
+        .notif-item { display: flex; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s; position: relative; }
+        .notif-item:hover { background: var(--bg-body); }
+        .notif-item.unread { background: rgba(38, 28, 89, 0.05); }
+        .notif-avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 1px solid var(--border-color); flex-shrink: 0; background: var(--bg-body); }
+        .notif-content { flex: 1; min-width: 0; }
+        .notif-content h4 { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; display:flex; align-items:center; gap:5px;}
+        .notif-content p { font-size: 13px; color: var(--text-light); margin-bottom: 4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+        .notif-time { font-size: 11px; font-weight: 600; color: var(--primary); }
+        .notif-dot { width: 10px; height: 10px; background: var(--primary); border-radius: 50%; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); box-shadow: 0 2px 4px rgba(38,28,89,0.3);}
+    </style>
+</head>
+<body>
+    
+    <div id="toastBox" class="toast-box"></div>
+    <input type="file" id="profilePicInput" accept="image/*" />
+
+    <div class="top-header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="header-title">App Settings</div>
+        </div>
+        <div class="header-right">
+            <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()" title="Search Settings"></i>
+            <i class="fa-brands fa-android" onclick="window.location.href='store.app.html'" title="APK Store"></i>
+            
+            <div style="position: relative; display: inline-block;">
+                <i class="fa-regular fa-bell" onclick="openModal('notificationModal')" title="Notifications"></i>
+                <span id="notifBadge" class="notif-badge" style="display:none;">0</span>
+            </div>
+            
+            <img id="headerProfilePic" class="header-profile-pic" src="https://ui-avatars.com/api/?name=U&background=ffffff&color=261c59" onclick="openModal('editProfileModal')" title="Edit Profile">
+        </div>
+    </div>
+
+    <div class="search-bar-container" id="searchBar">
+        <div style="display:flex; align-items:center; width:100%; height:100%;">
+            <i class="fa-solid fa-magnifying-glass" style="color:var(--text-light); margin-right:10px; font-size:16px;"></i>
+            <input type="text" id="searchInput" placeholder="Search for settings..." onkeyup="filterSettings()">
+        </div>
+    </div>
+
+    <div class="content-area">
+        
+        <div class="profile-header-block" onclick="openModal('editProfileModal')">
+            
+            <div class="profile-info" id="profileSkeleton">
+                <div class="skeleton-line skeleton-title"></div>
+                <div class="skeleton-line skeleton-subtitle"></div>
+            </div>
+
+            <div class="profile-info" id="profileActualData" style="display: none;">
+                <h1 id="myProfileNameMain"></h1>
+                <p id="mySubtitle"></p>
+            </div>
+
+            <div class="edit-action" id="profileEditAction" style="opacity: 0;">
+                <i class="fa-solid fa-pen"></i>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <div class="section-title">General Platform</div>
+            <div class="list-container">
+                <div class="list-item" onclick="openModal('editProfileModal')">
+                    <span>Edit Profile</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </div>
+                <div class="list-item" onclick="generateAndCopyLink()">
+                    <span>Copy VIP Chat Link</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </div>
+                <div class="list-item" onclick="window.location.href='store.app.html'">
+                    <span>APKs Store</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </div>
+                <div class="list-item" onclick="requestBlueTick()">
+                    <span>Request Verification Badge</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <div class="section-title">Display & Alerts</div>
+            <div class="list-container">
+                <div class="list-item">
+                    <span>Push Notifications</span>
+                    <label class="switch">
+                        <input type="checkbox" id="notifToggle" onchange="showToast('Secure notifications updated', 'success')" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="list-item">
+                    <span>Dark Interface Mode</span>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <div class="section-title">Terms & Dedicated Support</div>
+            <div class="list-container">
+                <div class="list-item" onclick="openModal('termsModal')">
+                    <span>Terms and Conditions</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </div>
+                <div class="list-item" onclick="openModal('privacyModal')">
+                    <span>Privacy & Encryption Policy</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </div>
+                <div class="list-item" onclick="openModal('supportModal')">
+                    <span>Help & Support 24/7</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </div>
+                <div class="list-item danger-text" onclick="confirmLogout()">
+                    <span>Terminate Session (Log Out)</span>
+                    <i class="fa-solid fa-right-from-bracket arrow"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-footer">
+            <p class="copyright">&copy; <span id="currentYear"></span> fahimn.co.in Inc. All rights reserved.</p>
+            <p class="footer-links">
+                <span class="link" onclick="openModal('privacyModal')">Privacy</span> • 
+                <span class="link" onclick="openModal('termsModal')">Terms</span> • 
+                <span>Version 2.0.1</span>
+            </p>
+        </div>
+
+    </div>
+
+    <div class="full-modal" id="notificationModal">
+        <div class="modal-content-box" style="height: 90vh;">
+            <div class="modal-nav">
+                <h2><i class="fa-solid fa-bell"></i> Notifications</h2>
+                <button class="modal-close-btn" onclick="closeModal('notificationModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body-scroll" id="notificationList" style="padding: 0;">
+                <div style="text-align:center; padding:40px 20px; color:var(--text-light);">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size:30px; margin-bottom:15px; color:var(--primary);"></i>
+                    <br>Syncing Real-time Database...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-modal" id="editProfileModal">
+        <div class="modal-content-box">
+            <div class="modal-nav">
+                <h2><i class="fa-solid fa-user-pen"></i> Update Identity</h2>
+                <button class="modal-close-btn" onclick="closeModal('editProfileModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body-scroll">
+                
+                <div class="modal-pic-editor-wrapper">
+                    <div class="modal-pic-editor" onclick="document.getElementById('profilePicInput').click()" title="Click to upload new image">
+                        <img id="modalProfilePic" src="https://ui-avatars.com/api/?name=U&background=ffffff&color=261c59" alt="User DP">
+                        <div class="modal-camera-badge"><i class="fa-solid fa-camera"></i></div>
+                    </div>
+                </div>
+
+                <div class="edit-group">
+                    <label>Full Legal Name</label>
+                    <input type="text" id="editNameInput" placeholder="Enter your full name" autocomplete="off" />
+                </div>
+                
+                <div class="edit-group">
+                    <label>Registered Secure Email</label>
+                    <input type="text" id="privateEmailView" readonly style="color: var(--text-light); border-style: dashed; cursor: not-allowed;" />
+                </div>
+                
+                <div class="edit-group">
+                    <label>About You (Bio)</label>
+                    <textarea id="editBioInput" placeholder="Write your professional bio..."></textarea>
+                </div>
+                
+                <div class="edit-group">
+                    <label>Relationship Status</label>
+                    <div class="custom-select-wrapper" id="relSelectWrapper">
+                        <div class="custom-select-trigger" onclick="toggleCustomSelect(event)">
+                            <span id="selectedRelText">Prefer not to say</span>
+                            <i class="fa-solid fa-chevron-down" id="relSelectIcon" style="transition:0.3s;"></i>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option selected" onclick="selectRelOption('Prefer not to say', this)">
+                                <span>Prefer not to say</span> <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="custom-option" onclick="selectRelOption('Single', this)">
+                                <span>Single</span> <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="custom-option" onclick="selectRelOption('Married', this)">
+                                <span>Married</span> <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="custom-option" onclick="selectRelOption('In a Relationship', this)">
+                                <span>In a Relationship</span> <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="custom-option" onclick="selectRelOption('It\'s Complicated', this)">
+                                <span>It's Complicated</span> <i class="fa-solid fa-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="editStatusInput" value="Prefer not to say">
+                </div>
+
+                <button class="save-btn" onclick="saveAdvancedProfile()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-modal" id="termsModal">
+        <div class="modal-content-box">
+            <div class="modal-nav">
+                <h2><i class="fa-solid fa-file-contract"></i> Terms & Conditions</h2>
+                <button class="modal-close-btn" onclick="closeModal('termsModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body-scroll">
+                <h4>1. Acceptance of Terms</h4>
+                <p>Welcome to fahimn.co.in. By accessing, downloading, or using our secure application, you agree to be bound by these comprehensive Terms and Conditions. If you do not agree with any part of these terms, you must immediately cease usage of the platform.</p>
+                
+                <h4>2. User Conduct & Security</h4>
+                <p>You are solely responsible for maintaining the confidentiality of your VIP Chat ID and account credentials. Any activities occurring under your account are your responsibility. We strictly prohibit the transmission of unlawful, harassing, defamatory, or malicious content across our encrypted network.</p>
+
+                <h4>3. Intellectual Property Rights</h4>
+                <p>All content, features, and functionality are owned by fahimn.co.in. You may not copy, reproduce, distribute, or create derivative works without explicit written permission from the administrators.</p>
+
+                <h4>4. Modification of Services</h4>
+                <p>We reserve the right to modify, suspend, or discontinue any feature of the platform at any time without prior notice. We shall not be liable to you or any third party for any modification or suspension of the service.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-modal" id="privacyModal">
+        <div class="modal-content-box">
+            <div class="modal-nav">
+                <h2><i class="fa-solid fa-shield-halved"></i> Privacy Policy</h2>
+                <button class="modal-close-btn" onclick="closeModal('privacyModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body-scroll">
+                <h4>End-to-End Encryption Protocol (E2EE)</h4>
+                <p>Your privacy is our absolute highest priority. Every single message, image, and document you send through our platform is secured using state-of-the-art End-to-End Encryption (E2EE). This ensures that only you and the person you're communicating with can read them. Nobody in between can intercept your data.</p>
+                
+                <h4>Information We Collect</h4>
+                <p>We practice extreme data minimization. We only collect essential infrastructure data required to make the app function correctly: your registered email, profile picture, and display name. We do not track your location or harvest your browsing data.</p>
+
+                <h4>No Third-Party Sharing</h4>
+                <p>We do not, under any circumstances, sell, rent, or trade your personal information to third parties, advertisers, or analytics companies. Your data stays securely within our encrypted server clusters.</p>
+
+                <h4>Data Retention & Deletion</h4>
+                <p>You have full control over your digital footprint. If you delete your account, all associated database entries are permanently wiped from our systems within 30 days.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-modal" id="supportModal">
+        <div class="modal-content-box">
+            <div class="modal-nav">
+                <h2><i class="fa-solid fa-headset"></i> Premium Support</h2>
+                <button class="modal-close-btn" onclick="closeModal('supportModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body-scroll">
+                <p style="margin-bottom: 20px;">Experiencing issues or need technical assistance? Our dedicated support team is available 24/7 to resolve your queries instantly. Click the cards below to connect with us.</p>
+                
+                <a href="tel:9608720622" class="support-card">
+                    <div class="support-icon"><i class="fa-solid fa-phone-volume"></i></div>
+                    <div class="support-details">
+                        <h5>Direct Helpline</h5>
+                        <p>+91 96087 20622</p>
+                    </div>
+                </a>
+
+                <a href="mailto:support@fahimn.co.in.help" class="support-card">
+                    <div class="support-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                    <div class="support-details">
+                        <h5>Official Email Support</h5>
+                        <p>support@fahimn.co.in.help</p>
+                    </div>
+                </a>
+                
+                <p style="margin-top: 20px; font-size: 12px; text-align: center; color: var(--text-light);"><i class="fa-solid fa-clock"></i> Average response time is under 5 minutes.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
+            authDomain: "fahimn-co-in.firebaseapp.com",
+            databaseURL: "https://fahimn-co-in-default-rtdb.firebaseio.com",
+            projectId: "fahimn-co-in",
+            storageBucket: "fahimn-co-in.firebasestorage.app",
+            messagingSenderId: "698585907618",
+            appId: "1:698585907618:web:c8e4a6646b6b8f5c7932fb"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        let myUserId = null; 
+        let myKhatarnakID = null;
+        let cachedUsers = {}; 
+
+        function showToast(msg, type='info') {
+            const box = document.getElementById('toastBox');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fa-solid ${type==='success'?'fa-check':type==='error'?'fa-exclamation':'fa-info'}"></i> <span>${msg}</span>`;
+            box.appendChild(toast);
+            setTimeout(() => { toast.style.transform='translateX(120%)'; setTimeout(()=>toast.remove(),400); }, 3000);
+        }
+
+        // Custom Dropdown Logic
+        function toggleCustomSelect(e) {
+            e.stopPropagation();
+            const wrapper = document.getElementById('relSelectWrapper');
+            const icon = document.getElementById('relSelectIcon');
+            wrapper.classList.toggle('open');
+            icon.style.transform = wrapper.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        function selectRelOption(value, el) {
+            document.getElementById('selectedRelText').innerText = value;
+            document.getElementById('editStatusInput').value = value;
+            
+            const options = document.querySelectorAll('.custom-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        window.addEventListener('click', function(e) {
+            const wrapper = document.getElementById('relSelectWrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                wrapper.classList.remove('open');
+                document.getElementById('relSelectIcon').style.transform = 'rotate(0deg)';
+            }
+            if (e.target.classList.contains('full-modal')) {
+                e.target.classList.remove('show');
+            }
+        });
+
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('active');
+            if(searchBar.classList.contains('active')) {
+                document.getElementById('searchInput').focus();
+            } else {
+                document.getElementById('searchInput').value = '';
+                filterSettings(); 
+            }
+        }
+
+        function filterSettings() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const blocks = document.querySelectorAll('.section-block');
+
+            blocks.forEach((block) => {
+                let hasVisibleItem = false;
+                const items = block.querySelectorAll('.list-item');
+                
+                items.forEach(item => {
+                    const text = item.innerText.toLowerCase();
+                    if (text.includes(query)) {
+                        item.style.display = 'flex';
+                        hasVisibleItem = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                if (hasVisibleItem) {
+                    block.style.display = 'block';
+                } else {
+                    block.style.display = 'none';
+                }
+            });
+        }
+
+        let allNotifications = [];
+
+        function timeAgo(time) {
+            const diff = Date.now() - time;
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return "Just now";
+            if (mins < 60) return `${mins}m ago`;
+            const hours = Math.floor(mins / 60);
+            if (hours < 24) return `${hours}h ago`;
+            return `${Math.floor(hours / 24)}d ago`;
+        }
+
+        function renderNotifications() {
+            allNotifications.sort((a, b) => b.time - a.time);
+            const list = document.getElementById('notificationList');
+            const badge = document.getElementById('notifBadge');
+            
+            let unreadCount = allNotifications.filter(n => !n.isRead).length;
+            if(unreadCount > 0) {
+                badge.style.display = 'flex';
+                badge.innerText = unreadCount > 9 ? '9+' : unreadCount;
+            } else {
+                badge.style.display = 'none';
+            }
+            
+            if(allNotifications.length === 0) {
+                list.innerHTML = `<div style="text-align:center; padding:50px 20px; color:var(--text-light);">
+                    <i class="fa-regular fa-bell-slash" style="font-size:40px; margin-bottom:15px; opacity:0.5;"></i>
+                    <br><span style="font-weight:600;">No recent activity</span>
+                </div>`;
+                return;
+            }
+            
+            let html = '';
+            allNotifications.forEach(n => {
+                let verifiedHTML = n.isVerified ? ' <i class="fa-solid fa-circle-check" style="color:#10b981; font-size:12px;"></i>' : '';
+                html += `
+                <div class="notif-item ${!n.isRead ? 'unread' : ''}" onclick="handleNotifClick('${n.id}', '${n.type}', '${n.senderId}')">
+                    <img class="notif-avatar" src="${n.avatar}" alt="User">
+                    <div class="notif-content">
+                        <h4>${n.title}${verifiedHTML}</h4>
+                        <p>${n.desc}</p>
+                        <span class="notif-time">${timeAgo(n.time)}</span>
+                    </div>
+                    ${!n.isRead ? '<div class="notif-dot"></div>' : ''}
+                </div>`;
+            });
+            list.innerHTML = html;
+        }
+
+        window.handleNotifClick = function(id, type, senderId) {
+            closeModal('notificationModal');
+            if(type !== 'message') {
+                db.ref('notifications/' + myUserId + '/' + id).update({ isRead: true });
+            }
+            if(type === 'message') {
+                window.location.href = `index.html?chat=${senderId}`;
+            } else if (type === 'comment' || type === 'like') {
+                window.location.href = "social.html";
+            }
+        };
+
+        function startRealtimeListeners() {
+            db.ref('messages').on('value', async (snap) => {
+                let newNotifs = [];
+                let fetchPromises = [];
+
+                snap.forEach(child => {
+                    const msg = child.val();
+                    if(msg.receiverId === myUserId) {
+                        let textDesc = msg.text;
+                        if(msg.viewOnce) textDesc = "Sent a secure View Once message 💣";
+                        else if(msg.imageUrl) textDesc = "Sent a media attachment 📷";
+
+                        let p = (async () => {
+                            let senderName = "Secure User";
+                            let senderPic = "https://ui-avatars.com/api/?name=U&background=ffffff&color=261c59";
+                            let isVer = false;
+
+                            if(cachedUsers[msg.senderId]) {
+                                senderName = cachedUsers[msg.senderId].name;
+                                senderPic = cachedUsers[msg.senderId].pic;
+                                isVer = cachedUsers[msg.senderId].verified;
+                            } else {
+                                const uSnap = await db.ref('users/' + msg.senderId).once('value');
+                                const uData = uSnap.val();
+                                if(uData) {
+                                    senderName = uData.name || "Secure User";
+                                    senderPic = uData.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(senderName)}&background=ffffff&color=261c59`;
+                                    isVer = uData.verified === true;
+                                    cachedUsers[msg.senderId] = { name: senderName, pic: senderPic, verified: isVer };
+                                }
+                            }
+                            newNotifs.push({
+                                id: child.key, type: 'message', title: senderName, desc: textDesc,
+                                time: msg.timestamp, isRead: msg.status === 'read', senderId: msg.senderId,
+                                avatar: senderPic, isVerified: isVer
+                            });
+                        })();
+                        fetchPromises.push(p);
+                    }
+                });
+
+                await Promise.all(fetchPromises);
+                allNotifications = allNotifications.filter(n => n.type !== 'message');
+                allNotifications = [...allNotifications, ...newNotifs];
+                renderNotifications();
+            });
+
+            db.ref('notifications/' + myUserId).on('value', snap => {
+                let socialNotifs = [];
+                snap.forEach(child => {
+                    const notif = child.val();
+                    let title = notif.title || 'Social Activity';
+                    let desc = notif.desc || 'Someone interacted with your content.';
+                    let avatar = notif.avatar || `https://ui-avatars.com/api/?name=A&background=261c59&color=fff`;
+                    let isVer = false;
+
+                    if(notif.type === 'blue_tick') {
+                        title = "Account Verified";
+                        desc = "Received blue tick in your account! Congratulations.";
+                        avatar = "https://ui-avatars.com/api/?name=V&background=10b981&color=fff";
+                        isVer = true;
+                    } else if (notif.type === 'comment') {
+                        title = notif.senderName || "Someone commented";
+                    }
+
+                    socialNotifs.push({
+                        id: child.key, type: notif.type || 'social', title: title, desc: desc,
+                        time: notif.timestamp || Date.now(), isRead: notif.isRead || false,
+                        senderId: notif.senderId || 'system', avatar: avatar, isVerified: isVer
+                    });
+                });
+                allNotifications = allNotifications.filter(n => n.type === 'message'); 
+                allNotifications = [...allNotifications, ...socialNotifs]; 
+                renderNotifications();
+            });
+        }
+
+        // Fetch User Data from Firebase
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                myUserId = user.uid;
+                db.ref('users/' + user.uid).on('value', (snap) => {
+                    const uData = snap.val();
+                    if(uData) {
+                        myKhatarnakID = uData.khatarnak_id || "-----";
+                        const dName = uData.name || user.displayName || 'Authorized User';
+                        const dp = uData.profile_image || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=ffffff&color=261c59`;
+                        
+                        // Fake a small delay to show skeleton animation beautifully
+                        setTimeout(() => {
+                            // Hide skeleton
+                            document.getElementById('profileSkeleton').style.display = 'none';
+                            
+                            // Load data
+                            document.getElementById('myProfileNameMain').innerHTML = dName + (uData.verified ? ' <i class="fa-solid fa-circle-check" style="color:#10b981; font-size:15px; margin-left:2px;"></i>' : '');
+                            document.getElementById('mySubtitle').innerText = `Secure ID: ${myKhatarnakID} • Tap to configure`;
+                            
+                            // Show data with smooth fade-in
+                            const actualData = document.getElementById('profileActualData');
+                            actualData.style.display = 'block';
+                            actualData.style.animation = 'fadeIn 0.5s ease forwards';
+                            document.getElementById('profileEditAction').style.opacity = '1';
+
+                        }, 600); // 600ms ka skeleton loader smooth experience
+                        
+                        document.getElementById('headerProfilePic').src = dp;
+                        document.getElementById('modalProfilePic').src = dp;
+                        
+                        document.getElementById('editNameInput').value = dName;
+                        document.getElementById('editBioInput').value = uData.bio || "";
+                        
+                        let rStatus = uData.relationship || "Prefer not to say";
+                        document.getElementById('editStatusInput').value = rStatus;
+                        document.getElementById('selectedRelText').innerText = rStatus;
+                        
+                        document.querySelectorAll('.custom-option').forEach(opt => {
+                            if(opt.querySelector('span').innerText === rStatus) {
+                                opt.classList.add('selected');
+                            } else {
+                                opt.classList.remove('selected');
+                            }
+                        });
+
+                        document.getElementById('privateEmailView').value = uData.email || auth.currentUser.email || "Encrypted Entry";
+                    }
+                });
+                startRealtimeListeners();
+            }
+        });
+
+        function openModal(modalId) { document.getElementById(modalId).classList.add('show'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('show'); }
+
+        function saveAdvancedProfile() {
+            const newName = document.getElementById('editNameInput').value.trim();
+            const bio = document.getElementById('editBioInput').value.trim();
+            const relStatus = document.getElementById('editStatusInput').value; 
+
+            if(!newName) { showToast("Full Name cannot be empty!", "error"); return; }
+
+            auth.currentUser.updateProfile({ displayName: newName }).then(() => {
+                db.ref('users/' + myUserId).update({ name: newName, bio: bio, relationship: relStatus }).then(() => {
+                    showToast("System configurations saved successfully.", "success");
+                    closeModal('editProfileModal');
+                });
+            }).catch(err => { showToast("Protocol error: " + err.message, "error"); });
+        }
+
+        function generateAndCopyLink() {
+            if(!myKhatarnakID) return;
+            const chatLink = `${window.location.origin}/index.html?id=${myKhatarnakID}`;
+            navigator.clipboard.writeText(chatLink).then(() => showToast("Secure VIP Link copied to clipboard.", "success"));
+        }
+
+        function requestBlueTick() {
+            db.ref('blue_tick_requests/' + myUserId).update({
+                uid: myUserId, 
+                name: document.getElementById('editNameInput').value, 
+                email: auth.currentUser.email || 'No email',
+                timestamp: firebase.database.ServerValue.TIMESTAMP, 
+                status: 'pending'
+            }).then(() => { 
+                showToast("Verification algorithm initiated. Awaiting admin review.", "success"); 
+            });
+        }
+
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            showToast("Interface parameters updated.", "info");
+        }
+
+        function confirmLogout() {
+            if(confirm("Are you certain you want to terminate this secure session?")) {
+                if(myUserId) db.ref('/status/' + myUserId).set('offline');
+                auth.signOut().then(() => window.location.href = 'index.html');
+            }
+        }
+
+        const profilePicInput = document.getElementById('profilePicInput');
+        if(profilePicInput) {
+            profilePicInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if(!file) return;
+                showToast("Encrypting and uploading media...", "info");
+                
+                const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
+                const formData = new FormData();
+                formData.append('file', file); formData.append('upload_preset', 'qrkdzja7');
+                
+                fetch(url, { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    const newPicUrl = data.secure_url;
+                    auth.currentUser.updateProfile({ photoURL: newPicUrl }).then(() => { 
+                        db.ref('users/' + myUserId).update({ profile_image: newPicUrl }); 
+                        showToast("Media protocol successfully updated.", "success");
+                    });
+                }).catch(err => { showToast("Server communication failed.", "error"); });
+                profilePicInput.value = '';
+            });
+        }
+    </script>
+</body>
+</html>
