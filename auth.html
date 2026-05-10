@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Secure Access - fahimn.co.in</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function() { emailjs.init("3yO6tbaHty1fGoy2U"); })(); 
+    </script>
+
+    <style>
+        /* =========================================
+           GLOBAL VARIABLES (Unified Primary System)
+           ========================================= */
+        :root {
+            --brand-black: #111111;
+            --brand-gray: #7a7a7a;
+            --brand-light: #fffcf9; 
+            --accent-warm: #f6efe8;
+            --line-color: #e6d8cb;
+            --danger: #ef4444;
+            --success: #10b981;
+            --primary-gradient: linear-gradient(135deg, #111111 0%, #2a2a2a 100%);
+            --primary-shadow: 0 10px 25px -5px rgba(17, 17, 17, 0.4);
+            --primary-hover-shadow: 0 15px 30px -5px rgba(17, 17, 17, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; 
+            background-color: var(--brand-light); 
+            background-image: 
+                radial-gradient(circle at top right, rgba(246, 239, 232, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at bottom left, rgba(246, 239, 232, 0.8) 0%, transparent 50%);
+            background-size: 100% 100%;
+            color: var(--brand-black);
+            transition: background 0.4s ease;
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast-box { position: fixed; top: 16px; right: 16px; z-index: 99999; display: flex; flex-direction: column; gap: 8px; }
+        .toast { background: #fff; color: var(--brand-black); padding: 12px 20px; border-radius: 12px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); border: 1px solid var(--line-color); font-size: 13px; font-weight: 600; transform: translateX(150%); animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; display: flex; align-items: center; gap: 10px; }
+        @keyframes slideIn { to { transform: translateX(0); } }
+
+        /* CONTAINER */
+        .auth-container { width: 100%; max-width: 420px; position: relative; display: flex; flex-direction: column; min-height: 90vh; }
+        .auth-view { display: none; animation: scaleFade 0.3s ease-out forwards; flex-grow: 1; }
+        .auth-view.active { display: block; }
+        @keyframes scaleFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           UI: COMMON STYLES & LAYOUT
+           ========================================= */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .btn-sq { width: 44px; height: 44px; border-radius: 14px; background: var(--accent-warm); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--brand-black); cursor: pointer; border: none; transition: 0.2s; }
+        .btn-sq:hover { background: #eee2d6; transform: translateY(-1px); }
+        .top-badge { border: 1px solid var(--line-color); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 600; backgound: transparent; }
+
+        .header-section { text-align: center; margin-bottom: 32px; }
+        .dots-warm { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+        .dot-w { width: 24px; height: 4px; border-radius: 2px; background: var(--line-color); transition: 0.3s; }
+        .dot-w.active { background: var(--brand-black); width: 32px; }
+        .header-section h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
+        .header-section p { font-size: 15px; color: var(--brand-gray); line-height: 1.5; padding: 0 10px; }
+
+        /* INPUT CARDS */
+        .input-card { background: #ffffff; border-radius: 20px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid rgba(230, 216, 203, 0.5); transition: 0.2s; }
+        .input-card:focus-within { border-color: var(--brand-black); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        .icon-circle-warm { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-warm); color: var(--brand-black); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .input-content { flex-grow: 1; display: flex; flex-direction: column; position: relative; }
+        .input-content label { font-size: 13px; font-weight: 600; color: var(--brand-black); margin-bottom: 4px; }
+        .input-content input { border: none; border-bottom: 1.5px solid var(--line-color); padding: 6px 0; outline: none; font-size: 14px; color: var(--brand-black); background: transparent; transition: 0.2s; width: 100%; }
+        .input-content input:focus { border-bottom-color: var(--brand-black); }
+        .input-content input::placeholder { color: #a1a1aa; }
+        .eye-btn { position: absolute; right: 0; bottom: 8px; color: var(--brand-gray); cursor: pointer; background: none; border: none; font-size: 16px; transition: 0.2s; }
+        .eye-btn:hover { color: var(--brand-black); }
+        .hint-text { font-size: 12px; color: var(--brand-gray); margin: -4px 0 24px 8px; display: block; }
+
+        /* PRIMARY PROFESSIONAL BUTTON SYSTEM */
+        .btn-primary { 
+            width: 100%; padding: 18px; 
+            background: var(--primary-gradient); 
+            color: #fff; border: none; border-radius: 16px; 
+            font-size: 16px; font-weight: 600; cursor: pointer; 
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+            display: flex; align-items: center; justify-content: center; gap: 12px; 
+            box-shadow: var(--primary-shadow);
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px) scale(1.01); 
+            box-shadow: var(--primary-hover-shadow); 
+        }
+        .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: var(--primary-shadow); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .divider { display: flex; align-items: center; margin: 24px 0; font-size: 14px; color: var(--brand-gray); }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--line-color); }
+        .divider span { padding: 0 16px; }
+        .footer-text { text-align: center; font-size: 14px; color: var(--brand-gray); }
+        .footer-text a { color: var(--brand-black); text-decoration: none; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .footer-text a:hover { text-decoration: underline; }
+
+        .otp-input-box { letter-spacing: 12px; font-size: 24px; text-align: center; font-weight: 800; padding: 16px !important; font-family: 'Courier New', Courier, monospace; }
+
+        /* USER RESULT CARD (For Account Recovery) */
+        .user-result-card {
+            background: #ffffff; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid var(--line-color); cursor: pointer; transition: all 0.25s ease;
+        }
+        .user-result-card:hover { border-color: var(--brand-black); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+        .user-result-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-color); }
+        .user-result-card .user-info { flex-grow: 1; }
+        .user-result-card .user-info h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: var(--brand-black); }
+        .user-result-card .user-info p { font-size: 13px; color: var(--brand-gray); margin: 0; font-weight: 500; }
+        .user-result-card .send-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: var(--primary-shadow); }
+
+        /* COPYRIGHT */
+        .copyright { text-align: center; font-size: 12px; color: var(--brand-gray); margin-top: auto; padding-top: 30px; font-weight: 500; }
+
+        /* OVERLAYS */
+        .global-overlay { display: none; position: absolute; inset: 0; background: rgba(255, 252, 249, 0.92); backdrop-filter: blur(6px); z-index: 999; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px;}
+        .spinner-large { width: 36px; height: 36px; border: 3px solid var(--line-color); border-top-color: var(--brand-black); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
+        .spinner-small { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .typing-indicator { display: flex; gap: 6px; margin-bottom: 16px;}
+        .typing-indicator span { width: 10px; height: 10px; background: var(--brand-black); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        .lang-float { position: absolute; top: 0; right: 0; z-index: 10; }
+
+        /* Welcome screen overrides */
+        .welcome-title { font-size: 34px; font-weight: 800; color: var(--brand-black); line-height: 1.2; letter-spacing: -0.02em; }
+        .welcome-subtitle { font-size: 15px; color: var(--brand-gray); margin: 16px 0 24px; line-height: 1.5; padding: 0 20px; }
+        .action-card { border-radius: 16px; padding: 18px 20px; display: flex; align-items: center; cursor: pointer; margin-bottom: 12px; transition: all 0.25s ease; text-align: left; }
+        .action-card:active { transform: scale(0.98); }
+        .card-primary { background: var(--primary-gradient); color: white; box-shadow: var(--primary-shadow); border: none; }
+        .card-primary:hover { transform: translateY(-2px); box-shadow: var(--primary-hover-shadow); }
+        .card-secondary { background: #ffffff; color: var(--brand-black); box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid rgba(230, 216, 203, 0.5); }
+        .card-secondary:hover { border-color: var(--brand-black); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.05); }
+        .icon-circle-home { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .card-primary .icon-circle-home { background: rgba(255,255,255,0.15); color: white; }
+        .card-secondary .icon-circle-home { background: var(--accent-warm); color: var(--brand-black); }
+        .card-text { margin-left: 16px; flex-grow: 1; }
+        .card-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+        .card-text p { font-size: 13px; margin: 0; }
+        .card-primary .card-text p { color: rgba(255,255,255,0.7); }
+        .card-secondary .card-text p { color: var(--brand-gray); }
+        .arrow-circle { width: 30px; height: 30px; border-radius: 50%; background: white; color: var(--brand-black); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .card-secondary .arrow-icon { color: var(--brand-black); font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <div id="toastBox" class="toast-box"></div>
+
+    <div class="auth-container">
+        
+        <div class="global-overlay" id="langOverlay" style="z-index: 9999;">
+            <div class="typing-indicator"><span></span><span></span><span></span></div>
+            <p style="font-weight: 600; font-size: 14px;" id="langLoadText">Translating...</p>
+        </div>
+
+        <div id="view-home" class="auth-view active welcome-screen">
+            <div class="lang-float">
+                <button class="btn-sq" onclick="AuthLogic.toggleLanguage()">
+                    <span id="langBtnTextHome" style="font-size: 14px; font-weight: bold;">A/अ</span>
+                </button>
+            </div>
+            <div class="top-badge" style="margin-bottom: 24px;" data-i18n="badge">Fahim.co.in</div>
+            <h1 class="welcome-title"><span data-i18n="homeWelcome">Welcome to</span><br>Fahim.co.in</h1>
+            <p class="welcome-subtitle" data-i18n="homeSub">Connect, share and grow with a community that inspires you</p>
+            
+            <div class="action-card card-primary" onclick="AuthLogic.switchView('view-signup')">
+                <div class="icon-circle-home"><i class="fa-solid fa-user-plus"></i></div>
+                <div class="card-text"><h3 data-i18n="title">Create Account</h3><p data-i18n="homeBtn1Sub">Start your journey with us</p></div>
+                <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+
+            <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-login')">
+                <div class="icon-circle-home"><i class="fa-regular fa-user"></i></div>
+                <div class="card-text"><h3 data-i18n="loginText">Login</h3><p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p></div>
+                <i class="fa-solid fa-arrow-right arrow-icon"></i>
+            </div>
+
+            <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-recovery')">
+                <div class="icon-circle-home"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="card-text"><h3 data-i18n="findAccTitle">Find Your Account</h3><p data-i18n="findAccSub">Recover your account easily</p></div>
+                <i class="fa-solid fa-arrow-right arrow-icon"></i>
+            </div>
+            
+            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+        </div>
+
+        <div id="view-signup" class="auth-view">
+            <div class="global-overlay" id="loadingOverlaySignup">
+                <div class="spinner-large"></div>
+                <p style="font-weight: 600; font-size: 14px;" id="loadingTextSignup" data-i18n="processing">Processing...</p>
+            </div>
+            <div class="top-nav">
+                <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
+                <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm1" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
+            </div>
+            <div class="header-section">
+                <div class="dots-warm"><span class="dot-w"></span><span class="dot-w active"></span><span class="dot-w"></span></div>
+                <h1 data-i18n="title">Create Account</h1>
+                <p data-i18n="subtitle">Join Fahim.co.in and start your journey with our community</p>
+            </div>
+            <div class="input-card">
+                <div class="icon-circle-warm"><i class="fa-regular fa-user"></i></div>
+                <div class="input-content">
+                    <label data-i18n="nameLabel">Name</label>
+                    <input type="text" id="signupName" data-i18n-ph="namePlaceholder" placeholder="Enter your name" />
+                </div>
+            </div>
+            <div class="input-card">
+                <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
+                <div class="input-content">
+                    <label data-i18n="emailLabel">Your Email Address</label>
+                    <input type="email" id="signupEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
+                </div>
+            </div>
+            <div class="input-card">
+                <div class="icon-circle-warm"><i class="fa-solid fa-lock"></i></div>
+                <div class="input-content">
+                    <label data-i18n="passLabel">Password</label>
+                    <input type="password" id="signupPassword" data-i18n-ph="passPlaceholder" placeholder="Enter your password" />
+                    <button class="eye-btn" onclick="AuthLogic.togglePassword('signupPassword', 'eyeIcon1')"><i class="fa-regular fa-eye-slash" id="eyeIcon1"></i></button>
+                </div>
+            </div>
+            <span class="hint-text" data-i18n="passHint">Password must be at least 6 characters</span>
+            
+            <button class="btn-primary" onclick="AuthLogic.handleSignup()">
+                <span data-i18n="btnSendOTP">Send OTP</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div class="divider"><span data-i18n="or">or</span></div>
+            <div class="footer-text"><span data-i18n="alreadyAcc">Already have an account?</span> <a onclick="AuthLogic.switchView('view-login')" data-i18n="loginText">Login</a></div>
+            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+        </div>
+
+        <div id="view-login" class="auth-view">
+            <div class="global-overlay" id="loadingOverlayLogin">
+                <div class="spinner-large"></div>
+                <p style="font-weight: 600; font-size: 14px;" id="loadingTextLogin" data-i18n="processing">Processing...</p>
+            </div>
+            <div class="top-nav">
+                <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
+                <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm2" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
+            </div>
+            <div class="header-section">
+                <h1 data-i18n="loginText">Login</h1>
+                <p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p>
+            </div>
+            <div class="input-card">
+                <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
+                <div class="input-content">
+                    <label data-i18n="emailLabel">Your Email Address</label>
+                    <input type="email" id="loginEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
+                </div>
+            </div>
+            <div class="input-card">
+                <div class="icon-circle-warm"><i class="fa-solid fa-lock"></i></div>
+                <div class="input-content">
+                    <label data-i18n="passLabel">Password</label>
+                    <input type="password" id="loginPassword" data-i18n-ph="passPlaceholder" placeholder="Enter your password" />
+                    <button class="eye-btn" onclick="AuthLogic.togglePassword('loginPassword', 'eyeIcon2')"><i class="fa-regular fa-eye-slash" id="eyeIcon2"></i></button>
+                </div>
+            </div>
+            
+            <button class="btn-primary" onclick="AuthLogic.processLogin()">
+                <span data-i18n="loginText">Login</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+        </div>
+        
+        <div id="view-recovery" class="auth-view">
+            <div class="global-overlay" id="loadingOverlayRecovery">
+                <div class="spinner-large"></div>
+                <p style="font-weight: 600; font-size: 14px;" id="loadingTextRecovery" data-i18n="searchWait">Searching account...</p>
+            </div>
+            <div class="top-nav">
+                <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
+                <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm3" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
+            </div>
+            <div class="header-section">
+                <h1 data-i18n="findAccTitle">Find Your Account</h1>
+                <p data-i18n="findAccSub">Recover your account easily</p>
+            </div>
+            <div class="input-card">
+                <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
+                <div class="input-content">
+                    <label data-i18n="emailLabel">Your Email Address</label>
+                    <input type="email" id="recoveryEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
+                </div>
+            </div>
+            
+            <button class="btn-primary" id="searchAccBtn" onclick="AuthLogic.processRecoverySearch()">
+                <span data-i18n="btnSearchAcc">Search Account</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div id="accountResult" style="display:none; margin-top: 24px;">
+                <p style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--brand-gray); text-align: center;" data-i18n="accountFound">Account Found (Click to send reset link)</p>
+                <div class="user-result-card" onclick="AuthLogic.sendRecoveryLink()">
+                    <img id="foundUserImg" src="" alt="Profile" />
+                    <div class="user-info">
+                        <h3 id="foundUserName">Name</h3>
+                        <p id="foundUserId">ID: ----</p>
+                    </div>
+                    <div class="send-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                </div>
+            </div>
+            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+        </div>
+
+        <div id="view-otp" class="auth-view">
+            <div class="top-nav">
+                <button class="btn-sq" onclick="AuthLogic.switchView('view-signup')"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="top-badge">Fahim.co.in</div>
+                <div style="width: 44px;"></div>
+            </div>
+            <div class="header-section">
+                <h1 data-i18n="otpTitle">Check your email</h1>
+                
+                <p><span data-i18n="otpSubtitle">We've sent a 6-digit verification code to </span><strong id="displayOtpEmail"></strong></p>
+            </div>
+            <div class="input-card">
+                <div class="input-content">
+                    <input type="text" id="otpCode" class="otp-input-box" placeholder="------" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
+                </div>
+            </div>
+            
+            <button class="btn-primary" id="verifyBtn" onclick="AuthLogic.verifyOTP()">
+                <span class="spinner-small" id="verifySpinner"></span>
+                <span id="verifyText" data-i18n="btnVerify">Verify & Proceed</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div class="footer-text" style="margin-top: 24px;">
+                <span id="timerText"><span data-i18n="resendTimer">Resend code in</span> 00:<span id="timerCount">60</span></span>
+                <a id="resendBtn" style="display:none;" onclick="AuthLogic.resendOTP()" data-i18n="resendCode">Resend Code</a>
+            </div>
+            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+        </div>
+
+    </div>
+
+    <script>
+        // ==========================================
+        // FIREBASE CONFIGURATION (Do NOT change)
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
+            authDomain: "fahimn-co-in.firebaseapp.com",
+            databaseURL: "https://fahimn-co-in-default-rtdb.firebaseio.com",
+            projectId: "fahimn-co-in",
+            storageBucket: "fahimn-co-in.firebasestorage.app",
+            messagingSenderId: "698585907618",
+            appId: "1:698585907618:web:c8e4a6646b6b8f5c7932fb"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (user) window.location.href = 'index.html';
+        });
+
+        // ==========================================
+        // TRANSLATION DICTIONARY (Fully Intact)
+        // ==========================================
+        const translations = {
+            en: {
+                badge: "Fahim.co.in", homeWelcome: "Welcome to", homeSub: "Connect, share and grow with a community that inspires you",
+                homeBtn1Sub: "Start your journey with us", homeBtn2Sub: "Welcome back! Sign in to continue", 
+                findAccTitle: "Find Your Account", findAccSub: "Recover your account easily",
+                title: "Create Account", subtitle: "Join Fahim.co.in and start your journey with our community",
+                nameLabel: "Name", namePlaceholder: "Enter your name", emailLabel: "Your Email Address", emailPlaceholder: "Enter your email address",
+                passLabel: "Password", passPlaceholder: "Enter your password", passHint: "Password must be at least 6 characters",
+                btnSendOTP: "Send OTP", loginText: "Login", btnSearchAcc: "Search Account", or: "or", alreadyAcc: "Already have an account?",
+                processing: "Processing...", searchWait: "Searching account...", sendWait: "Sending link...",
+                accountFound: "Account Found (Click to send reset link)", otpTitle: "Check your email", 
+                otpSubtitle: "We've sent a 6-digit verification code to ", btnVerify: "Verify & Proceed",
+                copyright: "© 2026 Fahim.co.in. All rights reserved.", transWait: "Translating...",
+                resendTimer: "Resend code in", resendCode: "Resend Code"
+            },
+            hi: {
+                badge: "Fahim.co.in", homeWelcome: "आपका स्वागत है", homeSub: "जुड़ें, साझा करें और उस समुदाय के साथ बढ़ें जो आपको प्रेरित करता है",
+                homeBtn1Sub: "हमारे साथ अपनी यात्रा शुरू करें", homeBtn2Sub: "वापसी पर स्वागत है! जारी रखने के लिए साइन इन करें", 
+                findAccTitle: "अपना खाता खोजें", findAccSub: "आसानी से अपना खाता पुनर्प्राप्त करें",
+                title: "खाता बनाएं", subtitle: "Fahim.co.in से जुड़ें और हमारे समुदाय के साथ अपनी यात्रा शुरू करें",
+                nameLabel: "नाम", namePlaceholder: "अपना नाम दर्ज करें", emailLabel: "आपका ईमेल पता", emailPlaceholder: "अपना ईमेल पता दर्ज करें",
+                passLabel: "पासवर्ड", passPlaceholder: "अपना पासवर्ड दर्ज करें", passHint: "पासवर्ड कम से कम 6 अक्षरों का होना चाहिए",
+                btnSendOTP: "OTP भेजें", loginText: "लॉग इन करें", btnSearchAcc: "खाता खोजें", or: "या", alreadyAcc: "क्या आपके पास पहले से खाता है?",
+                processing: "प्रक्रिया हो रही है...", searchWait: "खाता खोजा जा रहा है...", sendWait: "लिंक भेजा जा रहा है...",
+                accountFound: "खाता मिल गया (रीसेट लिंक भेजने के लिए क्लिक करें)", otpTitle: "अपना ईमेल जांचें", 
+                otpSubtitle: "हमने 6-अंकों का सत्यापन कोड भेजा है ", btnVerify: "सत्यापित करें और आगे बढ़ें",
+                copyright: "© 2026 Fahim.co.in. सर्वाधिकार सुरक्षित।", transWait: "अनुवाद हो रहा है...",
+                resendTimer: "कोड फिर से भेजें", resendCode: "कोड पुनः भेजें"
+            }
+        };
+
+        // ==========================================
+        // SMART JAVASCRIPT LOGIC
+        // ==========================================
+        const AuthLogic = {
+            currentLang: 'en',
+            targetEmail: '', targetName: '', targetPassword: '', generatedOTP: '', 
+            foundRecoveryEmail: '', timerInterval: null,
+
+            showToast: function(msg, type='error') {
+                const box = document.getElementById('toastBox');
+                const toast = document.createElement('div');
+                let icon = type === 'success' ? 'fa-circle-check' : (type === 'info' ? 'fa-circle-info' : 'fa-circle-exclamation');
+                toast.className = `toast ${type}`;
+                toast.innerHTML = `<i class="fa-solid ${icon}" style="color: ${type==='success'?'var(--success)':(type==='error'?'var(--danger)':'var(--brand-black)')}; font-size: 16px;"></i> <span>${msg}</span>`;
+                box.appendChild(toast);
+                setTimeout(() => { toast.style.transform = 'translateX(150%)'; setTimeout(() => toast.remove(), 400); }, 3500);
+            },
+
+            switchView: function(viewId) {
+                document.querySelectorAll('.auth-view').forEach(el => el.classList.remove('active'));
+                document.getElementById(viewId).classList.add('active');
+                
+                if(viewId === 'view-recovery') {
+                    document.getElementById('accountResult').style.display = 'none';
+                    document.getElementById('searchAccBtn').style.display = 'flex';
+                    document.getElementById('recoveryEmail').value = '';
+                }
+                if(viewId === 'view-otp') {
+                    document.getElementById('otpCode').focus();
+                }
+            },
+
+            toggleOverlay: function(overlayId, show, textKey="") {
+                const ol = document.getElementById(overlayId);
+                if(ol) {
+                    ol.style.display = show ? 'flex' : 'none';
+                    if(textKey) {
+                        const textEl = ol.querySelector('p');
+                        if(textEl) textEl.innerText = translations[this.currentLang][textKey] || textKey;
+                    }
+                }
+            },
+
+            togglePassword: function(inputId, iconId) {
+                const passInput = document.getElementById(inputId);
+                const eyeIcon = document.getElementById(iconId);
+                if (passInput.type === "password") { 
+                    passInput.type = "text"; 
+                    eyeIcon.className = 'fa-regular fa-eye'; 
+                } else { 
+                    passInput.type = "password"; 
+                    eyeIcon.className = 'fa-regular fa-eye-slash'; 
+                }
+            },
+
+            toggleLanguage: function() {
+                const overlay = document.getElementById('langOverlay');
+                document.getElementById('langLoadText').innerText = this.currentLang === 'en' ? translations['hi'].transWait : translations['en'].transWait;
+                overlay.style.display = 'flex'; 
+
+                setTimeout(() => {
+                    this.currentLang = this.currentLang === 'en' ? 'hi' : 'en';
+                    
+                    document.querySelectorAll('[data-i18n]').forEach(el => {
+                        const key = el.getAttribute('data-i18n');
+                        if(translations[this.currentLang][key]) el.innerHTML = translations[this.currentLang][key];
+                    });
+                    
+                    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                        const key = el.getAttribute('data-i18n-ph');
+                        if(translations[this.currentLang][key]) el.placeholder = translations[this.currentLang][key];
+                    });
+                    
+                    let btnText = this.currentLang === 'en' ? 'A/अ' : 'EN';
+                    ['langBtnTextHome', 'langBtnTextForm1', 'langBtnTextForm2', 'langBtnTextForm3'].forEach(id => {
+                        if(document.getElementById(id)) document.getElementById(id).innerText = btnText;
+                    });
+                    
+                    overlay.style.display = 'none'; 
+                }, 800);
+            },
+
+            processRecoverySearch: function() {
+                const recEmail = document.getElementById('recoveryEmail').value.trim().toLowerCase();
+                if (!recEmail || !recEmail.includes('@')) { 
+                    this.showToast(this.currentLang==='hi' ? "वैध ईमेल दर्ज करें।" : "Enter a valid email.", "error"); 
+                    return; 
+                }
+                
+                this.toggleOverlay('loadingOverlayRecovery', true, 'searchWait');
+
+                db.ref('users').orderByChild('email').equalTo(recEmail).once('value')
+                .then(snapshot => {
+                    this.toggleOverlay('loadingOverlayRecovery', false);
+                    if (snapshot.exists()) {
+                        let userData;
+                        snapshot.forEach(child => { userData = child.val(); });
+                        
+                        document.getElementById('foundUserName').innerText = userData.name || "User";
+                        document.getElementById('foundUserId').innerText = "ID: " + (userData.khatarnak_id || "N/A");
+                        document.getElementById('foundUserImg').src = userData.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name || 'User')}&background=111&color=fff`;
+                        
+                        document.getElementById('accountResult').style.display = 'block';
+                        document.getElementById('searchAccBtn').style.display = 'none';
+                        this.foundRecoveryEmail = recEmail;
+                    } else {
+                        this.showToast(this.currentLang==='hi' ? "कोई खाता नहीं मिला।" : "No account found with this email.", "error");
+                    }
+                })
+                .catch(err => {
+                    this.toggleOverlay('loadingOverlayRecovery', false);
+                    this.showToast("Error: " + err.message, "error");
+                });
+            },
+
+            sendRecoveryLink: function() {
+                if(!this.foundRecoveryEmail) return;
+                this.toggleOverlay('loadingOverlayRecovery', true, 'sendWait');
+
+                auth.sendPasswordResetEmail(this.foundRecoveryEmail)
+                .then(() => {
+                    this.toggleOverlay('loadingOverlayRecovery', false);
+                    this.showToast(this.currentLang==='hi' ? "पासवर्ड रीसेट लिंक भेजा गया!" : "Password reset link sent to your email!", "success");
+                    setTimeout(() => { this.switchView('view-login'); }, 2000);
+                })
+                .catch(error => {
+                    this.toggleOverlay('loadingOverlayRecovery', false);
+                    this.showToast("Error: " + error.message, "error");
+                });
+            },
+
+            handleSignup: function() {
+                this.targetEmail = document.getElementById('signupEmail').value.trim().toLowerCase();
+                this.targetName = document.getElementById('signupName').value.trim();
+                this.targetPassword = document.getElementById('signupPassword').value.trim();
+
+                if (!this.targetName) { this.showToast(this.currentLang==='hi'?"कृपया अपना नाम दर्ज करें।":"Please enter your full name."); return; }
+                if (!this.targetEmail || !this.targetEmail.includes('@')) { this.showToast(this.currentLang==='hi'?"अवैध ईमेल पता।":"Invalid email address."); return; }
+                if (this.targetPassword.length < 6) { this.showToast(this.currentLang==='hi'?"पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।":"Password must be at least 6 characters."); return; }
+
+                this.sendOTPLogic();
+            },
+
+            sendOTPLogic: function() {
+                this.toggleOverlay('loadingOverlaySignup', true, 'processing');
+                this.generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+                emailjs.send('service_4uol868', 'template_xy2bkrf', { 
+                    to_email: this.targetEmail, 
+                    name: this.targetName || 'User', 
+                    otp_code: this.generatedOTP 
+                })
+                .then(() => {
+                    this.toggleOverlay('loadingOverlaySignup', false);
+                    this.showToast(this.currentLang==='hi'?"सुरक्षा कोड भेजा गया! 📧":"Security code sent! 📧", "success");
+                    
+                    // Error was happening here! It is fixed now.
+                    document.getElementById('displayOtpEmail').innerText = this.targetEmail;
+                    document.getElementById('otpCode').value = ""; 
+                    
+                    this.switchView('view-otp');
+                    this.startTimer();
+                })
+                .catch((err) => { 
+                    console.error("EmailJS Error:", err); // Extra logging
+                    this.toggleOverlay('loadingOverlaySignup', false); 
+                    this.showToast(err.message || "Failed to communicate with server.", "error"); 
+                });
+            },
+
+            verifyOTP: function() {
+                const enteredCode = document.getElementById('otpCode').value.trim();
+                if (enteredCode !== this.generatedOTP) { 
+                    this.showToast(this.currentLang==='hi'?"अमान्य कोड।":"Invalid code.", "error"); 
+                    return; 
+                }
+                
+                document.getElementById('verifyBtn').disabled = true; 
+                document.getElementById('verifySpinner').style.display = 'block';
+
+                auth.createUserWithEmailAndPassword(this.targetEmail, this.targetPassword)
+                    .then((userCred) => {
+                        const dp = `https://ui-avatars.com/api/?name=${encodeURIComponent(this.targetName)}&background=111&color=fff&bold=true`;
+                        return userCred.user.updateProfile({ displayName: this.targetName, photoURL: dp }).then(() => {
+                                return db.ref('users/' + userCred.user.uid).set({ 
+                                    uid: userCred.user.uid, 
+                                    name: this.targetName, 
+                                    email: this.targetEmail, 
+                                    profile_image: dp, 
+                                    khatarnak_id: Math.floor(10000 + Math.random() * 90000).toString(), 
+                                    last_login: firebase.database.ServerValue.TIMESTAMP 
+                                });
+                            });
+                    }).then(() => { 
+                        this.showToast(this.currentLang==='hi'?"खाता बनाया गया!":"Account created!", "success"); 
+                    })
+                    .catch(err => { 
+                        document.getElementById('verifyBtn').disabled = false; 
+                        document.getElementById('verifySpinner').style.display = 'none';
+                        this.showToast(err.code === 'auth/email-already-in-use' ? (this.currentLang==='hi'?"ईमेल उपयोग में है।":"Email in use.") : err.message, "error"); 
+                    });
+            },
+
+            processLogin: function() {
+                let logEmail = document.getElementById('loginEmail').value.trim(); 
+                let logPass = document.getElementById('loginPassword').value.trim();
+                
+                if (!logEmail || !logPass) { 
+                    this.showToast(this.currentLang==='hi'?"ईमेल और पासवर्ड दर्ज करें।":"Please enter email and password.", "error"); 
+                    return; 
+                }
+                
+                this.toggleOverlay('loadingOverlayLogin', true, 'processing');
+                auth.signInWithEmailAndPassword(logEmail, logPass)
+                    .then(() => { 
+                        this.toggleOverlay('loadingOverlayLogin', false);
+                        this.showToast(this.currentLang==='hi'?"लॉगिन सफल!":"Login Successful!", "success"); 
+                    })
+                    .catch(err => { 
+                        this.toggleOverlay('loadingOverlayLogin', false);
+                        this.showToast(err.message, "error"); 
+                    });
+            },
+
+            startTimer: function() {
+                clearInterval(this.timerInterval);
+                let timeLeft = 60;
+                
+                document.getElementById('timerText').style.display = 'inline';
+                document.getElementById('resendBtn').style.display = 'none';
+                const timeSpan = document.getElementById('timerCount');
+                timeSpan.innerText = timeLeft; 
+                
+                this.timerInterval = setInterval(() => {
+                    timeLeft--;
+                    timeSpan.innerText = timeLeft < 10 ? '0' + timeLeft : timeLeft;
+                    if (timeLeft <= 0) {
+                        clearInterval(this.timerInterval);
+                        document.getElementById('timerText').style.display = 'none';
+                        document.getElementById('resendBtn').style.display = 'inline';
+                    }
+                }, 1000);
+            },
+
+            resendOTP: function() {
+                this.sendOTPLogic();
+            }
+        };
+
+    </script>
+</body>
+</html>
