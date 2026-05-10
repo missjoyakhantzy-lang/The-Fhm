@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Secure Access - fahimn.co.in</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
-      (function() { emailjs.init("3yO6tbaHty1fGoy2U"); })(); 
+      (function() { emailjs.init("3yO6tbaHty1fGoy2U"); })();
     </script>
-
     <style>
-        /* =========================================
+      /* =========================================
            GLOBAL VARIABLES (Unified Primary System)
            ========================================= */
         :root {
@@ -48,14 +44,14 @@
         }
 
         /* TOAST NOTIFICATION */
-        .toast-box { position: fixed; top: 16px; right: 16px; z-index: 99999; display: flex; flex-direction: column; gap: 8px; }
+        .toast-box { position: fixed; top: 16px; right: 16px; z-index: 999999; display: flex; flex-direction: column; gap: 8px; }
         .toast { background: #fff; color: var(--brand-black); padding: 12px 20px; border-radius: 12px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); border: 1px solid var(--line-color); font-size: 13px; font-weight: 600; transform: translateX(150%); animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; display: flex; align-items: center; gap: 10px; }
         @keyframes slideIn { to { transform: translateX(0); } }
 
         /* CONTAINER */
-        .auth-container { width: 100%; max-width: 420px; position: relative; display: flex; flex-direction: column; min-height: 90vh; }
-        .auth-view { display: none; animation: scaleFade 0.3s ease-out forwards; flex-grow: 1; }
-        .auth-view.active { display: block; }
+        .auth-container { width: 100%; max-width: 420px; position: relative; display: flex; flex-direction: column; min-height: 90vh; justify-content: center;}
+        .auth-view { display: none; animation: scaleFade 0.3s ease-out forwards; flex-grow: 1; padding-top: 20px;}
+        .auth-view.active { display: flex; flex-direction: column; }
         @keyframes scaleFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
         /* =========================================
@@ -64,7 +60,7 @@
         .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .btn-sq { width: 44px; height: 44px; border-radius: 14px; background: var(--accent-warm); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--brand-black); cursor: pointer; border: none; transition: 0.2s; }
         .btn-sq:hover { background: #eee2d6; transform: translateY(-1px); }
-        .top-badge { border: 1px solid var(--line-color); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 600; backgound: transparent; }
+        .top-badge { border: 1px solid var(--line-color); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 600; background: transparent; }
 
         .header-section { text-align: center; margin-bottom: 32px; }
         .dots-warm { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
@@ -96,17 +92,14 @@
             display: flex; align-items: center; justify-content: center; gap: 12px; 
             box-shadow: var(--primary-shadow);
         }
-        .btn-primary:hover { 
-            transform: translateY(-2px) scale(1.01); 
-            box-shadow: var(--primary-hover-shadow); 
-        }
+        .btn-primary:hover { transform: translateY(-2px) scale(1.01); box-shadow: var(--primary-hover-shadow); }
         .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: var(--primary-shadow); }
         .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
 
         .divider { display: flex; align-items: center; margin: 24px 0; font-size: 14px; color: var(--brand-gray); }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--line-color); }
         .divider span { padding: 0 16px; }
-        .footer-text { text-align: center; font-size: 14px; color: var(--brand-gray); }
+        .footer-text { text-align: center; font-size: 14px; color: var(--brand-gray); margin-top: 15px;}
         .footer-text a { color: var(--brand-black); text-decoration: none; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .footer-text a:hover { text-decoration: underline; }
 
@@ -115,17 +108,16 @@
         /* USER RESULT CARD (For Account Recovery) */
         .user-result-card {
             background: #ffffff; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid var(--line-color); cursor: pointer; transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid var(--success); transition: all 0.25s ease;
         }
-        .user-result-card:hover { border-color: var(--brand-black); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
         .user-result-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-color); }
         .user-result-card .user-info { flex-grow: 1; }
-        .user-result-card .user-info h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: var(--brand-black); }
+        .user-result-card .user-info h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: var(--success); }
         .user-result-card .user-info p { font-size: 13px; color: var(--brand-gray); margin: 0; font-weight: 500; }
-        .user-result-card .send-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: var(--primary-shadow); }
+        .user-result-card .send-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--success); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 
         /* COPYRIGHT */
-        .copyright { text-align: center; font-size: 12px; color: var(--brand-gray); margin-top: auto; padding-top: 30px; font-weight: 500; }
+        .copyright { text-align: center; font-size: 12px; color: var(--brand-gray); margin-top: auto; padding-top: 30px; padding-bottom: 10px; font-weight: 500; }
 
         /* OVERLAYS */
         .global-overlay { display: none; position: absolute; inset: 0; background: rgba(255, 252, 249, 0.92); backdrop-filter: blur(6px); z-index: 999; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px;}
@@ -138,11 +130,12 @@
         .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-        .lang-float { position: absolute; top: 0; right: 0; z-index: 10; }
-
+        
         /* Welcome screen overrides */
-        .welcome-title { font-size: 34px; font-weight: 800; color: var(--brand-black); line-height: 1.2; letter-spacing: -0.02em; }
-        .welcome-subtitle { font-size: 15px; color: var(--brand-gray); margin: 16px 0 24px; line-height: 1.5; padding: 0 20px; }
+        .home-top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; width: 100%;}
+        .welcome-title { font-size: 34px; font-weight: 800; color: var(--brand-black); line-height: 1.2; letter-spacing: -0.02em; text-align: center; margin-bottom: 12px;}
+        .welcome-subtitle { font-size: 15px; color: var(--brand-gray); margin: 0 0 30px; line-height: 1.5; padding: 0 20px; text-align: center;}
+        
         .action-card { border-radius: 16px; padding: 18px 20px; display: flex; align-items: center; cursor: pointer; margin-bottom: 12px; transition: all 0.25s ease; text-align: left; }
         .action-card:active { transform: scale(0.98); }
         .card-primary { background: var(--primary-gradient); color: white; box-shadow: var(--primary-shadow); border: none; }
@@ -159,208 +152,255 @@
         .card-secondary .card-text p { color: var(--brand-gray); }
         .arrow-circle { width: 30px; height: 30px; border-radius: 50%; background: white; color: var(--brand-black); display: flex; align-items: center; justify-content: center; font-size: 12px; }
         .card-secondary .arrow-icon { color: var(--brand-black); font-size: 16px; }
+
+        /* 🔥 SOCIAL LOGIN BUTTONS 🔥 */
+        .social-btn { 
+            display: flex; align-items: center; justify-content: center; gap: 10px; 
+            padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 600; 
+            cursor: pointer; transition: 0.2s; border: 1px solid var(--line-color); 
+            background: #fff; color: var(--brand-black); box-shadow: 0 4px 10px rgba(0,0,0,0.02); 
+            width: 100%;
+        }
+        .social-btn:hover { transform: translateY(-2px); border-color: var(--brand-black); box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
+        .social-btn:active { transform: scale(0.98); }
+        .social-btn i { font-size: 18px; }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div id="toastBox" class="toast-box"></div>
-
+    
     <div class="auth-container">
+      
+      <div class="global-overlay" id="langOverlay" style="z-index: 9999;">
+        <div class="typing-indicator"><span></span><span></span><span></span></div>
+        <p style="font-weight: 600; font-size: 14px;" id="langLoadText">Please Wait...</p>
+      </div>
+
+      <div id="view-home" class="auth-view active">
         
-        <div class="global-overlay" id="langOverlay" style="z-index: 9999;">
-            <div class="typing-indicator"><span></span><span></span><span></span></div>
-            <p style="font-weight: 600; font-size: 14px;" id="langLoadText">Translating...</p>
+        <div class="home-top-nav">
+            <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
+            <button class="btn-sq" onclick="AuthLogic.toggleLanguage()">
+                <span id="langBtnTextHome" style="font-size: 14px; font-weight: bold;">A/अ</span>
+            </button>
+        </div>
+        
+        <h1 class="welcome-title"><span data-i18n="homeWelcome">Welcome to</span><br />Fahim.co.in</h1>
+        <p class="welcome-subtitle" data-i18n="homeSub">Connect, share and grow with a community that inspires you</p>
+
+        <div class="action-card card-primary" onclick="AuthLogic.switchView('view-signup')">
+          <div class="icon-circle-home"><i class="fa-solid fa-user-plus"></i></div>
+          <div class="card-text">
+            <h3 data-i18n="title">Create Account</h3>
+            <p data-i18n="homeBtn1Sub">Start your journey with us</p>
+          </div>
+          <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+        
+        <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-login')">
+          <div class="icon-circle-home"><i class="fa-regular fa-user"></i></div>
+          <div class="card-text">
+            <h3 data-i18n="loginText">Login</h3>
+            <p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p>
+          </div>
+          <i class="fa-solid fa-arrow-right arrow-icon"></i>
         </div>
 
-        <div id="view-home" class="auth-view active welcome-screen">
-            <div class="lang-float">
-                <button class="btn-sq" onclick="AuthLogic.toggleLanguage()">
-                    <span id="langBtnTextHome" style="font-size: 14px; font-weight: bold;">A/अ</span>
+        <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-recovery')">
+          <div class="icon-circle-home"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="card-text">
+            <h3 data-i18n="findAccTitle">Find Your Account</h3>
+            <p data-i18n="findAccSub">Recover your account easily</p>
+          </div>
+          <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </div>
+        
+        <div class="divider"><span data-i18n="orContinue">or continue with</span></div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            <button class="social-btn" onclick="AuthLogic.signInWithGoogle()">
+                <i class="fa-brands fa-google" style="color: #DB4437;"></i> <span data-i18n="googleBtn">Continue with Google</span>
+            </button>
+            
+            <div style="display: flex; gap: 10px;">
+                <button class="social-btn" style="flex: 1;" onclick="AuthLogic.showToast('Facebook login coming soon!', 'info')">
+                    <i class="fa-brands fa-facebook-f" style="color: #1877F2;"></i>
+                </button>
+                <button class="social-btn" style="flex: 1;" onclick="AuthLogic.showToast('GitHub login coming soon!', 'info')">
+                    <i class="fa-brands fa-github" style="color: #333;"></i>
+                </button>
+                <button class="social-btn" style="flex: 1;" onclick="AuthLogic.showToast('Microsoft login coming soon!', 'info')">
+                    <i class="fa-brands fa-microsoft" style="color: #00A4EF;"></i>
                 </button>
             </div>
-            <div class="top-badge" style="margin-bottom: 24px;" data-i18n="badge">Fahim.co.in</div>
-            <h1 class="welcome-title"><span data-i18n="homeWelcome">Welcome to</span><br>Fahim.co.in</h1>
-            <p class="welcome-subtitle" data-i18n="homeSub">Connect, share and grow with a community that inspires you</p>
-            
-            <div class="action-card card-primary" onclick="AuthLogic.switchView('view-signup')">
-                <div class="icon-circle-home"><i class="fa-solid fa-user-plus"></i></div>
-                <div class="card-text"><h3 data-i18n="title">Create Account</h3><p data-i18n="homeBtn1Sub">Start your journey with us</p></div>
-                <div class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></div>
-            </div>
-
-            <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-login')">
-                <div class="icon-circle-home"><i class="fa-regular fa-user"></i></div>
-                <div class="card-text"><h3 data-i18n="loginText">Login</h3><p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p></div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </div>
-
-            <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-recovery')">
-                <div class="icon-circle-home"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="card-text"><h3 data-i18n="findAccTitle">Find Your Account</h3><p data-i18n="findAccSub">Recover your account easily</p></div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </div>
-            
-            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
         </div>
 
-        <div id="view-signup" class="auth-view">
-            <div class="global-overlay" id="loadingOverlaySignup">
-                <div class="spinner-large"></div>
-                <p style="font-weight: 600; font-size: 14px;" id="loadingTextSignup" data-i18n="processing">Processing...</p>
-            </div>
-            <div class="top-nav">
-                <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
-                <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm1" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
-            </div>
-            <div class="header-section">
-                <div class="dots-warm"><span class="dot-w"></span><span class="dot-w active"></span><span class="dot-w"></span></div>
-                <h1 data-i18n="title">Create Account</h1>
-                <p data-i18n="subtitle">Join Fahim.co.in and start your journey with our community</p>
-            </div>
-            <div class="input-card">
-                <div class="icon-circle-warm"><i class="fa-regular fa-user"></i></div>
-                <div class="input-content">
-                    <label data-i18n="nameLabel">Name</label>
-                    <input type="text" id="signupName" data-i18n-ph="namePlaceholder" placeholder="Enter your name" />
-                </div>
-            </div>
-            <div class="input-card">
-                <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
-                <div class="input-content">
-                    <label data-i18n="emailLabel">Your Email Address</label>
-                    <input type="email" id="signupEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
-                </div>
-            </div>
-            <div class="input-card">
-                <div class="icon-circle-warm"><i class="fa-solid fa-lock"></i></div>
-                <div class="input-content">
-                    <label data-i18n="passLabel">Password</label>
-                    <input type="password" id="signupPassword" data-i18n-ph="passPlaceholder" placeholder="Enter your password" />
-                    <button class="eye-btn" onclick="AuthLogic.togglePassword('signupPassword', 'eyeIcon1')"><i class="fa-regular fa-eye-slash" id="eyeIcon1"></i></button>
-                </div>
-            </div>
-            <span class="hint-text" data-i18n="passHint">Password must be at least 6 characters</span>
-            
-            <button class="btn-primary" onclick="AuthLogic.handleSignup()">
-                <span data-i18n="btnSendOTP">Send OTP</span> <i class="fa-solid fa-arrow-right"></i>
-            </button>
+        <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+      </div>
 
-            <div class="divider"><span data-i18n="or">or</span></div>
-            <div class="footer-text"><span data-i18n="alreadyAcc">Already have an account?</span> <a onclick="AuthLogic.switchView('view-login')" data-i18n="loginText">Login</a></div>
-            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+      <div id="view-signup" class="auth-view">
+        <div class="global-overlay" id="loadingOverlaySignup">
+          <div class="spinner-large"></div>
+          <p style="font-weight: 600; font-size: 14px;" id="loadingTextSignup" data-i18n="processing">Processing...</p>
         </div>
+        <div class="top-nav">
+          <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
+          <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
+          <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm1" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
+        </div>
+        <div class="header-section">
+          <div class="dots-warm"><span class="dot-w"></span><span class="dot-w active"></span><span class="dot-w"></span></div>
+          <h1 data-i18n="title">Create Account</h1>
+          <p data-i18n="subtitle">Join Fahim.co.in and start your journey with our community</p>
+        </div>
+        <div class="input-card">
+          <div class="icon-circle-warm"><i class="fa-regular fa-user"></i></div>
+          <div class="input-content">
+            <label data-i18n="nameLabel">Name</label>
+            <input type="text" id="signupName" data-i18n-ph="namePlaceholder" placeholder="Enter your name" />
+          </div>
+        </div>
+        <div class="input-card">
+          <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
+          <div class="input-content">
+            <label data-i18n="emailLabel">Your Email Address</label>
+            <input type="email" id="signupEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
+          </div>
+        </div>
+        <div class="input-card">
+          <div class="icon-circle-warm"><i class="fa-solid fa-lock"></i></div>
+          <div class="input-content">
+            <label data-i18n="passLabel">Password</label>
+            <input type="password" id="signupPassword" data-i18n-ph="passPlaceholder" placeholder="Enter your password" />
+            <button class="eye-btn" onclick="AuthLogic.togglePassword('signupPassword', 'eyeIcon1')"><i class="fa-regular fa-eye-slash" id="eyeIcon1"></i></button>
+          </div>
+        </div>
+        <span class="hint-text" data-i18n="passHint">Password must be at least 6 characters</span>
+        
+        <button class="btn-primary" onclick="AuthLogic.handleSignup()">
+          <span data-i18n="btnSendOTP">Send OTP</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        
+        <div class="divider"><span data-i18n="or">or</span></div>
+        <div class="footer-text">
+          <span data-i18n="alreadyAcc">Already have an account?</span>
+          <a onclick="AuthLogic.switchView('view-login')" data-i18n="loginText">Login</a>
+        </div>
+        <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+      </div>
 
-        <div id="view-login" class="auth-view">
-            <div class="global-overlay" id="loadingOverlayLogin">
-                <div class="spinner-large"></div>
-                <p style="font-weight: 600; font-size: 14px;" id="loadingTextLogin" data-i18n="processing">Processing...</p>
-            </div>
-            <div class="top-nav">
-                <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
-                <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm2" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
-            </div>
-            <div class="header-section">
-                <h1 data-i18n="loginText">Login</h1>
-                <p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p>
-            </div>
-            <div class="input-card">
-                <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
-                <div class="input-content">
-                    <label data-i18n="emailLabel">Your Email Address</label>
-                    <input type="email" id="loginEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
-                </div>
-            </div>
-            <div class="input-card">
-                <div class="icon-circle-warm"><i class="fa-solid fa-lock"></i></div>
-                <div class="input-content">
-                    <label data-i18n="passLabel">Password</label>
-                    <input type="password" id="loginPassword" data-i18n-ph="passPlaceholder" placeholder="Enter your password" />
-                    <button class="eye-btn" onclick="AuthLogic.togglePassword('loginPassword', 'eyeIcon2')"><i class="fa-regular fa-eye-slash" id="eyeIcon2"></i></button>
-                </div>
-            </div>
-            
-            <button class="btn-primary" onclick="AuthLogic.processLogin()">
-                <span data-i18n="loginText">Login</span> <i class="fa-solid fa-arrow-right"></i>
-            </button>
-            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+      <div id="view-login" class="auth-view">
+        <div class="global-overlay" id="loadingOverlayLogin">
+          <div class="spinner-large"></div>
+          <p style="font-weight: 600; font-size: 14px;" id="loadingTextLogin" data-i18n="processing">Processing...</p>
+        </div>
+        <div class="top-nav">
+          <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
+          <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
+          <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm2" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
+        </div>
+        <div class="header-section">
+          <h1 data-i18n="loginText">Login</h1>
+          <p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p>
+        </div>
+        <div class="input-card">
+          <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
+          <div class="input-content">
+            <label data-i18n="emailLabel">Your Email Address</label>
+            <input type="email" id="loginEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
+          </div>
+        </div>
+        <div class="input-card">
+          <div class="icon-circle-warm"><i class="fa-solid fa-lock"></i></div>
+          <div class="input-content">
+            <label data-i18n="passLabel">Password</label>
+            <input type="password" id="loginPassword" data-i18n-ph="passPlaceholder" placeholder="Enter your password" />
+            <button class="eye-btn" onclick="AuthLogic.togglePassword('loginPassword', 'eyeIcon2')"><i class="fa-regular fa-eye-slash" id="eyeIcon2"></i></button>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="AuthLogic.processLogin()">
+          <span data-i18n="loginText">Login</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+      </div>
+
+      <div id="view-recovery" class="auth-view">
+        <div class="global-overlay" id="loadingOverlayRecovery">
+          <div class="spinner-large"></div>
+          <p style="font-weight: 600; font-size: 14px;" id="loadingTextRecovery" data-i18n="sendWait">Sending link...</p>
+        </div>
+        <div class="top-nav">
+          <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
+          <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
+          <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm3" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
+        </div>
+        <div class="header-section">
+          <h1 data-i18n="findAccTitle">Find Your Account</h1>
+          <p data-i18n="findAccSub">We will send a password reset link to your email instantly.</p>
         </div>
         
-        <div id="view-recovery" class="auth-view">
-            <div class="global-overlay" id="loadingOverlayRecovery">
-                <div class="spinner-large"></div>
-                <p style="font-weight: 600; font-size: 14px;" id="loadingTextRecovery" data-i18n="searchWait">Searching account...</p>
-            </div>
-            <div class="top-nav">
-                <button class="btn-sq" onclick="AuthLogic.switchView('view-home')"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="top-badge" data-i18n="badge">Fahim.co.in</div>
-                <button class="btn-sq" onclick="AuthLogic.toggleLanguage()"><span id="langBtnTextForm3" style="font-size: 14px; font-weight: bold;">A/अ</span></button>
-            </div>
-            <div class="header-section">
-                <h1 data-i18n="findAccTitle">Find Your Account</h1>
-                <p data-i18n="findAccSub">Recover your account easily</p>
-            </div>
-            <div class="input-card">
-                <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
-                <div class="input-content">
-                    <label data-i18n="emailLabel">Your Email Address</label>
-                    <input type="email" id="recoveryEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
-                </div>
-            </div>
-            
-            <button class="btn-primary" id="searchAccBtn" onclick="AuthLogic.processRecoverySearch()">
-                <span data-i18n="btnSearchAcc">Search Account</span> <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-            <div id="accountResult" style="display:none; margin-top: 24px;">
-                <p style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--brand-gray); text-align: center;" data-i18n="accountFound">Account Found (Click to send reset link)</p>
-                <div class="user-result-card" onclick="AuthLogic.sendRecoveryLink()">
-                    <img id="foundUserImg" src="" alt="Profile" />
-                    <div class="user-info">
-                        <h3 id="foundUserName">Name</h3>
-                        <p id="foundUserId">ID: ----</p>
-                    </div>
-                    <div class="send-icon"><i class="fa-solid fa-paper-plane"></i></div>
-                </div>
-            </div>
-            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+        <div class="input-card">
+          <div class="icon-circle-warm"><i class="fa-regular fa-envelope"></i></div>
+          <div class="input-content">
+            <label data-i18n="emailLabel">Your Email Address</label>
+            <input type="email" id="recoveryEmail" data-i18n-ph="emailPlaceholder" placeholder="Enter your email address" />
+          </div>
         </div>
-
-        <div id="view-otp" class="auth-view">
-            <div class="top-nav">
-                <button class="btn-sq" onclick="AuthLogic.switchView('view-signup')"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="top-badge">Fahim.co.in</div>
-                <div style="width: 44px;"></div>
+        
+        <button class="btn-primary" id="searchAccBtn" onclick="AuthLogic.processRecoverySearch()">
+          <span data-i18n="btnSearchAcc">Send Reset Link</span>
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+        
+        <div id="accountResult" style="display:none; margin-top: 24px;">
+          <p style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--success); text-align: center;" data-i18n="accountFound">
+            Check your Inbox / Spam folder!
+          </p>
+          <div class="user-result-card">
+            <img id="foundUserImg" src="" alt="Profile" />
+            <div class="user-info">
+              <h3 id="foundUserName">Name</h3>
+              <p id="foundUserId">ID: ----</p>
             </div>
-            <div class="header-section">
-                <h1 data-i18n="otpTitle">Check your email</h1>
-                
-                <p><span data-i18n="otpSubtitle">We've sent a 6-digit verification code to </span><strong id="displayOtpEmail"></strong></p>
-            </div>
-            <div class="input-card">
-                <div class="input-content">
-                    <input type="text" id="otpCode" class="otp-input-box" placeholder="------" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
-                </div>
-            </div>
-            
-            <button class="btn-primary" id="verifyBtn" onclick="AuthLogic.verifyOTP()">
-                <span class="spinner-small" id="verifySpinner"></span>
-                <span id="verifyText" data-i18n="btnVerify">Verify & Proceed</span> <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-            <div class="footer-text" style="margin-top: 24px;">
-                <span id="timerText"><span data-i18n="resendTimer">Resend code in</span> 00:<span id="timerCount">60</span></span>
-                <a id="resendBtn" style="display:none;" onclick="AuthLogic.resendOTP()" data-i18n="resendCode">Resend Code</a>
-            </div>
-            <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+            <div class="send-icon"><i class="fa-solid fa-check"></i></div>
+          </div>
         </div>
+        <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+      </div>
 
+      <div id="view-otp" class="auth-view">
+        <div class="top-nav">
+          <button class="btn-sq" onclick="AuthLogic.switchView('view-signup')"><i class="fa-solid fa-arrow-left"></i></button>
+          <div class="top-badge">Fahim.co.in</div>
+          <div style="width: 44px;"></div>
+        </div>
+        <div class="header-section">
+          <h1 data-i18n="otpTitle">Check your email</h1>
+          <p><span data-i18n="otpSubtitle">We've sent a 6-digit verification code to </span><strong id="displayOtpEmail"></strong></p>
+        </div>
+        <div class="input-card">
+          <div class="input-content">
+            <input type="text" id="otpCode" class="otp-input-box" placeholder="------" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
+          </div>
+        </div>
+        <button class="btn-primary" id="verifyBtn" onclick="AuthLogic.verifyOTP()">
+          <span class="spinner-small" id="verifySpinner"></span>
+          <span id="verifyText" data-i18n="btnVerify">Verify & Proceed</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <div class="footer-text" style="margin-top: 24px;">
+          <span id="timerText"><span data-i18n="resendTimer">Resend code in</span> 00:<span id="timerCount">60</span></span>
+          <a id="resendBtn" style="display:none;" onclick="AuthLogic.resendOTP()" data-i18n="resendCode">Resend Code</a>
+        </div>
+        <div class="copyright" data-i18n="copyright">© 2026 Fahim.co.in. All rights reserved.</div>
+      </div>
     </div>
 
     <script>
-        // ==========================================
-        // FIREBASE CONFIGURATION (Do NOT change)
+      // ==========================================
+        // FIREBASE CONFIGURATION
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
@@ -380,36 +420,36 @@
         });
 
         // ==========================================
-        // TRANSLATION DICTIONARY (Fully Intact)
+        // TRANSLATION DICTIONARY
         // ==========================================
         const translations = {
             en: {
                 badge: "Fahim.co.in", homeWelcome: "Welcome to", homeSub: "Connect, share and grow with a community that inspires you",
                 homeBtn1Sub: "Start your journey with us", homeBtn2Sub: "Welcome back! Sign in to continue", 
-                findAccTitle: "Find Your Account", findAccSub: "Recover your account easily",
+                findAccTitle: "Find Your Account", findAccSub: "We will send a password reset link to your email instantly.",
                 title: "Create Account", subtitle: "Join Fahim.co.in and start your journey with our community",
                 nameLabel: "Name", namePlaceholder: "Enter your name", emailLabel: "Your Email Address", emailPlaceholder: "Enter your email address",
                 passLabel: "Password", passPlaceholder: "Enter your password", passHint: "Password must be at least 6 characters",
-                btnSendOTP: "Send OTP", loginText: "Login", btnSearchAcc: "Search Account", or: "or", alreadyAcc: "Already have an account?",
+                btnSendOTP: "Send OTP", loginText: "Login", btnSearchAcc: "Send Reset Link", or: "or", orContinue: "Or continue with", alreadyAcc: "Already have an account?",
                 processing: "Processing...", searchWait: "Searching account...", sendWait: "Sending link...",
-                accountFound: "Account Found (Click to send reset link)", otpTitle: "Check your email", 
+                accountFound: "Successfully Sent! Check Spam folder too.", otpTitle: "Check your email", 
                 otpSubtitle: "We've sent a 6-digit verification code to ", btnVerify: "Verify & Proceed",
-                copyright: "© 2026 Fahim.co.in. All rights reserved.", transWait: "Translating...",
-                resendTimer: "Resend code in", resendCode: "Resend Code"
+                copyright: "© 2026 Fahim.co.in. All rights reserved.", transWait: "Please Wait...",
+                resendTimer: "Resend code in", resendCode: "Resend Code", googleBtn: "Continue with Google"
             },
             hi: {
                 badge: "Fahim.co.in", homeWelcome: "आपका स्वागत है", homeSub: "जुड़ें, साझा करें और उस समुदाय के साथ बढ़ें जो आपको प्रेरित करता है",
                 homeBtn1Sub: "हमारे साथ अपनी यात्रा शुरू करें", homeBtn2Sub: "वापसी पर स्वागत है! जारी रखने के लिए साइन इन करें", 
-                findAccTitle: "अपना खाता खोजें", findAccSub: "आसानी से अपना खाता पुनर्प्राप्त करें",
+                findAccTitle: "अपना पासवर्ड रीसेट करें", findAccSub: "हम आपके ईमेल पर तुरंत पासवर्ड रीसेट लिंक भेजेंगे।",
                 title: "खाता बनाएं", subtitle: "Fahim.co.in से जुड़ें और हमारे समुदाय के साथ अपनी यात्रा शुरू करें",
                 nameLabel: "नाम", namePlaceholder: "अपना नाम दर्ज करें", emailLabel: "आपका ईमेल पता", emailPlaceholder: "अपना ईमेल पता दर्ज करें",
                 passLabel: "पासवर्ड", passPlaceholder: "अपना पासवर्ड दर्ज करें", passHint: "पासवर्ड कम से कम 6 अक्षरों का होना चाहिए",
-                btnSendOTP: "OTP भेजें", loginText: "लॉग इन करें", btnSearchAcc: "खाता खोजें", or: "या", alreadyAcc: "क्या आपके पास पहले से खाता है?",
+                btnSendOTP: "OTP भेजें", loginText: "लॉग इन करें", btnSearchAcc: "रीसेट लिंक भेजें", or: "या", orContinue: "या इसके साथ जारी रखें", alreadyAcc: "क्या आपके पास पहले से खाता है?",
                 processing: "प्रक्रिया हो रही है...", searchWait: "खाता खोजा जा रहा है...", sendWait: "लिंक भेजा जा रहा है...",
-                accountFound: "खाता मिल गया (रीसेट लिंक भेजने के लिए क्लिक करें)", otpTitle: "अपना ईमेल जांचें", 
+                accountFound: "सफलतापूर्वक भेजा गया! अपना स्पैम फ़ोल्डर भी चेक करें।", otpTitle: "अपना ईमेल जांचें", 
                 otpSubtitle: "हमने 6-अंकों का सत्यापन कोड भेजा है ", btnVerify: "सत्यापित करें और आगे बढ़ें",
-                copyright: "© 2026 Fahim.co.in. सर्वाधिकार सुरक्षित।", transWait: "अनुवाद हो रहा है...",
-                resendTimer: "कोड फिर से भेजें", resendCode: "कोड पुनः भेजें"
+                copyright: "© 2026 Fahim.co.in. सर्वाधिकार सुरक्षित।", transWait: "कृपया प्रतीक्षा करें...",
+                resendTimer: "कोड फिर से भेजें", resendCode: "कोड पुनः भेजें", googleBtn: "Google के साथ जारी रखें"
             }
         };
 
@@ -419,7 +459,7 @@
         const AuthLogic = {
             currentLang: 'en',
             targetEmail: '', targetName: '', targetPassword: '', generatedOTP: '', 
-            foundRecoveryEmail: '', timerInterval: null,
+            timerInterval: null,
 
             showToast: function(msg, type='error') {
                 const box = document.getElementById('toastBox');
@@ -460,11 +500,9 @@
                 const passInput = document.getElementById(inputId);
                 const eyeIcon = document.getElementById(iconId);
                 if (passInput.type === "password") { 
-                    passInput.type = "text"; 
-                    eyeIcon.className = 'fa-regular fa-eye'; 
+                    passInput.type = "text"; eyeIcon.className = 'fa-regular fa-eye'; 
                 } else { 
-                    passInput.type = "password"; 
-                    eyeIcon.className = 'fa-regular fa-eye-slash'; 
+                    passInput.type = "password"; eyeIcon.className = 'fa-regular fa-eye-slash'; 
                 }
             },
 
@@ -495,6 +533,39 @@
                 }, 800);
             },
 
+            // 🔥 GOOGLE SIGN-IN LOGIC 🔥
+            signInWithGoogle: function() {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                this.toggleOverlay('langOverlay', true, 'Connecting to Google...');
+                
+                auth.signInWithPopup(provider)
+                    .then((result) => {
+                        const user = result.user;
+                        // Save user in Database
+                        db.ref('users/' + user.uid).once('value').then(snap => {
+                            if (!snap.exists()) {
+                                db.ref('users/' + user.uid).set({
+                                    uid: user.uid,
+                                    name: user.displayName || 'Google User',
+                                    email: user.email,
+                                    profile_image: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName)}&background=111&color=fff&bold=true`,
+                                    khatarnak_id: Math.floor(10000 + Math.random() * 90000).toString(),
+                                    last_login: firebase.database.ServerValue.TIMESTAMP
+                                }).then(() => {
+                                    window.location.href = 'index.html';
+                                });
+                            } else {
+                                window.location.href = 'index.html';
+                            }
+                        });
+                    })
+                    .catch((error) => {
+                        this.toggleOverlay('langOverlay', false);
+                        this.showToast(error.message, "error");
+                    });
+            },
+
+            // 🔥 FIXED: DIRECT FIREBASE PASSWORD RESET LOGIC 🔥
             processRecoverySearch: function() {
                 const recEmail = document.getElementById('recoveryEmail').value.trim().toLowerCase();
                 if (!recEmail || !recEmail.includes('@')) { 
@@ -502,45 +573,31 @@
                     return; 
                 }
                 
-                this.toggleOverlay('loadingOverlayRecovery', true, 'searchWait');
+                this.toggleOverlay('loadingOverlayRecovery', true, 'sendWait');
 
-                db.ref('users').orderByChild('email').equalTo(recEmail).once('value')
-                .then(snapshot => {
+                // Bypass Database Search and use Direct Firebase Password Reset API
+                auth.sendPasswordResetEmail(recEmail)
+                .then(() => {
                     this.toggleOverlay('loadingOverlayRecovery', false);
-                    if (snapshot.exists()) {
-                        let userData;
-                        snapshot.forEach(child => { userData = child.val(); });
-                        
-                        document.getElementById('foundUserName').innerText = userData.name || "User";
-                        document.getElementById('foundUserId').innerText = "ID: " + (userData.khatarnak_id || "N/A");
-                        document.getElementById('foundUserImg').src = userData.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name || 'User')}&background=111&color=fff`;
-                        
-                        document.getElementById('accountResult').style.display = 'block';
-                        document.getElementById('searchAccBtn').style.display = 'none';
-                        this.foundRecoveryEmail = recEmail;
-                    } else {
-                        this.showToast(this.currentLang==='hi' ? "कोई खाता नहीं मिला।" : "No account found with this email.", "error");
-                    }
+                    this.showToast(this.currentLang==='hi' ? "पासवर्ड रीसेट लिंक भेजा गया! (Spam folder check karein)" : "Password reset link sent! Check Spam folder too.", "success");
+                    
+                    // Show success UI Card
+                    document.getElementById('foundUserName').innerText = "Link Sent Successfully!";
+                    document.getElementById('foundUserId').innerText = recEmail;
+                    document.getElementById('foundUserImg').src = "https://ui-avatars.com/api/?name=OK&background=10b981&color=fff";
+                    
+                    document.getElementById('accountResult').style.display = 'block';
+                    document.getElementById('searchAccBtn').style.display = 'none';
+                    
+                    setTimeout(() => { this.switchView('view-login'); }, 4000);
                 })
                 .catch(err => {
                     this.toggleOverlay('loadingOverlayRecovery', false);
-                    this.showToast("Error: " + err.message, "error");
-                });
-            },
-
-            sendRecoveryLink: function() {
-                if(!this.foundRecoveryEmail) return;
-                this.toggleOverlay('loadingOverlayRecovery', true, 'sendWait');
-
-                auth.sendPasswordResetEmail(this.foundRecoveryEmail)
-                .then(() => {
-                    this.toggleOverlay('loadingOverlayRecovery', false);
-                    this.showToast(this.currentLang==='hi' ? "पासवर्ड रीसेट लिंक भेजा गया!" : "Password reset link sent to your email!", "success");
-                    setTimeout(() => { this.switchView('view-login'); }, 2000);
-                })
-                .catch(error => {
-                    this.toggleOverlay('loadingOverlayRecovery', false);
-                    this.showToast("Error: " + error.message, "error");
+                    if (err.code === 'auth/user-not-found') {
+                        this.showToast(this.currentLang==='hi' ? "कोई खाता नहीं मिला।" : "No account found with this email.", "error");
+                    } else {
+                        this.showToast("Error: " + err.message, "error");
+                    }
                 });
             },
 
@@ -569,7 +626,6 @@
                     this.toggleOverlay('loadingOverlaySignup', false);
                     this.showToast(this.currentLang==='hi'?"सुरक्षा कोड भेजा गया! 📧":"Security code sent! 📧", "success");
                     
-                    // Error was happening here! It is fixed now.
                     document.getElementById('displayOtpEmail').innerText = this.targetEmail;
                     document.getElementById('otpCode').value = ""; 
                     
@@ -577,7 +633,6 @@
                     this.startTimer();
                 })
                 .catch((err) => { 
-                    console.error("EmailJS Error:", err); // Extra logging
                     this.toggleOverlay('loadingOverlaySignup', false); 
                     this.showToast(err.message || "Failed to communicate with server.", "error"); 
                 });
@@ -661,7 +716,6 @@
                 this.sendOTPLogic();
             }
         };
-
     </script>
-</body>
+  </body>
 </html>
