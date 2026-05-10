@@ -107,7 +107,7 @@
         .page-title-area h1 { font-size: 28px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
         .title-actions { display: flex; gap: 8px; }
         .circle-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-light); color: var(--text-dark); display: flex; justify-content: center; align-items: center; font-size: 16px; box-shadow: var(--shadow-soft); }
-        .section-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .section-title { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
 
         .verified-icon { width: 14px; height: 14px; margin-left: 4px; display: inline-flex; align-items: center; justify-content: center; }
 
@@ -129,7 +129,7 @@
         .empty-state h3 { font-size: 18px; color: var(--text-dark); margin-bottom: 8px; font-weight: 700; }
         .empty-state p { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 24px; }
         
-        .search-users-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: white; border: none; border-radius: 12px; padding: 14px 24px; font-size: 15px; font-weight: 600; box-shadow: var(--shadow-btn); margin: 0 auto; }
+        .search-users-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: white; border: none; border-radius: 12px; padding: 14px 24px; font-size: 15px; font-weight: 600; box-shadow: var(--shadow-btn); margin: 0 auto; cursor:pointer;}
 
         /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg-card); display: flex; justify-content: space-around; padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border-light); box-shadow: 0 -4px 10px rgba(0,0,0,0.02); z-index: 50; }
@@ -154,10 +154,9 @@
         .notif-content p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
         .notif-time { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-top: 6px; }
 
-        /* SEARCH BAR SIZE FIXED */
-        .search-input-wrapper { flex: 1; background: var(--bg-main); border-radius: 12px; padding: 0 16px; height: 44px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--border-light); }
-        .search-input-wrapper i { color: var(--text-muted); font-size: 15px; }
-        .search-input-wrapper input { width: 100%; height: 100%; border: none; background: transparent; outline: none; font-size: 15px; color: var(--text-dark); font-weight: 500;}
+        .search-input-wrapper { flex: 1; background: var(--bg-main); border-radius: 20px; padding: 12px 16px; border: 1px solid var(--border-light); display: flex; align-items: center; gap: 10px; }
+        .search-input-wrapper i { color: var(--text-muted); font-size: 14px; }
+        .search-input-wrapper input { width: 100%; border: none; background: transparent; outline: none; font-size: 15px; color: var(--text-dark); font-weight: 500;}
         .search-results-container { flex: 1; padding: 16px 20px; overflow-y: auto; }
 
         /* CHAT SCREEN */
@@ -269,7 +268,7 @@
                     <div class="chat-name">
                         Admin Fahim 
                         <span class="verified-icon">
-                            <svg aria-label="Verified" fill="var(--danger)" height="15" viewBox="0 0 40 40" width="15"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg>
+                            <svg aria-label="Verified" fill="var(--danger)" height="14" viewBox="0 0 40 40" width="14"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg>
                         </span>
                     </div>
                     <div class="chat-status" id="adminStatusText">Loading status...</div>
@@ -374,12 +373,14 @@
         const db = firebase.database();
         const auth = firebase.auth();
 
+        // Global Variables
         let myUserId = null;
         let currentChatUserId = null;
         let allUsersData = [];
         let recentChatsIds = [];
         let unreadNotifCount = 0;
 
+        // SVG Badge
         const verifiedRedBadgeSVG = `<span class="verified-icon"><svg aria-label="Verified" fill="var(--danger)" height="15" viewBox="0 0 40 40" width="15"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg></span>`;
 
         // =========================================
@@ -442,6 +443,7 @@
             return html;
         }
 
+        // Initialize skeletons before data loads
         document.getElementById('recentChatsList').innerHTML = getSkeletonHTML();
 
         // 100% STRICT STRING CHECKING FOR BUG PREVENTION
@@ -507,13 +509,17 @@
 
         function listenForNotifications() {
             const notifList = document.getElementById('notifListContainer');
+            
             db.ref('messages').limitToLast(20).on('child_added', snap => {
                 const msg = snap.val();
+                
                 if(msg.receiverId === myUserId && (Date.now() - msg.timestamp < 86400000)) {
+                    
                     if(document.getElementById('notificationScreen').style.display !== 'flex') {
                         unreadNotifCount++;
                         updateNotifBadge();
                     }
+
                     const senderData = allUsersData.find(u => u.uid === msg.senderId);
                     const sName = senderData ? senderData.name : 'Someone';
                     const sImg = senderData ? senderData.profile_image : `https://ui-avatars.com/api/?name=${encodeURIComponent(sName)}&background=0d9488&color=fff`;
@@ -536,6 +542,7 @@
                             </div>
                         </div>
                     `;
+                    
                     notifList.insertAdjacentHTML('afterbegin', notifHTML);
                 }
             });
@@ -581,7 +588,7 @@
                 // VERY STRICT CHECK TO PREVENT CRASHES
                 if (!u || !u.name) return false;
                 const safeName = String(u.name).toLowerCase();
-                return safeName.includes(q); // Searching only by name now (Email hidden for privacy)
+                return safeName.includes(q); 
             });
 
             if (filtered.length === 0) {
@@ -661,6 +668,8 @@
                             const sName = u.name || 'User';
                             const sImg = u.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(sName)}&background=0d9488&color=fff`;
                             openChatRoom(u.uid, escapeHTML(sName), sImg, u.verified);
+                            
+                            // Remove param from URL cleanly
                             window.history.replaceState({}, document.title, window.location.pathname);
                         }
                     });
@@ -712,6 +721,7 @@
                 }
             });
 
+            // Handle online/offline presence for current user
             db.ref('.info/connected').on('value', (snap) => { 
                 if (snap.val() === true) { 
                     db.ref('/status/' + myUserId).set({status: 'online'}); 
@@ -721,6 +731,7 @@
         }
 
         function fetchRecentChats() {
+            // Load all users for search & references
             db.ref('users').on('value', snap => {
                 allUsersData = [];
                 snap.forEach(child => { 
@@ -728,8 +739,12 @@
                         allUsersData.push(child.val()); 
                     }
                 });
+                
+                // RENDER FIX: Call it here to prevent blank screen if this loads after recent_chats
+                renderRecentChatsList();
             });
 
+            // Load recent chat history
             db.ref('users/' + myUserId + '/recent_chats').orderByValue().on('value', snap => {
                 recentChatsIds = []; 
                 snap.forEach(child => { 
@@ -743,6 +758,7 @@
             const listDiv = document.getElementById('recentChatsList');
             const actualRecent = recentChatsIds.filter(id => id !== 'admin_fahim');
             
+            // FIX: Show empty state immediately if no recent chats
             if(actualRecent.length === 0) {
                 listDiv.innerHTML = `
                     <div class="empty-state" id="emptyState">
@@ -750,31 +766,38 @@
                         <h3>No messages yet</h3>
                         <p>Start a new conversation and connect<br>with your network.</p>
                         <button class="search-users-btn" onclick="openSearchScreen()">
-                            <i class="fa-solid fa-magnifying-glass"></i> Find People
+                            <i class="fa-solid fa-magnifying-glass" style="margin-right: 8px;"></i> Find People
                         </button>
                     </div>`;
-            } else {
-                listDiv.innerHTML = '';
-                actualRecent.forEach(uid => {
-                    const u = allUsersData.find(user => user.uid === uid);
-                    if(u) {
-                        const safeName = u.name || 'Unknown User';
-                        const safeImg = u.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=0d9488&color=fff`;
-                        const verifiedIcon = (u.verified === true) ? verifiedRedBadgeSVG : '';
-                        
-                        listDiv.innerHTML += `
-                            <div class="chat-card" onclick="openChatRoom('${u.uid}', '${escapeHTML(safeName)}', '${safeImg}', ${u.verified === true})">
-                                <div class="chat-avatar-wrap" onclick="openUserProfile('${u.uid}'); event.stopPropagation();">
-                                    <img src="${safeImg}" class="chat-avatar" onerror="this.src='https://ui-avatars.com/api/?name=User&background=0d9488&color=fff'">
-                                </div>
-                                <div class="chat-info">
-                                    <div class="chat-name">${escapeHTML(safeName)} ${verifiedIcon}</div>
-                                    <div class="chat-status">Tap to open conversation</div>
-                                </div>
-                            </div>`;
-                    }
-                });
+                return;
+            } 
+            
+            // FIX: Wait for all users data to load before rendering cards to prevent blank screen
+            if (allUsersData.length === 0) {
+                listDiv.innerHTML = getSkeletonHTML();
+                return;
             }
+            
+            listDiv.innerHTML = '';
+            actualRecent.forEach(uid => {
+                const u = allUsersData.find(user => user.uid === uid);
+                if(u) {
+                    const safeName = u.name || 'Unknown User';
+                    const safeImg = u.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=0d9488&color=fff`;
+                    const verifiedIcon = (u.verified === true) ? verifiedRedBadgeSVG : '';
+                    
+                    listDiv.innerHTML += `
+                        <div class="chat-card" onclick="openChatRoom('${u.uid}', '${escapeHTML(safeName)}', '${safeImg}', ${u.verified === true})">
+                            <div class="chat-avatar-wrap" onclick="openUserProfile('${u.uid}'); event.stopPropagation();">
+                                <img src="${safeImg}" class="chat-avatar" onerror="this.src='https://ui-avatars.com/api/?name=User&background=0d9488&color=fff'">
+                            </div>
+                            <div class="chat-info">
+                                <div class="chat-name">${escapeHTML(safeName)} ${verifiedIcon}</div>
+                                <div class="chat-status">Tap to open conversation</div>
+                            </div>
+                        </div>`;
+                }
+            });
         }
 
         // =========================================
