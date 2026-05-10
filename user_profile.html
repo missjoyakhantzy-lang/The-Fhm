@@ -13,22 +13,22 @@
 
     <style>
         /* =========================================
-           1. GLOBAL VARIABLES & BASE THEME
+           1. PREMIUM RAMA THEME VARIABLES
            ========================================= */
         :root {
-            --primary: #594EE4; 
-            --primary-light: #7a72f0;
-            --primary-dark: #4338ca;
+            --primary: #0d9488; 
+            --primary-light: #14b8a6;
+            --primary-dark: #0f766e;
             --bg-body: #FFFFFF; 
-            --bg-secondary: #F3F4F6;
+            --bg-secondary: #F8FAFC;
             --bg-card: #FFFFFF;
-            --text-dark: #111827; 
-            --text-light: #6B7280;
-            --text-muted: #9CA3AF;
-            --border-color: #E5E7EB;
+            --text-dark: #0f172a; 
+            --text-light: #64748b;
+            --text-muted: #94a3b8;
+            --border-color: #E2E8F0;
             --like-color: #ef4444; 
             --success-color: #10B981;
-            --danger: #ef4444; /* Instagram Red Verified Badge Color */
+            --danger: #ef4444; 
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
@@ -37,13 +37,13 @@
         }
 
         body.dark-mode {
-            --primary: #6366f1;
-            --bg-body: #0B0F19; 
-            --bg-secondary: #111827;
-            --bg-card: #1F2937;
-            --text-dark: #F9FAFB; 
-            --text-light: #D1D5DB;
-            --border-color: #374151;
+            --primary: #14b8a6;
+            --bg-body: #020617; 
+            --bg-secondary: #0f172a;
+            --bg-card: #0f172a;
+            --text-dark: #F8FAFB; 
+            --text-light: #cbd5e1;
+            --border-color: #1e293b;
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3);
         }
@@ -51,224 +51,216 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            font-family: 'Inter', sans-serif; background-color: #000; color: var(--text-dark); 
-            display: flex; justify-content: center; height: 100vh; overflow: hidden;
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-secondary); 
+            color: var(--text-dark); 
+            display: flex; 
+            justify-content: center; 
+            height: 100vh; 
+            width: 100vw;
+            overflow: hidden;
+            margin: 0;
         }
 
         .app-container { 
-            width: 100%; max-width: 600px; background-color: var(--bg-body); height: 100vh; 
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
+            width: 100%; 
+            max-width: 600px; 
+            background-color: var(--bg-body); 
+            height: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative; 
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05); 
         }
 
-        /* =========================================
-           2. ANIMATIONS
-           ========================================= */
+        /* Animations */
         @keyframes slideInUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes skeletonShimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
         @keyframes popUpBounce { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
-        
-        /* Giant Heart Double Tap Animation */
-        @keyframes giantHeartPop {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-            15% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
-            30% { transform: translate(-50%, -50%) scale(0.95); opacity: 1; }
-            70% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* =========================================
-           3. UI COMPONENTS & OVERLAYS
-           ========================================= */
+        /* Overlays & Toasts */
         .toast-container { position: fixed; top: 20px; right: 20px; left: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; align-items: center;}
-        .toast { background: var(--text-dark); color: var(--bg-body); padding: 14px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-lg); animation: slideInDownToast 0.4s var(--transition-bounce) forwards; transition: all 0.3s ease; pointer-events: auto;}
-        @keyframes slideInDownToast { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .toast.hiding { transform: translateY(-50px); opacity: 0; }
+        .toast { background: var(--text-dark); color: var(--bg-body); padding: 14px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-lg); animation: slideInUp 0.4s var(--transition-bounce) forwards; transition: all 0.3s ease; pointer-events: auto;}
+        
+        .global-overlay { display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); z-index: 99999; flex-direction: column; align-items: center; justify-content: center; }
+        body.dark-mode .global-overlay { background: rgba(0,0,0,0.85); }
+        .global-overlay .spinner { width: 45px; height: 45px; border: 4px solid var(--border-color); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
 
         .network-banner { position: absolute; top: 0; left: 0; right: 0; text-align: center; padding: 6px; font-size: 12px; font-weight: 700; color: white; z-index: 50000; transform: translateY(-100%); transition: transform 0.3s ease; }
         .network-banner.offline { background-color: var(--danger); transform: translateY(0); }
         .network-banner.online { background-color: var(--success-color); transform: translateY(0); }
 
-        .ptr-indicator { position: absolute; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 5; opacity: 0; transition: opacity 0.2s; }
-        .ptr-spinner { width: 24px; height: 24px; border: 3px solid var(--border-color); border-top-color: var(--primary); border-radius: 50%; }
-        .ptr-spinner.spinning { animation: spin 0.8s linear infinite; }
-
-        .global-overlay { display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); z-index: 99999; flex-direction: column; align-items: center; justify-content: center; }
-        body.dark-mode .global-overlay { background: rgba(0,0,0,0.85); }
-        .global-overlay .spinner { width: 45px; height: 45px; border: 4px solid var(--border-color); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
-
-        /* =========================================
-           4. MAIN PROFILE LAYOUT
-           ========================================= */
+        /* Profile Layout */
         .header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: var(--bg-body); z-index: 10; border-bottom: 1px solid var(--border-color); position: relative;}
         .header .left { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 12px; cursor: pointer;}
-        .header .right { display: flex; gap: 20px; font-size: 20px; color: var(--text-dark); }
-        .header i { cursor: pointer; }
+        .header .right { display: flex; gap: 20px; font-size: 20px; color: var(--text-dark); cursor: pointer;}
 
         .content-area { flex-grow: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; background: var(--bg-body); padding-bottom: 90px;}
         .content-area::-webkit-scrollbar { display: none; }
 
         .cover-container { position: relative; padding: 0 16px; margin-top: 16px; margin-bottom: 60px; }
-        .cover-image { width: 100%; height: 150px; border-radius: 20px; background-color: var(--border-color); background-size: cover; background-position: center; box-shadow: var(--shadow-sm); }
+        .cover-image { width: 100%; height: 150px; border-radius: 20px; background-color: var(--border-color); background-size: cover; background-position: center; box-shadow: var(--shadow-sm); transition: 0.3s;}
         .dp-wrapper { position: absolute; right: 30px; top: 85px; width: 115px; height: 115px; z-index: 5; }
-        .dp-wrapper img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-body); object-fit: cover; background: var(--border-color); box-shadow: var(--shadow-md); }
+        .dp-wrapper img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-body); object-fit: cover; background: var(--border-color); box-shadow: var(--shadow-md); transition: 0.3s;}
 
         .info-container { padding: 0 24px; margin-bottom: 20px; }
         .info-container h1 { font-size: 24px; font-weight: 800; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; letter-spacing: -0.5px;}
         .verified-icon { display: inline-flex; align-items: center; justify-content: center; margin-left: 4px; }
         .info-container .username { font-size: 15px; color: var(--text-muted); margin-bottom: 12px; font-weight: 600; }
         .info-container .bio { font-size: 15px; margin-bottom: 16px; color: var(--text-dark); line-height: 1.5; white-space: pre-wrap; }
-        
-        .meta-row { display: flex; gap: 16px; font-size: 13px; color: var(--text-light); font-weight: 500; flex-wrap: wrap; }
+
+        /* META ROW RESTORED */
+        .meta-row { display: flex; gap: 16px; font-size: 13px; color: var(--text-light); font-weight: 500; flex-wrap: wrap; margin-bottom: 20px;}
         .meta-row span { display: flex; align-items: center; gap: 6px; }
         .meta-row i { color: var(--primary); font-size: 14px; opacity: 0.8;}
 
-        /* CLEAN FACEBOOK STYLE STATS BOX */
+        /* Stats Box */
         .stats-box { margin: 0 16px 20px 16px; border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; background: var(--bg-card); box-shadow: var(--shadow-sm); }
         .stats-row { display: flex; justify-content: space-around; margin-bottom: 20px; }
         .stat { display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
         .stat b { font-size: 22px; font-weight: 800; margin-bottom: 4px; color: var(--text-dark); }
         .stat span { font-size: 13px; color: var(--text-muted); font-weight: 500; }
 
-        /* BUTTONS ROW (Follow / Message) */
         .btn-row { display: flex; gap: 10px; }
         .btn-action { flex: 1; border: none; border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: background 0.2s ease; }
         .btn-primary-action { background: var(--primary); color: white; }
         .btn-primary-action:hover { background: var(--primary-dark); }
         .btn-secondary-action { background: var(--bg-secondary); color: var(--text-dark); border: 1px solid var(--border-color); }
-        .btn-secondary-action:hover { background: var(--border-color); }
-        .btn-icon-action { flex: 0 0 45px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-dark); font-size: 18px; cursor: pointer; transition: background 0.2s; }
-        .btn-icon-action:hover { background: var(--border-color); }
 
-        .tabs { display: flex; justify-content: space-around; margin: 0 16px 10px 16px; border-bottom: 1px solid var(--border-color); }
-        .tab { font-size: 14px; font-weight: 700; color: var(--text-muted); padding: 15px 0; cursor: pointer; display: flex; align-items: center; gap: 8px; position: relative; transition: color 0.3s; flex: 1; justify-content: center;}
+        /* Tabs */
+        .tabs { display: flex; justify-content: space-around; margin: 0 16px 15px 16px; border-bottom: 1px solid var(--border-color); }
+        .tab { font-size: 14px; font-weight: 700; color: var(--text-muted); padding: 15px 0; cursor: pointer; display: flex; align-items: center; gap: 8px; position: relative; flex: 1; justify-content: center;}
         .tab.active { color: var(--primary); }
         .tab.active::after { content: ''; position: absolute; bottom: -1px; left: 10%; width: 80%; height: 3px; background: var(--primary); border-top-left-radius: 3px; border-top-right-radius: 3px; }
 
+        /* NEW: FACEBOOK STYLE POST COMPOSER */
+        .post-composer-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 12px 16px;
+            margin: 0 16px 20px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .post-composer-box:active { transform: scale(0.98); }
+        .post-composer-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-light);}
+        .post-composer-input { flex: 1; background: var(--bg-secondary); padding: 10px 16px; border-radius: 20px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        .post-composer-icon { font-size: 22px; color: var(--success-color); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; transition: 0.2s; }
+        .post-composer-icon:active { background: rgba(16, 185, 129, 0.1); }
+
         .feed-area { padding-bottom: 20px; }
         .empty-feed { margin: 20px 16px; border: 1px dashed var(--border-color); border-radius: 20px; padding: 50px 20px; text-align: center; background: var(--bg-secondary); }
-        .empty-feed .icon { width: 56px; height: 56px; background: rgba(89, 78, 228, 0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 15px auto; }
         
         .profile-post-card { border-bottom: 1px solid var(--border-color); padding: 20px; background: var(--bg-body); }
-        .profile-post-card:last-child { border-bottom: none; }
         .post-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
         .post-header-left { display: flex; align-items: center; gap: 12px; }
         .post-header-left img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); }
         .post-header-info h4 { font-size: 15px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 4px; margin-bottom: 2px;}
-        .post-header-info span { font-size: 12px; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 6px;}
         .post-text { font-size: 15px; color: var(--text-dark); line-height: 1.5; margin-bottom: 12px; white-space: pre-wrap; }
-        
-        .post-media-wrap { position: relative; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); background: #000; display: flex; align-items: center; justify-content: center; }
-        .post-media-wrap img, .post-media-wrap video { width: 100%; max-height: 450px; object-fit: cover; display: block; }
-        .giant-heart { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); color: rgba(255,255,255,0.9); font-size: 80px; z-index: 10; pointer-events: none; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); }
-        
+        .post-media-wrap img, .post-media-wrap video { width: 100%; border-radius: 16px; max-height: 450px; object-fit: cover; }
         .post-actions { display: flex; gap: 24px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color); }
-        .action-icon-btn { background: transparent; border: none; font-size: 15px; color: var(--text-light); font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: color 0.2s; }
-        .action-icon-btn i { font-size: 20px; transition: color 0.2s; }
+        .action-icon-btn { background: transparent; border: none; font-size: 15px; color: var(--text-light); font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; }
         .action-icon-btn.liked { color: var(--like-color); }
-        .action-icon-btn.liked i { animation: popUpBounce 0.4s; }
 
+        /* Bottom Nav */
         .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: var(--bg-body); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; color: var(--text-muted); cursor: pointer; width: 60px; transition: color 0.2s; }
-        .nav-item i { font-size: 22px; transition: color 0.2s; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; color: var(--text-muted); cursor: pointer; width: 60px; }
+        .nav-item i { font-size: 22px; }
         .nav-item.active { color: var(--primary); }
-        .nav-center { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; box-shadow: 0 4px 15px rgba(89, 78, 228, 0.4); transition: background 0.2s; }
+        .nav-center { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 15px rgba(13, 148, 136, 0.4); }
 
-        /* =========================================
-           5. EDIT PROFILE SCREEN
-           ========================================= */
+        /* Edit Screen */
         .edit-screen { display: none; position: absolute; inset: 0; z-index: 200; background: var(--bg-secondary); flex-direction: column; animation: slideInRight 0.3s ease forwards; overflow-y: auto; padding-bottom: 50px;}
-        .edit-header-nav { display: flex; align-items: center; padding: 16px 20px; background: var(--bg-body); position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
-        .edit-header-nav i { font-size: 22px; cursor: pointer; color: var(--text-dark); width: 40px;}
+        .edit-header-nav { display: flex; align-items: center; padding: 16px 20px; background: var(--bg-body); position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--border-color); }
         .edit-header-nav h2 { flex: 1; text-align: center; font-size: 18px; font-weight: 800; color: var(--text-dark); padding-right: 40px;}
 
-        .edit-images-premium { background: var(--bg-body); padding: 20px 16px; margin-bottom: 20px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: var(--shadow-sm); position: relative;}
+        .edit-images-premium { background: var(--bg-body); padding: 20px 16px; margin-bottom: 20px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; position: relative;}
         .edit-cover-wrap { width: 100%; height: 150px; background: #e5e7eb; position: relative; border-radius: 16px; overflow: hidden; }
         .edit-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .camera-btn { position: absolute; background: rgba(0,0,0,0.6); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; backdrop-filter: blur(4px); transition: background 0.2s; border: 2px solid rgba(255,255,255,0.2);}
-        .camera-btn:hover { background: var(--primary); border-color: var(--primary);}
+        .camera-btn { position: absolute; background: rgba(0,0,0,0.6); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);}
         .cover-cam { top: 12px; right: 12px; }
         .edit-dp-wrap { position: absolute; left: 50%; transform: translateX(-50%); top: 100px; width: 110px; height: 110px; z-index: 5; }
-        .edit-dp-wrap img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-body); object-fit: cover; background: var(--border-color); box-shadow: var(--shadow-md); }
+        .edit-dp-wrap img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-body); object-fit: cover; }
         .dp-cam { bottom: 0; right: 0; border: 3px solid var(--bg-body); background: var(--primary); }
 
         .edit-cards-wrapper { padding: 0 16px; margin-top: 50px; display: flex; flex-direction: column; gap: 16px; }
-        .edit-card-premium { background: var(--bg-body); border-radius: 20px; padding: 10px 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
-        .edit-sec-title { padding: 15px 0 10px 0; font-size: 14px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px dashed var(--border-color); margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;}
-        
-        .sec-item { display: flex; align-items: center; padding: 16px 0; cursor: pointer; border-bottom: 1px solid var(--border-color); transition: background 0.2s; margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 12px;}
+        .edit-card-premium { background: var(--bg-body); border-radius: 20px; padding: 10px 20px; border: 1px solid var(--border-color); }
+        .edit-sec-title { padding: 15px 0 10px 0; font-size: 14px; font-weight: 800; color: var(--primary); text-transform: uppercase; border-bottom: 1px dashed var(--border-color); margin-bottom: 5px; }
+
+        .sec-item { display: flex; align-items: center; padding: 16px 0; cursor: pointer; border-bottom: 1px solid var(--border-color); margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 12px;}
         .sec-item:last-child { border-bottom: none; }
         .sec-icon { width: 42px; height: 42px; background: var(--bg-secondary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-dark); margin-right: 16px; }
         .sec-content { flex: 1; }
-        .sec-content h4 { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .sec-content h4 { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;}
         .sec-content p { font-size: 16px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;}
-        .sec-edit-icon { color: var(--primary); font-size: 16px; width: 32px; height: 32px; background: rgba(89, 78, 228, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s;}
-
-        /* Modals and Overlays */
-        .visual-slider-overlay, .name-dialog-overlay, .full-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 300000; align-items: center; justify-content: center; padding: 20px; }
-        .visual-slider-overlay.show, .full-modal.show { display: flex; }
-        .visual-slider-overlay { align-items: flex-end; padding: 0; }
-        .full-modal { align-items: flex-end; padding: 0; z-index: 200000; }
         
-        .visual-slider-box, .modal-content-box { background: var(--bg-body); width: 100%; max-width: 600px; border-top-left-radius: 28px; border-top-right-radius: 28px; padding: 25px 0 35px 0; animation: slideInUp 0.3s ease forwards; }
-        .modal-content-box { padding: 0 0 20px 0; }
-        
-        .slider-header, .modal-nav { display: flex; justify-content: space-between; align-items: center; padding: 0 24px 20px 24px; }
-        .modal-nav { padding: 20px 24px; border-bottom: 1px solid var(--border-color); }
-        .slider-header h3, .modal-nav h2 { font-size: 20px; font-weight: 800; color: var(--text-dark);}
-        .slider-header i, .modal-close-btn { font-size: 24px; color: var(--text-muted); cursor: pointer; transition: color 0.2s;}
-        .modal-close-btn { background: var(--bg-secondary); width: 36px; height: 36px; border-radius: 50%; border: none; font-size: 16px; display:flex; align-items:center; justify-content:center;}
+        .list-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 300000; align-items: flex-end; justify-content: center; }
+        .list-modal-overlay.show { display: flex; }
+        .list-modal-box { background: var(--bg-body); width: 100%; max-width: 600px; border-top-left-radius: 28px; border-top-right-radius: 28px; padding: 25px 0 20px 0; animation: slideInUp 0.3s ease forwards; }
+        .list-header { display: flex; justify-content: space-between; align-items: center; padding: 0 24px 20px 24px; border-bottom: 1px solid var(--border-color); }
+        .list-header h3 { font-size: 20px; font-weight: 800; color: var(--text-dark);}
+        .list-body { padding: 10px 24px; max-height: 400px; overflow-y: auto;}
+        .list-option { padding: 16px 0; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 600; color: var(--text-dark); cursor: pointer;}
+        .list-option:last-child { border-bottom: none; }
 
-        .carousel-track { display: flex; gap: 16px; overflow-x: auto; padding: 10px 24px 20px 24px; scroll-snap-type: x mandatory; scroll-behavior: smooth; }
-        .carousel-track::-webkit-scrollbar { display: none; }
-        .carousel-card { min-width: 220px; height: 280px; border-radius: 20px; scroll-snap-align: center; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: flex-end; }
-        .carousel-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%); z-index: 1; }
-        .card-content { position: relative; z-index: 2; padding: 20px; color: white; text-align: center; }
-        .card-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); line-height: 1.4;}
-        .card-btn { background: white; color: var(--text-dark); border: none; padding: 12px 20px; border-radius: 14px; font-weight: 800; font-size: 14px; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-
+        .name-dialog-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 300000; align-items: center; justify-content: center; padding: 20px; }
         .name-dialog-box { background: var(--bg-body); width: 100%; max-width: 360px; border-radius: 24px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: slideInUp 0.3s ease forwards; }
         .name-dialog-box h3 { font-size: 20px; margin-bottom: 10px; font-weight: 800; color: var(--text-dark);}
-        .name-dialog-box p { font-size: 13px; color: var(--text-light); margin-bottom: 20px; line-height: 1.5;}
-        .name-dialog-box input { width: 100%; padding: 14px; border: 2px solid var(--bg-secondary); background: var(--bg-secondary); border-radius: 12px; outline: none; font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 24px; transition: border-color 0.3s;}
+        .name-dialog-box input { width: 100%; padding: 14px; border: 2px solid var(--bg-secondary); background: var(--bg-secondary); border-radius: 12px; outline: none; font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 24px; }
         .dialog-btns { display: flex; gap: 12px; }
         .dialog-btns button { flex: 1; padding: 14px; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer;}
         .dialog-btns button.cancel { background: var(--bg-secondary); color: var(--text-dark); }
         .dialog-btns button.save { background: var(--primary); color: white; }
 
+        /* ABOUT SECTION / BOTTOM SHEET */
+        .full-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 200000; align-items: flex-end; justify-content: center; }
+        .full-modal.show { display: flex; }
+        .modal-content-box { background: var(--bg-body); width: 100%; max-width: 600px; border-top-left-radius: 28px; border-top-right-radius: 28px; display: flex; flex-direction: column; animation: slideInUp 0.3s ease; padding-bottom: 20px;}
+        .modal-nav { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .modal-nav h2 { font-size: 18px; font-weight: 800; color: var(--text-dark); }
+        .modal-close-btn { background: var(--bg-secondary); width: 36px; height: 36px; border-radius: 50%; border: none; font-size: 16px; cursor: pointer; color: var(--text-dark); }
         .modal-body-scroll { padding: 10px 24px; overflow-y: auto; }
-        .menu-item { padding: 16px 0; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 16px; color: var(--text-dark); transition: background 0.2s; }
+        
+        .about-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+        .about-item:last-child { border-bottom: none; }
+        .about-icon { width: 40px; height: 40px; background: rgba(13, 148, 136, 0.1); color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .about-content h4 { font-size: 13px; color: var(--text-muted); margin-bottom: 2px; text-transform: uppercase; font-weight: 700;}
+        .about-content p { font-size: 16px; font-weight: 600; color: var(--text-dark);}
+
+        .menu-item { padding: 16px 0; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 16px; color: var(--text-dark); }
         .menu-item:last-child { border-bottom: none; }
         .menu-item i { font-size: 20px; color: var(--text-muted); width: 24px; text-align: center;}
         .menu-item.danger { color: var(--danger); }
         .menu-item.danger i { color: var(--danger); }
 
-        /* Upload Progress */
-        .upload-timer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); z-index: 999999; flex-direction: column; align-items: center; justify-content: center; }
-        .progress-circle-wrap { position: relative; width: 150px; height: 150px; margin-bottom: 24px; }
-        .progress-circle-wrap svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-        .progress-circle-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 10; }
-        .progress-circle-bar { fill: none; stroke: var(--primary); stroke-width: 10; stroke-dasharray: 408.4; stroke-dashoffset: 408.4; transition: stroke-dashoffset 0.1s linear; stroke-linecap: round; }
-        .progress-text-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: 900; }
-        .timer-text { color: var(--text-muted); font-size: 15px; font-weight: 600; font-family: monospace; letter-spacing: 1.5px; margin-top: 15px; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px;}
-        .uploading-title { color: white; font-size: 24px; font-weight: 800; margin-bottom: 40px;}
-
-        /* New Post Screen */
+        /* NEW POST SCREEN (Fixed user header) */
         .new-post-screen { display: none; position: absolute; inset: 0; z-index: 250; background: var(--bg-body); flex-direction: column; animation: slideInUp 0.3s ease forwards; }
         .new-post-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border-color); background: var(--bg-body); position: sticky; top: 0; z-index: 10; }
         .new-post-header i { font-size: 22px; cursor: pointer; color: var(--text-dark); }
         .new-post-header h2 { font-size: 18px; font-weight: 800; color: var(--text-dark); }
         .share-btn { color: white; background: var(--primary); padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 14px; border: none; cursor: pointer;}
         
+        .np-user-info { display: flex; align-items: center; gap: 12px; padding: 16px 20px; }
+        .np-user-info img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+        .np-user-info h4 { font-size: 16px; font-weight: 700; color: var(--text-dark); }
+        .np-user-info span { font-size: 13px; color: var(--text-muted); font-weight: 500;}
+
         .post-media-preview-container { width: 100%; height: 350px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
         .post-media-preview-container img { max-width: 100%; max-height: 100%; display: block; }
         .post-media-preview-container video { width: 100%; height: 100%; object-fit: contain; }
         
         .post-details-form { padding: 24px; flex: 1; background: var(--bg-body); }
-        .post-textarea { width: 100%; border: none; outline: none; font-size: 16px; font-family: 'Inter', sans-serif; resize: none; min-height: 100px; margin-bottom: 20px; background: transparent; color: var(--text-dark); font-weight: 500;}
+        .post-textarea { width: 100%; border: none; outline: none; font-size: 16px; font-family: 'Inter', sans-serif; resize: none; min-height: 80px; margin-bottom: 20px; background: transparent; color: var(--text-dark); font-weight: 500;}
         .privacy-selector { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1px solid var(--border-color); border-radius: 16px; cursor: pointer; background: var(--bg-secondary);}
         .privacy-selector .left { display: flex; align-items: center; gap: 16px; }
-        .privacy-selector .icon-box { width: 40px; height: 40px; background: rgba(89, 78, 228, 0.1); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .privacy-selector .icon-box { width: 40px; height: 40px; background: rgba(13, 148, 136, 0.1); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
     </style>
 </head>
@@ -276,7 +268,7 @@
 
     <div id="toastBox" class="toast-container"></div>
     
-    <div class="network-banner" id="networkBanner">No Internet Connection</div>
+    <div class="network-banner" id="networkBanner" style="display: none;">No Internet Connection</div>
 
     <input type="file" id="coverPicInput" style="display:none" accept="image/*" />
     <input type="file" id="profilePicInput" style="display:none" accept="image/*" />
@@ -294,16 +286,14 @@
             </div>
         </div>
 
-        <div class="ptr-indicator" id="ptrIndicator">
-            <div class="ptr-spinner" id="ptrSpinner"></div>
-        </div>
+        <div class="ptr-indicator" id="ptrIndicator"><div class="ptr-spinner" id="ptrSpinner"></div></div>
 
         <div class="content-area" id="mainContentArea">
             
             <div class="cover-container">
                 <div class="cover-image" id="profileCover"></div>
                 <div class="dp-wrapper" id="avatarWrapper">
-                    <img id="profileImage" src="https://ui-avatars.com/api/?name=U&background=D1D5DB&color=111" alt="DP">
+                    <img id="profileImage" src="https://ui-avatars.com/api/?name=U&background=0d9488&color=fff" alt="DP">
                 </div>
             </div>
 
@@ -312,10 +302,10 @@
                 <p class="username" id="userHandle">@loading</p>
                 <p class="bio" id="userBio">...</p>
                 
-                <div class="meta-row">
-                    <span><i class="fa-solid fa-location-dot"></i> <span id="userLocation">Add location</span></span>
+                <div class="meta-row" id="profileMetaRow">
+                    <span><i class="fa-solid fa-location-dot"></i> <span id="userLocation">No added location</span></span>
                     <span><i class="fa-solid fa-folder"></i> <span id="userCategory">Digital Creator</span></span>
-                    <span><i class="fa-regular fa-calendar"></i> <span id="pdJoinDate">Joined</span></span>
+                    <span><i class="fa-regular fa-calendar"></i> <span id="pdJoinDate">Joined recently</span></span>
                 </div>
             </div>
 
@@ -340,9 +330,17 @@
                     </div>
             </div>
 
+            <div class="post-composer-box" onclick="openNewPostScreenTextOnly()" id="postComposerBox" style="display: none;">
+                <img id="composerAvatar" src="https://ui-avatars.com/api/?name=U&background=0d9488&color=fff" class="post-composer-avatar">
+                <div class="post-composer-input">What's on your mind?</div>
+                <div class="post-composer-icon" onclick="document.getElementById('newPostMediaInput').click(); event.stopPropagation();">
+                    <i class="fa-solid fa-images"></i>
+                </div>
+            </div>
+
             <div class="tabs">
                 <div class="tab active"><i class="fa-solid fa-border-all"></i> Posts</div>
-                <div class="tab" onclick="openModal('profileDetailsSheet')"><i class="fa-regular fa-user"></i> About</div>
+                <div class="tab" onclick="openModal('profileDetailsSheet')"><i class="fa-solid fa-circle-info"></i> About</div>
             </div>
 
             <div id="feedArea" class="feed-area">
@@ -365,15 +363,26 @@
     <div class="new-post-screen" id="newPostScreen">
         <div class="new-post-header">
             <i class="fa-solid fa-xmark" onclick="closeNewPostScreen()"></i>
-            <h2>New Post</h2>
-            <button class="share-btn" onclick="uploadNewPostWithProgress()">Share</button>
+            <h2>Create Post</h2>
+            <button class="share-btn" onclick="uploadNewPostWithProgress()">Post</button>
         </div>
-        <div class="post-media-preview-container" id="newPostMediaContainer" ondblclick="event.preventDefault()">
+        
+        <div class="np-user-info">
+            <img id="npUserAvatar" src="https://ui-avatars.com/api/?name=U&background=0d9488&color=fff">
+            <div>
+                <h4 id="npUserName">User Name</h4>
+                <span style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-earth-americas"></i> Public</span>
+            </div>
+        </div>
+
+        <div class="post-media-preview-container" id="newPostMediaContainer" style="display: none;">
             <img id="imageToCrop" src="" style="display: none;">
             <video id="videoPreview" src="" style="display: none;" controls playsinline></video>
         </div>
+
         <div class="post-details-form">
-            <textarea id="newPostCaption" class="post-textarea" placeholder="Write a catchy caption..."></textarea>
+            <textarea id="newPostCaption" class="post-textarea" placeholder="What's on your mind?"></textarea>
+            
             <div class="privacy-selector" onclick="openModal('audienceSheet')">
                 <div class="left">
                     <div class="icon-box"><i class="fa-solid fa-earth-americas" id="audienceIcon"></i></div>
@@ -395,40 +404,16 @@
             </div>
             <div class="modal-body-scroll">
                 <div class="menu-item" onclick="setAudience('public', 'Public', 'fa-earth-americas')">
-                    <div class="sec-icon" style="background:rgba(89, 78, 228, 0.1); color:var(--primary); width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:16px;"><i class="fa-solid fa-earth-americas"></i></div>
-                    <div style="flex:1;">
-                        <h4 style="font-size:16px; color:var(--text-dark); font-weight:700; margin-bottom:4px;">Public</h4>
-                        <p style="font-size:13px; color:var(--text-light);">Anyone on or off the platform</p>
-                    </div>
+                    <i class="fa-solid fa-earth-americas" style="color:var(--primary)"></i> Public
                 </div>
                 <div class="menu-item" onclick="setAudience('friends', 'Friends', 'fa-user-group')">
-                    <div class="sec-icon" style="background:rgba(244, 63, 94, 0.1); color:#F43F5E; width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:16px;"><i class="fa-solid fa-user-group"></i></div>
-                    <div style="flex:1;">
-                        <h4 style="font-size:16px; color:var(--text-dark); font-weight:700; margin-bottom:4px;">Friends</h4>
-                        <p style="font-size:13px; color:var(--text-light);">Only your connected friends</p>
-                    </div>
+                    <i class="fa-solid fa-user-group" style="color:#F43F5E;"></i> Friends
                 </div>
-                <div class="menu-item" style="border-bottom:none;" onclick="setAudience('private', 'Only Me', 'fa-lock')">
-                    <div class="sec-icon" style="background:var(--border-color); color:var(--text-dark); width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:16px;"><i class="fa-solid fa-lock"></i></div>
-                    <div style="flex:1;">
-                        <h4 style="font-size:16px; color:var(--text-dark); font-weight:700; margin-bottom:4px;">Only Me</h4>
-                        <p style="font-size:13px; color:var(--text-light);">Private, only you can see this</p>
-                    </div>
+                <div class="menu-item" onclick="setAudience('private', 'Only Me', 'fa-lock')" style="border-bottom:none;">
+                    <i class="fa-solid fa-lock"></i> Only Me
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="upload-timer-overlay" id="uploadProgressOverlay">
-        <div class="uploading-title">Preparing Asset...</div>
-        <div class="progress-circle-wrap">
-            <svg>
-                <circle class="progress-circle-bg" cx="75" cy="75" r="65"></circle>
-                <circle class="progress-circle-bar" id="uploadProgressBar" cx="75" cy="75" r="65"></circle>
-            </svg>
-            <div class="progress-text-center" id="uploadProgressText">0%</div>
-        </div>
-        <div class="timer-text" id="uploadTimeText">Calculating Network Speed...</div>
     </div>
 
     <div class="edit-screen" id="editProfileScreen">
@@ -442,7 +427,7 @@
                 <div class="camera-btn cover-cam" onclick="document.getElementById('coverPicInput').click()"><i class="fa-solid fa-camera"></i></div>
             </div>
             <div class="edit-dp-wrap">
-                <img id="editDpImg" src="https://ui-avatars.com/api/?name=U&background=D1D5DB&color=111" alt="DP">
+                <img id="editDpImg" src="https://ui-avatars.com/api/?name=U&background=0d9488&color=fff" alt="DP">
                 <div class="camera-btn dp-cam" onclick="document.getElementById('profilePicInput').click()"><i class="fa-solid fa-camera"></i></div>
             </div>
         </div>
@@ -454,7 +439,7 @@
                     <div class="sec-content"><h4>Full Name</h4><p id="eNameText">Loading...</p></div>
                     <div class="sec-edit-icon"><i class="fa-solid fa-pen"></i></div>
                 </div>
-                <div class="sec-item" onclick="openVisualSlider('bio')">
+                <div class="sec-item" onclick="openTextListSlider('bio')">
                     <div class="sec-icon"><i class="fa-solid fa-hand-sparkles"></i></div>
                     <div class="sec-content"><h4>About you (Bio)</h4><p id="eBioText">Add your bio...</p></div>
                     <div class="sec-edit-icon"><i class="fa-solid fa-pen"></i></div>
@@ -462,7 +447,7 @@
             </div>
             <div class="edit-card-premium">
                 <div class="edit-sec-title">Category <i class="fa-solid fa-tags"></i></div>
-                <div class="sec-item" onclick="openVisualSlider('category')" style="border-bottom:none;">
+                <div class="sec-item" onclick="openTextListSlider('category')" style="border-bottom:none;">
                     <div class="sec-icon"><i class="fa-solid fa-folder"></i></div>
                     <div class="sec-content"><h4>Profile Category</h4><p id="eCategoryText">Digital Creator</p></div>
                     <div class="sec-edit-icon"><i class="fa-solid fa-pen"></i></div>
@@ -470,17 +455,17 @@
             </div>
             <div class="edit-card-premium">
                 <div class="edit-sec-title">Personal details <i class="fa-solid fa-list-ul"></i></div>
-                <div class="sec-item" onclick="openVisualSlider('city')">
+                <div class="sec-item" onclick="openTextListSlider('city')">
                     <div class="sec-icon"><i class="fa-solid fa-location-dot"></i></div>
                     <div class="sec-content"><h4>Current city</h4><p id="eCityText">Add location</p></div>
                     <div class="sec-edit-icon"><i class="fa-solid fa-pen"></i></div>
                 </div>
-                <div class="sec-item" onclick="openVisualSlider('hometown')">
+                <div class="sec-item" onclick="openTextListSlider('hometown')">
                     <div class="sec-icon"><i class="fa-solid fa-house"></i></div>
                     <div class="sec-content"><h4>Hometown</h4><p id="eHometownText">Add hometown</p></div>
                     <div class="sec-edit-icon"><i class="fa-solid fa-pen"></i></div>
                 </div>
-                <div class="sec-item" onclick="openVisualSlider('relationship')" style="border-bottom:none;">
+                <div class="sec-item" onclick="openTextListSlider('relationship')" style="border-bottom:none;">
                     <div class="sec-icon"><i class="fa-solid fa-heart"></i></div>
                     <div class="sec-content"><h4>Relationship</h4><p id="eRelationshipText">Not Specified</p></div>
                     <div class="sec-edit-icon"><i class="fa-solid fa-pen"></i></div>
@@ -489,24 +474,24 @@
         </div>
     </div>
 
-    <div class="visual-slider-overlay" id="visualSliderModal" onclick="if(event.target===this) document.getElementById('visualSliderModal').classList.remove('show')">
-        <div class="visual-slider-box">
-            <div class="slider-header">
-                <h3 id="sliderTitle">Choose Option</h3>
-                <i class="fa-solid fa-circle-xmark" onclick="document.getElementById('visualSliderModal').classList.remove('show')"></i>
+    <div class="list-modal-overlay" id="textListModal" onclick="if(event.target===this) closeModal('textListModal')">
+        <div class="list-modal-box">
+            <div class="list-header">
+                <h3 id="listModalTitle">Select Option</h3>
+                <i class="fa-solid fa-xmark" style="font-size:24px; color:var(--text-muted); cursor:pointer;" onclick="closeModal('textListModal')"></i>
             </div>
-            <div class="carousel-track" id="sliderTrack"></div>
+            <div class="list-body" id="listModalBody">
+                </div>
         </div>
     </div>
 
     <div class="name-dialog-overlay" id="nameDialogOverlay">
         <div class="name-dialog-box">
             <h3>Update Name</h3>
-            <p>Your real name helps friends find you easily.</p>
             <input type="text" id="nameDialogInput" placeholder="Enter your full name" autocomplete="off">
             <div class="dialog-btns">
                 <button class="cancel" onclick="document.getElementById('nameDialogOverlay').style.display='none'">Cancel</button>
-                <button class="save" onclick="saveNameInput()">Save Changes</button>
+                <button class="save" onclick="saveNameInput()">Save</button>
             </div>
         </div>
     </div>
@@ -522,7 +507,7 @@
                     <i class="fa-solid fa-circle-info"></i> About this account
                 </div>
                 <div class="menu-item" onclick="copyProfileLink()">
-                    <i class="fa-solid fa-link"></i> Copy profile URL
+                    <i class="fa-solid fa-link"></i> Copy VIP profile URL
                 </div>
                 <div class="menu-item" onclick="window.location.href='settings.html'">
                     <i class="fa-solid fa-gear"></i> Advanced Settings
@@ -542,24 +527,66 @@
     <div class="full-modal" id="profileDetailsSheet" onclick="if(event.target===this) closeModal('profileDetailsSheet')">
         <div class="modal-content-box">
             <div class="modal-nav">
-                <h2>Account Info</h2>
+                <h2>About Account</h2>
                 <button class="modal-close-btn" onclick="closeModal('profileDetailsSheet')"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body-scroll">
-                <div class="menu-item" style="border:none;">
-                    <i class="fa-solid fa-fingerprint"></i> Platform ID: 
-                    <span id="pdPlatformId" style="margin-left:auto; font-weight:800; color:var(--primary); font-family:monospace; font-size:18px;">-----</span>
+                <div class="about-item" id="aboutCategoryRow">
+                    <div class="about-icon"><i class="fa-solid fa-folder"></i></div>
+                    <div class="about-content">
+                        <h4>Category</h4>
+                        <p id="aboutCategoryText">Digital Creator</p>
+                    </div>
+                </div>
+                <div class="about-item" id="aboutLocationRow">
+                    <div class="about-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="about-content">
+                        <h4>Location</h4>
+                        <p id="aboutLocationText">Not Specified</p>
+                    </div>
+                </div>
+                <div class="about-item" id="aboutHometownRow">
+                    <div class="about-icon"><i class="fa-solid fa-house"></i></div>
+                    <div class="about-content">
+                        <h4>Hometown</h4>
+                        <p id="aboutHometownText">Not Specified</p>
+                    </div>
+                </div>
+                <div class="about-item" id="aboutRelationshipRow">
+                    <div class="about-icon"><i class="fa-solid fa-heart"></i></div>
+                    <div class="about-content">
+                        <h4>Relationship</h4>
+                        <p id="aboutRelationshipText">Not Specified</p>
+                    </div>
+                </div>
+                <div class="about-item">
+                    <div class="about-icon"><i class="fa-regular fa-calendar"></i></div>
+                    <div class="about-content">
+                        <h4>Joined</h4>
+                        <p id="pdJoinDate2">2026</p>
+                    </div>
+                </div>
+                <div class="about-item" style="border:none;">
+                    <div class="about-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                    <div class="about-content" style="width: 100%;">
+                        <h4>Platform ID</h4>
+                        <p id="pdPlatformId" style="font-family: monospace; color: var(--primary);">-----</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <div class="global-overlay" id="uploadProgressOverlay" style="background: rgba(0,0,0,0.9); z-index: 999999;">
+        <div class="spinner"></div>
+        <p style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 20px;">Publishing Post...</p>
+    </div>
 
     <script>
+        // =========================================
         // 1. LOGIC & UI HELPERS
+        // =========================================
+        
         let toastQueue = [];
         let isToastShowing = false;
 
@@ -579,7 +606,7 @@
             
             let icon = 'fa-info-circle'; let color = 'white';
             if(current.type === 'success') { icon = 'fa-check-circle'; color = 'var(--success-color)'; }
-            if(current.type === 'error') { icon = 'fa-exclamation-circle'; color = 'var(--like-color)'; }
+            if(current.type === 'error') { icon = 'fa-exclamation-circle'; color = 'var(--danger)'; }
             
             toast.innerHTML = `<i class="fa-solid ${icon}" style="color:${color}; font-size:16px;"></i> <span>${current.msg}</span>`;
             box.appendChild(toast);
@@ -593,63 +620,24 @@
 
         function openModal(id) { document.getElementById(id).classList.add('show'); document.body.style.overflow = 'hidden'; }
         function closeModal(id) { document.getElementById(id).classList.remove('show'); document.body.style.overflow = 'auto'; }
-        function escapeHTML(str) { if(!str) return ""; return str.replace(/[<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
+        function escapeHTML(str) { if(!str) return ""; return String(str).replace(/[<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
 
         const verifiedRedBadgeSVG = `<span class="verified-icon"><svg aria-label="Verified" fill="var(--danger)" height="18" viewBox="0 0 40 40" width="18"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg></span>`;
 
+        // FIXED VIP LINK SHARING
         function copyProfileLink() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(() => { showToast("Profile link copied!", "success"); })
-            .catch(() => { showToast("Failed to copy link", "error"); });
+            // Generate full clean VIP link referencing target UID
+            const url = window.location.origin + '/user_profile.html?uid=' + targetUid;
+            navigator.clipboard.writeText(url).then(() => { 
+                showToast("VIP Profile link copied!", "success"); 
+            }).catch(() => { 
+                showToast("Failed to copy link", "error"); 
+            });
         }
 
-        // FIXED Network Status Logic
-        function updateNetworkStatus() {
-            const banner = document.getElementById('networkBanner');
-            if (navigator.onLine) {
-                banner.className = 'network-banner online';
-                banner.innerText = 'Back Online';
-                setTimeout(() => { if(navigator.onLine) banner.style.transform = 'translateY(-100%)'; }, 3000);
-            } else {
-                banner.className = 'network-banner offline';
-                banner.innerText = 'No Internet Connection';
-                banner.style.transform = 'translateY(0)';
-            }
-        }
-        window.addEventListener('online', updateNetworkStatus);
-        window.addEventListener('offline', updateNetworkStatus);
-        if (!navigator.onLine) { updateNetworkStatus(); }
-
-        let touchstartY = 0;
-        const contentArea = document.getElementById('mainContentArea');
-        const ptrIndicator = document.getElementById('ptrIndicator');
-        const ptrSpinner = document.getElementById('ptrSpinner');
-
-        contentArea.addEventListener('touchstart', e => { touchstartY = e.touches[0].clientY; }, {passive: true});
-        contentArea.addEventListener('touchmove', e => {
-            if(contentArea.scrollTop === 0) {
-                const touchY = e.touches[0].clientY;
-                const pullDistance = touchY - touchstartY;
-                if(pullDistance > 0 && pullDistance < 100) {
-                    ptrIndicator.style.opacity = pullDistance / 100;
-                    ptrSpinner.style.transform = `rotate(${pullDistance * 3}deg)`;
-                }
-            }
-        }, {passive: true});
-        contentArea.addEventListener('touchend', e => {
-            const touchY = e.changedTouches[0].clientY;
-            if(contentArea.scrollTop === 0 && (touchY - touchstartY) > 70) {
-                ptrIndicator.style.opacity = 1;
-                ptrSpinner.classList.add('spinning');
-                setTimeout(() => {
-                    ptrSpinner.classList.remove('spinning');
-                    ptrIndicator.style.opacity = 0;
-                    showToast("Profile Updated!", "success");
-                }, 1500);
-            } else { ptrIndicator.style.opacity = 0; }
-        });
-
-        // 2. FIREBASE INITIALIZATION & REAL FOLLOW LOGIC
+        // =========================================
+        // 2. FIREBASE INITIALIZATION
+        // =========================================
         const firebaseConfig = { apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw", authDomain: "fahimn-co-in.firebaseapp.com", databaseURL: "https://fahimn-co-in-default-rtdb.firebaseio.com", projectId: "fahimn-co-in", storageBucket: "fahimn-co-in.firebasestorage.app" };
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database(); const auth = firebase.auth();
@@ -658,37 +646,32 @@
         const urlParams = new URLSearchParams(window.location.search);
         let targetUid = urlParams.get('uid'); let isMyProfile = false;
 
-        const sliderData = {
-            bio: [ { img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80', text: 'Tech Enthusiast & Coder 💻\nBuilding the future.' }, { img: 'https://images.unsplash.com/photo-1522881193457-37ae97c905bf?q=80', text: 'Living life to the fullest ✨\nNo regrets.' } ],
-            category: [ { img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80', text: 'Digital Creator' }, { img: 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80', text: 'Photographer' } ],
-            city: [ { img: 'https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?q=80', text: 'Mumbai, India' }, { img: 'https://images.unsplash.com/photo-1587474260580-589f7f4ec731?q=80', text: 'Delhi, India' } ],
-            hometown: [ { img: 'https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?q=80', text: 'Mumbai, India' }, { img: 'https://images.unsplash.com/photo-1584144131502-36fb1c4918e9?q=80', text: 'Surat, Gujarat' } ],
-            relationship: [ { img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80', text: 'Single 🧍' }, { img: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80', text: 'In a relationship ❤️' } ]
+        const textListData = {
+            bio: ["Tech Enthusiast & Coder 💻", "Living life to the fullest ✨", "Music, Travel, and Life 🎧🌍", "Adding value to the platform.", "Entrepreneur & Visionary 🚀"],
+            category: ["Digital Creator", "Photographer", "Artist / Designer", "Blogger", "Entrepreneur", "Developer"],
+            city: ["Mumbai", "Delhi", "Bangalore", "Surat", "Pune", "Kolkata", "Hyderabad"],
+            hometown: ["Mumbai", "Surat", "Patna", "Purnia", "Delhi", "Lucknow"],
+            relationship: ["Single", "In a relationship", "Married", "Complicated", "Prefer not to say"]
         };
 
-        // REAL-TIME FOLLOW SYSTEM
         window.toggleFollow = function() {
             if(!myUserId || !targetUid || isMyProfile) return;
-            
             const followerRef = db.ref(`users/${targetUid}/followers/${myUserId}`);
             const followingRef = db.ref(`users/${myUserId}/following/${targetUid}`);
-            
             followerRef.once('value', snap => {
-                if(snap.exists()) {
-                    followerRef.remove(); followingRef.remove();
-                } else {
-                    followerRef.set(true); followingRef.set(true);
-                }
+                if(snap.exists()) { followerRef.remove(); followingRef.remove(); } 
+                else { followerRef.set(true); followingRef.set(true); }
             });
             if(navigator.vibrate) navigator.vibrate(50);
         };
 
-        // Important: Link directly to index.html with '?chat=' param for messaging
         auth.onAuthStateChanged((user) => {
             if (user) {
                 myUserId = user.uid; if(!targetUid) targetUid = myUserId; isMyProfile = (targetUid === myUserId);
 
                 if (isMyProfile) {
+                    document.getElementById('postComposerBox').style.display = 'flex'; // Show composer
+                    
                     document.getElementById('actionRowContainer').innerHTML = `
                         <button class="btn-action btn-primary-action" onclick="openEditProfileScreen()"><i class="fa-solid fa-pen"></i> Edit Profile</button>
                         <button class="btn-action btn-secondary-action" onclick="copyProfileLink()"><i class="fa-solid fa-share"></i> Share Profile</button>
@@ -698,6 +681,8 @@
                     document.getElementById('avatarWrapper').classList.add('editable');
                     document.getElementById('avatarWrapper').onclick = () => document.getElementById('profilePicInput').click();
                 } else {
+                    document.getElementById('postComposerBox').style.display = 'none'; // Hide composer
+                    
                     document.getElementById('actionRowContainer').innerHTML = `
                         <button id="followBtnMain" class="btn-action btn-primary-action" onclick="toggleFollow()"><i class="fa-solid fa-user-plus"></i> Follow</button>
                         <button class="btn-action btn-secondary-action" onclick="window.location.href='index.html?chat=${targetUid}'"><i class="fa-regular fa-message"></i> Message</button>
@@ -713,25 +698,47 @@
                     const uData = snap.val();
                     if(uData) {
                         const dName = uData.name || 'VIP User'; 
-                        const dp = uData.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=D1D5DB&color=111`;
+                        const dp = uData.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=0d9488&color=fff`;
                         
-                        if(isMyProfile) { myUserName = dName; myUserProfilePic = dp; myUserVerified = uData.verified === true; }
+                        if(isMyProfile) { 
+                            myUserName = dName; myUserProfilePic = dp; myUserVerified = uData.verified === true; 
+                            document.getElementById('npUserName').innerText = dName;
+                            document.getElementById('npUserAvatar').src = dp;
+                            document.getElementById('composerAvatar').src = dp;
+                        }
 
-                        document.getElementById('pdPlatformId').innerText = uData.khatarnak_id || "Unregistered";
                         document.getElementById('userName').innerHTML = escapeHTML(dName) + (uData.verified ? verifiedRedBadgeSVG : '');
-                        document.getElementById('userHandle').innerText = `@${uData.khatarnak_id || dName.replace(/\s+/g, '').toLowerCase()}`;
+                        document.getElementById('userHandle').innerText = `@${uData.khatarnak_id || String(dName).replace(/\s+/g, '').toLowerCase()}`;
                         document.getElementById('userBio').innerText = uData.bio || "Adding value to the platform.";
                         document.getElementById('profileImage').src = dp;
-                        document.getElementById('userLocation').innerText = uData.city || 'Add location';
-                        document.getElementById('userCategory').innerText = uData.category || 'Digital Creator';
-                        document.getElementById('pdJoinDate').innerText = isMyProfile ? creationDate : "Joined recently";
-
-                        document.getElementById('editDpImg').src = dp;
+                        
                         if(uData.cover_image) { 
                             document.getElementById('profileCover').style.backgroundImage = `url('${uData.cover_image}')`; 
                             document.getElementById('editCoverImg').src = uData.cover_image; 
                         }
+
+                        // Populate Meta Row
+                        document.getElementById('userLocation').innerText = uData.city || (isMyProfile ? "Add location" : "No added location");
+                        document.getElementById('userCategory').innerText = uData.category || 'Digital Creator';
+                        document.getElementById('pdJoinDate').innerText = isMyProfile ? creationDate : "Joined recently";
+                        document.getElementById('pdJoinDate2').innerText = isMyProfile ? creationDate : "Joined recently";
+
+                        document.getElementById('pdPlatformId').innerText = uData.khatarnak_id || "Unregistered";
                         
+                        // Smart Hide for Empty Details if not my profile in About Section
+                        const setAboutField = (rowId, textId, value, defaultText) => {
+                            const val = value || (isMyProfile ? defaultText : '');
+                            if(!val) document.getElementById(rowId).style.display = 'none';
+                            else { document.getElementById(rowId).style.display = 'flex'; document.getElementById(textId).innerText = val; }
+                        };
+                        
+                        setAboutField('aboutLocationRow', 'aboutLocationText', uData.city, 'Add location');
+                        setAboutField('aboutHometownRow', 'aboutHometownText', uData.hometown, 'Add hometown');
+                        setAboutField('aboutRelationshipRow', 'aboutRelationshipText', uData.relationship, 'Not Specified');
+                        document.getElementById('aboutCategoryText').innerText = uData.category || 'Digital Creator';
+
+                        // Apply to Edit Screen
+                        document.getElementById('editDpImg').src = dp;
                         document.getElementById('eNameText').innerText = dName; 
                         document.getElementById('eBioText').innerText = uData.bio || "Add your bio...";
                         document.getElementById('eCategoryText').innerText = uData.category || "Digital creator"; 
@@ -743,7 +750,6 @@
                     }
                 });
 
-                // REAL-TIME FOLLOWERS LISTENER
                 db.ref(`users/${targetUid}/followers`).on('value', snap => {
                     document.getElementById('statFollowers').innerText = snap.numChildren();
                     if(!isMyProfile) {
@@ -760,7 +766,6 @@
                     }
                 });
 
-                // REAL-TIME FOLLOWING LISTENER
                 db.ref(`users/${targetUid}/following`).on('value', snap => {
                     document.getElementById('statFollowing').innerText = snap.numChildren();
                 });
@@ -768,7 +773,9 @@
             } else { window.location.href = "index.html"; }
         });
 
+        // =========================================
         // 3. EDIT PROFILE LOGIC
+        // =========================================
         function openEditProfileScreen() { document.getElementById('editProfileScreen').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
         function closeEditProfileScreen() { document.getElementById('editProfileScreen').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
@@ -781,49 +788,186 @@
             const newName = document.getElementById('nameDialogInput').value.trim(); 
             if(!newName) return;
             document.getElementById('nameDialogOverlay').style.display = 'none'; 
-            showToast("Updating...", "info");
             auth.currentUser.updateProfile({ displayName: newName }).then(() => {
                 db.ref('users/' + myUserId).update({ name: newName }).then(() => { showToast("Name Updated!", "success"); });
             });
         }
 
-        function openVisualSlider(fieldKey) {
-            const titleMap = { bio: "Choose your Bio", category: "Select Category", city: "Select City", hometown: "Select Hometown", relationship: "Relationship Status" };
-            document.getElementById('sliderTitle').innerText = titleMap[fieldKey];
-            const track = document.getElementById('sliderTrack'); track.innerHTML = "";
-            sliderData[fieldKey].forEach(item => {
-                const card = document.createElement('div'); card.className = "carousel-card"; card.style.backgroundImage = `url('${item.img}')`;
-                card.innerHTML = `<div class="card-content"><h4>${item.text.replace(/\n/g, '<br>')}</h4><button class="card-btn" onclick="saveSliderData('${fieldKey}', '${item.text.replace(/'/g, "\\'").replace(/\n/g, " ")}')">Choose This</button></div>`;
-                track.appendChild(card);
+        function openTextListSlider(fieldKey) {
+            const titleMap = { bio: "Select Bio", category: "Select Category", city: "Select City", hometown: "Select Hometown", relationship: "Relationship Status" };
+            document.getElementById('listModalTitle').innerText = titleMap[fieldKey];
+            const listBody = document.getElementById('listModalBody'); 
+            listBody.innerHTML = "";
+            
+            textListData[fieldKey].forEach(item => {
+                const opt = document.createElement('div'); 
+                opt.className = "list-option"; 
+                opt.innerText = item;
+                opt.onclick = () => saveListData(fieldKey, item);
+                listBody.appendChild(opt);
             });
-            document.getElementById('visualSliderModal').classList.add('show');
+            document.getElementById('textListModal').classList.add('show');
         }
-        function saveSliderData(fieldKey, value) {
+
+        function saveListData(fieldKey, value) {
             let updateData = {}; updateData[fieldKey] = value;
-            document.getElementById('visualSliderModal').classList.remove('show'); 
+            document.getElementById('textListModal').classList.remove('show'); 
             db.ref('users/' + myUserId).update(updateData).then(() => { showToast("Profile Updated!", "success"); });
         }
 
-        // IMAGE UPLOADS
-        function basicUpload(file, textMsg) {
+        // =========================================
+        // 4. IMAGE UPLOADS (Optimistic UI)
+        // =========================================
+        function basicUpload(file) {
             return new Promise((resolve, reject) => {
-                const overlay = document.getElementById('globalOverlay'); overlay.style.display = 'flex';
+                const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload'; 
                 const formData = new FormData(); formData.append('file', file); formData.append('upload_preset', 'qrkdzja7');
-                fetch('https://api.cloudinary.com/v1_1/dowwvgffp/upload', { method: 'POST', body: formData })
-                .then(res => res.json()).then(data => { overlay.style.display = 'none'; resolve(data.secure_url); })
-                .catch(err => { overlay.style.display = 'none'; reject(err); });
+                fetch(url, { method: 'POST', body: formData })
+                .then(res => res.json()).then(data => { if(data.secure_url) resolve(data.secure_url); else reject(); })
+                .catch(err => { reject(err); });
             });
         }
+
         document.getElementById('profilePicInput').addEventListener('change', function(e) {
             const file = e.target.files[0]; if(!file) return;
-            basicUpload(file, "Updating DP...").then(url => { auth.currentUser.updateProfile({ photoURL: url }).then(() => db.ref('users/' + myUserId).update({ profile_image: url })); });
-        });
-        document.getElementById('coverPicInput').addEventListener('change', function(e) {
-            const file = e.target.files[0]; if(!file) return;
-            basicUpload(file, "Updating Cover...").then(url => { db.ref('users/' + myUserId).update({ cover_image: url }); });
+            showToast("Uploading Image...", "info");
+            
+            const tempUrl = URL.createObjectURL(file);
+            document.getElementById('profileImage').src = tempUrl;
+            document.getElementById('editDpImg').src = tempUrl;
+            
+            basicUpload(file).then(url => { 
+                auth.currentUser.updateProfile({ photoURL: url }).then(() => db.ref('users/' + myUserId).update({ profile_image: url }))
+                .then(() => showToast("DP Updated!", "success")); 
+            }).catch(() => showToast("Upload Failed", "error"));
         });
 
+        document.getElementById('coverPicInput').addEventListener('change', function(e) {
+            const file = e.target.files[0]; if(!file) return;
+            showToast("Uploading Cover...", "info");
+            
+            const tempUrl = URL.createObjectURL(file);
+            document.getElementById('profileCover').style.backgroundImage = `url('${tempUrl}')`;
+            document.getElementById('editCoverImg').src = tempUrl;
+
+            basicUpload(file).then(url => { 
+                db.ref('users/' + myUserId).update({ cover_image: url }).then(() => showToast("Cover Updated!", "success")); 
+            }).catch(() => showToast("Upload Failed", "error"));
+        });
+
+        // =========================================
+        // 5. NEW POST LOGIC (Text or Media)
+        // =========================================
+        let selectedNewPostFile = null; let currentPrivacy = 'public'; let cropper = null; let isVideo = false;
+
+        function setAudience(val, text, iconClass) {
+            currentPrivacy = val;
+            document.getElementById('audienceText').innerText = text;
+            document.getElementById('audienceIcon').className = `fa-solid ${iconClass}`;
+            closeModal('audienceSheet');
+        }
+
+        function openNewPostScreenTextOnly() {
+            if(!isMyProfile) { showToast("You can only post on your profile.", "error"); return; }
+            document.getElementById('newPostScreen').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            document.getElementById('newPostCaption').focus();
+        }
+
+        document.getElementById('newPostMediaInput').addEventListener('change', function(e) {
+            if(!isMyProfile) { showToast("You can only post on your profile.", "error"); return; }
+            const file = e.target.files[0]; if(!file) return;
+
+            isVideo = file.type.startsWith('video/');
+            const fileURL = URL.createObjectURL(file);
+            const mediaContainer = document.getElementById('newPostMediaContainer');
+            const imgEl = document.getElementById('imageToCrop');
+            const vidEl = document.getElementById('videoPreview');
+
+            mediaContainer.style.display = 'flex'; // Show media container
+
+            if(isVideo) {
+                imgEl.style.display = 'none'; vidEl.style.display = 'block'; vidEl.src = fileURL;
+                selectedNewPostFile = file; if(cropper) { cropper.destroy(); cropper = null; }
+            } else {
+                vidEl.style.display = 'none'; imgEl.style.display = 'block'; imgEl.src = fileURL;
+                if(cropper) cropper.destroy();
+                imgEl.onload = () => { cropper = new Cropper(imgEl, { viewMode: 1, dragMode: 'move', autoCropArea: 1, restore: false, guides: true, center: true, highlight: false, cropBoxMovable: true, cropBoxResizable: true, toggleDragModeOnDblclick: false }); };
+            }
+            document.getElementById('newPostScreen').style.display = 'flex'; 
+            document.body.style.overflow = 'hidden';
+            this.value = '';
+        });
+
+        function closeNewPostScreen() {
+            document.getElementById('newPostScreen').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
+            document.getElementById('newPostCaption').value = '';
+            document.getElementById('newPostMediaContainer').style.display = 'none';
+            if(cropper) { cropper.destroy(); cropper = null; }
+            document.getElementById('imageToCrop').src = ''; document.getElementById('videoPreview').src = ''; 
+            selectedNewPostFile = null;
+        }
+
+        function uploadNewPostWithProgress() {
+            const caption = document.getElementById('newPostCaption').value.trim();
+            
+            // Allow text-only posts
+            if(!selectedNewPostFile && !cropper && !caption) {
+                showToast("Post cannot be empty!", "error");
+                return;
+            }
+
+            if(!selectedNewPostFile && !cropper) {
+                // Text ONLY post
+                const newPost = { senderId: myUserId, senderName: myUserName, senderPic: myUserProfilePic, senderVerified: myUserVerified, text: caption, mediaUrl: "", privacy: currentPrivacy, timestamp: firebase.database.ServerValue.TIMESTAMP };
+                db.ref('social_feed').push(newPost).then(() => { 
+                    closeNewPostScreen(); 
+                    showToast("Status Posted!", "success"); 
+                });
+                return;
+            }
+
+            // Media Post
+            let fileToUpload = null;
+            if(isVideo) { fileToUpload = selectedNewPostFile; executeUpload(fileToUpload, caption); } 
+            else {
+                if(cropper) {
+                    cropper.getCroppedCanvas({ width: 1080, height: 1080, fillColor: '#fff', imageSmoothingEnabled: true, imageSmoothingQuality: 'high' }).toBlob((blob) => {
+                        fileToUpload = new File([blob], "cropped_image.jpg", { type: "image/jpeg" }); executeUpload(fileToUpload, caption);
+                    }, 'image/jpeg', 0.9);
+                } else { showToast("Wait for image load...", "info"); }
+            }
+        }
+
+        function executeUpload(file, caption) {
+            if(!file) return;
+            document.getElementById('uploadProgressOverlay').style.display = 'flex';
+
+            const xhr = new XMLHttpRequest(); const url = 'https://api.cloudinary.com/v1_1/dowwvgffp/upload';
+            const formData = new FormData(); formData.append('file', file); formData.append('upload_preset', 'qrkdzja7'); 
+
+            xhr.addEventListener('load', () => {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText); const mediaUrl = response.secure_url;
+                    const newPost = { senderId: myUserId, senderName: myUserName, senderPic: myUserProfilePic, senderVerified: myUserVerified, text: caption, mediaUrl: mediaUrl, privacy: currentPrivacy, timestamp: firebase.database.ServerValue.TIMESTAMP };
+                    db.ref('social_feed').push(newPost).then(() => { 
+                        document.getElementById('uploadProgressOverlay').style.display = 'none'; 
+                        closeNewPostScreen(); 
+                        showToast("Post Published!", "success"); 
+                    });
+                } else { 
+                    document.getElementById('uploadProgressOverlay').style.display = 'none'; 
+                    showToast("Upload Failed. Try again.", "error"); 
+                }
+            });
+            xhr.addEventListener('error', () => { document.getElementById('uploadProgressOverlay').style.display = 'none'; showToast("Network Error.", "error"); });
+            xhr.open('POST', url, true); xhr.send(formData);
+        }
+
+        // =========================================
         // 6. FEED RENDERING
+        // =========================================
         function timeAgoLocal(time) {
             if(!time) return "Just now";
             const seconds = Math.floor((new Date() - new Date(time)) / 1000);
@@ -835,41 +979,30 @@
             return "Just now";
         }
 
-        window.handleDoubleTapLike = function(postId) {
-            const btn = document.getElementById(`likeBtn-${postId}`);
-            if(btn && !btn.classList.contains('liked')) {
-                btn.classList.add('liked'); btn.querySelector('i').className = 'fa-solid fa-heart';
-                const countSpan = btn.querySelector('.count'); countSpan.innerText = parseInt(countSpan.innerText === 'Like' ? 0 : countSpan.innerText) + 1;
-                if(myUserId) db.ref(`social_feed/${postId}/likes/${myUserId}`).set(true);
-            }
-        }
-
         window.toggleLikeBtn = function(postId) {
             if(!myUserId) return;
             const likeRef = db.ref(`social_feed/${postId}/likes/${myUserId}`); 
-            const btn = document.getElementById(`likeBtn-${postId}`);
-            if(btn) {
-                btn.classList.toggle('liked');
-                const icon = btn.querySelector('i'); const countSpan = btn.querySelector('.count');
-                let currCount = parseInt(countSpan.innerText === 'Like' ? 0 : countSpan.innerText);
-                if(btn.classList.contains('liked')) { icon.className = 'fa-solid fa-heart'; countSpan.innerText = currCount + 1; } 
-                else { icon.className = 'fa-regular fa-heart'; countSpan.innerText = (currCount - 1) > 0 ? currCount - 1 : 'Like'; }
-            }
             likeRef.once('value', snap => { if(snap.exists()) likeRef.remove(); else likeRef.set(true); });
         }
 
         function initPostsListener(uidToFetch) {
             db.ref('social_feed').orderByChild('timestamp').on('value', snap => {
                 let postsHTML = ''; let postCount = 0; const postsArr = [];
-                snap.forEach(child => { const post = child.val(); if(post.senderId === uidToFetch) { postsArr.push({ id: child.key, ...post }); } });
+                snap.forEach(child => { 
+                    const post = child.val(); 
+                    if(post.senderId === uidToFetch) { 
+                        if(post.privacy === 'private' && myUserId !== uidToFetch) return;
+                        postsArr.push({ id: child.key, ...post }); 
+                    } 
+                });
                 postsArr.reverse(); 
 
                 postsArr.forEach(post => {
                     postCount++;
                     let mediaHTML = '';
                     if(post.mediaUrl) {
-                        if(post.mediaUrl.includes('video')) { mediaHTML = `<div class="post-media-wrap" ondblclick="handleDoubleTapLike('${post.id}')"><video src="${post.mediaUrl}" controls playsinline></video></div>`; } 
-                        else { mediaHTML = `<div class="post-media-wrap" ondblclick="handleDoubleTapLike('${post.id}')"><img src="${post.mediaUrl}" loading="lazy"></div>`; }
+                        if(post.mediaUrl.includes('video')) { mediaHTML = `<div class="post-media-wrap"><video src="${escapeHTML(post.mediaUrl)}" controls playsinline></video></div>`; } 
+                        else { mediaHTML = `<div class="post-media-wrap"><img src="${escapeHTML(post.mediaUrl)}" loading="lazy"></div>`; }
                     }
                     const textHTML = post.text ? `<p class="post-text">${escapeHTML(post.text)}</p>` : '';
                     const privacyIcon = post.privacy === 'private' ? '<i class="fa-solid fa-lock" title="Private"></i>' : '<i class="fa-solid fa-earth-americas" title="Public"></i>';
@@ -881,22 +1014,22 @@
                         <div class="profile-post-card">
                             <div class="post-header">
                                 <div class="post-header-left">
-                                    <img src="${post.senderPic}">
+                                    <img src="${escapeHTML(post.senderPic)}">
                                     <div class="post-header-info"><h4>${escapeHTML(post.senderName)} ${verifiedIcon}</h4> <span>${timeAgoLocal(post.timestamp)} • ${privacyIcon}</span></div>
                                 </div>
                             </div>
                             ${textHTML}
                             ${mediaHTML}
                             <div class="post-actions">
-                                <button class="action-icon-btn ${hasLiked?'liked':''}" id="likeBtn-${post.id}" onclick="toggleLikeBtn('${post.id}')"><i class="${hasLiked?'fa-solid':'fa-regular'} fa-heart"></i> <span class="count">${likesCount||''}</span></button>
+                                <button class="action-icon-btn ${hasLiked?'liked':''}" onclick="toggleLikeBtn('${post.id}')"><i class="${hasLiked?'fa-solid':'fa-regular'} fa-heart"></i> <span class="count">${likesCount||''}</span></button>
                             </div>
                         </div>`;
                 });
 
-                document.getElementById('feedArea').innerHTML = postsArr.length > 0 ? postsHTML : `<div class="empty-feed"><div class="icon"><i class="fa-solid fa-camera-retro"></i></div><h4>No posts yet</h4></div>`;
+                document.getElementById('feedArea').innerHTML = postsArr.length > 0 ? postsHTML : `<div class="empty-feed"><div class="icon"><i class="fa-solid fa-camera-retro"></i></div><h4>No posts yet</h4><p>Share your moments with your network.</p></div>`;
                 document.getElementById('statPosts').innerText = postCount; 
             });
         }
     </script>
 </body>
-</html
+</html>
