@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Premium Profile - fahimn.co.in</title>
     
@@ -52,12 +52,10 @@
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* FIXED: AADHA BLACK SCREEN ISSUE */
         body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-secondary); /* No pure black on edges */
+            background-color: var(--bg-secondary); 
             color: var(--text-dark); 
             display: flex; 
             justify-content: center; 
@@ -76,7 +74,7 @@
             flex-direction: column; 
             position: relative; 
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.08); /* Clean shadow for desktop */
+            box-shadow: 0 0 20px rgba(0,0,0,0.08); 
         }
 
         /* Animations */
@@ -84,10 +82,12 @@
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes popUpBounce { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
         /* Toasts & Overlays */
         .toast-container { position: fixed; top: 20px; right: 20px; left: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; align-items: center;}
         .toast { background: var(--text-dark); color: var(--bg-body); padding: 14px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-lg); animation: slideInUp 0.4s var(--transition-bounce) forwards; transition: all 0.3s ease; pointer-events: auto;}
+        .toast.hiding { transform: translateY(-50px); opacity: 0; }
         
         .global-overlay { display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); z-index: 99999; flex-direction: column; align-items: center; justify-content: center; }
         body.dark-mode .global-overlay { background: rgba(0,0,0,0.85); }
@@ -97,7 +97,6 @@
         .network-banner.offline { background-color: var(--danger); transform: translateY(0); }
         .network-banner.online { background-color: var(--success-color); transform: translateY(0); }
 
-        /* Pull to Refresh */
         .ptr-indicator { position: absolute; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 5; opacity: 0; transition: opacity 0.2s; }
         .ptr-spinner { width: 24px; height: 24px; border: 3px solid var(--border-color); border-top-color: var(--primary); border-radius: 50%; }
         .ptr-spinner.spinning { animation: spin 0.8s linear infinite; }
@@ -121,7 +120,6 @@
         .info-container .username { font-size: 15px; color: var(--text-muted); margin-bottom: 12px; font-weight: 600; }
         .info-container .bio { font-size: 15px; margin-bottom: 16px; color: var(--text-dark); line-height: 1.5; white-space: pre-wrap; }
 
-        /* RESTORED: Meta Row (Location, Category, Join Date) */
         .meta-row { display: flex; gap: 16px; font-size: 13px; color: var(--text-light); font-weight: 500; flex-wrap: wrap; margin-bottom: 20px;}
         .meta-row span { display: flex; align-items: center; gap: 6px; }
         .meta-row i { color: var(--primary); font-size: 14px; opacity: 0.8;}
@@ -133,34 +131,19 @@
         .stat b { font-size: 22px; font-weight: 800; margin-bottom: 4px; color: var(--text-dark); }
         .stat span { font-size: 13px; color: var(--text-muted); font-weight: 500; }
 
-        /* Dynamic Action Buttons */
         .btn-row { display: flex; gap: 10px; }
         .btn-action { flex: 1; border: none; border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: background 0.2s ease; }
         .btn-primary-action { background: var(--primary); color: white; }
         .btn-primary-action:hover { background: var(--primary-dark); }
         .btn-secondary-action { background: var(--bg-secondary); color: var(--text-dark); border: 1px solid var(--border-color); }
         .btn-icon-action { flex: 0 0 45px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-dark); font-size: 18px; cursor: pointer; transition: background 0.2s; }
-        .btn-icon-action:hover { background: var(--border-color); }
 
-        /* RESTORED: FACEBOOK STYLE POST COMPOSER ("What's on your mind?") */
-        .post-composer-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 12px 16px;
-            margin: 0 16px 20px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: var(--shadow-sm);
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        /* Post Composer Box */
+        .post-composer-box { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; padding: 12px 16px; margin: 0 16px 20px 16px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-sm); cursor: pointer; transition: 0.2s; }
         .post-composer-box:active { transform: scale(0.98); }
         .post-composer-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-light);}
         .post-composer-input { flex: 1; background: var(--bg-secondary); padding: 10px 16px; border-radius: 20px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
         .post-composer-icon { font-size: 22px; color: var(--success-color); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; transition: 0.2s; }
-        .post-composer-icon:active { background: rgba(16, 185, 129, 0.1); }
 
         /* Tabs */
         .tabs { display: flex; justify-content: space-around; margin: 0 16px 15px 16px; border-bottom: 1px solid var(--border-color); }
@@ -168,21 +151,28 @@
         .tab.active { color: var(--primary); }
         .tab.active::after { content: ''; position: absolute; bottom: -1px; left: 10%; width: 80%; height: 3px; background: var(--primary); border-top-left-radius: 3px; border-top-right-radius: 3px; }
 
-        /* Feed */
+        /* Feed Area & Post Cards */
         .feed-area { padding-bottom: 20px; }
         .empty-feed { margin: 20px 16px; border: 1px dashed var(--border-color); border-radius: 20px; padding: 50px 20px; text-align: center; background: var(--bg-secondary); }
         .empty-feed .icon { width: 56px; height: 56px; background: rgba(13, 148, 136, 0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 15px auto; }
         
-        .profile-post-card { border-bottom: 1px solid var(--border-color); padding: 20px; background: var(--bg-body); }
-        .post-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .profile-post-card { margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding: 20px 0; background: var(--bg-body); }
+        .post-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding: 0 20px; }
         .post-header-left { display: flex; align-items: center; gap: 12px; }
         .post-header-left img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); }
         .post-header-info h4 { font-size: 15px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 4px; margin-bottom: 2px;}
-        .post-text { font-size: 15px; color: var(--text-dark); line-height: 1.5; margin-bottom: 12px; white-space: pre-wrap; }
+        .post-text { font-size: 15px; color: var(--text-dark); line-height: 1.5; margin-bottom: 12px; white-space: pre-wrap; padding: 0 20px; }
+        .post-media-wrap { padding: 0 10px; }
         .post-media-wrap img, .post-media-wrap video { width: 100%; border-radius: 16px; max-height: 450px; object-fit: cover; }
-        .post-actions { display: flex; gap: 24px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color); }
-        .action-icon-btn { background: transparent; border: none; font-size: 15px; color: var(--text-light); font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        .action-icon-btn.liked { color: var(--like-color); }
+        
+        /* 🔥 PREMIUM ACTION BAR (Imported from Social Feed) 🔥 */
+        .action-bar-wrapper { padding: 12px 20px 0 20px; margin-top: 12px; }
+        .action-bar { display: flex; align-items: center; justify-content: space-between; }
+        .action-left { display: flex; gap: 12px; }
+        .action-btn { background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-size: 14px; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; font-weight: 700; }
+        .action-btn:active { transform: scale(0.9); }
+        .action-btn .count { font-size: 13px; font-weight: 700; }
+        .action-btn.liked { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: var(--like-color); animation: heartPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
         /* Bottom Nav */
         .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: var(--bg-body); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 100; }
@@ -191,11 +181,11 @@
         .nav-item.active { color: var(--primary); }
         .nav-center { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 15px rgba(13, 148, 136, 0.4); }
 
-        /* NEW POST SCREEN */
-        .new-post-screen { display: none; position: absolute; inset: 0; z-index: 250; background: var(--bg-body); flex-direction: column; animation: slideInUp 0.3s ease forwards; }
-        .new-post-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border-color); background: var(--bg-body); position: sticky; top: 0; z-index: 10; }
-        .new-post-header i { font-size: 22px; cursor: pointer; color: var(--text-dark); }
-        .new-post-header h2 { font-size: 18px; font-weight: 800; color: var(--text-dark); }
+        /* Modals & Screens */
+        .new-post-screen, .edit-screen { display: none; position: absolute; inset: 0; z-index: 250; background: var(--bg-body); flex-direction: column; animation: slideInUp 0.3s ease forwards; overflow-y: auto; padding-bottom: 50px;}
+        .new-post-header, .edit-header-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border-color); background: var(--bg-body); position: sticky; top: 0; z-index: 20; }
+        .new-post-header i, .edit-header-nav i { font-size: 22px; cursor: pointer; color: var(--text-dark); }
+        .new-post-header h2, .edit-header-nav h2 { font-size: 18px; font-weight: 800; color: var(--text-dark); }
         .share-btn { color: white; background: var(--primary); padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 14px; border: none; cursor: pointer;}
         
         .np-user-info { display: flex; align-items: center; gap: 12px; padding: 16px 20px; }
@@ -213,10 +203,6 @@
         .privacy-selector .left { display: flex; align-items: center; gap: 16px; }
         .privacy-selector .icon-box { width: 40px; height: 40px; background: rgba(13, 148, 136, 0.1); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
-        /* EDIT PROFILE SCREEN */
-        .edit-screen { display: none; position: absolute; inset: 0; z-index: 200; background: var(--bg-secondary); flex-direction: column; animation: slideInRight 0.3s ease forwards; overflow-y: auto; padding-bottom: 50px;}
-        .edit-header-nav { display: flex; align-items: center; padding: 16px 20px; background: var(--bg-body); position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--border-color); }
-        .edit-header-nav h2 { flex: 1; text-align: center; font-size: 18px; font-weight: 800; color: var(--text-dark); padding-right: 40px;}
         .edit-images-premium { background: var(--bg-body); padding: 20px 16px; margin-bottom: 20px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; position: relative;}
         .edit-cover-wrap { width: 100%; height: 150px; background: #e5e7eb; position: relative; border-radius: 16px; overflow: hidden; }
         .edit-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
@@ -236,18 +222,14 @@
         .sec-content h4 { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;}
         .sec-content p { font-size: 16px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;}
 
-        /* Selection List Modals & Dialogs */
         .list-modal-overlay, .name-dialog-overlay, .full-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 300000; align-items: flex-end; justify-content: center; }
         .list-modal-overlay.show, .full-modal.show { display: flex; }
         .name-dialog-overlay { align-items: center; padding: 20px; }
-        
         .list-modal-box, .modal-content-box { background: var(--bg-body); width: 100%; max-width: 600px; border-top-left-radius: 28px; border-top-right-radius: 28px; padding: 25px 0 20px 0; animation: slideInUp 0.3s ease forwards; }
         .modal-content-box { padding: 0 0 20px 0; }
-        
         .list-header, .modal-nav { display: flex; justify-content: space-between; align-items: center; padding: 0 24px 20px 24px; border-bottom: 1px solid var(--border-color); }
         .list-header h3, .modal-nav h2 { font-size: 20px; font-weight: 800; color: var(--text-dark);}
         .list-body, .modal-body-scroll { padding: 10px 24px; max-height: 400px; overflow-y: auto;}
-        
         .list-option { padding: 16px 0; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 600; color: var(--text-dark); cursor: pointer;}
         .list-option:last-child { border-bottom: none; }
 
@@ -259,21 +241,24 @@
         .dialog-btns button.cancel { background: var(--bg-secondary); color: var(--text-dark); }
         .dialog-btns button.save { background: var(--primary); color: white; }
 
-        /* Menu Items */
+        .about-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+        .about-item:last-child { border-bottom: none; }
+        .about-icon { width: 40px; height: 40px; background: rgba(13, 148, 136, 0.1); color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .about-content h4 { font-size: 13px; color: var(--text-muted); margin-bottom: 2px; text-transform: uppercase; font-weight: 700;}
+        .about-content p { font-size: 16px; font-weight: 600; color: var(--text-dark);}
+
         .menu-item { padding: 16px 0; border-bottom: 1px solid var(--border-color); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 16px; color: var(--text-dark); }
         .menu-item:last-child { border-bottom: none; }
         .menu-item i { font-size: 20px; color: var(--text-muted); width: 24px; text-align: center;}
         .menu-item.danger { color: var(--danger); }
         .menu-item.danger i { color: var(--danger); }
 
-        /* Upload Progress Overlay */
         #uploadProgressOverlay { background: rgba(0,0,0,0.9); z-index: 999999; }
     </style>
 </head>
 <body>
 
     <div id="toastBox" class="toast-container"></div>
-    
     <div class="network-banner" id="networkBanner" style="display: none;">No Internet Connection</div>
 
     <input type="file" id="coverPicInput" style="display:none" accept="image/*" />
@@ -318,14 +303,17 @@
             <div class="stats-box">
                 <div class="stats-row">
                     <div class="stat"><b id="statPosts">0</b><span>Posts</span></div>
+                    
                     <div class="stat" onclick="showToast('Followers list is locked for privacy 🔒', 'info')">
                         <b id="statFollowers">0</b>
                         <span style="display:flex; align-items:center; gap:4px;">Followers <i class="fa-solid fa-lock" style="font-size:10px;"></i></span>
                     </div>
+                    
                     <div class="stat" onclick="showToast('Following list is locked for privacy 🔒', 'info')">
                         <b id="statFollowing">0</b>
                         <span style="display:flex; align-items:center; gap:4px;">Following <i class="fa-solid fa-lock" style="font-size:10px;"></i></span>
                     </div>
+
                     <div class="stat"><b id="statSaved">0</b><span>Saved</span></div>
                 </div>
                 
@@ -482,8 +470,7 @@
                 <h3 id="listModalTitle">Select Option</h3>
                 <i class="fa-solid fa-xmark" style="font-size:24px; color:var(--text-muted); cursor:pointer;" onclick="closeModal('textListModal')"></i>
             </div>
-            <div class="list-body" id="listModalBody">
-                </div>
+            <div class="list-body" id="listModalBody"></div>
         </div>
     </div>
 
@@ -513,14 +500,6 @@
                 </div>
                 <div class="menu-item" onclick="window.location.href='settings.html'">
                     <i class="fa-solid fa-gear"></i> Advanced Settings
-                </div>
-                <div id="otherUserMenuItems" style="display:none; border-top:1px solid var(--border-color); margin-top:10px; padding-top:10px;">
-                    <div class="menu-item danger">
-                        <i class="fa-solid fa-ban"></i> Block User
-                    </div>
-                    <div class="menu-item danger">
-                        <i class="fa-regular fa-flag"></i> Report Profile
-                    </div>
                 </div>
             </div>
         </div>
@@ -559,6 +538,20 @@
                     <div class="about-content">
                         <h4>Relationship</h4>
                         <p id="aboutRelationshipText">Not Specified</p>
+                    </div>
+                </div>
+                <div class="about-item">
+                    <div class="about-icon"><i class="fa-regular fa-calendar"></i></div>
+                    <div class="about-content">
+                        <h4>Joined</h4>
+                        <p id="pdJoinDate2">2026</p>
+                    </div>
+                </div>
+                <div class="about-item" style="border:none;">
+                    <div class="about-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                    <div class="about-content" style="width: 100%;">
+                        <h4>Platform ID</h4>
+                        <p id="pdPlatformId" style="font-family: monospace; color: var(--primary);">-----</p>
                     </div>
                 </div>
             </div>
@@ -616,7 +609,6 @@
 
         const verifiedRedBadgeSVG = `<span class="verified-icon"><svg aria-label="Verified" fill="var(--danger)" height="18" viewBox="0 0 40 40" width="18"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg></span>`;
 
-        // FIXED: DIRECT VIP LINK (Generates clean URL with ?uid=USER_ID)
         function copyProfileLink() {
             const url = window.location.origin + window.location.pathname + '?uid=' + targetUid;
             navigator.clipboard.writeText(url).then(() => { showToast("VIP Profile link copied!", "success"); })
@@ -657,32 +649,30 @@
             if (user) {
                 myUserId = user.uid; if(!targetUid) targetUid = myUserId; isMyProfile = (targetUid === myUserId);
 
-                // FIXED: ACTION BUTTONS DYNAMIC POPULATION
                 if (isMyProfile) {
-                    document.getElementById('postComposerBox').style.display = 'flex';
+                    document.getElementById('postComposerBox').style.display = 'flex'; 
                     document.getElementById('actionRowContainer').innerHTML = `
                         <button class="btn-action btn-primary-action" onclick="openEditProfileScreen()"><i class="fa-solid fa-pen"></i> Edit Profile</button>
                         <button class="btn-action btn-secondary-action" onclick="copyProfileLink()"><i class="fa-solid fa-share"></i> Share Profile</button>
                         <button class="btn-icon-action" onclick="openModal('threeDotMenuScreen')"><i class="fa-solid fa-ellipsis"></i></button>
                     `;
-                    document.getElementById('otherUserMenuItems').style.display = 'none';
                     document.getElementById('avatarWrapper').classList.add('editable');
                     document.getElementById('avatarWrapper').onclick = () => document.getElementById('profilePicInput').click();
                 } else {
-                    document.getElementById('postComposerBox').style.display = 'none';
+                    document.getElementById('postComposerBox').style.display = 'none'; 
                     document.getElementById('actionRowContainer').innerHTML = `
                         <button id="followBtnMain" class="btn-action btn-primary-action" onclick="toggleFollow()"><i class="fa-solid fa-user-plus"></i> Follow</button>
                         <button class="btn-action btn-secondary-action" onclick="window.location.href='index.html?chat=${targetUid}'"><i class="fa-regular fa-message"></i> Message</button>
                         <button class="btn-icon-action" onclick="openModal('threeDotMenuScreen')"><i class="fa-solid fa-ellipsis"></i></button>
                     `;
-                    document.getElementById('otherUserMenuItems').style.display = 'block';
                 }
 
                 let creationDate = "Joined 2026";
                 if(user.metadata.creationTime) creationDate = `Joined ${new Date(user.metadata.creationTime).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
 
-                db.ref('users/' + targetUid).on('value', (snap) => {
-                    const uData = snap.val();
+                // 🔥 REAL-TIME FOLLOWER COUNT WITH ADMIN "GOD MODE" FAKE COUNT OVERRIDE 🔥
+                db.ref(`users/${targetUid}`).on('value', mainSnap => {
+                    const uData = mainSnap.val();
                     if(uData) {
                         const dName = uData.name || 'VIP User'; 
                         const dp = uData.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(dName)}&background=0d9488&color=fff`;
@@ -704,10 +694,11 @@
                             document.getElementById('editCoverImg').src = uData.cover_image; 
                         }
 
-                        // FIXED: NO ADDED LOCATION FALLBACK
                         document.getElementById('userLocation').innerText = uData.city ? escapeHTML(uData.city) : "No added location";
                         document.getElementById('userCategory').innerText = uData.category || 'Digital Creator';
                         document.getElementById('pdJoinDate').innerText = isMyProfile ? creationDate : "Joined recently";
+                        document.getElementById('pdJoinDate2').innerText = isMyProfile ? creationDate : "Joined recently";
+                        document.getElementById('pdPlatformId').innerText = uData.khatarnak_id || "Unregistered";
                         
                         const setAboutField = (rowId, textId, value, defaultText) => {
                             const val = value || (isMyProfile ? defaultText : '');
@@ -728,13 +719,24 @@
                         document.getElementById('eHometownText').innerText = uData.hometown || "Add hometown"; 
                         document.getElementById('eRelationshipText').innerText = uData.relationship || "Not Specified";
                         
+                        // 🔥 CHECK IF ADMIN GAVE FAKE FOLLOWERS 🔥
+                        if(uData.display_followers) {
+                            document.getElementById('statFollowers').innerText = uData.display_followers;
+                        } else {
+                            // If no fake followers, show real followers count
+                            db.ref(`users/${targetUid}/followers`).once('value', followSnap => {
+                                document.getElementById('statFollowers').innerText = followSnap.numChildren();
+                            });
+                        }
+                        
                         initPostsListener(targetUid);
                     }
                 });
 
-                db.ref(`users/${targetUid}/followers`).on('value', snap => {
-                    document.getElementById('statFollowers').innerText = snap.numChildren();
-                    if(!isMyProfile) {
+                // Update follow button state dynamically for other profiles
+                if(!isMyProfile) {
+                    db.ref(`users/${targetUid}/followers`).on('value', snap => {
+                        // Real-time button update
                         const btn = document.getElementById('followBtnMain');
                         if(btn) {
                             if(snap.hasChild(myUserId)) {
@@ -745,8 +747,8 @@
                                 btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Follow';
                             }
                         }
-                    }
-                });
+                    });
+                }
 
                 db.ref(`users/${targetUid}/following`).on('value', snap => {
                     document.getElementById('statFollowing').innerText = snap.numChildren();
@@ -813,11 +815,9 @@
         document.getElementById('profilePicInput').addEventListener('change', function(e) {
             const file = e.target.files[0]; if(!file) return;
             showToast("Uploading Image...", "info");
-            
             const tempUrl = URL.createObjectURL(file);
             document.getElementById('profileImage').src = tempUrl;
             document.getElementById('editDpImg').src = tempUrl;
-            
             basicUpload(file).then(url => { 
                 auth.currentUser.updateProfile({ photoURL: url }).then(() => db.ref('users/' + myUserId).update({ profile_image: url }))
                 .then(() => showToast("DP Updated!", "success")); 
@@ -827,11 +827,9 @@
         document.getElementById('coverPicInput').addEventListener('change', function(e) {
             const file = e.target.files[0]; if(!file) return;
             showToast("Uploading Cover...", "info");
-            
             const tempUrl = URL.createObjectURL(file);
             document.getElementById('profileCover').style.backgroundImage = `url('${tempUrl}')`;
             document.getElementById('editCoverImg').src = tempUrl;
-
             basicUpload(file).then(url => { 
                 db.ref('users/' + myUserId).update({ cover_image: url }).then(() => showToast("Cover Updated!", "success")); 
             }).catch(() => showToast("Upload Failed", "error"));
@@ -893,18 +891,11 @@
 
         function uploadNewPostWithProgress() {
             const caption = document.getElementById('newPostCaption').value.trim();
-            
-            if(!selectedNewPostFile && !cropper && !caption) {
-                showToast("Post cannot be empty!", "error");
-                return;
-            }
+            if(!selectedNewPostFile && !cropper && !caption) { showToast("Post cannot be empty!", "error"); return; }
 
             if(!selectedNewPostFile && !cropper) {
                 const newPost = { senderId: myUserId, senderName: myUserName, senderPic: myUserProfilePic, senderVerified: myUserVerified, text: caption, mediaUrl: "", privacy: currentPrivacy, timestamp: firebase.database.ServerValue.TIMESTAMP };
-                db.ref('social_feed').push(newPost).then(() => { 
-                    closeNewPostScreen(); 
-                    showToast("Status Posted!", "success"); 
-                });
+                db.ref('social_feed').push(newPost).then(() => { closeNewPostScreen(); showToast("Status Posted!", "success"); });
                 return;
             }
 
@@ -932,12 +923,10 @@
                     const newPost = { senderId: myUserId, senderName: myUserName, senderPic: myUserProfilePic, senderVerified: myUserVerified, text: caption, mediaUrl: mediaUrl, privacy: currentPrivacy, timestamp: firebase.database.ServerValue.TIMESTAMP };
                     db.ref('social_feed').push(newPost).then(() => { 
                         document.getElementById('uploadProgressOverlay').style.display = 'none'; 
-                        closeNewPostScreen(); 
-                        showToast("Post Published!", "success"); 
+                        closeNewPostScreen(); showToast("Post Published!", "success"); 
                     });
                 } else { 
-                    document.getElementById('uploadProgressOverlay').style.display = 'none'; 
-                    showToast("Upload Failed. Try again.", "error"); 
+                    document.getElementById('uploadProgressOverlay').style.display = 'none'; showToast("Upload Failed. Try again.", "error"); 
                 }
             });
             xhr.addEventListener('error', () => { document.getElementById('uploadProgressOverlay').style.display = 'none'; showToast("Network Error.", "error"); });
@@ -945,7 +934,7 @@
         }
 
         // =========================================
-        // 6. FEED RENDERING
+        // 6. FEED RENDERING & PREMIUM ACTION BAR
         // =========================================
         function timeAgoLocal(time) {
             if(!time) return "Just now";
@@ -961,6 +950,24 @@
         window.toggleLikeBtn = function(postId) {
             if(!myUserId) return;
             const likeRef = db.ref(`social_feed/${postId}/likes/${myUserId}`); 
+            
+            // Immediate Optmistic UI Update
+            const btn = document.getElementById(`likeBtn-${postId}`);
+            if(btn) {
+                btn.classList.toggle('liked');
+                const icon = btn.querySelector('i');
+                const countSpan = btn.querySelector('.count');
+                let currCount = parseInt(countSpan.innerText === 'Like' ? 0 : countSpan.innerText);
+                
+                if(btn.classList.contains('liked')) { 
+                    icon.className = 'fa-solid fa-heart'; 
+                    countSpan.innerText = currCount + 1;
+                } else { 
+                    icon.className = 'fa-regular fa-heart'; 
+                    countSpan.innerText = (currCount - 1) > 0 ? currCount - 1 : 'Like'; 
+                }
+            }
+
             likeRef.once('value', snap => { if(snap.exists()) likeRef.remove(); else likeRef.set(true); });
         }
 
@@ -986,8 +993,12 @@
                     const textHTML = post.text ? `<p class="post-text">${escapeHTML(post.text)}</p>` : '';
                     const privacyIcon = post.privacy === 'private' ? '<i class="fa-solid fa-lock" title="Private"></i>' : '<i class="fa-solid fa-earth-americas" title="Public"></i>';
                     const verifiedIcon = post.senderVerified ? verifiedRedBadgeSVG : '';
+                    
                     const likesCount = Object.keys(post.likes || {}).length;
+                    const commentsCount = Object.keys(post.comments || {}).length;
                     const hasLiked = myUserId && (post.likes || {})[myUserId];
+                    const likeIcon = hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+                    const likeClass = hasLiked ? 'liked' : '';
 
                     postsHTML += `
                         <div class="profile-post-card">
@@ -999,9 +1010,23 @@
                             </div>
                             ${textHTML}
                             ${mediaHTML}
-                            <div class="post-actions">
-                                <button class="action-icon-btn ${hasLiked?'liked':''}" onclick="toggleLikeBtn('${post.id}')"><i class="${hasLiked?'fa-solid':'fa-regular'} fa-heart"></i> <span class="count">${likesCount||''}</span></button>
+                            
+                            <div class="action-bar-wrapper">
+                                <div class="action-bar">
+                                    <div class="action-left">
+                                        <button class="action-btn btn-like ${likeClass}" id="likeBtn-${post.id}" onclick="toggleLikeBtn('${post.id}')">
+                                            <i class="${likeIcon}"></i> <span class="count">${likesCount > 0 ? likesCount : 'Like'}</span>
+                                        </button>
+                                        <button class="action-btn btn-comment" onclick="window.location.href='social.html?focus=${post.id}'">
+                                            <i class="fa-regular fa-comment-dots"></i> <span class="count">${commentsCount > 0 ? commentsCount : 'Comment'}</span>
+                                        </button>
+                                        <button class="action-btn" onclick="copyProfileLink()">
+                                            <i class="fa-regular fa-paper-plane"></i> Share
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>`;
                 });
 
