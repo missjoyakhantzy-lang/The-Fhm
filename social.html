@@ -125,7 +125,6 @@
         }
         .side-menu.open { right: 0; }
         
-        /* Close Button styling fixed */
         .close-menu-btn { 
             position: absolute; top: 20px; left: 20px; background: var(--bg-input); 
             border: 1px solid var(--border); width: 36px; height: 36px; border-radius: 50%; 
@@ -134,7 +133,6 @@
         }
         .close-menu-btn:active { transform: scale(0.85); background: var(--border); }
 
-        /* Premium Profile Card */
         .sidebar-profile-card { 
             padding: 50px 20px 25px; 
             display: flex; flex-direction: column; align-items: center; text-align: center; 
@@ -156,10 +154,7 @@
         .status-online i { font-size: 8px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        /* Modern Links List */
-        .side-menu-links { 
-            flex: 1; overflow-y: auto; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; 
-        }
+        .side-menu-links { flex: 1; overflow-y: auto; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; }
         .std-menu-item { 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 12px 15px; cursor: pointer; transition: 0.2s ease; 
@@ -167,20 +162,15 @@
             border-radius: 14px; background: transparent;
         }
         .std-menu-item .left-part { display: flex; align-items: center; gap: 14px; }
-        
-        /* Glass effect on icons */
         .std-menu-item .left-part i { 
             font-size: 16px; color: var(--primary); width: 36px; height: 36px; 
             display: flex; align-items: center; justify-content: center;
             background: rgba(79, 70, 229, 0.1); border-radius: 10px; transition: 0.2s;
         }
-        
         .std-menu-item:hover, .std-menu-item:active { background: var(--bg-input); transform: translateX(4px); }
         .std-menu-item:active .left-part i { background: var(--primary); color: white; }
-        
         .std-menu-item .arrow-icon { color: var(--text-muted); font-size: 14px; opacity: 0.5; background: none !important;}
 
-        /* Safely Anchored Footer */
         .menu-footer { 
             padding: 20px; border-top: 1px solid var(--border); background: var(--card-bg);
             padding-bottom: calc(20px + env(safe-area-inset-bottom));
@@ -560,7 +550,7 @@
             const likeClass = hasLiked ? 'liked' : '';
             
             const commentsCount = Object.keys(post.comments || {}).length;
-            const displayTitle = post.title || post.caption || post.video_title || post.name || "Untitled Post";
+            const displayTitle = post.title || post.caption || post.video_title || post.text || post.name || "Untitled Post";
             const safeTitle = escapeHTML(displayTitle).replace(/'/g, "\\'");
 
             const url = post.mediaUrl || post.video_url || post.url || '';
@@ -584,13 +574,18 @@
                         </div>`;
                 }
             }
+            
+            // USE SENDER DETAILS FROM DATABASE (Fallback to Admin Fahim only if sender info is missing)
+            const displaySenderName = post.senderName || adminData.name;
+            const displaySenderPic = post.senderPic || adminData.pic;
+            const displayVerifiedSVG = (post.senderVerified === true || post.senderName === undefined) ? verifiedSVG : '';
 
             return `
                 <article class="post-card" id="post-${post.id}">
                     <div class="post-header">
-                        <div class="admin-avatar-wrapper"><img src="${adminData.pic}" alt="Admin"></div>
+                        <div class="admin-avatar-wrapper"><img src="${displaySenderPic}" alt="User"></div>
                         <div class="admin-meta">
-                            <div class="admin-name">${adminData.name} ${verifiedSVG}</div>
+                            <div class="admin-name">${escapeHTML(displaySenderName)} ${displayVerifiedSVG}</div>
                             <div class="post-time">${timeAgo(post.timestamp)}</div>
                         </div>
                         <button class="post-three-dot" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; padding:5px;" onclick="toggleDropdown(event, 'postMenu-${post.id}')">
