@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>
-      fahimn.co.in- Get Free premium Service. 
+      fahimn.co.in - Get Free premium Service.
     </title>
     <link rel="manifest" href="./manifest.json" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -22,6 +22,14 @@
       });
     </script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function() {
+          emailjs.init("3yO6tbaHty1fGoy2U"); 
+      })();
+    </script>
+
     <style>
       /* =========================================
            GLOBAL VARIABLES & CSS (PROFESSIONAL THEME)
@@ -253,21 +261,8 @@
         .input-box input:focus { background: var(--header-bg); border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
         .input-box input:focus + i.icon { color: var(--primary); }
         
-        .eye-btn { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; cursor: pointer; transition: 0.2s; z-index: 2; }
-        .eye-btn:hover { color: var(--text-dark); }
-        
-        .forgot-pass-wrap { text-align: right; margin-bottom: 20px; display: none; }
-        .forgot-pass { font-size: 13px; font-weight: 600; color: var(--text-light); text-decoration: none; cursor: pointer; transition: 0.2s; }
-        .forgot-pass:hover { color: var(--primary); }
-
         .btn-login { width: 100%; padding: 15px; border: none; border-radius: 12px; background: var(--primary); color: white; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; margin-bottom: 20px; margin-top: 10px; }
         .btn-login:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
-        
-        .btn-spinner { width: 18px; height: 18px; border: 2px solid rgba(255, 255, 255, 0.4); border-top-color: #ffffff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
-        
-        .toggle-link-wrap { text-align: center; margin-bottom: 24px; font-size: 14px; font-weight: 500; color: var(--text-light); }
-        .toggle-link-wrap a { color: var(--primary); cursor: pointer; transition: 0.2s; font-weight: 600; }
-        .toggle-link-wrap a:hover { color: var(--primary-hover); text-decoration: underline; }
 
         .divider { margin: 20px 0; display: flex; align-items: center; text-align: center; font-size: 12px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
@@ -755,7 +750,7 @@
     <div class="login-wrapper" id="loginWrapper" style="display: none;">
       <div class="login-card">
         <div class="header">
-          <img id="adminProfileLogin" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin" />
+          <img id="adminProfileLogin" src="https://ui-avatars.com/api/?name=Admin+Fahim&amp;background=4f46e5&amp;color=fff&amp;bold=true" alt="Admin" />
           <h2 id="formTitle">
             fahimn.co.in
           </h2>
@@ -763,34 +758,36 @@
             Join the secure platform today.
           </p>
         </div>
-        <form id="premiumForm">
+
+        <form id="premiumForm" onsubmit="return false;">
           <div class="input-box" id="nameInputGroup">
             <i class="fa-regular fa-user icon"></i>
-            <input type="text" id="fullname" placeholder="Full Name" required="" />
+            <input type="text" id="fullname" placeholder="Full Name (Optional)" />
           </div>
-          <div class="input-box">
+          
+          <div class="input-box" id="emailOtpInputGroup">
             <i class="fa-regular fa-envelope icon"></i>
-            <input type="email" id="email" placeholder="Email Address" required="" />
+            <input type="email" id="emailForOtp" placeholder="Email Address" required="" />
           </div>
-          <div class="input-box">
-            <i class="fa-solid fa-lock icon"></i>
-            <input type="password" id="password" placeholder="Password" required="" />
-            <i class="fa-regular fa-eye eye-btn" id="togglePass"></i>
+          
+          <div class="input-box" id="otpVerifyGroup" style="display: none;">
+            <i class="fa-solid fa-key icon"></i>
+            <input type="text" id="emailOtpCode" placeholder="Enter 6-digit OTP" maxlength="6" style="letter-spacing: 2px; font-weight: bold; text-align: center;" />
           </div>
-          <div class="forgot-pass-wrap" id="forgotPassWrap">
-            <a class="forgot-pass" onclick="resetPassword()">            Forgot Password?
-</a>
-          </div>
-          <button type="submit" class="btn-login" id="mainBtn">
-            <span class="btn-spinner" id="btnSpinner"></span>
-            <span id="btnText">            Sign Up
-</span>
+
+          <button type="button" class="btn-login" id="sendEmailOtpBtn">
+            <span id="btnTextSend"><i class="fa-solid fa-paper-plane" style="margin-right: 8px;"></i> Send OTP</span>
           </button>
-          <div class="toggle-link-wrap">
-            <a id="toggleModeBtn">            Already have an account? Sign in
-</a>
+          
+          <button type="button" class="btn-login" id="verifyEmailOtpBtn" style="display: none; background-color: #10b981;">
+            <span id="btnTextVerify"><i class="fa-solid fa-check-double" style="margin-right: 8px;"></i> Verify & Login</span>
+          </button>
+
+          <div class="toggle-link-wrap" style="margin-top: 15px;">
+            <a style="color: var(--text-light); font-size: 12px; text-decoration: none; cursor: default;">🔒 Secure Passwordless Login Active</a>
           </div>
         </form>
+
         <div class="divider">
           <span>          or continue with
 </span>
@@ -835,7 +832,7 @@
             Pinned &amp; Official channels
           </div>
           <div class="user-list-item" onclick="openChatRoom('admin_fahim', 'Admin Fahim', document.getElementById('adminProfileLogin').src, true)">
-            <img id="listAdminImg" src="https://ui-avatars.com/api/?name=Admin+Fahim&background=4f46e5&color=fff&bold=true" alt="Admin" />
+            <img id="listAdminImg" src="https://ui-avatars.com/api/?name=Admin+Fahim&amp;background=4f46e5&amp;color=fff&amp;bold=true" alt="Admin" />
             <div class="user-list-info">
               <h4 style="display:flex; align-items:center;">
                 Admin Fahim
@@ -1148,7 +1145,6 @@
         let activeTypingRef = null;
         let dataInitialized = false;
 
-        let isLoginMode = false; // Default is Sign Up
         let lastMessageDate = null; 
         let typingTimeout = null;
         let unreadWhileScrolled = 0;
@@ -1403,56 +1399,6 @@
             }
         }
 
-        // --- 🌟 AUTH UI LOGIC 🌟 ---
-        const toggleModeBtn = document.getElementById('toggleModeBtn');
-        const formTitle = document.getElementById('formTitle');
-        const formSubtitle = document.getElementById('formSubtitle');
-        const mainBtn = document.getElementById('mainBtn');
-        const btnText = document.getElementById('btnText');
-        const btnSpinner = document.getElementById('btnSpinner');
-        const nameInputGroup = document.getElementById('nameInputGroup');
-        const fullnameInput = document.getElementById('fullname');
-
-        toggleModeBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            isLoginMode = !isLoginMode;
-            if (isLoginMode) {
-                formTitle.textContent = 'Welcome Back';
-                formSubtitle.textContent = 'Sign in to continue to fahimn.co.in';
-                btnText.textContent = "Sign In"; 
-                nameInputGroup.style.display = "none"; 
-                fullnameInput.removeAttribute('required');
-                document.getElementById('forgotPassWrap').style.display = "block"; 
-                toggleModeBtn.textContent = "Don't have an account? Sign up";
-            } else {
-                formTitle.textContent = 'Create Account';
-                formSubtitle.textContent = 'Join the secure platform today.';
-                btnText.textContent = "Sign Up"; 
-                nameInputGroup.style.display = "block"; 
-                fullnameInput.setAttribute('required', 'true');
-                document.getElementById('forgotPassWrap').style.display = "none"; 
-                toggleModeBtn.textContent = "Already have an account? Sign in";
-            }
-        });
-
-        window.resetPassword = function() {
-            const eVal = document.getElementById('email').value.trim();
-            if(!eVal) { showToast("Please enter your Email first.", "info"); return; }
-            auth.sendPasswordResetEmail(eVal).then(() => {
-                showToast("Password reset link sent to your email!", "success");
-            }).catch((err) => {
-                showToast(err.message, "error");
-            });
-        }
-
-        document.getElementById('togglePass').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            if (passwordInput.type === 'password') { passwordInput.type = 'text'; this.classList.replace('fa-eye', 'fa-eye-slash'); } 
-            else { passwordInput.type = 'password'; this.classList.replace('fa-eye-slash', 'fa-eye'); }
-        });
-
-        function resetButtonState(text) { mainBtn.disabled = false; btnText.textContent = text; btnSpinner.style.display = "none"; }
-
         function syncUserToDatabase(user, customName = null) {
             return new Promise((resolve) => {
                 db.ref('users/' + user.uid).once('value').then(snap => {
@@ -1470,30 +1416,110 @@
             });
         }
 
-        document.getElementById('premiumForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const eVal = document.getElementById('email').value.trim();
-            const pVal = document.getElementById('password').value;
-            const nVal = document.getElementById('fullname').value.trim();
+        // ==========================================
+        // SECURE EMAILJS OTP AUTHENTICATION SYSTEM
+        // ==========================================
+
+        const sendEmailOtpBtn = document.getElementById('sendEmailOtpBtn');
+        const verifyEmailOtpBtn = document.getElementById('verifyEmailOtpBtn');
+        const emailOtpInputGroup = document.getElementById('emailOtpInputGroup');
+        const otpVerifyGroup = document.getElementById('otpVerifyGroup');
+        const emailForOtpInput = document.getElementById('emailForOtp');
+        const emailOtpCodeInput = document.getElementById('emailOtpCode');
+        const nameInputGroup = document.getElementById('nameInputGroup');
+        const fullnameInput = document.getElementById('fullname');
+        
+        let generatedEmailOTP = "";
+        let currentOtpEmail = "";
+
+        // 1. Send OTP via EmailJS
+        sendEmailOtpBtn.addEventListener('click', () => {
+            currentOtpEmail = emailForOtpInput.value.trim();
             
-            showLoading("Authenticating...");
-            mainBtn.disabled = true; btnText.textContent = "Please wait..."; btnSpinner.style.display = "block";
-            
-            if(isLoginMode) {
-                auth.signInWithEmailAndPassword(eVal, pVal).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign In"); });
-            } else {
-                auth.createUserWithEmailAndPassword(eVal, pVal).then((userCredential) => {
-                    const user = userCredential.user;
-                    const profileImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(nVal)}&background=4f46e5&color=fff&bold=true`;
-                    
-                    return user.updateProfile({ displayName: nVal, photoURL: profileImg })
-                        .then(() => syncUserToDatabase(user, nVal))
-                        .then(() => {
-                            document.getElementById('myProfileName').innerText = nVal;
-                            document.getElementById('myProfilePic').src = profileImg;
-                        });
-                }).catch(err => { hideLoading(); showToast(err.message, "error"); resetButtonState("Sign Up"); });
+            if (!currentOtpEmail || !currentOtpEmail.includes('@')) {
+                showToast("Please enter a valid email address", "error");
+                return;
             }
+
+            showLoading("Securing connection & Sending OTP...");
+            
+            // Generate a secure 6-digit OTP
+            generatedEmailOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+            // Extract Name (from input or email)
+            let extractedName = fullnameInput.value.trim();
+            if (!extractedName) {
+                extractedName = currentOtpEmail.split('@')[0]; // Extract from email if name is empty
+            }
+
+            // Using your exact Service ID and Template ID
+            const templateParams = {
+                to_email: currentOtpEmail,
+                name: extractedName,
+                otp_code: generatedEmailOTP,
+            };
+
+            emailjs.send('service_4uol868', 'template_xy2bkrf', templateParams)
+                .then(function(response) {
+                    hideLoading();
+                    showToast("Secure OTP sent to " + currentOtpEmail + " 📧", "success");
+                    
+                    // Switch UI
+                    emailOtpInputGroup.style.display = 'none';
+                    nameInputGroup.style.display = 'none';
+                    sendEmailOtpBtn.style.display = 'none';
+                    otpVerifyGroup.style.display = 'block';
+                    verifyEmailOtpBtn.style.display = 'flex';
+                }, function(error) {
+                    hideLoading();
+                    showToast("Failed to send OTP. Server error.", "error");
+                    console.error('EmailJS Error:', error);
+                });
+        });
+
+        // 2. Verify OTP & Auto-Login to Firebase
+        verifyEmailOtpBtn.addEventListener('click', () => {
+            const enteredOTP = emailOtpCodeInput.value.trim();
+            
+            if (enteredOTP !== generatedEmailOTP) {
+                showToast("Invalid OTP code! Access Denied.", "error");
+                return;
+            }
+
+            showLoading("Authenticating Identity...");
+
+            // Background Password Logic for Firebase
+            const backgroundPassword = btoa(currentOtpEmail + "_FahimKhatarnakApp123!@#");
+
+            // Attempt to sign in
+            auth.signInWithEmailAndPassword(currentOtpEmail, backgroundPassword)
+                .then((userCredential) => {
+                    hideLoading();
+                    showToast("Identity Verified! Logging in... 🎉", "success");
+                    // System will auto-redirect
+                })
+                .catch((error) => {
+                    // If user doesn't exist, create a new account
+                    if (error.code === 'auth/user-not-found') {
+                        auth.createUserWithEmailAndPassword(currentOtpEmail, backgroundPassword)
+                            .then((userCredential) => {
+                                let extractedName = fullnameInput.value.trim();
+                                if(!extractedName) extractedName = currentOtpEmail.split('@')[0];
+                                return syncUserToDatabase(userCredential.user, extractedName);
+                            })
+                            .then(() => {
+                                hideLoading();
+                                showToast("Account Created & Secured! 🎉", "success");
+                            })
+                            .catch((signUpErr) => {
+                                hideLoading();
+                                showToast("Error: " + signUpErr.message, "error");
+                            });
+                    } else {
+                        hideLoading();
+                        showToast("System Error: " + error.message, "error");
+                    }
+                });
         });
 
         function handleSocialLogin(provider) { showLoading("Connecting..."); auth.signInWithPopup(provider).then(res => syncUserToDatabase(res.user)).catch(err => {hideLoading(); showToast("OAuth Error: " + err.message, "error")}); }
@@ -1560,7 +1586,6 @@
                 });
 
                 handleDeepLink(); setupPresence(); initDataListeners(); initCollaborativeCanvas(); initStoreAppLoader();
-                resetButtonState(isLoginMode ? "Sign In" : "Sign Up");
             } else {
                 document.getElementById('loginWrapper').style.display = 'flex';
                 document.getElementById('appScreen').style.display = 'none';
