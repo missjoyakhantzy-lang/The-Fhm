@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Secure Access - fahimn.co.in</title>
-    
+    <title>
+      Secure Access - fahimn.co.in
+    </title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js">
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
     <script type="text/javascript">
-        (function() { 
+      (function() { 
             // Default init for OTP functionality
             emailjs.init("3yO6tbaHty1fGoy2U"); 
         })();
     </script>
-
     <style>
-        /* ==========================================
+      /* ==========================================
            1. ROOT VARIABLES
            ========================================== */
         :root {
@@ -951,416 +954,442 @@
             font-weight: 500; 
         }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+      <div class="orb orb-1">
+      </div>
+      <div class="orb orb-2">
+      </div>
+      <div class="orb orb-3">
+      </div>
     </div>
-
     <div id="topToast" class="top-toast">
-        <i class="fa-solid fa-envelope-circle-check" style="color: var(--glow-primary); font-size: 18px;"></i> 
-        <span id="topToastMsg">OTP sent to your email</span>
+      <i class="fa-solid fa-envelope-circle-check" style="color: var(--glow-primary); font-size: 18px;"></i>
+      <span id="topToastMsg">      OTP sent to your email
+</span>
     </div>
-
     <div class="global-overlay" id="toastModalOverlay" style="z-index: 999999;">
-        <div class="modal-content" style="padding: 30px 20px;">
-            <h4 style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 900; color: var(--brand-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;">
-                Fahimn.co.in
-            </h4>
-            
-            <div id="toastModalIcon" class="icon-circle-warm" style="margin: 0 auto 16px auto; width: 56px; height: 56px; font-size: 26px;">
-                <i class="fa-solid fa-circle-exclamation"></i>
-            </div>
-            
-            <h2 id="toastModalTitle" style="font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 8px;">
-                Action Required
-            </h2>
-            
-            <p id="toastModalMessage" style="font-size: 14px; font-weight: 500; color: #cbd5e1; margin-bottom: 24px;">
-                Message goes here
-            </p>
-            
-            <button id="toastModalBtn" class="btn-primary" onclick="document.getElementById('toastModalOverlay').style.display='none'" style="font-size: 13px; letter-spacing: 1px; text-transform: uppercase; padding: 12px;">
-                OKAY
-            </button>
+      <div class="modal-content" style="padding: 30px 20px;">
+        <h4 style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 900; color: var(--brand-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;">
+          Fahimn.co.in
+        </h4>
+        <div id="toastModalIcon" class="icon-circle-warm" style="margin: 0 auto 16px auto; width: 56px; height: 56px; font-size: 26px;">
+          <i class="fa-solid fa-circle-exclamation"></i>
         </div>
+        <h2 id="toastModalTitle" style="font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 8px;">
+          Action Required
+        </h2>
+        <p id="toastModalMessage" style="font-size: 14px; font-weight: 500; color: #cbd5e1; margin-bottom: 24px;">
+          Message goes here
+        </p>
+        <button id="toastModalBtn" class="btn-primary" onclick="document.getElementById('toastModalOverlay').style.display='none'" style="font-size: 13px; letter-spacing: 1px; text-transform: uppercase; padding: 12px;">
+          OKAY
+        </button>
+      </div>
     </div>
-    
     <div class="global-overlay" id="policyModal" style="z-index: 100000;">
-        <div class="modal-content">
-            <button class="close-modal-btn" onclick="AuthLogic.closePolicyModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            
-            <div class="icon-circle-warm" style="margin: 0 auto 12px auto; width: 48px; height: 48px; font-size: 20px; background: rgba(255,255,255,0.05); color: #fff;">
-                <i class="fa-solid fa-shield-halved" id="modalIcon"></i>
-            </div>
-            
-            <h2 id="modalTitle">Policy</h2>
-            <p id="modalBody">Content goes here...</p>
-            
-            <button class="btn-primary" id="modalActionBtn">
-                <span id="modalBtnText">Read on Google</span> 
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </button>
+      <div class="modal-content">
+        <button class="close-modal-btn" onclick="AuthLogic.closePolicyModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="icon-circle-warm" style="margin: 0 auto 12px auto; width: 48px; height: 48px; font-size: 20px; background: rgba(255,255,255,0.05); color: #fff;">
+          <i class="fa-solid fa-shield-halved" id="modalIcon"></i>
         </div>
+        <h2 id="modalTitle">
+          Policy
+        </h2>
+        <p id="modalBody">
+          Content goes here...
+        </p>
+        <button class="btn-primary" id="modalActionBtn">
+          <span id="modalBtnText">          Read on Google
+</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </button>
+      </div>
     </div>
-    
     <div class="auth-container">
-        
-        <div class="global-overlay" id="langOverlay" style="z-index: 9999;">
-            <div class="typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
+      <div class="global-overlay" id="langOverlay" style="z-index: 9999;">
+        <div class="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <p style="font-weight: 600; font-size: 12px; color: #fff;" id="langLoadText">
+          Please Wait...
+        </p>
+      </div>
+      <div id="view-home" class="auth-view active">
+        <div class="top-nav">
+          <div class="left-actions">
+            <button class="btn-sq" onclick="AuthLogic.toggleLanguage()">
+              <span id="langBtnTextHome" style="font-size: 12px; font-weight: bold;">              A/अ
+</span>
+            </button>
+          </div>
+          <div class="premium-badge" data-i18n="badge">
+            Login To fahimn.co.in
+          </div>
+          <div class="right-spacer">
+          </div>
+        </div>
+        <h1 class="welcome-title">
+          <span data-i18n="homeWelcome" style="font-size: 16px; font-weight: 600; color: var(--brand-gray);">          Welcome to
+</span>
+          <br />
+          <span class="pro-text-shimmer">          Fahimn.co.in
+</span>
+        </h1>
+        <p class="welcome-subtitle" data-i18n="homeSub">
+          Connect, share and grow with a community that inspires you
+        </p>
+        <div class="glass-btn-wrapper" style="margin-bottom: 10px;" onclick="AuthLogic.switchView('view-signup')">
+          <button class="glass-btn" style="text-align: left; padding: 12px 14px; justify-content: flex-start;">
+            <div class="icon-circle-home" style="margin-right: 12px; background: rgba(255,255,255,0.1); color: #fff;">
+              <i class="fa-solid fa-user-plus"></i>
             </div>
-            <p style="font-weight: 600; font-size: 12px; color: #fff;" id="langLoadText">
-                Please Wait...
+            <div class="card-text" style="margin-left: 0;">
+              <h3 data-i18n="title">
+                Create Account
+              </h3>
+              <div class="anim-text-wrapper">
+                <div class="anim-text-item">
+                  <i class="fa-solid fa-rocket" style="color: #fff;"></i>
+                  <span data-i18n="homeBtn1Sub">                  Start your journey with us
+</span>
+                </div>
+                <div class="anim-text-item">
+                  <i class="fa-solid fa-gem" style="color: #ffcc00;"></i>
+                  <span data-i18n="feat1">                  Get free premium unlocked apps.
+</span>
+                </div>
+              </div>
+            </div>
+            <div class="arrow-circle" style="margin-left: auto;">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </button>
+        </div>
+        <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-login')">
+          <div class="icon-circle-home">
+            <i class="fa-regular fa-user"></i>
+          </div>
+          <div class="card-text">
+            <h3 data-i18n="loginText">
+              Login
+            </h3>
+            <p data-i18n="homeBtn2Sub">
+              Welcome back! Sign in to continue
             </p>
+          </div>
+          <i class="fa-solid fa-arrow-right arrow-icon"></i>
         </div>
-
-        <div id="view-home" class="auth-view active">
-            
-            <div class="top-nav">
-                <div class="left-actions">
-                    <button class="btn-sq" onclick="AuthLogic.toggleLanguage()">
-                        <span id="langBtnTextHome" style="font-size: 12px; font-weight: bold;">A/अ</span>
-                    </button>
-                </div>
-                <div class="premium-badge" data-i18n="badge">Login To fahimn.co.in</div>
-                <div class="right-spacer"></div>
-            </div>
-            
-            <h1 class="welcome-title">
-                <span data-i18n="homeWelcome" style="font-size: 16px; font-weight: 600; color: var(--brand-gray);">Welcome to</span><br />
-                <span class="pro-text-shimmer">Fahimn.co.in</span>
-            </h1>
-            
-            <p class="welcome-subtitle" data-i18n="homeSub">Connect, share and grow with a community that inspires you</p>
-            
-            <div class="glass-btn-wrapper" style="margin-bottom: 10px;" onclick="AuthLogic.switchView('view-signup')">
-                <button class="glass-btn" style="text-align: left; padding: 12px 14px; justify-content: flex-start;">
-                    <div class="icon-circle-home" style="margin-right: 12px; background: rgba(255,255,255,0.1); color: #fff;">
-                        <i class="fa-solid fa-user-plus"></i>
-                    </div>
-                    <div class="card-text" style="margin-left: 0;">
-                        <h3 data-i18n="title">Create Account</h3>
-                        <div class="anim-text-wrapper">
-                            <div class="anim-text-item">
-                                <i class="fa-solid fa-rocket" style="color: #fff;"></i> 
-                                <span data-i18n="homeBtn1Sub">Start your journey with us</span>
-                            </div>
-                            <div class="anim-text-item">
-                                <i class="fa-solid fa-gem" style="color: #ffcc00;"></i> 
-                                <span data-i18n="feat1">Get free premium unlocked apps.</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="arrow-circle" style="margin-left: auto;">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                </button>
-            </div>
-            
-            <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-login')">
-                <div class="icon-circle-home">
-                    <i class="fa-regular fa-user"></i>
-                </div>
-                <div class="card-text">
-                    <h3 data-i18n="loginText">Login</h3>
-                    <p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p>
-                </div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </div>
-            
-            <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-recovery')">
-                <div class="icon-circle-home">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-                <div class="card-text">
-                    <h3 data-i18n="findAccTitle">Find Your Account</h3>
-                    <p data-i18n="findAccSub">Recover your account easily</p>
-                </div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </div>
-            
-            <div class="divider">
-                <span data-i18n="orContinue">or continue with</span>
-            </div>
-            
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button id="googleBtnLoaderHome" class="google-btn-large" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderHome', 'googleBtnInnerHome')">
-                    <span id="googleBtnInnerHome" style="display:flex; align-items:center; gap:10px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
-                            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-                            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-                            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-                            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-                        </svg>
-                        <span data-i18n="googleBtn">Continue with Google</span>
-                    </span>
-                </button>
-            </div>
-            
-            <div class="footer-wrapper">
-                <div class="footer-links">
-                    <a onclick="AuthLogic.openPolicyModal('privacy')">Privacy Policy</a> • 
-                    <a onclick="AuthLogic.openPolicyModal('terms')">Terms of Service</a>
-                </div>
-                <div class="copyright" data-i18n="copyright">
-                    © 2026 Fahimn.co.in. All rights reserved.
-                </div>
-            </div>
+        <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-recovery')">
+          <div class="icon-circle-home">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div class="card-text">
+            <h3 data-i18n="findAccTitle">
+              Find Your Account
+            </h3>
+            <p data-i18n="findAccSub">
+              Recover your account easily
+            </p>
+          </div>
+          <i class="fa-solid fa-arrow-right arrow-icon"></i>
         </div>
-
-        <div id="view-signup" class="auth-view">
-            
-            <div class="top-nav-start">
-                <button class="btn-sq" onclick="AuthLogic.switchView('view-home')">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-            </div>
-            
-            <div class="header-section" style="margin-bottom: 12px;">
-                <h1 data-i18n="title">Create Account</h1>
-                <p data-i18n="subtitle">Join Fahimn.co.in and start your journey with our community</p>
-            </div>
-            
-            <button id="googleBtnLoaderSignup" class="google-btn-large" style="margin-bottom: 10px;" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderSignup', 'googleBtnInnerSignup')">
-                <span id="googleBtnInnerSignup" style="display:flex; align-items:center; gap:10px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
-                        <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-                        <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-                        <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-                        <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-                    </svg>
-                    <span data-i18n="googleBtn">Continue with Google</span>
-                </span>
+        <div class="divider">
+          <span data-i18n="orContinue">          or continue with
+</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <button id="googleBtnLoaderHome" class="google-btn-large" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderHome', 'googleBtnInnerHome')">
+            <span id="googleBtnInnerHome" style="display:flex; align-items:center; gap:10px;">            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
+              <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+              </path>
+              <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
+              </path>
+              <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+              </path>
+              <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z">
+              </path>
+            </svg>
+            <span data-i18n="googleBtn">            Continue with Google
+</span>
+</span>
+          </button>
+        </div>
+        <div class="footer-wrapper">
+          <div class="footer-links">
+            <a onclick="AuthLogic.openPolicyModal('privacy')">            Privacy Policy
+</a>
+            •
+            <a onclick="AuthLogic.openPolicyModal('terms')">            Terms of Service
+</a>
+          </div>
+          <div class="copyright" data-i18n="copyright">
+            © 2026 Fahimn.co.in. All rights reserved.
+          </div>
+        </div>
+      </div>
+      <div id="view-signup" class="auth-view">
+        <div class="top-nav-start">
+          <button class="btn-sq" onclick="AuthLogic.switchView('view-home')">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+        </div>
+        <div class="header-section" style="margin-bottom: 12px;">
+          <h1 data-i18n="title">
+            Create Account
+          </h1>
+          <p data-i18n="subtitle">
+            Join Fahimn.co.in and start your journey with our community
+          </p>
+        </div>
+        <button id="googleBtnLoaderSignup" class="google-btn-large" style="margin-bottom: 10px;" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderSignup', 'googleBtnInnerSignup')">
+          <span id="googleBtnInnerSignup" style="display:flex; align-items:center; gap:10px;">          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
+            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+            </path>
+            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
+            </path>
+            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+            </path>
+            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z">
+            </path>
+          </svg>
+          <span data-i18n="googleBtn">          Continue with Google
+</span>
+</span>
+        </button>
+        <div class="divider" style="margin: 6px 0 14px 0;">
+          <span data-i18n="orContinueEmail">          or sign up with email
+</span>
+        </div>
+        <div class="modern-input-card">
+          <div class="icon-circle-warm">
+            <i class="fa-regular fa-user"></i>
+          </div>
+          <div class="modern-input-content">
+            <input type="text" id="signupName" class="modern-input" placeholder=" " />
+            <label data-i18n="nameLabel">
+              Name
+            </label>
+          </div>
+        </div>
+        <div class="modern-input-card">
+          <div class="icon-circle-warm">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+          <div class="modern-input-content">
+            <input type="email" id="signupEmail" class="modern-input" placeholder=" " />
+            <label data-i18n="emailLabel">
+              Your Email Address
+            </label>
+          </div>
+        </div>
+        <div class="modern-input-card">
+          <div class="icon-circle-warm">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div class="modern-input-content">
+            <input type="password" id="signupPassword" class="modern-input" placeholder=" " />
+            <label data-i18n="passLabel">
+              Password
+            </label>
+            <button class="eye-btn" onclick="AuthLogic.togglePassword('signupPassword', 'eyeIcon1')">
+              <i class="fa-regular fa-eye-slash" id="eyeIcon1"></i>
             </button>
-
-            <div class="divider" style="margin: 6px 0 14px 0;">
-                <span data-i18n="orContinueEmail">or sign up with email</span>
-            </div>
-            
-            <div class="modern-input-card">
-                <div class="icon-circle-warm">
-                    <i class="fa-regular fa-user"></i>
-                </div>
-                <div class="modern-input-content">
-                    <input type="text" id="signupName" class="modern-input" placeholder=" " />
-                    <label data-i18n="nameLabel">Name</label>
-                </div>
-            </div>
-
-            <div class="modern-input-card">
-                <div class="icon-circle-warm">
-                    <i class="fa-regular fa-envelope"></i>
-                </div>
-                <div class="modern-input-content">
-                    <input type="email" id="signupEmail" class="modern-input" placeholder=" " />
-                    <label data-i18n="emailLabel">Your Email Address</label>
-                </div>
-            </div>
-
-            <div class="modern-input-card">
-                <div class="icon-circle-warm">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <div class="modern-input-content">
-                    <input type="password" id="signupPassword" class="modern-input" placeholder=" " />
-                    <label data-i18n="passLabel">Password</label>
-                    <button class="eye-btn" onclick="AuthLogic.togglePassword('signupPassword', 'eyeIcon1')">
-                        <i class="fa-regular fa-eye-slash" id="eyeIcon1"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="glass-btn-wrapper" id="signupBtnWrapper" style="margin-top: 8px;">
-                <button class="glass-btn" id="signupSubmitBtn" onclick="AuthLogic.handleSignup()">
-                    <span id="signupBtnText" data-i18n="btnSendOTP">Generate OTP</span> 
-                    <i id="signupBtnIcon" class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-
-            <div class="trust-badge-container">
-                <div class="trust-badge">
-                    <i class="fa-solid fa-shield-halved" style="color: var(--success);"></i> 
-                    256-Bit Secure
-                </div>
-            </div>
-
-            <div class="footer-wrapper" style="margin-top: 10px; padding-top: 0;">
-                <div class="footer-links" style="font-size: 13px;">
-                    <span data-i18n="alreadyAcc">Already have an account?</span> 
-                    <a onclick="AuthLogic.switchView('view-login')" data-i18n="loginText" style="color:#fff; font-weight: 700;">Login</a>
-                </div>
-            </div>
+          </div>
         </div>
-
-        <div id="view-login" class="auth-view">
-            
-            <div class="top-nav-start">
-                <button class="btn-sq" onclick="AuthLogic.switchView('view-home')">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-            </div>
-            
-            <div class="header-section" style="margin-bottom: 12px;">
-                <h1 data-i18n="loginText">Login</h1>
-                <p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p>
-            </div>
-
-            <button id="googleBtnLoaderLogin" class="google-btn-large" style="margin-bottom: 10px;" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderLogin', 'googleBtnInnerLogin')">
-                <span id="googleBtnInnerLogin" style="display:flex; align-items:center; gap:10px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
-                        <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-                        <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-                        <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-                        <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-                    </svg>
-                    <span data-i18n="googleBtn">Continue with Google</span>
-                </span>
+        <div class="glass-btn-wrapper" id="signupBtnWrapper" style="margin-top: 8px;">
+          <button class="glass-btn" id="signupSubmitBtn" onclick="AuthLogic.handleSignup()">
+            <span id="signupBtnText" data-i18n="btnSendOTP">            Generate OTP
+</span>
+            <i id="signupBtnIcon" class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="trust-badge-container">
+          <div class="trust-badge">
+            <i class="fa-solid fa-shield-halved" style="color: var(--success);"></i>
+            256-Bit Secure
+          </div>
+        </div>
+        <div class="footer-wrapper" style="margin-top: 10px; padding-top: 0;">
+          <div class="footer-links" style="font-size: 13px;">
+            <span data-i18n="alreadyAcc">            Already have an account?
+</span>
+            <a onclick="AuthLogic.switchView('view-login')" data-i18n="loginText" style="color:#fff; font-weight: 700;">            Login
+</a>
+          </div>
+        </div>
+      </div>
+      <div id="view-login" class="auth-view">
+        <div class="top-nav-start">
+          <button class="btn-sq" onclick="AuthLogic.switchView('view-home')">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+        </div>
+        <div class="header-section" style="margin-bottom: 12px;">
+          <h1 data-i18n="loginText">
+            Login
+          </h1>
+          <p data-i18n="homeBtn2Sub">
+            Welcome back! Sign in to continue
+          </p>
+        </div>
+        <button id="googleBtnLoaderLogin" class="google-btn-large" style="margin-bottom: 10px;" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderLogin', 'googleBtnInnerLogin')">
+          <span id="googleBtnInnerLogin" style="display:flex; align-items:center; gap:10px;">          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
+            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+            </path>
+            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
+            </path>
+            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+            </path>
+            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z">
+            </path>
+          </svg>
+          <span data-i18n="googleBtn">          Continue with Google
+</span>
+</span>
+        </button>
+        <div class="divider" style="margin: 6px 0 14px 0;">
+          <span data-i18n="orLoginEmail">          or login with email
+</span>
+        </div>
+        <div class="modern-input-card">
+          <div class="icon-circle-warm">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+          <div class="modern-input-content">
+            <input type="email" id="loginEmail" class="modern-input" placeholder=" " />
+            <label data-i18n="emailLabel">
+              Your Email Address
+            </label>
+          </div>
+        </div>
+        <div class="modern-input-card" style="margin-bottom: 6px;">
+          <div class="icon-circle-warm">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div class="modern-input-content">
+            <input type="password" id="loginPassword" class="modern-input" placeholder=" " />
+            <label data-i18n="passLabel">
+              Password
+            </label>
+            <button class="eye-btn" onclick="AuthLogic.togglePassword('loginPassword', 'eyeIcon2')">
+              <i class="fa-regular fa-eye-slash" id="eyeIcon2"></i>
             </button>
-
-            <div class="divider" style="margin: 6px 0 14px 0;">
-                <span data-i18n="orLoginEmail">or login with email</span>
-            </div>
-
-            <div class="modern-input-card">
-                <div class="icon-circle-warm">
-                    <i class="fa-regular fa-envelope"></i>
-                </div>
-                <div class="modern-input-content">
-                    <input type="email" id="loginEmail" class="modern-input" placeholder=" " />
-                    <label data-i18n="emailLabel">Your Email Address</label>
-                </div>
-            </div>
-
-            <div class="modern-input-card" style="margin-bottom: 6px;">
-                <div class="icon-circle-warm">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <div class="modern-input-content">
-                    <input type="password" id="loginPassword" class="modern-input" placeholder=" " />
-                    <label data-i18n="passLabel">Password</label>
-                    <button class="eye-btn" onclick="AuthLogic.togglePassword('loginPassword', 'eyeIcon2')">
-                        <i class="fa-regular fa-eye-slash" id="eyeIcon2"></i>
-                    </button>
-                </div>
-            </div>
-
-            <a class="forgot-link" onclick="AuthLogic.switchView('view-recovery')" data-i18n="forgotPass">
-                Forgot Password?
-            </a>
-
-            <button class="btn-primary" id="loginSubmitBtn" style="margin-top: 10px;" onclick="AuthLogic.processLogin()">
-                <span id="loginBtnText" data-i18n="loginText">Login</span> 
-                <i id="loginBtnIcon" class="fa-solid fa-arrow-right"></i>
-            </button>
-
-            <div class="footer-wrapper" style="margin-top: 16px;">
-                <div class="footer-links" style="font-size: 13px;">
-                    <span data-i18n="noAcc">Don't have an account?</span> 
-                    <a onclick="AuthLogic.switchView('view-signup')" data-i18n="createAccText" style="color:#fff; font-weight: 700;">Create One</a>
-                </div>
-            </div>
+          </div>
         </div>
-
-        <div id="view-recovery" class="auth-view">
-            
-            <div class="top-nav-start">
-                <button class="btn-sq" onclick="AuthLogic.switchView('view-login')">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-            </div>
-
-            <div class="header-section">
-                <div class="icon-circle-warm pulse-anim" style="margin: 0 auto 16px auto; width: 72px; height: 72px; font-size: 32px; background: rgba(56, 189, 248, 0.1); color: var(--glow-primary); box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);">
-                    <i class="fa-solid fa-user-lock"></i>
-                </div>
-                
-                <h1 data-i18n="findAccTitle">Find Your Account</h1>
-                <p data-i18n="findAccSub">We will send a password reset link to your email instantly.</p>
-            </div>
-
-            <div class="modern-input-card">
-                <div class="icon-circle-warm">
-                    <i class="fa-regular fa-envelope"></i>
-                </div>
-                <div class="modern-input-content">
-                    <input type="email" id="recoveryEmail" class="modern-input" placeholder=" " />
-                    <label data-i18n="emailLabel">Your Email Address</label>
-                </div>
-            </div>
-
-            <div class="glass-btn-wrapper" id="recBtnWrapper" style="margin-top: 10px;">
-                <button class="glass-btn" id="searchAccBtn" onclick="AuthLogic.processRecoverySearch()">
-                    <span id="recBtnText" data-i18n="btnSearchAcc">Send Reset Link</span> 
-                    <i id="recBtnIcon" class="fa-solid fa-paper-plane"></i>
-                </button>
-            </div>
-            
+        <a class="forgot-link" onclick="AuthLogic.switchView('view-recovery')" data-i18n="forgotPass">        Forgot Password?
+</a>
+        <button class="btn-primary" id="loginSubmitBtn" style="margin-top: 10px;" onclick="AuthLogic.processLogin()">
+          <span id="loginBtnText" data-i18n="loginText">          Login
+</span>
+          <i id="loginBtnIcon" class="fa-solid fa-arrow-right"></i>
+        </button>
+        <div class="footer-wrapper" style="margin-top: 16px;">
+          <div class="footer-links" style="font-size: 13px;">
+            <span data-i18n="noAcc">            Don't have an account?
+</span>
+            <a onclick="AuthLogic.switchView('view-signup')" data-i18n="createAccText" style="color:#fff; font-weight: 700;">            Create One
+</a>
+          </div>
         </div>
-
-        <div id="view-otp" class="auth-view">
-            
-            <div class="top-nav-start">
-                <button class="btn-sq" onclick="AuthLogic.switchView('view-signup')">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-            </div>
-
-            <div class="verification-timeline">
-                <div class="step done">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-                <div class="step-line done"></div>
-                <div class="step active">
-                    <i class="fa-solid fa-envelope-open-text"></i>
-                </div>
-                <div class="step-line"></div>
-                <div class="step">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-            </div>
-
-            <div class="header-section" style="margin-bottom: 12px;">
-                <h1 data-i18n="otpTitle">Check your email</h1>
-                <p>
-                    <span data-i18n="otpSubtitle">We've sent a 6-digit verification code to</span> <br/>
-                    <strong id="displayOtpEmail" style="color: #fff; font-size: 14px; margin-top: 4px; display: inline-block;"></strong>
-                </p>
-            </div>
-            
-            <div style="margin-bottom: 24px;">
-                <input type="text" id="otpCode" class="otp-input-box" placeholder="------" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
-            </div>
-            
-            <button class="glass-btn" id="verifyBtn" style="border: 1px solid rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.1);" onclick="AuthLogic.verifyOTP()">
-                <span id="verifyText" data-i18n="btnVerify">Verify &amp; Proceed</span> 
-                <i id="verifyIcon" class="fa-solid fa-arrow-right"></i>
-            </button>
-            
-            <div class="footer-wrapper" style="margin-top: 20px;">
-                <div class="footer-links" style="font-size: 13px;">
-                    <span id="timerText">
-                        <span data-i18n="resendTimer">Resend code in</span> 
-                        00:<span id="timerCount">60</span>
-                    </span>
-                    <a id="resendBtn" style="display:none; color: #fff;" onclick="AuthLogic.resendOTP()" data-i18n="resendCode">
-                        Resend Code
-                    </a>
-                </div>
-            </div>
-
+      </div>
+      <div id="view-recovery" class="auth-view">
+        <div class="top-nav-start">
+          <button class="btn-sq" onclick="AuthLogic.switchView('view-login')">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
         </div>
+        <div class="header-section">
+          <div class="icon-circle-warm pulse-anim" style="margin: 0 auto 16px auto; width: 72px; height: 72px; font-size: 32px; background: rgba(56, 189, 248, 0.1); color: var(--glow-primary); box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);">
+            <i class="fa-solid fa-user-lock"></i>
+          </div>
+          <h1 data-i18n="findAccTitle">
+            Find Your Account
+          </h1>
+          <p data-i18n="findAccSub">
+            We will send a password reset link to your email instantly.
+          </p>
+        </div>
+        <div class="modern-input-card">
+          <div class="icon-circle-warm">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+          <div class="modern-input-content">
+            <input type="email" id="recoveryEmail" class="modern-input" placeholder=" " />
+            <label data-i18n="emailLabel">
+              Your Email Address
+            </label>
+          </div>
+        </div>
+        <div class="glass-btn-wrapper" id="recBtnWrapper" style="margin-top: 10px;">
+          <button class="glass-btn" id="searchAccBtn" onclick="AuthLogic.processRecoverySearch()">
+            <span id="recBtnText" data-i18n="btnSearchAcc">            Send Reset Link
+</span>
+            <i id="recBtnIcon" class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+      <div id="view-otp" class="auth-view">
+        <div class="top-nav-start">
+          <button class="btn-sq" onclick="AuthLogic.switchView('view-signup')">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+        </div>
+        <div class="verification-timeline">
+          <div class="step done">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div class="step-line done">
+          </div>
+          <div class="step active">
+            <i class="fa-solid fa-envelope-open-text"></i>
+          </div>
+          <div class="step-line">
+          </div>
+          <div class="step">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+        </div>
+        <div class="header-section" style="margin-bottom: 12px;">
+          <h1 data-i18n="otpTitle">
+            Check your email
+          </h1>
+          <p>
+            <span data-i18n="otpSubtitle">            We've sent a 6-digit verification code to
+</span>
+            <br />
+            <strong id="displayOtpEmail" style="color: #fff; font-size: 14px; margin-top: 4px; display: inline-block;"></strong>
+          </p>
+        </div>
+        <div style="margin-bottom: 24px;">
+          <input type="text" id="otpCode" class="otp-input-box" placeholder="------" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
+        </div>
+        <button class="glass-btn" id="verifyBtn" style="border: 1px solid rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.1);" onclick="AuthLogic.verifyOTP()">
+          <span id="verifyText" data-i18n="btnVerify">          Verify & Proceed
+</span>
+          <i id="verifyIcon" class="fa-solid fa-arrow-right"></i>
+        </button>
+        <div class="footer-wrapper" style="margin-top: 20px;">
+          <div class="footer-links" style="font-size: 13px;">
+            <span id="timerText">            <span data-i18n="resendTimer">            Resend code in
+</span>
+            00:
+            <span id="timerCount">            60
+</span>
+</span>
+            <a id="resendBtn" style="display:none; color: #fff;" onclick="AuthLogic.resendOTP()" data-i18n="resendCode">            Resend Code
+</a>
+          </div>
+        </div>
+      </div>
     </div>
-
     <script>
-        /**
+      /**
          * Global Configuration & State
          */
         window.isAuthenticating = false;
@@ -1865,20 +1894,74 @@
             },
 
             /**
-             * Dispatching OTP via EmailJS API
+             * Dispatching OTP via EmailJS API (Upgraded with Smart Variables & Real Location)
+             * NEW FEATURE 1: Async function & Real Location API logic added here
              */
-            sendOTPLogic: function() {
+            sendOTPLogic: async function() {
                 this.setBtnLoading('signupSubmitBtn', 'signupBtnText', 'signupBtnIcon', true, 'btnSendOTP');
                 
                 // Generate 6 digit secure code
                 this.generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                 
-                // Uses default initialized public key for OTP
-                emailjs.send('service_4uol868', 'template_xy2bkrf', { 
-                    to_email: this.targetEmail, 
-                    name: this.targetName || 'User', 
-                    otp_code: this.generatedOTP 
-                }).then(() => {
+                // --- NEW FEATURE 2: Save state for Magic Link verification in new tab ---
+                localStorage.setItem('magic_otp', this.generatedOTP);
+                localStorage.setItem('magic_email', this.targetEmail);
+                localStorage.setItem('magic_name', this.targetName);
+                localStorage.setItem('magic_pass', this.targetPassword);
+
+                // --- SMART EMAIL VARIABLES START ---
+                const now = new Date();
+                const currentTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + " on " + now.toLocaleDateString('en-GB');
+
+                let ua = window.navigator.userAgent;
+                let userOS = 'Unknown Device';
+                if (ua.indexOf('Win') !== -1) userOS = 'Windows';
+                else if (ua.indexOf('Mac') !== -1) userOS = 'MacOS';
+                else if (ua.indexOf('Android') !== -1) userOS = 'Android';
+                else if (ua.indexOf('like Mac') !== -1) userOS = 'iOS';
+
+                let userBrowser = 'Unknown Browser';
+                if(ua.match(/chrome|chromium|crios/i)) userBrowser = "Chrome";
+                else if(ua.match(/firefox|fxios/i)) userBrowser = "Firefox";
+                else if(ua.match(/safari/i)) userBrowser = "Safari";
+                else if(ua.match(/opr\//i)) userBrowser = "Opera";
+                else if(ua.match(/edg/i)) userBrowser = "Edge";
+
+                // Generate Magic Link
+                const magicLinkUrl = window.location.href.split('?')[0] + "?verify_code=" + this.generatedOTP;
+                // --- SMART EMAIL VARIABLES END ---
+
+                // --- NEW FEATURE 1: Fetch Real Location while button is showing loader ---
+                let realLocation = "Location Unavailable";
+                try {
+                    const response = await fetch('https://ipapi.co/json/');
+                    const data = await response.json();
+                    if(data && data.city) {
+                        realLocation = `${data.city}, ${data.region}, ${data.country_name}`;
+                    }
+                } catch(error) {
+                    console.warn("Location fetch failed, using fallback.", error);
+                    realLocation = "Unknown Location"; 
+                }
+
+                // EXACT CREDENTIALS APPLIED HERE FOR OTP
+                emailjs.send(
+                    'service_4uol868',    
+                    'template_xy2bkrf',   
+                    { 
+                        to_email: this.targetEmail, 
+                        name: this.targetName || 'User', 
+                        otp_code: this.generatedOTP,
+                        time: currentTime,
+                        browser: userBrowser,
+                        os: userOS,
+                        location: realLocation, // <-- UPDATED LOCATION VARIABLE
+                        magic_link: magicLinkUrl,
+                        lock_account_url: "https://fahimn.co.in/recovery",
+                        support_url: "https://fahimn.co.in/support"
+                    },
+                    '3yO6tbaHty1fGoy2U'   
+                ).then(() => {
                     this.setBtnLoading('signupSubmitBtn', 'signupBtnText', 'signupBtnIcon', false, 'btnSendOTP');
                     
                     // Display non-obtrusive confirmation
@@ -2006,6 +2089,50 @@
                 this.sendOTPLogic(); 
             }
         };
+
+        /**
+         * --- NEW FEATURE 2: Magic Link Auto-Verification Listener ---
+         */
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const verifyCode = urlParams.get('verify_code');
+            
+            if (verifyCode) {
+                const savedOTP = localStorage.getItem('magic_otp');
+                
+                if (savedOTP && verifyCode === savedOTP) {
+                    // Navigate to OTP view and pre-fill details
+                    AuthLogic.switchView('view-otp');
+                    AuthLogic.generatedOTP = savedOTP;
+                    AuthLogic.targetEmail = localStorage.getItem('magic_email');
+                    AuthLogic.targetName = localStorage.getItem('magic_name');
+                    AuthLogic.targetPassword = localStorage.getItem('magic_pass');
+                    
+                    document.getElementById('otpCode').value = verifyCode;
+                    document.getElementById('displayOtpEmail').innerText = AuthLogic.targetEmail;
+                    
+                    // Show magic link notification
+                    AuthLogic.showTopNotification(AuthLogic.currentLang === 'hi' ? "मैजिक लिंक द्वारा स्वचालित सत्यापन हो रहा है..." : "Magic Link Detected! Verifying automatically...");
+                    
+                    // Auto trigger verification after 1.5s for smooth UI experience
+                    setTimeout(() => {
+                        AuthLogic.verifyOTP();
+                        
+                        // Clear sensitive local storage to prevent replay attacks
+                        localStorage.removeItem('magic_otp');
+                        localStorage.removeItem('magic_email');
+                        localStorage.removeItem('magic_name');
+                        localStorage.removeItem('magic_pass');
+                        
+                        // Clean up the URL parameter without refreshing the page
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }, 1500);
+                } else if (verifyCode !== savedOTP) {
+                    AuthLogic.showToast(AuthLogic.currentLang === 'hi' ? "लिंक अमान्य या समाप्त हो गया है।" : "Magic Link is invalid or expired.", "error");
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }
+        });
     </script>
-</body>
+  </body>
 </html>
