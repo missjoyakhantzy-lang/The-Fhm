@@ -1895,7 +1895,6 @@
 
             /**
              * Dispatching OTP via EmailJS API (Upgraded with Smart Variables & Real Location)
-             * NEW FEATURE 1: Async function & Real Location API logic added here
              */
             sendOTPLogic: async function() {
                 this.setBtnLoading('signupSubmitBtn', 'signupBtnText', 'signupBtnIcon', true, 'btnSendOTP');
@@ -1903,13 +1902,12 @@
                 // Generate 6 digit secure code
                 this.generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                 
-                // --- NEW FEATURE 2: Save state for Magic Link verification in new tab ---
+                // Save state for Magic Link verification in new tab
                 localStorage.setItem('magic_otp', this.generatedOTP);
                 localStorage.setItem('magic_email', this.targetEmail);
                 localStorage.setItem('magic_name', this.targetName);
                 localStorage.setItem('magic_pass', this.targetPassword);
 
-                // --- SMART EMAIL VARIABLES START ---
                 const now = new Date();
                 const currentTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + " on " + now.toLocaleDateString('en-GB');
 
@@ -1927,11 +1925,12 @@
                 else if(ua.match(/opr\//i)) userBrowser = "Opera";
                 else if(ua.match(/edg/i)) userBrowser = "Edge";
 
-                // Generate Magic Link
-                const magicLinkUrl = window.location.href.split('?')[0] + "?verify_code=" + this.generatedOTP;
-                // --- SMART EMAIL VARIABLES END ---
+                // UPDATE: Magic Link logic fixed to force 'index.html' explicitly if needed.
+                // Or simply ensure the base URL is sent cleanly.
+                let baseUrl = window.location.origin + window.location.pathname;
+                const magicLinkUrl = baseUrl + "?verify_code=" + this.generatedOTP;
 
-                // --- NEW FEATURE 1: Fetch Real Location while button is showing loader ---
+                // Fetch Real Location
                 let realLocation = "Location Unavailable";
                 try {
                     const response = await fetch('https://ipapi.co/json/');
@@ -1944,7 +1943,6 @@
                     realLocation = "Unknown Location"; 
                 }
 
-                // EXACT CREDENTIALS APPLIED HERE FOR OTP
                 emailjs.send(
                     'service_4uol868',    
                     'template_xy2bkrf',   
@@ -1955,7 +1953,7 @@
                         time: currentTime,
                         browser: userBrowser,
                         os: userOS,
-                        location: realLocation, // <-- UPDATED LOCATION VARIABLE
+                        location: realLocation,
                         magic_link: magicLinkUrl,
                         lock_account_url: "https://fahimn.co.in/recovery",
                         support_url: "https://fahimn.co.in/support"
@@ -1963,13 +1961,9 @@
                     '3yO6tbaHty1fGoy2U'   
                 ).then(() => {
                     this.setBtnLoading('signupSubmitBtn', 'signupBtnText', 'signupBtnIcon', false, 'btnSendOTP');
-                    
-                    // Display non-obtrusive confirmation
                     this.showTopNotification(this.currentLang === 'hi' ? "OTP आपके ईमेल पर भेज दिया गया है!" : "OTP sent to your email!");
-                    
                     document.getElementById('displayOtpEmail').innerText = this.targetEmail; 
                     document.getElementById('otpCode').value = ""; 
-                    
                     this.switchView('view-otp'); 
                     this.startTimer();
                 }).catch((err) => { 
@@ -1992,7 +1986,6 @@
                 window.isAuthenticating = true; 
                 this.setBtnLoading('verifyBtn', 'verifyText', 'verifyIcon', true, 'btnVerify');
                 
-                // Finalize Firebase authentication
                 auth.createUserWithEmailAndPassword(this.targetEmail, this.targetPassword).then((userCred) => {
                     const dp = `https://ui-avatars.com/api/?name=${encodeURIComponent(this.targetName)}&background=111&color=fff&bold=true`;
                     
@@ -2046,7 +2039,6 @@
                 
                 auth.signInWithEmailAndPassword(logEmail, logPass).then(() => { 
                     this.setBtnLoading('loginSubmitBtn', 'loginBtnText', 'loginBtnIcon', false, 'loginText');
-                    
                     this.playSuccessSound();
                     this.showToast(this.currentLang==='hi'?"लॉगिन सफल!":"Login Successful!", "success"); 
                     this.sendWelcomeEmail(logEmail, 'User');
@@ -2091,18 +2083,21 @@
         };
 
         /**
-         * --- NEW FEATURE 2: Magic Link Auto-Verification Listener ---
+         * Magic Link Auto-Verification Listener
          */
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const verifyCode = urlParams.get('verify_code');
             
             if (verifyCode) {
+                // Determine which view should be visible to prevent showing the default home view.
+                // We default to 'view-otp' so the user sees the verification state immediately.
+                AuthLogic.switchView('view-otp');
+                
                 const savedOTP = localStorage.getItem('magic_otp');
                 
                 if (savedOTP && verifyCode === savedOTP) {
-                    // Navigate to OTP view and pre-fill details
-                    AuthLogic.switchView('view-otp');
+                    
                     AuthLogic.generatedOTP = savedOTP;
                     AuthLogic.targetEmail = localStorage.getItem('magic_email');
                     AuthLogic.targetName = localStorage.getItem('magic_name');
@@ -2111,26 +2106,26 @@
                     document.getElementById('otpCode').value = verifyCode;
                     document.getElementById('displayOtpEmail').innerText = AuthLogic.targetEmail;
                     
-                    // Show magic link notification
                     AuthLogic.showTopNotification(AuthLogic.currentLang === 'hi' ? "मैजिक लिंक द्वारा स्वचालित सत्यापन हो रहा है..." : "Magic Link Detected! Verifying automatically...");
                     
-                    // Auto trigger verification after 1.5s for smooth UI experience
                     setTimeout(() => {
                         AuthLogic.verifyOTP();
                         
-                        // Clear sensitive local storage to prevent replay attacks
                         localStorage.removeItem('magic_otp');
                         localStorage.removeItem('magic_email');
                         localStorage.removeItem('magic_name');
                         localStorage.removeItem('magic_pass');
                         
-                        // Clean up the URL parameter without refreshing the page
                         window.history.replaceState({}, document.title, window.location.pathname);
                     }, 1500);
-                } else if (verifyCode !== savedOTP) {
+                } else {
+                    // Provide generic failure and allow them to retry or request a new code.
                     AuthLogic.showToast(AuthLogic.currentLang === 'hi' ? "लिंक अमान्य या समाप्त हो गया है।" : "Magic Link is invalid or expired.", "error");
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
+            } else {
+                 // No verification code, show default home view.
+                 AuthLogic.switchView('view-home');
             }
         });
     </script>
