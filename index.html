@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>fahimn.co.in Platform</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>
+      fahimn.co.in Platform
+    </title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js">
+    </script>
     <style>
-        /* =========================================
+      /* =========================================
            ULTRA PREMIUM DARK GLASS THEME
            ========================================= */
         :root {
@@ -35,7 +37,7 @@
             --sidebar-width: 300px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: &#39;Plus Jakarta Sans&#39;, sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
             background: radial-gradient(circle at top left, #1e293b, #020617 80%);
@@ -326,444 +328,703 @@
         .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
         .toast { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideDown 0.3s ease; backdrop-filter: blur(10px); display: flex; align-items: center; pointer-events: auto;}
     </style>
-</head>
-<body>
-
-    <div id="toastBox" class="toast-box"></div>
-
+  </head>
+  <body>
+    <div id="toastBox" class="toast-box">
+    </div>
     <div class="upload-overlay" id="uploadOverlay">
-        <div class="spinner"></div>
-        <div style="color: var(--text-main); font-weight: 700; font-size: 14px;" id="uploadText">Uploading...</div>
+      <div class="spinner">
+      </div>
+      <div style="color: var(--text-main); font-weight: 700; font-size: 14px;" id="uploadText">
+        Uploading...
+      </div>
     </div>
-
-    <input type="file" id="storyMediaInput" accept="image/*,video/*" style="display: none;">
-    <input type="file" id="postMediaInput" accept="image/*,video/*" style="display: none;">
-    <input type="file" id="postMusicInput" accept="audio/*" style="display: none;">
-
+    <input type="file" id="storyMediaInput" accept="image/*,video/*" style="display: none;" />
+    <input type="file" id="postMediaInput" accept="image/*,video/*" style="display: none;" />
+    <input type="file" id="postMusicInput" accept="audio/*" style="display: none;" />
     <div class="header-wrapper" id="mainHeader">
-        <header class="app-header">
-            <div class="header-left-group">
-                <button class="hamburger-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars-staggered"></i></button>
-                <h2 class="brand-text">fahimn.co.in <span>platform</span></h2>
-            </div>
-            <div class="notif-btn" onclick="openNotifications()">
-                <i class="fa-regular fa-bell"></i>
-                <span id="notifBadge" class="notif-badge">0</span>
-            </div>
-        </header>
+      <header class="app-header">
+        <div class="header-left-group">
+          <button class="hamburger-btn" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <h2 class="brand-text">
+            fahimn.co.in
+            <span>            platform
+</span>
+          </h2>
+        </div>
+        <div class="notif-btn" onclick="openNotifications()">
+          <i class="fa-regular fa-bell"></i>
+          <span id="notifBadge" class="notif-badge">          0
+</span>
+        </div>
+      </header>
     </div>
-
     <div class="stories-container" id="storiesContainer">
-        <div class="story-chip story-create-chip" onclick="document.getElementById('storyMediaInput').click()">
-            <div class="story-thumb-wrapper"><img id="myStoryAvatar" src="https://ui-avatars.com/api/?name=U" class="story-thumb"><div class="add-icon-overlay"><i class="fa-solid fa-plus"></i></div></div>
-            <span class="story-name">Add Story</span>
+      <div class="story-chip story-create-chip" onclick="document.getElementById(&#39;storyMediaInput&#39;).click()">
+        <div class="story-thumb-wrapper">
+          <img id="myStoryAvatar" src="https://ui-avatars.com/api/?name=U" class="story-thumb" />
+          <div class="add-icon-overlay">
+            <i class="fa-solid fa-plus"></i>
+          </div>
         </div>
-        <div class="story-chip" id="storySkel1"><div class="story-thumb-wrapper" style="border-color: var(--border-light);"><div class="story-thumb"></div></div><span class="story-name" style="width:40px; height:8px; background:var(--skel-bg); border-radius:4px;"></span></div>
+        <span class="story-name">        Add Story
+</span>
+      </div>
+      <div class="story-chip" id="storySkel1">
+        <div class="story-thumb-wrapper" style="border-color: var(--border-light);">
+          <div class="story-thumb">
+          </div>
+        </div>
+        <span class="story-name" style="width:40px; height:8px; background:var(--skel-bg); border-radius:4px;"></span>
+      </div>
     </div>
-
     <div class="filter-container">
-        <button class="filter-chip active" onclick="setFilter('all', this)">All</button>
-        <button class="filter-chip" onclick="setFilter('image', this)">Photos</button>
-        <button class="filter-chip" onclick="setFilter('video', this)">Videos</button>
-        <button class="filter-chip" onclick="setFilter('text', this)">Text Only</button>
+      <button class="filter-chip active" onclick="setFilter(&#39;all&#39;, this)">
+        All
+      </button>
+      <button class="filter-chip" onclick="setFilter(&#39;image&#39;, this)">
+        Photos
+      </button>
+      <button class="filter-chip" onclick="setFilter(&#39;video&#39;, this)">
+        Videos
+      </button>
+      <button class="filter-chip" onclick="setFilter(&#39;text&#39;, this)">
+        Text Only
+      </button>
     </div>
-
-    <main class="feed-wrapper" id="feedContainer"></main>
-
-    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <main class="feed-wrapper" id="feedContainer">
+    </main>
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()">
+    </div>
     <aside id="mainSidebar" class="premium-sidebar">
-        <div class="sidebar-scroll-area">
-            <div class="sidebar-profile-card" id="sidebarProfileCard">
-                <button class="close-sidebar-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
-                <div class="sp-top" onclick="window.location.href='user_profile.html'">
-                    <div class="sp-avatar-ring"><img id="sidebarAvatar" src="https://ui-avatars.com/api/?name=User" alt="Profile"></div>
-                    <div class="sp-info">
-                        <div class="sp-name" id="sidebarName">User Name</div>
-                        <div class="sp-username">@username</div>
-                        <div class="creator-level"><i class="fa-solid fa-bolt" style="margin-right:3px;"></i> Pro Creator</div>
-                    </div>
-                </div>
-                <div class="sp-stats">
-                    <div class="sp-stat-item"><span class="sp-stat-val" id="userPostsCount">0</span><span class="sp-stat-label">Posts</span></div>
-                    <div class="sp-stat-item"><span class="sp-stat-val" id="userFollowersCount">0</span><span class="sp-stat-label">Followers</span></div>
-                    <div class="sp-stat-item"><span class="sp-stat-val" id="userFollowingCount">0</span><span class="sp-stat-label">Following</span></div>
-                </div>
-                <button class="sp-edit-btn" onclick="window.location.href='user_profile.html'">Edit Full Profile</button>
+      <div class="sidebar-scroll-area">
+        <div class="sidebar-profile-card" id="sidebarProfileCard">
+          <button class="close-sidebar-btn" onclick="toggleSidebar()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <div class="sp-top" onclick="window.location.href=&#39;user_profile.html&#39;">
+            <div class="sp-avatar-ring">
+              <img id="sidebarAvatar" src="https://ui-avatars.com/api/?name=User" alt="Profile" />
             </div>
-            
-            <div class="sidebar-menu-list">
-                <div class="clean-menu-item" onclick="window.location.href='user_profile.html'"><i class="fa-regular fa-id-badge"></i> My Profile</div>
-                <div class="clean-menu-item" onclick="openActivityModal(); toggleSidebar();"><i class="fa-solid fa-clock-rotate-left"></i> My Activity</div>
-                <div class="clean-menu-item" onclick="window.location.href='store.app.html'"><i class="fa-brands fa-android"></i> APK Apps</div>
-                <div class="clean-menu-item special" onclick="window.location.href='Monetization.html'"><i class="fa-solid fa-sack-dollar"></i> Monetization</div>
-                <div class="clean-menu-item success" onclick="copyReferralLink()">
-                    <div style="display:flex; align-items:center;"><i class="fa-solid fa-user-group"></i> Refer & Earn</div>
-                    <div style="font-size: 11px; color: #fbbf24; font-weight: 700; margin-left: 30px; margin-top:4px;">Invite 1 friend, Get ₹200</div>
-                </div>
-                <div class="clean-menu-item" onclick="document.body.classList.toggle('dark-mode'); showToast('Theme toggled', 'success')"><i class="fa-solid fa-moon"></i> Dark Mode</div>
-                <div class="clean-menu-item" onclick="showToast('Translations coming soon!')"><i class="fa-solid fa-language"></i> Translation</div>
-                <div class="clean-menu-item" onclick="openInfoModal('Help Center', 'We are here to help. Contact support@fahimn.co.in.')"><i class="fa-solid fa-headset"></i> Help Center</div>
-                <div class="clean-menu-item danger" onclick="openInfoModal('Report a Problem', 'Please describe the bug or issue you are facing.')"><i class="fa-solid fa-triangle-exclamation"></i> Report a Problem</div>
-                <div class="clean-menu-item" onclick="openInfoModal('Privacy Policy', 'Your data is safe with us. We use standard encryption and do not share personal information with third parties without consent.')"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</div>
-                <div class="clean-menu-item" onclick="openInfoModal('Terms & Conditions', 'By using fahimn.co.in, you agree to follow community guidelines. Any form of abuse or spam will lead to immediate account suspension.')"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</div>
-                <div class="clean-menu-item" onclick="openInfoModal('Download App', 'Our Android and iOS apps are currently under review in the stores. Stay tuned for the release!')"><i class="fa-solid fa-download"></i> Download App</div>
+            <div class="sp-info">
+              <div class="sp-name" id="sidebarName">
+                User Name
+              </div>
+              <div class="sp-username">
+                @username
+              </div>
+              <div class="creator-level">
+                <i class="fa-solid fa-bolt" style="margin-right:3px;"></i>
+                Pro Creator
+              </div>
             </div>
+          </div>
+          <div class="sp-stats">
+            <div class="sp-stat-item">
+              <span class="sp-stat-val" id="userPostsCount">              0
+</span>
+              <span class="sp-stat-label">              Posts
+</span>
+            </div>
+            <div class="sp-stat-item">
+              <span class="sp-stat-val" id="userFollowersCount">              0
+</span>
+              <span class="sp-stat-label">              Followers
+</span>
+            </div>
+            <div class="sp-stat-item">
+              <span class="sp-stat-val" id="userFollowingCount">              0
+</span>
+              <span class="sp-stat-label">              Following
+</span>
+            </div>
+          </div>
+          <button class="sp-edit-btn" onclick="window.location.href=&#39;user_profile.html&#39;">
+            Edit Full Profile
+          </button>
         </div>
-        <div class="sidebar-bottom">
-            <button class="bottom-btn btn-settings" onclick="window.location.href='settings.html'"><i class="fa-solid fa-gear"></i> Settings</button>
-            <button class="bottom-btn btn-logout" onclick="logoutUser()"><i class="fa-solid fa-power-off"></i> Logout</button>
+        <div class="sidebar-menu-list">
+          <div class="clean-menu-item" onclick="window.location.href=&#39;user_profile.html&#39;">
+            <i class="fa-regular fa-id-badge"></i>
+            My Profile
+          </div>
+          <div class="clean-menu-item" onclick="openActivityModal(); toggleSidebar();">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            My Activity
+          </div>
+          <div class="clean-menu-item" onclick="window.location.href=&#39;store.app.html&#39;">
+            <i class="fa-brands fa-android"></i>
+            APK Apps
+          </div>
+          <div class="clean-menu-item special" onclick="window.location.href=&#39;Monetization.html&#39;">
+            <i class="fa-solid fa-sack-dollar"></i>
+            Monetization
+          </div>
+          <div class="clean-menu-item success" onclick="copyReferralLink()">
+            <div style="display:flex; align-items:center;">
+              <i class="fa-solid fa-user-group"></i>
+              Refer &amp; Earn
+            </div>
+            <div style="font-size: 11px; color: #fbbf24; font-weight: 700; margin-left: 30px; margin-top:4px;">
+              Invite 1 friend, Get ₹200
+            </div>
+          </div>
+          <div class="clean-menu-item" onclick="document.body.classList.toggle(&#39;dark-mode&#39;); showToast(&#39;Theme toggled&#39;, &#39;success&#39;)">
+            <i class="fa-solid fa-moon"></i>
+            Dark Mode
+          </div>
+          <div class="clean-menu-item" onclick="showToast(&#39;Translations coming soon!&#39;)">
+            <i class="fa-solid fa-language"></i>
+            Translation
+          </div>
+          <div class="clean-menu-item" onclick="openInfoModal(&#39;Help Center&#39;, &#39;We are here to help. Contact support@fahimn.co.in.&#39;)">
+            <i class="fa-solid fa-headset"></i>
+            Help Center
+          </div>
+          <div class="clean-menu-item danger" onclick="openInfoModal(&#39;Report a Problem&#39;, &#39;Please describe the bug or issue you are facing.&#39;)">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Report a Problem
+          </div>
+          <div class="clean-menu-item" onclick="openInfoModal(&#39;Privacy Policy&#39;, &#39;Your data is safe with us. We use standard encryption and do not share personal information with third parties without consent.&#39;)">
+            <i class="fa-solid fa-shield-halved"></i>
+            Privacy Policy
+          </div>
+          <div class="clean-menu-item" onclick="openInfoModal(&#39;Terms &amp; Conditions&#39;, &#39;By using fahimn.co.in, you agree to follow community guidelines. Any form of abuse or spam will lead to immediate account suspension.&#39;)">
+            <i class="fa-solid fa-file-contract"></i>
+            Terms &amp; Conditions
+          </div>
+          <div class="clean-menu-item" onclick="openInfoModal(&#39;Download App&#39;, &#39;Our Android and iOS apps are currently under review in the stores. Stay tuned for the release!&#39;)">
+            <i class="fa-solid fa-download"></i>
+            Download App
+          </div>
         </div>
+      </div>
+      <div class="sidebar-bottom">
+        <button class="bottom-btn btn-settings" onclick="window.location.href=&#39;settings.html&#39;">
+          <i class="fa-solid fa-gear"></i>
+          Settings
+        </button>
+        <button class="bottom-btn btn-logout" onclick="logoutUser()">
+          <i class="fa-solid fa-power-off"></i>
+          Logout
+        </button>
+      </div>
     </aside>
-
     <div class="fs-screen" id="searchModal" style="z-index: 3500; background: var(--bg-body);">
-        <div class="fs-header" style="border-bottom: 1px solid var(--border-light);">
-            <button class="back-btn" onclick="closeSearch()"><i class="fa-solid fa-arrow-left"></i></button>
-            <div style="flex:1; margin-left: 10px;">
-                <input type="text" id="searchInput" placeholder="Search users by name..." onkeyup="performSearch()" style="width:100%; padding:10px 15px; border-radius:50px; border:1px solid var(--border-light); background:rgba(0,0,0,0.3); color:#fff; outline:none; font-family: inherit;">
-            </div>
+      <div class="fs-header" style="border-bottom: 1px solid var(--border-light);">
+        <button class="back-btn" onclick="closeSearch()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div style="flex:1; margin-left: 10px;">
+          <input type="text" id="searchInput" placeholder="Search users by name..." onkeyup="performSearch()" style="width:100%; padding:10px 15px; border-radius:50px; border:1px solid var(--border-light); background:rgba(0,0,0,0.3); color:#fff; outline:none; font-family: inherit;" />
         </div>
-        <div class="comments-body" id="searchResults" style="padding: 16px;">
-            <div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">Type a name to search</div>
+      </div>
+      <div class="comments-body" id="searchResults" style="padding: 16px;">
+        <div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">
+          Type a name to search
         </div>
+      </div>
     </div>
-
     <div class="fs-screen" id="activityModal" style="z-index: 3500; background: var(--bg-body);">
-        <div class="fs-header">
-            <button class="back-btn" onclick="closeActivityModal()"><i class="fa-solid fa-arrow-left"></i></button>
-            <h2>My Activity</h2>
-            <div style="width:40px;"></div>
+      <div class="fs-header">
+        <button class="back-btn" onclick="closeActivityModal()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h2>
+          My Activity
+        </h2>
+        <div style="width:40px;">
         </div>
-        <div class="activity-tabs">
-            <div class="act-tab active" id="tabLiked" onclick="switchActivityTab('liked')">Liked</div>
-            <div class="act-tab" id="tabSaved" onclick="switchActivityTab('saved')">Saved</div>
+      </div>
+      <div class="activity-tabs">
+        <div class="act-tab active" id="tabLiked" onclick="switchActivityTab(&#39;liked&#39;)">
+          Liked
         </div>
-        <div class="comments-body" id="activityList" style="padding: 16px 0;"></div>
+        <div class="act-tab" id="tabSaved" onclick="switchActivityTab(&#39;saved&#39;)">
+          Saved
+        </div>
+      </div>
+      <div class="comments-body" id="activityList" style="padding: 16px 0;">
+      </div>
     </div>
-
-    <div id="postOptionsOverlay" class="bottom-sheet-overlay" onclick="closePostOptions()"></div>
+    <div id="postOptionsOverlay" class="bottom-sheet-overlay" onclick="closePostOptions()">
+    </div>
     <div id="postOptionsSheet" class="bottom-sheet">
-        <div class="bs-handle"></div>
-        <div class="bs-menu">
-            <div class="bs-item" onclick="showToast('Showing Video Details...'); closePostOptions();"><i class="fa-solid fa-circle-info"></i> Details</div>
-            <div class="bs-item" onclick="saveCurrentPost(); closePostOptions();"><i class="fa-regular fa-bookmark"></i> Save</div>
-            <div class="bs-item" onclick="showToast('Opening Share Menu...'); closePostOptions();"><i class="fa-solid fa-share-nodes"></i> Share</div>
-            <div class="bs-item" onclick="showToast('Downloading...'); closePostOptions();"><i class="fa-solid fa-download"></i> Download</div>
-            <div class="bs-item danger" onclick="showToast('Reported to Admins', 'error'); closePostOptions();"><i class="fa-regular fa-flag"></i> Report</div>
-            <div class="bs-item danger" onclick="showToast('User Blocked', 'error'); closePostOptions();"><i class="fa-solid fa-ban"></i> Block user</div>
+      <div class="bs-handle">
+      </div>
+      <div class="bs-menu">
+        <div class="bs-item" onclick="showToast(&#39;Showing Video Details...&#39;); closePostOptions();">
+          <i class="fa-solid fa-circle-info"></i>
+          Details
         </div>
+        <div class="bs-item" onclick="saveCurrentPost(); closePostOptions();">
+          <i class="fa-regular fa-bookmark"></i>
+          Save
+        </div>
+        <div class="bs-item" onclick="showToast(&#39;Opening Share Menu...&#39;); closePostOptions();">
+          <i class="fa-solid fa-share-nodes"></i>
+          Share
+        </div>
+        <div class="bs-item" onclick="showToast(&#39;Downloading...&#39;); closePostOptions();">
+          <i class="fa-solid fa-download"></i>
+          Download
+        </div>
+        <div class="bs-item danger" onclick="showToast(&#39;Reported to Admins&#39;, &#39;error&#39;); closePostOptions();">
+          <i class="fa-regular fa-flag"></i>
+          Report
+        </div>
+        <div class="bs-item danger" onclick="showToast(&#39;User Blocked&#39;, &#39;error&#39;); closePostOptions();">
+          <i class="fa-solid fa-ban"></i>
+          Block user
+        </div>
+      </div>
     </div>
-
-    <div id="quickMenuOverlay" class="quick-menu-overlay" onclick="toggleQuickMenu()"></div>
+    <div id="quickMenuOverlay" class="quick-menu-overlay" onclick="toggleQuickMenu()">
+    </div>
     <div id="quickMenu" class="quick-menu">
-        <div class="qm-grid">
-            <a href="settings.html" class="qm-item"><div class="qm-icon"><i class="fa-solid fa-gear"></i></div><span>Settings</span></a>
-            <a href="store.app.html" class="qm-item"><div class="qm-icon"><i class="fa-brands fa-android"></i></div><span>APK Apps</span></a>
-            <a href="social.html" class="qm-item"><div class="qm-icon"><i class="fa-solid fa-users"></i></div><span>Social</span></a>
-            <a href="Monetization.html" class="qm-item"><div class="qm-icon" style="color: #fbbf24; border-color: rgba(251, 191, 36, 0.3);"><i class="fa-solid fa-sack-dollar"></i></div><span style="color: #fbbf24;">Monetize</span></a>
+      <div class="qm-grid">
+        <a href="settings.html" class="qm-item">        <div class="qm-icon">
+          <i class="fa-solid fa-gear"></i>
         </div>
+        <span>        Settings
+</span>
+</a>
+        <a href="store.app.html" class="qm-item">        <div class="qm-icon">
+          <i class="fa-brands fa-android"></i>
+        </div>
+        <span>        APK Apps
+</span>
+</a>
+        <a href="social.html" class="qm-item">        <div class="qm-icon">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <span>        Social
+</span>
+</a>
+        <a href="Monetization.html" class="qm-item">        <div class="qm-icon" style="color: #fbbf24; border-color: rgba(251, 191, 36, 0.3);">
+          <i class="fa-solid fa-sack-dollar"></i>
+        </div>
+        <span style="color: #fbbf24;">        Monetize
+</span>
+</a>
+      </div>
     </div>
-
     <div class="bottom-nav-wrapper" id="mainBottomNav">
-        <nav class="bottom-nav">
-            <button class="nav-item active"><i class="fa-solid fa-house"></i></button>
-            <button class="nav-item" onclick="openSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <button class="nav-item" style="background: var(--accent-primary); color: #fff;" onclick="openCreatePostModal()"><i class="fa-solid fa-plus"></i></button>
-            <button class="nav-item" onclick="window.location.href='user_profile.html'"><i class="fa-regular fa-user"></i></button>
-            <button class="nav-item" onclick="toggleQuickMenu()"><i class="fa-solid fa-layer-group"></i></button>
-        </nav>
+      <nav class="bottom-nav">
+        <button class="nav-item active">
+          <i class="fa-solid fa-house"></i>
+        </button>
+        <button class="nav-item" onclick="openSearch()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button class="nav-item" style="background: var(--accent-primary); color: #fff;" onclick="openCreatePostModal()">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+        <button class="nav-item" onclick="window.location.href=&#39;user_profile.html&#39;">
+          <i class="fa-regular fa-user"></i>
+        </button>
+        <button class="nav-item" onclick="toggleQuickMenu()">
+          <i class="fa-solid fa-layer-group"></i>
+        </button>
+      </nav>
     </div>
-
     <div class="fs-screen" id="infoModal" style="z-index: 4500;">
-        <div class="fs-header">
-            <button class="back-btn" onclick="closeInfoModal()"><i class="fa-solid fa-xmark"></i></button>
-            <h2 id="infoModalTitle">Title</h2>
-            <div style="width:40px;"></div>
+      <div class="fs-header">
+        <button class="back-btn" onclick="closeInfoModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2 id="infoModalTitle">
+          Title
+        </h2>
+        <div style="width:40px;">
         </div>
-        <div class="comments-body"><div class="fs-text-content"><p id="infoModalText">Content goes here...</p></div></div>
+      </div>
+      <div class="comments-body">
+        <div class="fs-text-content">
+          <p id="infoModalText">
+            Content goes here...
+          </p>
+        </div>
+      </div>
     </div>
-
     <div class="fs-screen" id="fullscreenVideoModal">
-        <div class="fs-vid-top">
-            <div class="fs-vid-user"><img id="fsVidAvatar" src=""><span id="fsVidName">User</span></div>
-            <button class="back-btn" onclick="closeFullscreenVideo()" style="background:rgba(255,255,255,0.2); color:#fff; border:none;"><i class="fa-solid fa-xmark"></i></button>
+      <div class="fs-vid-top">
+        <div class="fs-vid-user">
+          <img id="fsVidAvatar" src="" />
+          <span id="fsVidName">          User
+</span>
         </div>
-        <div style="flex: 1; position: relative; display: flex; align-items: center; justify-content: center; width: 100%;" onclick="toggleFsVideo()">
-            <video id="fsVideoPlayer" playsinline style="width:100%; height:100%; object-fit:contain; outline:none; pointer-events:none;"></video>
-            <div class="smart-play-btn" id="fsPlayBtn" style="pointer-events: none; display: none;"><i class="fa-solid fa-play"></i></div>
+        <button class="back-btn" onclick="closeFullscreenVideo()" style="background:rgba(255,255,255,0.2); color:#fff; border:none;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div style="flex: 1; position: relative; display: flex; align-items: center; justify-content: center; width: 100%;" onclick="toggleFsVideo()">
+        <video id="fsVideoPlayer" playsinline="" style="width:100%; height:100%; object-fit:contain; outline:none; pointer-events:none;">
+        </video>
+        <div class="smart-play-btn" id="fsPlayBtn" style="pointer-events: none; display: none;">
+          <i class="fa-solid fa-play"></i>
         </div>
+      </div>
     </div>
-
     <div class="fs-screen" id="notificationsModal" style="z-index: 3500; background: var(--bg-body);">
-        <div class="fs-header">
-            <button class="back-btn" onclick="closeNotifications()"><i class="fa-solid fa-arrow-left"></i></button>
-            <h2>Notifications</h2>
-            <button style="color:var(--accent-primary); font-size:14px; font-weight:700; background:transparent; border:none; cursor:pointer;" onclick="markAllNotifsRead()">Read All</button>
-        </div>
-        <div class="comments-body" id="notifList" style="padding: 10px;"></div>
+      <div class="fs-header">
+        <button class="back-btn" onclick="closeNotifications()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h2>
+          Notifications
+        </h2>
+        <button style="color:var(--accent-primary); font-size:14px; font-weight:700; background:transparent; border:none; cursor:pointer;" onclick="markAllNotifsRead()">
+          Read All
+        </button>
+      </div>
+      <div class="comments-body" id="notifList" style="padding: 10px;">
+      </div>
     </div>
-
     <div class="fs-screen" id="createPostModal" style="z-index: 4000; background: var(--bg-body);">
-        <div class="fs-header" style="border-bottom: none;">
-            <button class="back-btn" onclick="closeCreatePostModal()"><i class="fa-solid fa-xmark"></i></button>
-            <h2>New Post</h2>
-            <button style="background:var(--accent-primary); color:#fff; padding:6px 16px; border-radius:50px; font-weight:700; font-size:13px; border:none;" onclick="submitNewPost()">Share</button>
+      <div class="fs-header" style="border-bottom: none;">
+        <button class="back-btn" onclick="closeCreatePostModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2>
+          New Post
+        </h2>
+        <button style="background:var(--accent-primary); color:#fff; padding:6px 16px; border-radius:50px; font-weight:700; font-size:13px; border:none;" onclick="submitNewPost()">
+          Share
+        </button>
+      </div>
+      <div class="create-post-body" style="padding: 0 16px;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom: 16px;">
+          <img id="cpUserAvatar" src="" style="width:44px; height:44px; border-radius:50%; object-fit:cover;" />
+          <div>
+            <div id="cpUserName" style="font-weight:700; font-size:15px; color:#fff;">
+              User
+            </div>
+            <div onclick="togglePrivacy()" style="background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; margin-top: 4px; border: 1px solid var(--border-light); transition: 0.2s;">
+              <i class="fa-solid fa-globe" id="privacyIcon" style="color:var(--accent-primary)"></i>
+              <span id="privacyText">              Public
+</span>
+              <i class="fa-solid fa-caret-down" style="color:var(--text-muted); margin-left:4px;"></i>
+            </div>
+          </div>
         </div>
-        <div class="create-post-body" style="padding: 0 16px;">
-            
-            <div style="display:flex; align-items:center; gap:12px; margin-bottom: 16px;">
-                <img id="cpUserAvatar" src="" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
-                <div>
-                    <div id="cpUserName" style="font-weight:700; font-size:15px; color:#fff;">User</div>
-                    <div onclick="togglePrivacy()" style="background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; margin-top: 4px; border: 1px solid var(--border-light); transition: 0.2s;">
-                        <i class="fa-solid fa-globe" id="privacyIcon" style="color:var(--accent-primary)"></i> <span id="privacyText">Public</span> <i class="fa-solid fa-caret-down" style="color:var(--text-muted); margin-left:4px;"></i>
-                    </div>
-                </div>
-            </div>
-
-            <textarea id="postCaptionInput" placeholder="What's on your mind?" style="width:100%; background:transparent; border:none; outline:none; color:#fff; font-size:16px; resize:none; min-height:80px; font-family:inherit;"></textarea>
-            
-            <div id="mediaPreviewContainer" style="width:100%; max-height:350px; background:#000; border-radius:16px; position:relative; display:none; justify-content:center; align-items:center; overflow:hidden; margin-bottom:10px;">
-                <div id="mediaPreviewArea" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;"></div>
-                <button class="remove-media-btn" onclick="clearPostMedia()" style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.6); color:#fff; border-radius:50%; width:32px; height:32px; border: 1px solid rgba(255,255,255,0.2);"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <div id="audioPreviewContainer" style="display:none; width:100%; background:rgba(255,255,255,0.05); padding:10px 15px; border-radius:12px; margin-bottom:10px; position:relative; border: 1px solid var(--border-light);">
-                <div style="font-size:12px; font-weight:700; color:var(--danger-color); margin-bottom:8px; display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-music"></i> Attached Audio</div>
-                <audio id="postAudioElement" controls style="width:100%; height:35px;"></audio>
-                <button onclick="removeAudio()" style="position:absolute; top:10px; right:15px; background:rgba(0,0,0,0.5); color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-xmark" style="font-size:12px;"></i></button>
-            </div>
-
-            <div id="locationDisplayContainer" style="display:none; align-items:center; gap:8px; margin-bottom:10px; padding:8px 16px; background:rgba(255,255,255,0.05); border-radius:50px; font-size:13px; font-weight:600; color:var(--text-main); width:max-content; border: 1px solid var(--border-light);">
-                <i class="fa-solid fa-location-dot" style="color:#ef4444;"></i>
-                <span id="locationText"></span>
-                <i class="fa-solid fa-xmark" style="cursor:pointer; color:var(--text-muted); margin-left:8px;" onclick="removeLocation()"></i>
-            </div>
-            
-            <div id="filterStrip" class="filter-strip">
-                <div class="filter-thumb active" onclick="applyFilter('none', this)">
-                    <img src="" class="filter-thumb-img dummy-preview">
-                    <span class="filter-name">Normal</span>
-                </div>
-                <div class="filter-thumb" onclick="applyFilter('contrast(1.2) saturate(1.35)', this)">
-                    <img src="" class="filter-thumb-img dummy-preview" style="filter: contrast(1.2) saturate(1.35);">
-                    <span class="filter-name">Clarendon</span>
-                </div>
-                <div class="filter-thumb" onclick="applyFilter('brightness(1.05) hue-rotate(150deg)', this)">
-                    <img src="" class="filter-thumb-img dummy-preview" style="filter: brightness(1.05) hue-rotate(150deg);">
-                    <span class="filter-name">Gingham</span>
-                </div>
-                <div class="filter-thumb" onclick="applyFilter('grayscale(1) contrast(1.1)', this)">
-                    <img src="" class="filter-thumb-img dummy-preview" style="filter: grayscale(1) contrast(1.1);">
-                    <span class="filter-name">Moon</span>
-                </div>
-                <div class="filter-thumb" onclick="applyFilter('sepia(0.25) contrast(1.2)', this)">
-                    <img src="" class="filter-thumb-img dummy-preview" style="filter: sepia(0.25) contrast(1.2);">
-                    <span class="filter-name">Lark</span>
-                </div>
-            </div>
-
-            <div class="cp-toolbar">
-                <div class="cp-tool-btn" onclick="attachLocation()"><i class="fa-solid fa-location-dot" style="color:#ef4444;"></i> Location</div>
-                <div class="cp-tool-btn" onclick="showToast('Tag mode activated', 'success')"><i class="fa-solid fa-user-tag" style="color:#10b981;"></i> Tag People</div>
-                <div class="cp-tool-btn" onclick="document.getElementById('postMusicInput').click()"><i class="fa-solid fa-music" style="color:#ef4444;"></i> Add Music</div>
-                <div class="cp-tool-btn" onclick="toggleComments()"><i class="fa-solid fa-comment" id="cpCommentIcon"></i> <span id="cpCommentText">Allow Comments</span></div>
-            </div>
-
-            <div style="padding-top: 10px; margin-top: auto; padding-bottom: 20px;">
-                <button id="addMediaBigBtn" onclick="document.getElementById('postMediaInput').click()" style="width:100%; padding:14px; background:var(--accent-primary); border-radius:16px; color:#fff; font-weight:700; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
-                    <i class="fa-solid fa-photo-film" style="font-size:20px;"></i> Select Photo / Video
-                </button>
-            </div>
+        <textarea id="postCaptionInput" placeholder="What&#39;s on your mind?" style="width:100%; background:transparent; border:none; outline:none; color:#fff; font-size:16px; resize:none; min-height:80px; font-family:inherit;">
+        </textarea>
+        <div id="mediaPreviewContainer" style="width:100%; max-height:350px; background:#000; border-radius:16px; position:relative; display:none; justify-content:center; align-items:center; overflow:hidden; margin-bottom:10px;">
+          <div id="mediaPreviewArea" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
+          </div>
+          <button class="remove-media-btn" onclick="clearPostMedia()" style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.6); color:#fff; border-radius:50%; width:32px; height:32px; border: 1px solid rgba(255,255,255,0.2);">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
+        <div id="audioPreviewContainer" style="display:none; width:100%; background:rgba(255,255,255,0.05); padding:10px 15px; border-radius:12px; margin-bottom:10px; position:relative; border: 1px solid var(--border-light);">
+          <div style="font-size:12px; font-weight:700; color:var(--danger-color); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <i class="fa-solid fa-music"></i>
+            Attached Audio
+          </div>
+          <audio id="postAudioElement" controls="" style="width:100%; height:35px;">
+          </audio>
+          <button onclick="removeAudio()" style="position:absolute; top:10px; right:15px; background:rgba(0,0,0,0.5); color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center;">
+            <i class="fa-solid fa-xmark" style="font-size:12px;"></i>
+          </button>
+        </div>
+        <div id="locationDisplayContainer" style="display:none; align-items:center; gap:8px; margin-bottom:10px; padding:8px 16px; background:rgba(255,255,255,0.05); border-radius:50px; font-size:13px; font-weight:600; color:var(--text-main); width:max-content; border: 1px solid var(--border-light);">
+          <i class="fa-solid fa-location-dot" style="color:#ef4444;"></i>
+          <span id="locationText"></span>
+          <i class="fa-solid fa-xmark" style="cursor:pointer; color:var(--text-muted); margin-left:8px;" onclick="removeLocation()"></i>
+        </div>
+        <div id="filterStrip" class="filter-strip">
+          <div class="filter-thumb active" onclick="applyFilter(&#39;none&#39;, this)">
+            <img src="" class="filter-thumb-img dummy-preview" />
+            <span class="filter-name">            Normal
+</span>
+          </div>
+          <div class="filter-thumb" onclick="applyFilter(&#39;contrast(1.2) saturate(1.35)&#39;, this)">
+            <img src="" class="filter-thumb-img dummy-preview" style="filter: contrast(1.2) saturate(1.35);" />
+            <span class="filter-name">            Clarendon
+</span>
+          </div>
+          <div class="filter-thumb" onclick="applyFilter(&#39;brightness(1.05) hue-rotate(150deg)&#39;, this)">
+            <img src="" class="filter-thumb-img dummy-preview" style="filter: brightness(1.05) hue-rotate(150deg);" />
+            <span class="filter-name">            Gingham
+</span>
+          </div>
+          <div class="filter-thumb" onclick="applyFilter(&#39;grayscale(1) contrast(1.1)&#39;, this)">
+            <img src="" class="filter-thumb-img dummy-preview" style="filter: grayscale(1) contrast(1.1);" />
+            <span class="filter-name">            Moon
+</span>
+          </div>
+          <div class="filter-thumb" onclick="applyFilter(&#39;sepia(0.25) contrast(1.2)&#39;, this)">
+            <img src="" class="filter-thumb-img dummy-preview" style="filter: sepia(0.25) contrast(1.2);" />
+            <span class="filter-name">            Lark
+</span>
+          </div>
+        </div>
+        <div class="cp-toolbar">
+          <div class="cp-tool-btn" onclick="attachLocation()">
+            <i class="fa-solid fa-location-dot" style="color:#ef4444;"></i>
+            Location
+          </div>
+          <div class="cp-tool-btn" onclick="showToast(&#39;Tag mode activated&#39;, &#39;success&#39;)">
+            <i class="fa-solid fa-user-tag" style="color:#10b981;"></i>
+            Tag People
+          </div>
+          <div class="cp-tool-btn" onclick="document.getElementById(&#39;postMusicInput&#39;).click()">
+            <i class="fa-solid fa-music" style="color:#ef4444;"></i>
+            Add Music
+          </div>
+          <div class="cp-tool-btn" onclick="toggleComments()">
+            <i class="fa-solid fa-comment" id="cpCommentIcon"></i>
+            <span id="cpCommentText">            Allow Comments
+</span>
+          </div>
+        </div>
+        <div style="padding-top: 10px; margin-top: auto; padding-bottom: 20px;">
+          <button id="addMediaBigBtn" onclick="document.getElementById(&#39;postMediaInput&#39;).click()" style="width:100%; padding:14px; background:var(--accent-primary); border-radius:16px; color:#fff; font-weight:700; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+            <i class="fa-solid fa-photo-film" style="font-size:20px;"></i>
+            Select Photo / Video
+          </button>
+        </div>
+      </div>
     </div>
-
     <div class="fs-screen" id="commentsModal" style="z-index: 3000;">
-        <div class="fs-header"><button class="back-btn" onclick="closeCommentsModal()"><i class="fa-solid fa-arrow-left"></i></button><h2>Comments</h2><div style="width:40px;"></div></div>
-        <div class="comments-body" id="commentsList"></div>
-        <div id="replyBanner" class="reply-active-banner"><span id="replyingToText">Replying...</span><i class="fa-solid fa-xmark" onclick="cancelReply()" style="cursor:pointer; background:rgba(0,0,0,0.3); padding:4px 6px; border-radius:50%;"></i></div>
-        <div class="comment-input-area">
-            <div class="comment-input-box"><input type="text" id="commentInput" placeholder="Write a comment..."></div>
-            <button class="comment-submit-btn" onclick="submitComment()"><i class="fa-solid fa-paper-plane"></i></button>
+      <div class="fs-header">
+        <button class="back-btn" onclick="closeCommentsModal()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h2>
+          Comments
+        </h2>
+        <div style="width:40px;">
         </div>
+      </div>
+      <div class="comments-body" id="commentsList">
+      </div>
+      <div id="replyBanner" class="reply-active-banner">
+        <span id="replyingToText">        Replying...
+</span>
+        <i class="fa-solid fa-xmark" onclick="cancelReply()" style="cursor:pointer; background:rgba(0,0,0,0.3); padding:4px 6px; border-radius:50%;"></i>
+      </div>
+      <div class="comment-input-area">
+        <div class="comment-input-box">
+          <input type="text" id="commentInput" placeholder="Write a comment..." />
+        </div>
+        <button class="comment-submit-btn" onclick="submitComment()">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
     </div>
-
     <div class="fs-screen" id="storyViewerModal" style="z-index: 99999; background:#000;">
-        <div class="story-viewer-header">
-            <div id="storyProgressBars" class="story-progress-container"></div>
-            <div class="story-user-info" onclick="window.location.href='user_profile.html?uid=' + viewingUid" style="cursor: pointer;">
-                <img id="svAvatar" src=""><div style="flex:1;"><div id="svName" class="name"></div><div id="svTime" class="time"></div></div>
+      <div class="story-viewer-header">
+        <div id="storyProgressBars" class="story-progress-container">
+        </div>
+        <div class="story-user-info" onclick="window.location.href=&#39;user_profile.html?uid=&#39; + viewingUid" style="cursor: pointer;">
+          <img id="svAvatar" src="" />
+          <div style="flex:1;">
+            <div id="svName" class="name">
             </div>
-            <button class="story-close" onclick="closeStoryViewer()"><i class="fa-solid fa-xmark"></i></button>
+            <div id="svTime" class="time">
+            </div>
+          </div>
         </div>
-        <div id="svContent" class="story-viewer-content"></div>
-        <div class="story-nav-area">
-            <div class="story-nav-left" onpointerdown="handleStoryPress()" onpointerup="handleStoryRelease('left')" onpointercancel="handleStoryRelease('left')"></div>
-            <div class="story-nav-right" onpointerdown="handleStoryPress()" onpointerup="handleStoryRelease('right')" onpointercancel="handleStoryRelease('right')"></div>
+        <button class="story-close" onclick="closeStoryViewer()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="svContent" class="story-viewer-content">
+      </div>
+      <div class="story-nav-area">
+        <div class="story-nav-left" onpointerdown="handleStoryPress()" onpointerup="handleStoryRelease(&#39;left&#39;)" onpointercancel="handleStoryRelease(&#39;left&#39;)">
         </div>
-        
-        <div id="storyCreatorControls" class="story-creator-controls" onclick="openStoryViewersList()">
-            <div style="display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-eye"></i> <span id="storyViewCount">0</span></div>
-            <div style="display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-heart" style="color:var(--danger-color)"></i> <span id="storyLikeCountLabel">0</span></div>
+        <div class="story-nav-right" onpointerdown="handleStoryPress()" onpointerup="handleStoryRelease(&#39;right&#39;)" onpointercancel="handleStoryRelease(&#39;right&#39;)">
         </div>
-        
-        <div id="storyViewerControls" class="story-viewer-controls">
-            <input type="text" id="storyReplyInput" class="story-reply-input" placeholder="Send message..." onfocus="handleStoryPress()" onblur="handleStoryRelease('right')">
-            <div class="story-action-btn" id="storyLikeBtn"><i class="fa-solid fa-fire" id="storyLikeIcon"></i></div>
+      </div>
+      <div id="storyCreatorControls" class="story-creator-controls" onclick="openStoryViewersList()">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-eye"></i>
+          <span id="storyViewCount">          0
+</span>
         </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-heart" style="color:var(--danger-color)"></i>
+          <span id="storyLikeCountLabel">          0
+</span>
+        </div>
+      </div>
+      <div id="storyViewerControls" class="story-viewer-controls">
+        <input type="text" id="storyReplyInput" class="story-reply-input" placeholder="Send message..." onfocus="handleStoryPress()" onblur="handleStoryRelease(&#39;right&#39;)" />
+        <div class="story-action-btn" id="storyLikeBtn">
+          <i class="fa-solid fa-fire" id="storyLikeIcon"></i>
+        </div>
+      </div>
     </div>
-
     <div class="viewers-modal" id="storyViewersModal">
-        <div style="flex:1;" onclick="closeStoryViewersList()"></div>
-        <div class="viewers-container">
-            <div class="viewers-header">
-                <h3>Story Insights</h3>
-                <div class="insights-grid">
-                    <div class="insight-box">
-                        <div class="insight-val" id="stModalViewCount">0</div>
-                        <div class="insight-lbl">Total Views</div>
-                    </div>
-                    <div class="insight-box">
-                        <div class="insight-val" id="stModalLikeCount" style="color:var(--danger-color)">0</div>
-                        <div class="insight-lbl">Total Likes</div>
-                    </div>
-                </div>
-                <div class="viewers-close" onclick="closeStoryViewersList()"><i class="fa-solid fa-xmark"></i></div>
+      <div style="flex:1;" onclick="closeStoryViewersList()">
+      </div>
+      <div class="viewers-container">
+        <div class="viewers-header">
+          <h3>
+            Story Insights
+          </h3>
+          <div class="insights-grid">
+            <div class="insight-box">
+              <div class="insight-val" id="stModalViewCount">
+                0
+              </div>
+              <div class="insight-lbl">
+                Total Views
+              </div>
             </div>
-            <div class="viewers-list" id="storyViewersList"></div>
+            <div class="insight-box">
+              <div class="insight-val" id="stModalLikeCount" style="color:var(--danger-color)">
+                0
+              </div>
+              <div class="insight-lbl">
+                Total Likes
+              </div>
+            </div>
+          </div>
+          <div class="viewers-close" onclick="closeStoryViewersList()">
+            <i class="fa-solid fa-xmark"></i>
+          </div>
         </div>
+        <div class="viewers-list" id="storyViewersList">
+        </div>
+      </div>
     </div>
-
     <script>
-        // GLOBAL VARIABLES
+      // GLOBAL VARIABLES
         let storyGroups = {}; 
         let viewingUid = null; let viewingIndex = 0; let storyTimer = null; let storyProgressWidth = 0; let isPaused = false;
-        let currentPrivacy = 'public';
-        let selectedFilterCSS = 'none';
+        let currentPrivacy = &#39;public&#39;;
+        let selectedFilterCSS = &#39;none&#39;;
         let commentsAllowed = true;
         let selectedAudioFile = null;
-        let selectedLocation = "";
+        let selectedLocation = &#34;&#34;;
 
         const firebaseConfig = {
-            apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
-            authDomain: "fahimn.co.in",
-            databaseURL: "https://fahimn-co-in-default-rtdb.firebaseio.com",
-            projectId: "fahimn-co-in",
-            storageBucket: "fahimn-co-in.firebasestorage.app",
-            messagingSenderId: "698585907618",
-            appId: "1:698585907618:web:c8e4a6646b6b8f5c7932fb"
+            apiKey: &#34;AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw&#34;,
+            authDomain: &#34;fahimn.co.in&#34;,
+            databaseURL: &#34;https://fahimn-co-in-default-rtdb.firebaseio.com&#34;,
+            projectId: &#34;fahimn-co-in&#34;,
+            storageBucket: &#34;fahimn-co-in.firebasestorage.app&#34;,
+            messagingSenderId: &#34;698585907618&#34;,
+            appId: &#34;1:698585907618:web:c8e4a6646b6b8f5c7932fb&#34;
         };
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const auth = firebase.auth();
 
         let currentUid = null; let currentUserData = null; let allUsersData = [];
-        let activeFilter = 'all';
+        let activeFilter = &#39;all&#39;;
 
-        const verifiedRedBadgeSVG = `<span class="verified-icon" style="display:inline-flex; align-items:center; justify-content:center; margin-left:4px;"><svg aria-label="Verified" fill="#ef4444" height="14" viewBox="0 0 40 40" width="14"><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg></span>`;
+        const verifiedRedBadgeSVG = `&lt;span class=&#34;verified-icon&#34; style=&#34;display:inline-flex; align-items:center; justify-content:center; margin-left:4px;&#34;&gt;&lt;svg aria-label=&#34;Verified&#34; fill=&#34;#ef4444&#34; height=&#34;14&#34; viewBox=&#34;0 0 40 40&#34; width=&#34;14&#34;&gt;&lt;path d=&#34;M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z&#34; fill-rule=&#34;evenodd&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;`;
 
         function formatStat(num) {
-            if (!num) return "0";
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            if (!num) return &#34;0&#34;;
+            if (num &gt;= 1000000) return (num / 1000000).toFixed(1) + &#39;M&#39;;
+            if (num &gt;= 1000) return (num / 1000).toFixed(1) + &#39;K&#39;;
             return num.toString();
         }
 
-        function showToast(msg, type='info') { 
-            const box = document.getElementById('toastBox'); 
-            const toast = document.createElement('div'); 
-            toast.className = 'toast'; 
-            let iconColor = type === 'error' ? '#ef4444' : (type === 'success' ? '#10b981' : '#3b82f6');
-            let iconName = type === 'error' ? 'fa-circle-exclamation' : (type === 'success' ? 'fa-circle-check' : 'fa-circle-info');
-            toast.innerHTML = `<i class="fa-solid ${iconName}" style="color: ${iconColor}; margin-right: 8px; font-size: 15px;"></i>${msg}`; 
+        function showToast(msg, type=&#39;info&#39;) { 
+            const box = document.getElementById(&#39;toastBox&#39;); 
+            const toast = document.createElement(&#39;div&#39;); 
+            toast.className = &#39;toast&#39;; 
+            let iconColor = type === &#39;error&#39; ? &#39;#ef4444&#39; : (type === &#39;success&#39; ? &#39;#10b981&#39; : &#39;#3b82f6&#39;);
+            let iconName = type === &#39;error&#39; ? &#39;fa-circle-exclamation&#39; : (type === &#39;success&#39; ? &#39;fa-circle-check&#39; : &#39;fa-circle-info&#39;);
+            toast.innerHTML = `&lt;i class=&#34;fa-solid ${iconName}&#34; style=&#34;color: ${iconColor}; margin-right: 8px; font-size: 15px;&#34;&gt;&lt;/i&gt;${msg}`; 
             box.appendChild(toast); 
-            setTimeout(() => toast.remove(), 2500); 
+            setTimeout(() =&gt; toast.remove(), 2500); 
         }
 
         // 🔥 SEARCH LOGIC 🔥
         window.openSearch = function() {
-            document.getElementById('searchModal').classList.add('active');
-            document.getElementById('searchInput').focus();
+            document.getElementById(&#39;searchModal&#39;).classList.add(&#39;active&#39;);
+            document.getElementById(&#39;searchInput&#39;).focus();
         };
         window.closeSearch = function() {
-            document.getElementById('searchModal').classList.remove('active');
-            document.getElementById('searchInput').value = '';
-            document.getElementById('searchResults').innerHTML = '<div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">Type a name to search</div>';
+            document.getElementById(&#39;searchModal&#39;).classList.remove(&#39;active&#39;);
+            document.getElementById(&#39;searchInput&#39;).value = &#39;&#39;;
+            document.getElementById(&#39;searchResults&#39;).innerHTML = &#39;&lt;div style=&#34;text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;&#34;&gt;Type a name to search&lt;/div&gt;&#39;;
         };
         window.performSearch = function() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const resultsDiv = document.getElementById('searchResults');
+            const query = document.getElementById(&#39;searchInput&#39;).value.toLowerCase().trim();
+            const resultsDiv = document.getElementById(&#39;searchResults&#39;);
             
             if(!query) {
-                resultsDiv.innerHTML = '<div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">Type a name to search</div>';
+                resultsDiv.innerHTML = &#39;&lt;div style=&#34;text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;&#34;&gt;Type a name to search&lt;/div&gt;&#39;;
                 return;
             }
             
-            let html = '';
-            allUsersData.forEach(user => {
-                const safeName = user.name || user.fullName || 'User';
-                const username = user.khatarnak_id || safeName.replace(/\s+/g, '').toLowerCase();
+            let html = &#39;&#39;;
+            allUsersData.forEach(user =&gt; {
+                const safeName = user.name || user.fullName || &#39;User&#39;;
+                const username = user.khatarnak_id || safeName.replace(/\s+/g, &#39;&#39;).toLowerCase();
                 
                 if(safeName.toLowerCase().includes(query) || username.includes(query)) {
-                    const dp = user.profile_image || user.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=1e293b&color=f8fafc`;
-                    const verifiedIcon = user.verified ? verifiedRedBadgeSVG : '';
+                    const dp = user.profile_image || user.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&amp;background=1e293b&amp;color=f8fafc`;
+                    const verifiedIcon = user.verified ? verifiedRedBadgeSVG : &#39;&#39;;
                     
                     html += `
-                    <div class="search-result-item" onclick="window.location.href='user_profile.html?uid=${user.uid}'">
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <img src="${dp}" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
-                            <div>
-                                <div style="font-weight:700; color:#fff; display:flex; align-items:center;">${escapeHTML(safeName)}${verifiedIcon}</div>
-                                <div style="font-size:12px; color:var(--text-muted);">@${escapeHTML(username)}</div>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="color:var(--text-muted);"></i>
-                    </div>`;
+                    &lt;div class=&#34;search-result-item&#34; onclick=&#34;window.location.href=&#39;user_profile.html?uid=${user.uid}&#39;&#34;&gt;
+                        &lt;div style=&#34;display:flex; align-items:center; gap:12px;&#34;&gt;
+                            &lt;img src=&#34;${dp}&#34; style=&#34;width:44px; height:44px; border-radius:50%; object-fit:cover;&#34;&gt;
+                            &lt;div&gt;
+                                &lt;div style=&#34;font-weight:700; color:#fff; display:flex; align-items:center;&#34;&gt;${escapeHTML(safeName)}${verifiedIcon}&lt;/div&gt;
+                                &lt;div style=&#34;font-size:12px; color:var(--text-muted);&#34;&gt;@${escapeHTML(username)}&lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;i class=&#34;fa-solid fa-chevron-right&#34; style=&#34;color:var(--text-muted);&#34;&gt;&lt;/i&gt;
+                    &lt;/div&gt;`;
                 }
             });
-            resultsDiv.innerHTML = html || '<div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">No users found</div>';
+            resultsDiv.innerHTML = html || &#39;&lt;div style=&#34;text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;&#34;&gt;No users found&lt;/div&gt;&#39;;
         };
 
         window.openInfoModal = function(title, text) {
-            document.getElementById('infoModalTitle').innerText = title;
-            document.getElementById('infoModalText').innerText = text;
-            document.getElementById('infoModal').classList.add('active');
+            document.getElementById(&#39;infoModalTitle&#39;).innerText = title;
+            document.getElementById(&#39;infoModalText&#39;).innerText = text;
+            document.getElementById(&#39;infoModal&#39;).classList.add(&#39;active&#39;);
         };
         window.closeInfoModal = function() {
-            document.getElementById('infoModal').classList.remove('active');
+            document.getElementById(&#39;infoModal&#39;).classList.remove(&#39;active&#39;);
         };
 
         window.openFullscreenVideo = function(videoUrl, userName, userAvatar, origVidId) {
             if(origVidId) {
                 const origVid = document.getElementById(origVidId);
-                if(origVid && !origVid.paused) {
+                if(origVid &amp;&amp; !origVid.paused) {
                     origVid.pause();
-                    const playBtn = document.getElementById(origVidId.replace('vid-', 'playBtn-'));
-                    if(playBtn) playBtn.style.display = 'flex';
+                    const playBtn = document.getElementById(origVidId.replace(&#39;vid-&#39;, &#39;playBtn-&#39;));
+                    if(playBtn) playBtn.style.display = &#39;flex&#39;;
                 }
             }
-            document.getElementById('fsVidAvatar').src = userAvatar;
-            document.getElementById('fsVidName').innerText = userName;
-            const player = document.getElementById('fsVideoPlayer');
-            const fsBtn = document.getElementById('fsPlayBtn');
+            document.getElementById(&#39;fsVidAvatar&#39;).src = userAvatar;
+            document.getElementById(&#39;fsVidName&#39;).innerText = userName;
+            const player = document.getElementById(&#39;fsVideoPlayer&#39;);
+            const fsBtn = document.getElementById(&#39;fsPlayBtn&#39;);
             player.src = videoUrl;
-            document.getElementById('fullscreenVideoModal').classList.add('active');
+            document.getElementById(&#39;fullscreenVideoModal&#39;).classList.add(&#39;active&#39;);
             player.play();
-            fsBtn.style.display = 'none';
+            fsBtn.style.display = &#39;none&#39;;
         };
         
         window.closeFullscreenVideo = function() {
-            const player = document.getElementById('fsVideoPlayer');
-            player.pause(); player.src = "";
-            document.getElementById('fullscreenVideoModal').classList.remove('active');
+            const player = document.getElementById(&#39;fsVideoPlayer&#39;);
+            player.pause(); player.src = &#34;&#34;;
+            document.getElementById(&#39;fullscreenVideoModal&#39;).classList.remove(&#39;active&#39;);
         };
 
         window.toggleFsVideo = function() {
-            const player = document.getElementById('fsVideoPlayer');
-            const fsBtn = document.getElementById('fsPlayBtn');
+            const player = document.getElementById(&#39;fsVideoPlayer&#39;);
+            const fsBtn = document.getElementById(&#39;fsPlayBtn&#39;);
             if (player.paused) {
-                player.play(); fsBtn.style.display = 'none';
+                player.play(); fsBtn.style.display = &#39;none&#39;;
             } else {
-                player.pause(); fsBtn.style.display = 'flex';
+                player.pause(); fsBtn.style.display = &#39;flex&#39;;
             }
         };
 
@@ -771,29 +1032,29 @@
             if(!currentUid) return;
             const refLink = `${window.location.origin}/auth.html?ref=${currentUid}`;
             if (navigator.share) {
-                navigator.share({ title: 'Join fahimn.co.in!', text: 'Create an account using my VIP link and we both get a ₹200 bonus!', url: refLink })
-                .catch(err => { copyToClipboardFallback(refLink); });
+                navigator.share({ title: &#39;Join fahimn.co.in!&#39;, text: &#39;Create an account using my VIP link and we both get a ₹200 bonus!&#39;, url: refLink })
+                .catch(err =&gt; { copyToClipboardFallback(refLink); });
             } else { copyToClipboardFallback(refLink); }
         };
 
         function copyToClipboardFallback(text) {
-            navigator.clipboard.writeText(text).then(() => { showToast('VIP Referral Link Copied!', 'success'); })
-            .catch(() => { showToast('Failed to copy link', 'error'); });
+            navigator.clipboard.writeText(text).then(() =&gt; { showToast(&#39;VIP Referral Link Copied!&#39;, &#39;success&#39;); })
+            .catch(() =&gt; { showToast(&#39;Failed to copy link&#39;, &#39;error&#39;); });
         }
 
         let lastScrollTop = 0; let isScrolling = false;
-        window.addEventListener('scroll', () => {
+        window.addEventListener(&#39;scroll&#39;, () =&gt; {
             if (!isScrolling) {
-                window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() =&gt; {
                     let st = window.pageYOffset || document.documentElement.scrollTop;
-                    const nav = document.getElementById('mainBottomNav');
-                    const header = document.getElementById('mainHeader');
-                    if (st > lastScrollTop && st > 50) { 
-                        nav.classList.add('hidden'); header.classList.add('hidden');
+                    const nav = document.getElementById(&#39;mainBottomNav&#39;);
+                    const header = document.getElementById(&#39;mainHeader&#39;);
+                    if (st &gt; lastScrollTop &amp;&amp; st &gt; 50) { 
+                        nav.classList.add(&#39;hidden&#39;); header.classList.add(&#39;hidden&#39;);
                     } else { 
-                        nav.classList.remove('hidden'); header.classList.remove('hidden');
+                        nav.classList.remove(&#39;hidden&#39;); header.classList.remove(&#39;hidden&#39;);
                     }
-                    lastScrollTop = st <= 0 ? 0 : st;
+                    lastScrollTop = st &lt;= 0 ? 0 : st;
                     isScrolling = false;
                 });
                 isScrolling = true;
@@ -803,90 +1064,90 @@
         window.toggleSmartVideo = function(vidId) {
             const vid = document.getElementById(vidId);
             if(!vid) return; 
-            const playBtn = document.getElementById(vidId.replace('vid-', 'playBtn-'));
-            if (vid.paused) { vid.play(); if(playBtn) playBtn.style.display = 'none'; } 
-            else { vid.pause(); if(playBtn) playBtn.style.display = 'flex'; }
+            const playBtn = document.getElementById(vidId.replace(&#39;vid-&#39;, &#39;playBtn-&#39;));
+            if (vid.paused) { vid.play(); if(playBtn) playBtn.style.display = &#39;none&#39;; } 
+            else { vid.pause(); if(playBtn) playBtn.style.display = &#39;flex&#39;; }
         };
 
         window.toggleQuickMenu = function() {
-            const menu = document.getElementById('quickMenu');
-            const overlay = document.getElementById('quickMenuOverlay');
-            menu.classList.toggle('active');
-            overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
+            const menu = document.getElementById(&#39;quickMenu&#39;);
+            const overlay = document.getElementById(&#39;quickMenuOverlay&#39;);
+            menu.classList.toggle(&#39;active&#39;);
+            overlay.style.display = menu.classList.contains(&#39;active&#39;) ? &#39;block&#39; : &#39;none&#39;;
         };
 
         window.toggleSidebar = function() {
-            const sidebar = document.getElementById('mainSidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-            if(sidebar.classList.contains('active')) { document.body.style.overflow = 'hidden'; } 
-            else { document.body.style.overflow = ''; }
+            const sidebar = document.getElementById(&#39;mainSidebar&#39;);
+            const overlay = document.getElementById(&#39;sidebarOverlay&#39;);
+            sidebar.classList.toggle(&#39;active&#39;);
+            overlay.classList.toggle(&#39;active&#39;);
+            if(sidebar.classList.contains(&#39;active&#39;)) { document.body.style.overflow = &#39;hidden&#39;; } 
+            else { document.body.style.overflow = &#39;&#39;; }
         };
 
         let currentOptionsPostId = null;
         window.openPostOptions = function(postId) {
             currentOptionsPostId = postId;
-            const sheet = document.getElementById('postOptionsSheet');
-            const overlay = document.getElementById('postOptionsOverlay');
-            sheet.classList.add('active'); overlay.classList.add('active');
+            const sheet = document.getElementById(&#39;postOptionsSheet&#39;);
+            const overlay = document.getElementById(&#39;postOptionsOverlay&#39;);
+            sheet.classList.add(&#39;active&#39;); overlay.classList.add(&#39;active&#39;);
         };
         window.closePostOptions = function() {
-            const sheet = document.getElementById('postOptionsSheet');
-            const overlay = document.getElementById('postOptionsOverlay');
-            sheet.classList.remove('active'); overlay.classList.remove('active');
+            const sheet = document.getElementById(&#39;postOptionsSheet&#39;);
+            const overlay = document.getElementById(&#39;postOptionsOverlay&#39;);
+            sheet.classList.remove(&#39;active&#39;); overlay.classList.remove(&#39;active&#39;);
         };
         window.saveCurrentPost = function() {
             if(!currentUid || !currentOptionsPostId) return;
             db.ref(`users/${currentUid}/saved/${currentOptionsPostId}`).set(Date.now());
-            showToast('Saved to My Activity!', 'success');
+            showToast(&#39;Saved to My Activity!&#39;, &#39;success&#39;);
         };
 
         let activityRef = null;
-        let currentActivityTab = 'liked';
+        let currentActivityTab = &#39;liked&#39;;
 
         window.openActivityModal = function() {
-            document.getElementById('activityModal').classList.add('active');
-            switchActivityTab('liked');
+            document.getElementById(&#39;activityModal&#39;).classList.add(&#39;active&#39;);
+            switchActivityTab(&#39;liked&#39;);
         }
         window.closeActivityModal = function() {
-            document.getElementById('activityModal').classList.remove('active');
+            document.getElementById(&#39;activityModal&#39;).classList.remove(&#39;active&#39;);
             if(activityRef) activityRef.off();
         }
         window.switchActivityTab = function(tab) {
             currentActivityTab = tab;
-            document.querySelectorAll('.act-tab').forEach(el => {
-                el.style.color = 'var(--text-muted)';
-                el.style.borderBottom = 'none';
+            document.querySelectorAll(&#39;.act-tab&#39;).forEach(el =&gt; {
+                el.style.color = &#39;var(--text-muted)&#39;;
+                el.style.borderBottom = &#39;none&#39;;
             });
-            const activeEl = document.getElementById(tab === 'liked' ? 'tabLiked' : 'tabSaved');
-            activeEl.style.color = 'var(--accent-primary)';
-            activeEl.style.borderBottom = '2px solid var(--accent-primary)';
+            const activeEl = document.getElementById(tab === &#39;liked&#39; ? &#39;tabLiked&#39; : &#39;tabSaved&#39;);
+            activeEl.style.color = &#39;var(--accent-primary)&#39;;
+            activeEl.style.borderBottom = &#39;2px solid var(--accent-primary)&#39;;
             loadActivityFeed();
         }
 
         function loadActivityFeed() {
-            const container = document.getElementById('activityList');
+            const container = document.getElementById(&#39;activityList&#39;);
             if(activityRef) activityRef.off();
             
-            container.innerHTML = '<div style="text-align:center; padding:40px;"><div class="spinner"></div></div>';
+            container.innerHTML = &#39;&lt;div style=&#34;text-align:center; padding:40px;&#34;&gt;&lt;div class=&#34;spinner&#34;&gt;&lt;/div&gt;&lt;/div&gt;&#39;;
             
-            activityRef = db.ref('social_feed').orderByChild('timestamp');
-            activityRef.on('value', snap => {
-                let html = ''; let posts = [];
-                snap.forEach(child => { posts.push({id: child.key, ...child.val()}); });
+            activityRef = db.ref(&#39;social_feed&#39;).orderByChild(&#39;timestamp&#39;);
+            activityRef.on(&#39;value&#39;, snap =&gt; {
+                let html = &#39;&#39;; let posts = [];
+                snap.forEach(child =&gt; { posts.push({id: child.key, ...child.val()}); });
                 posts.reverse(); 
                 
-                posts.forEach(post => {
-                    if (currentActivityTab === 'liked' && post.likes && post.likes[currentUid]) {
-                        html += buildRealPostHTML(post, 'act-');
-                    } else if (currentActivityTab === 'saved' && currentUserData && currentUserData.saved && currentUserData.saved[post.id]) {
-                        html += buildRealPostHTML(post, 'act-');
+                posts.forEach(post =&gt; {
+                    if (currentActivityTab === &#39;liked&#39; &amp;&amp; post.likes &amp;&amp; post.likes[currentUid]) {
+                        html += buildRealPostHTML(post, &#39;act-&#39;);
+                    } else if (currentActivityTab === &#39;saved&#39; &amp;&amp; currentUserData &amp;&amp; currentUserData.saved &amp;&amp; currentUserData.saved[post.id]) {
+                        html += buildRealPostHTML(post, &#39;act-&#39;);
                     }
                 });
                 
-                if(html === '') {
-                    container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted); font-weight:600;">No ${currentActivityTab} posts found.</div>`;
+                if(html === &#39;&#39;) {
+                    container.innerHTML = `&lt;div style=&#34;text-align:center; padding:40px; color:var(--text-muted); font-weight:600;&#34;&gt;No ${currentActivityTab} posts found.&lt;/div&gt;`;
                 } else {
                     container.innerHTML = html;
                 }
@@ -894,498 +1155,498 @@
         }
 
         function timeAgo(timestamp) {
-            if (!timestamp) return "Just now";
+            if (!timestamp) return &#34;Just now&#34;;
             const diff = new Date() - new Date(timestamp);
             const seconds = Math.floor(diff / 1000);
-            if (seconds < 60) return "Just now";
+            if (seconds &lt; 60) return &#34;Just now&#34;;
             const minutes = Math.floor(seconds / 60);
-            if (minutes < 60) return minutes + "m ago";
+            if (minutes &lt; 60) return minutes + &#34;m ago&#34;;
             const hours = Math.floor(minutes / 60);
-            if (hours < 24) return hours + "h ago";
+            if (hours &lt; 24) return hours + &#34;h ago&#34;;
             const days = Math.floor(hours / 24);
-            return days + "d ago";
+            return days + &#34;d ago&#34;;
         }
 
         function sendNotification(receiverId, type, referenceId, msgText) {
             if(!receiverId || receiverId === currentUid) return; 
-            const safeName = currentUserData.name || currentUserData.fullName || 'User';
-            const dp = currentUserData.profile_image || currentUserData.profilePic || '';
+            const safeName = currentUserData.name || currentUserData.fullName || &#39;User&#39;;
+            const dp = currentUserData.profile_image || currentUserData.profilePic || &#39;&#39;;
             db.ref(`notifications/${receiverId}`).push({
                 senderId: currentUid, senderName: safeName, senderPic: dp,
-                type: type, referenceId: referenceId || '', text: msgText || '',
+                type: type, referenceId: referenceId || &#39;&#39;, text: msgText || &#39;&#39;,
                 timestamp: firebase.database.ServerValue.TIMESTAMP, read: false
             });
         }
 
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) =&gt; {
             if (user) {
                 currentUid = user.uid;
                 
-                db.ref('users').on('value', snap => {
+                db.ref(&#39;users&#39;).on(&#39;value&#39;, snap =&gt; {
                     allUsersData = [];
-                    snap.forEach(child => { allUsersData.push({uid: child.key, ...child.val()}); });
+                    snap.forEach(child =&gt; { allUsersData.push({uid: child.key, ...child.val()}); });
                     
-                    const data = allUsersData.find(u => u.uid === currentUid) || {};
+                    const data = allUsersData.find(u =&gt; u.uid === currentUid) || {};
                     currentUserData = data;
 
-                    const safeName = data.name || data.fullName || data.full_name || user.displayName || 'VIP User';
-                    const username = data.khatarnak_id || String(safeName).replace(/\s+/g, '').toLowerCase();
-                    const dp = data.profile_image || data.profilePic || data.photoUrl || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=0d9488&color=fff`;
+                    const safeName = data.name || data.fullName || data.full_name || user.displayName || &#39;VIP User&#39;;
+                    const username = data.khatarnak_id || String(safeName).replace(/\s+/g, &#39;&#39;).toLowerCase();
+                    const dp = data.profile_image || data.profilePic || data.photoUrl || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&amp;background=0d9488&amp;color=fff`;
                     
-                    document.getElementById('myStoryAvatar').src = dp;
-                    document.getElementById('sidebarAvatar').src = dp;
-                    document.getElementById('cpUserAvatar').src = dp;
-                    document.getElementById('cpUserName').innerText = safeName;
+                    document.getElementById(&#39;myStoryAvatar&#39;).src = dp;
+                    document.getElementById(&#39;sidebarAvatar&#39;).src = dp;
+                    document.getElementById(&#39;cpUserAvatar&#39;).src = dp;
+                    document.getElementById(&#39;cpUserName&#39;).innerText = safeName;
                     
-                    const verifiedIcon = data.verified ? verifiedRedBadgeSVG : '';
-                    document.getElementById('sidebarName').innerHTML = `${escapeHTML(safeName)}${verifiedIcon}`;
+                    const verifiedIcon = data.verified ? verifiedRedBadgeSVG : &#39;&#39;;
+                    document.getElementById(&#39;sidebarName&#39;).innerHTML = `${escapeHTML(safeName)}${verifiedIcon}`;
                     
-                    const usernameEl = document.querySelector('.sp-username');
-                    if(usernameEl) usernameEl.innerText = '@' + escapeHTML(username);
+                    const usernameEl = document.querySelector(&#39;.sp-username&#39;);
+                    if(usernameEl) usernameEl.innerText = &#39;@&#39; + escapeHTML(username);
 
                     if(data.display_followers) {
-                        document.getElementById('userFollowersCount').innerText = data.display_followers;
+                        document.getElementById(&#39;userFollowersCount&#39;).innerText = data.display_followers;
                     } else {
-                        db.ref(`users/${currentUid}/followers`).once('value', followSnap => {
-                            document.getElementById('userFollowersCount').innerText = formatStat(followSnap.numChildren());
+                        db.ref(`users/${currentUid}/followers`).once(&#39;value&#39;, followSnap =&gt; {
+                            document.getElementById(&#39;userFollowersCount&#39;).innerText = formatStat(followSnap.numChildren());
                         });
                     }
 
-                    db.ref(`users/${currentUid}/following`).once('value', followingSnap => {
-                        document.getElementById('userFollowingCount').innerText = formatStat(followingSnap.numChildren());
+                    db.ref(`users/${currentUid}/following`).once(&#39;value&#39;, followingSnap =&gt; {
+                        document.getElementById(&#39;userFollowingCount&#39;).innerText = formatStat(followingSnap.numChildren());
                     });
                 });
 
-                db.ref('social_feed').on('value', (snap) => {
+                db.ref(&#39;social_feed&#39;).on(&#39;value&#39;, (snap) =&gt; {
                     let count = 0;
-                    snap.forEach(child => {
+                    snap.forEach(child =&gt; {
                         const p = child.val();
                         if(p.uid === currentUid || p.senderId === currentUid) count++;
                     });
-                    document.getElementById('userPostsCount').innerText = formatStat(count);
+                    document.getElementById(&#39;userPostsCount&#39;).innerText = formatStat(count);
                 });
 
-                db.ref(`notifications/${currentUid}`).orderByChild('timestamp').on('value', snap => {
-                    let unreadCount = 0; let notifHTML = ''; let notifArr = [];
-                    snap.forEach(child => { notifArr.push({id: child.key, ...child.val()}); });
+                db.ref(`notifications/${currentUid}`).orderByChild(&#39;timestamp&#39;).on(&#39;value&#39;, snap =&gt; {
+                    let unreadCount = 0; let notifHTML = &#39;&#39;; let notifArr = [];
+                    snap.forEach(child =&gt; { notifArr.push({id: child.key, ...child.val()}); });
                     notifArr.reverse(); 
                     
                     if(notifArr.length === 0) {
-                        document.getElementById('notifList').innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted); font-weight:600;">No notifications yet.</div>';
-                        document.getElementById('notifBadge').style.display = 'none';
+                        document.getElementById(&#39;notifList&#39;).innerHTML = &#39;&lt;div style=&#34;text-align:center; padding:40px; color:var(--text-muted); font-weight:600;&#34;&gt;No notifications yet.&lt;/div&gt;&#39;;
+                        document.getElementById(&#39;notifBadge&#39;).style.display = &#39;none&#39;;
                         return;
                     }
 
-                    notifArr.forEach(n => {
+                    notifArr.forEach(n =&gt; {
                         if(!n.read) unreadCount++;
-                        let actionText = '';
-                        if(n.type === 'like_post') actionText = 'liked your post.';
-                        else if(n.type === 'comment_post') actionText = `commented: "${escapeHTML(n.text)}"`;
-                        else if(n.type === 'reply_comment') actionText = `replied: "${escapeHTML(n.text)}"`;
-                        else if(n.type === 'like_story') actionText = 'reacted to your story.';
-                        else actionText = 'interacted with you.';
+                        let actionText = &#39;&#39;;
+                        if(n.type === &#39;like_post&#39;) actionText = &#39;liked your post.&#39;;
+                        else if(n.type === &#39;comment_post&#39;) actionText = `commented: &#34;${escapeHTML(n.text)}&#34;`;
+                        else if(n.type === &#39;reply_comment&#39;) actionText = `replied: &#34;${escapeHTML(n.text)}&#34;`;
+                        else if(n.type === &#39;like_story&#39;) actionText = &#39;reacted to your story.&#39;;
+                        else actionText = &#39;interacted with you.&#39;;
 
-                        let unreadDot = !n.read ? `<div style="width:8px; height:8px; border-radius:50%; background:var(--danger-color); margin-left:auto;"></div>` : '';
+                        let unreadDot = !n.read ? `&lt;div style=&#34;width:8px; height:8px; border-radius:50%; background:var(--danger-color); margin-left:auto;&#34;&gt;&lt;/div&gt;` : &#39;&#39;;
 
                         notifHTML += `
-                            <div class="comment-item" style="display:flex; align-items:center; gap:12px; cursor:pointer; opacity:${n.read ? '0.6' : '1'}; border-color:${n.read ? 'transparent' : 'rgba(255,255,255,0.1)'}" onclick="markNotifRead('${n.id}')">
-                                <img src="${n.senderPic || 'https://ui-avatars.com/api/?name=U'}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
-                                <div style="flex:1;">
-                                    <div style="font-size:14px; color:#fff;"><b>${escapeHTML(n.senderName)}</b> ${actionText}</div>
-                                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">${timeAgo(n.timestamp)}</div>
-                                </div>
+                            &lt;div class=&#34;comment-item&#34; style=&#34;display:flex; align-items:center; gap:12px; cursor:pointer; opacity:${n.read ? &#39;0.6&#39; : &#39;1&#39;}; border-color:${n.read ? &#39;transparent&#39; : &#39;rgba(255,255,255,0.1)&#39;}&#34; onclick=&#34;markNotifRead(&#39;${n.id}&#39;)&#34;&gt;
+                                &lt;img src=&#34;${n.senderPic || &#39;https://ui-avatars.com/api/?name=U&#39;}&#34; style=&#34;width:40px; height:40px; border-radius:50%; object-fit:cover;&#34;&gt;
+                                &lt;div style=&#34;flex:1;&#34;&gt;
+                                    &lt;div style=&#34;font-size:14px; color:#fff;&#34;&gt;&lt;b&gt;${escapeHTML(n.senderName)}&lt;/b&gt; ${actionText}&lt;/div&gt;
+                                    &lt;div style=&#34;font-size:11px; color:var(--text-muted); margin-top:4px;&#34;&gt;${timeAgo(n.timestamp)}&lt;/div&gt;
+                                &lt;/div&gt;
                                 ${unreadDot}
-                            </div>
+                            &lt;/div&gt;
                         `;
                     });
 
-                    document.getElementById('notifList').innerHTML = notifHTML;
+                    document.getElementById(&#39;notifList&#39;).innerHTML = notifHTML;
                     
-                    const badge = document.getElementById('notifBadge');
-                    if(unreadCount > 0) {
-                        badge.style.display = 'block';
-                        badge.innerText = unreadCount > 9 ? '9+' : unreadCount;
-                    } else { badge.style.display = 'none'; }
+                    const badge = document.getElementById(&#39;notifBadge&#39;);
+                    if(unreadCount &gt; 0) {
+                        badge.style.display = &#39;block&#39;;
+                        badge.innerText = unreadCount &gt; 9 ? &#39;9+&#39; : unreadCount;
+                    } else { badge.style.display = &#39;none&#39;; }
                 });
 
                 initSocialFeed();
                 fetchStories(); 
             } else {
-                window.location.replace("auth.html");
+                window.location.replace(&#34;auth.html&#34;);
             }
         });
 
-        window.openNotifications = function() { document.getElementById('notificationsModal').classList.add('active'); }
-        window.closeNotifications = function() { document.getElementById('notificationsModal').classList.remove('active'); }
+        window.openNotifications = function() { document.getElementById(&#39;notificationsModal&#39;).classList.add(&#39;active&#39;); }
+        window.closeNotifications = function() { document.getElementById(&#39;notificationsModal&#39;).classList.remove(&#39;active&#39;); }
         window.markNotifRead = function(notifId) { db.ref(`notifications/${currentUid}/${notifId}`).update({read: true}); }
         window.markAllNotifsRead = function() {
-            db.ref(`notifications/${currentUid}`).once('value', snap => {
+            db.ref(`notifications/${currentUid}`).once(&#39;value&#39;, snap =&gt; {
                 const updates = {};
-                snap.forEach(child => { updates[`${child.key}/read`] = true; });
+                snap.forEach(child =&gt; { updates[`${child.key}/read`] = true; });
                 db.ref(`notifications/${currentUid}`).update(updates);
             });
         }
 
         window.logoutUser = function() {
-            if(confirm("Log out of your account?")) {
-                auth.signOut().then(() => window.location.replace("auth.html")).catch(() => showToast("Error logging out.", "error"));
+            if(confirm(&#34;Log out of your account?&#34;)) {
+                auth.signOut().then(() =&gt; window.location.replace(&#34;auth.html&#34;)).catch(() =&gt; showToast(&#34;Error logging out.&#34;, &#34;error&#34;));
             }
         };
 
         function uploadToCloudinary(file) {
-            const formData = new FormData(); formData.append('file', file); formData.append('upload_preset', 'qrkdzja7'); 
-            return fetch('https://api.cloudinary.com/v1_1/dowwvgffp/upload', { method: 'POST', body: formData }).then(res => res.json());
+            const formData = new FormData(); formData.append(&#39;file&#39;, file); formData.append(&#39;upload_preset&#39;, &#39;qrkdzja7&#39;); 
+            return fetch(&#39;https://api.cloudinary.com/v1_1/dowwvgffp/upload&#39;, { method: &#39;POST&#39;, body: formData }).then(res =&gt; res.json());
         }
 
-        function escapeHTML(str) { if (!str) return ''; return String(str).replace(/[<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
+        function escapeHTML(str) { if (!str) return &#39;&#39;; return String(str).replace(/[&lt;&gt;&#39;&#34;]/g, tag =&gt; ({ &#39;&amp;&#39;: &#39;&amp;amp;&#39;, &#39;&lt;&#39;: &#39;&amp;lt;&#39;, &#39;&gt;&#39;: &#39;&amp;gt;&#39;, &#34;&#39;&#34;: &#39;&amp;#39;&#39;, &#39;&#34;&#39;: &#39;&amp;quot;&#39; }[tag])); }
 
         window.setFilter = function(type, btnElement) {
             activeFilter = type;
-            const buttons = document.querySelectorAll('.filter-chip');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+            const buttons = document.querySelectorAll(&#39;.filter-chip&#39;);
+            buttons.forEach(btn =&gt; btn.classList.remove(&#39;active&#39;));
+            btnElement.classList.add(&#39;active&#39;);
             
-            const posts = document.querySelectorAll('.post-card');
-            posts.forEach(post => {
-                const postType = post.getAttribute('data-type');
-                if (activeFilter === 'all' || activeFilter === postType) { post.style.display = 'block'; } 
-                else { post.style.display = 'none'; }
+            const posts = document.querySelectorAll(&#39;.post-card&#39;);
+            posts.forEach(post =&gt; {
+                const postType = post.getAttribute(&#39;data-type&#39;);
+                if (activeFilter === &#39;all&#39; || activeFilter === postType) { post.style.display = &#39;block&#39;; } 
+                else { post.style.display = &#39;none&#39;; }
             });
         };
 
         function fetchStories() {
             const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000); 
-            db.ref('stories').orderByChild('timestamp').startAt(oneDayAgo).on('value', snap => {
+            db.ref(&#39;stories&#39;).orderByChild(&#39;timestamp&#39;).startAt(oneDayAgo).on(&#39;value&#39;, snap =&gt; {
                 storyGroups = {};
-                const container = document.getElementById('storiesContainer');
-                document.getElementById('storySkel1')?.remove();
-                container.querySelectorAll('.story-group-rendered').forEach(c => c.remove());
+                const container = document.getElementById(&#39;storiesContainer&#39;);
+                document.getElementById(&#39;storySkel1&#39;)?.remove();
+                container.querySelectorAll(&#39;.story-group-rendered&#39;).forEach(c =&gt; c.remove());
 
                 if(snap.exists()) {
-                    snap.forEach(child => {
+                    snap.forEach(child =&gt; {
                         const s = { id: child.key, ...child.val() };
                         if(!storyGroups[s.uid]) storyGroups[s.uid] = [];
                         storyGroups[s.uid].push(s);
                     });
 
-                    Object.keys(storyGroups).forEach(uid => {
+                    Object.keys(storyGroups).forEach(uid =&gt; {
                         const userStories = storyGroups[uid];
                         const lastStory = userStories[userStories.length - 1]; 
                         let allViewed = true;
-                        userStories.forEach(st => { if(!st.viewers || !st.viewers[currentUid]) allViewed = false; });
-                        const viewClass = allViewed ? "" : "unviewed"; 
+                        userStories.forEach(st =&gt; { if(!st.viewers || !st.viewers[currentUid]) allViewed = false; });
+                        const viewClass = allViewed ? &#34;&#34; : &#34;unviewed&#34;; 
                         
-                        const authorData = allUsersData.find(u => u.uid === uid) || {};
-                        const safeName = authorData.name || authorData.fullName || lastStory.senderName || 'User';
-                        const shortName = escapeHTML(safeName.split(' ')[0]);
+                        const authorData = allUsersData.find(u =&gt; u.uid === uid) || {};
+                        const safeName = authorData.name || authorData.fullName || lastStory.senderName || &#39;User&#39;;
+                        const shortName = escapeHTML(safeName.split(&#39; &#39;)[0]);
                         
                         const storyHtml = `
-                            <div class="story-chip story-group-rendered ${viewClass}" onclick="openStoryViewer('${uid}')">
-                                <div class="story-thumb-wrapper">
-                                    <img src="${lastStory.mediaUrl}" class="story-thumb">
-                                </div>
-                                <span class="story-name">${uid === currentUid ? 'My Story' : shortName}</span>
-                            </div>
+                            &lt;div class=&#34;story-chip story-group-rendered ${viewClass}&#34; onclick=&#34;openStoryViewer(&#39;${uid}&#39;)&#34;&gt;
+                                &lt;div class=&#34;story-thumb-wrapper&#34;&gt;
+                                    &lt;img src=&#34;${lastStory.mediaUrl}&#34; class=&#34;story-thumb&#34;&gt;
+                                &lt;/div&gt;
+                                &lt;span class=&#34;story-name&#34;&gt;${uid === currentUid ? &#39;My Story&#39; : shortName}&lt;/span&gt;
+                            &lt;/div&gt;
                         `;
-                        container.insertAdjacentHTML('beforeend', storyHtml);
+                        container.insertAdjacentHTML(&#39;beforeend&#39;, storyHtml);
                     });
                 }
             });
         }
 
-        // 🔥 NEW: CREATE POST LOGIC WITH FILTERS & PRIVACY 🔥
+        // 🔥 NEW: CREATE POST LOGIC WITH FILTERS &amp; PRIVACY 🔥
         window.togglePrivacy = function() {
-            if(currentPrivacy === 'public') {
-                currentPrivacy = 'private';
-                document.getElementById('privacyIcon').className = 'fa-solid fa-lock';
-                document.getElementById('privacyIcon').style.color = 'var(--danger-color)';
-                document.getElementById('privacyText').innerText = 'Private';
+            if(currentPrivacy === &#39;public&#39;) {
+                currentPrivacy = &#39;private&#39;;
+                document.getElementById(&#39;privacyIcon&#39;).className = &#39;fa-solid fa-lock&#39;;
+                document.getElementById(&#39;privacyIcon&#39;).style.color = &#39;var(--danger-color)&#39;;
+                document.getElementById(&#39;privacyText&#39;).innerText = &#39;Private&#39;;
             } else {
-                currentPrivacy = 'public';
-                document.getElementById('privacyIcon').className = 'fa-solid fa-globe';
-                document.getElementById('privacyIcon').style.color = 'var(--accent-primary)';
-                document.getElementById('privacyText').innerText = 'Public';
+                currentPrivacy = &#39;public&#39;;
+                document.getElementById(&#39;privacyIcon&#39;).className = &#39;fa-solid fa-globe&#39;;
+                document.getElementById(&#39;privacyIcon&#39;).style.color = &#39;var(--accent-primary)&#39;;
+                document.getElementById(&#39;privacyText&#39;).innerText = &#39;Public&#39;;
             }
         };
 
         window.toggleComments = function() {
             commentsAllowed = !commentsAllowed;
-            document.getElementById('cpCommentIcon').className = commentsAllowed ? 'fa-solid fa-comment' : 'fa-solid fa-comment-slash';
-            document.getElementById('cpCommentIcon').style.color = commentsAllowed ? 'var(--accent-primary)' : 'var(--danger-color)';
-            document.getElementById('cpCommentText').innerText = commentsAllowed ? 'Allow Comments' : 'Comments Off';
+            document.getElementById(&#39;cpCommentIcon&#39;).className = commentsAllowed ? &#39;fa-solid fa-comment&#39; : &#39;fa-solid fa-comment-slash&#39;;
+            document.getElementById(&#39;cpCommentIcon&#39;).style.color = commentsAllowed ? &#39;var(--accent-primary)&#39; : &#39;var(--danger-color)&#39;;
+            document.getElementById(&#39;cpCommentText&#39;).innerText = commentsAllowed ? &#39;Allow Comments&#39; : &#39;Comments Off&#39;;
         };
 
         window.applyFilter = function(filterCss, btnElement) {
             selectedFilterCSS = filterCss;
-            document.querySelectorAll('.filter-thumb').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+            document.querySelectorAll(&#39;.filter-thumb&#39;).forEach(btn =&gt; btn.classList.remove(&#39;active&#39;));
+            btnElement.classList.add(&#39;active&#39;);
             
-            const previewMedia = document.getElementById('mediaPreviewArea').firstElementChild;
+            const previewMedia = document.getElementById(&#39;mediaPreviewArea&#39;).firstElementChild;
             if(previewMedia) previewMedia.style.filter = filterCss;
         };
 
         // Real Location Logic
         window.attachLocation = function() {
-            showToast("Fetching exact location...", "info");
+            showToast(&#34;Fetching exact location...&#34;, &#34;info&#34;);
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
+                    (position) =&gt; {
                         const lat = position.coords.latitude;
                         const lon = position.coords.longitude;
-                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-                            .then(res => res.json())
-                            .then(data => {
-                                const city = data.address.city || data.address.town || data.address.state || "Unknown Location";
+                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&amp;lat=${lat}&amp;lon=${lon}`)
+                            .then(res =&gt; res.json())
+                            .then(data =&gt; {
+                                const city = data.address.city || data.address.town || data.address.state || &#34;Unknown Location&#34;;
                                 selectedLocation = city;
-                                document.getElementById('locationText').innerText = city;
-                                document.getElementById('locationDisplayContainer').style.display = 'flex';
-                                showToast("Location attached successfully!", "success");
+                                document.getElementById(&#39;locationText&#39;).innerText = city;
+                                document.getElementById(&#39;locationDisplayContainer&#39;).style.display = &#39;flex&#39;;
+                                showToast(&#34;Location attached successfully!&#34;, &#34;success&#34;);
                             })
-                            .catch(err => {
-                                selectedLocation = "Shared Location";
-                                document.getElementById('locationText').innerText = selectedLocation;
-                                document.getElementById('locationDisplayContainer').style.display = 'flex';
-                                showToast("Location attached!", "success");
+                            .catch(err =&gt; {
+                                selectedLocation = &#34;Shared Location&#34;;
+                                document.getElementById(&#39;locationText&#39;).innerText = selectedLocation;
+                                document.getElementById(&#39;locationDisplayContainer&#39;).style.display = &#39;flex&#39;;
+                                showToast(&#34;Location attached!&#34;, &#34;success&#34;);
                             });
                     },
-                    (error) => { showToast("Location permission denied. Please enable GPS.", "error"); }
+                    (error) =&gt; { showToast(&#34;Location permission denied. Please enable GPS.&#34;, &#34;error&#34;); }
                 );
-            } else { showToast("Geolocation is not supported by this browser.", "error"); }
+            } else { showToast(&#34;Geolocation is not supported by this browser.&#34;, &#34;error&#34;); }
         }
         window.removeLocation = function() {
-            selectedLocation = "";
-            document.getElementById('locationDisplayContainer').style.display = 'none';
+            selectedLocation = &#34;&#34;;
+            document.getElementById(&#39;locationDisplayContainer&#39;).style.display = &#39;none&#39;;
         }
 
         // Real Music Logic
-        document.getElementById('postMusicInput').addEventListener('change', function(e) {
+        document.getElementById(&#39;postMusicInput&#39;).addEventListener(&#39;change&#39;, function(e) {
             const file = e.target.files[0];
             if(!file) return;
             const url = URL.createObjectURL(file);
-            document.getElementById('postAudioElement').src = url;
-            document.getElementById('audioPreviewContainer').style.display = 'block';
+            document.getElementById(&#39;postAudioElement&#39;).src = url;
+            document.getElementById(&#39;audioPreviewContainer&#39;).style.display = &#39;block&#39;;
             selectedAudioFile = file;
-            showToast("Music track added successfully!", "success");
+            showToast(&#34;Music track added successfully!&#34;, &#34;success&#34;);
         });
         window.removeAudio = function() {
-            document.getElementById('postMusicInput').value = '';
-            document.getElementById('postAudioElement').src = '';
-            document.getElementById('audioPreviewContainer').style.display = 'none';
+            document.getElementById(&#39;postMusicInput&#39;).value = &#39;&#39;;
+            document.getElementById(&#39;postAudioElement&#39;).src = &#39;&#39;;
+            document.getElementById(&#39;audioPreviewContainer&#39;).style.display = &#39;none&#39;;
             selectedAudioFile = null;
         }
 
-        document.getElementById('postMediaInput').addEventListener('change', function(e) {
+        document.getElementById(&#39;postMediaInput&#39;).addEventListener(&#39;change&#39;, function(e) {
             const file = e.target.files[0]; if (!file) return; selectedPostFile = file;
             const fileURL = URL.createObjectURL(file);
             
-            selectedFilterCSS = 'none'; // reset filter
+            selectedFilterCSS = &#39;none&#39;; // reset filter
             
-            if (file.type.startsWith('video')) {
-                document.getElementById('mediaPreviewArea').innerHTML = `<video src="${fileURL}" style="max-width:100%; max-height:100%; object-fit:contain;" controls></video>`;
-                document.getElementById('filterStrip').style.display = 'none';
+            if (file.type.startsWith(&#39;video&#39;)) {
+                document.getElementById(&#39;mediaPreviewArea&#39;).innerHTML = `&lt;video src=&#34;${fileURL}&#34; style=&#34;max-width:100%; max-height:100%; object-fit:contain;&#34; controls&gt;&lt;/video&gt;`;
+                document.getElementById(&#39;filterStrip&#39;).style.display = &#39;none&#39;;
             } else {
-                document.getElementById('mediaPreviewArea').innerHTML = `<img src="${fileURL}" style="max-width:100%; max-height:100%; object-fit:contain; filter:none;">`;
-                document.getElementById('filterStrip').style.display = 'flex';
+                document.getElementById(&#39;mediaPreviewArea&#39;).innerHTML = `&lt;img src=&#34;${fileURL}&#34; style=&#34;max-width:100%; max-height:100%; object-fit:contain; filter:none;&#34;&gt;`;
+                document.getElementById(&#39;filterStrip&#39;).style.display = &#39;flex&#39;;
                 // Update dummy previews
-                document.querySelectorAll('.dummy-preview').forEach(img => img.src = fileURL);
-                document.querySelectorAll('.filter-thumb')[0].click(); // Select Normal
+                document.querySelectorAll(&#39;.dummy-preview&#39;).forEach(img =&gt; img.src = fileURL);
+                document.querySelectorAll(&#39;.filter-thumb&#39;)[0].click(); // Select Normal
             }
             
-            document.getElementById('addMediaBigBtn').style.display = 'none';
-            document.getElementById('mediaPreviewContainer').style.display = 'flex';
+            document.getElementById(&#39;addMediaBigBtn&#39;).style.display = &#39;none&#39;;
+            document.getElementById(&#39;mediaPreviewContainer&#39;).style.display = &#39;flex&#39;;
         });
         
         function clearPostMedia() { 
             selectedPostFile = null; 
-            selectedFilterCSS = 'none';
-            document.getElementById('postMediaInput').value = ''; 
-            document.getElementById('mediaPreviewContainer').style.display = 'none'; 
-            document.getElementById('filterStrip').style.display = 'none';
-            document.getElementById('mediaPreviewArea').innerHTML = ''; 
-            document.getElementById('addMediaBigBtn').style.display = 'flex'; 
+            selectedFilterCSS = &#39;none&#39;;
+            document.getElementById(&#39;postMediaInput&#39;).value = &#39;&#39;; 
+            document.getElementById(&#39;mediaPreviewContainer&#39;).style.display = &#39;none&#39;; 
+            document.getElementById(&#39;filterStrip&#39;).style.display = &#39;none&#39;;
+            document.getElementById(&#39;mediaPreviewArea&#39;).innerHTML = &#39;&#39;; 
+            document.getElementById(&#39;addMediaBigBtn&#39;).style.display = &#39;flex&#39;; 
         }
 
-        function openCreatePostModal() { document.getElementById('createPostModal').classList.add('active'); }
+        function openCreatePostModal() { document.getElementById(&#39;createPostModal&#39;).classList.add(&#39;active&#39;); }
         function closeCreatePostModal() { 
-            document.getElementById('createPostModal').classList.remove('active'); 
-            document.getElementById('postCaptionInput').value = ''; 
-            currentPrivacy = 'public'; document.getElementById('privacyIcon').className = 'fa-solid fa-globe'; document.getElementById('privacyIcon').style.color = 'var(--accent-primary)'; document.getElementById('privacyText').innerText = 'Public'; 
-            commentsAllowed = true; document.getElementById('cpCommentIcon').className = 'fa-solid fa-comment'; document.getElementById('cpCommentIcon').style.color = 'var(--accent-primary)'; document.getElementById('cpCommentText').innerText = 'Allow Comments';
+            document.getElementById(&#39;createPostModal&#39;).classList.remove(&#39;active&#39;); 
+            document.getElementById(&#39;postCaptionInput&#39;).value = &#39;&#39;; 
+            currentPrivacy = &#39;public&#39;; document.getElementById(&#39;privacyIcon&#39;).className = &#39;fa-solid fa-globe&#39;; document.getElementById(&#39;privacyIcon&#39;).style.color = &#39;var(--accent-primary)&#39;; document.getElementById(&#39;privacyText&#39;).innerText = &#39;Public&#39;; 
+            commentsAllowed = true; document.getElementById(&#39;cpCommentIcon&#39;).className = &#39;fa-solid fa-comment&#39;; document.getElementById(&#39;cpCommentIcon&#39;).style.color = &#39;var(--accent-primary)&#39;; document.getElementById(&#39;cpCommentText&#39;).innerText = &#39;Allow Comments&#39;;
             clearPostMedia(); 
             removeLocation();
             removeAudio();
         }
 
         async function submitNewPost() {
-            const caption = document.getElementById('postCaptionInput').value.trim();
-            if (!caption && !selectedPostFile && !selectedAudioFile) { showToast("Post cannot be empty!", "error"); return; }
-            document.getElementById('uploadOverlay').style.display = 'flex';
-            let mediaUrl = ""; let mediaType = "";
+            const caption = document.getElementById(&#39;postCaptionInput&#39;).value.trim();
+            if (!caption &amp;&amp; !selectedPostFile &amp;&amp; !selectedAudioFile) { showToast(&#34;Post cannot be empty!&#34;, &#34;error&#34;); return; }
+            document.getElementById(&#39;uploadOverlay&#39;).style.display = &#39;flex&#39;;
+            let mediaUrl = &#34;&#34;; let mediaType = &#34;&#34;;
             try {
-                if (selectedPostFile) { const data = await uploadToCloudinary(selectedPostFile); mediaUrl = data.secure_url; mediaType = selectedPostFile.type.startsWith('video') ? 'video' : 'image'; }
+                if (selectedPostFile) { const data = await uploadToCloudinary(selectedPostFile); mediaUrl = data.secure_url; mediaType = selectedPostFile.type.startsWith(&#39;video&#39;) ? &#39;video&#39; : &#39;image&#39;; }
                 
                 // MOCK AUDIO UPLOAD FOR DEMO 
                 const hasAudio = selectedAudioFile ? true : false;
 
-                const safeName = (currentUserData && currentUserData.name) ? currentUserData.name : (currentUserData && currentUserData.fullName ? currentUserData.fullName : 'VIP User');
-                const safePic = currentUserData ? (currentUserData.profile_image || currentUserData.profilePic || '') : '';
-                const isVerified = currentUserData && currentUserData.verified ? true : false;
+                const safeName = (currentUserData &amp;&amp; currentUserData.name) ? currentUserData.name : (currentUserData &amp;&amp; currentUserData.fullName ? currentUserData.fullName : &#39;VIP User&#39;);
+                const safePic = currentUserData ? (currentUserData.profile_image || currentUserData.profilePic || &#39;&#39;) : &#39;&#39;;
+                const isVerified = currentUserData &amp;&amp; currentUserData.verified ? true : false;
 
-                await db.ref('social_feed').push({ 
+                await db.ref(&#39;social_feed&#39;).push({ 
                     uid: currentUid, caption: caption, mediaUrl: mediaUrl, mediaType: mediaType, 
                     privacy: currentPrivacy, filterCSS: selectedFilterCSS, commentsEnabled: commentsAllowed,
-                    location: selectedLocation || "", hasAudio: hasAudio,
+                    location: selectedLocation || &#34;&#34;, hasAudio: hasAudio,
                     timestamp: firebase.database.ServerValue.TIMESTAMP, senderName: safeName, senderPic: safePic, senderVerified: isVerified 
                 });
                 
-                document.getElementById('uploadOverlay').style.display = 'none'; closeCreatePostModal(); showToast("Shared Successfully!", "success");
-            } catch(err) { document.getElementById('uploadOverlay').style.display = 'none'; showToast("Upload Failed", "error"); }
+                document.getElementById(&#39;uploadOverlay&#39;).style.display = &#39;none&#39;; closeCreatePostModal(); showToast(&#34;Shared Successfully!&#34;, &#34;success&#34;);
+            } catch(err) { document.getElementById(&#39;uploadOverlay&#39;).style.display = &#39;none&#39;; showToast(&#34;Upload Failed&#34;, &#34;error&#34;); }
         }
 
         let currentCommentPostId = null; let currentCommentPostOwnerId = null; 
 
         function initSocialFeed() {
-            const feedRef = db.ref('social_feed').orderByChild('timestamp').limitToLast(20); 
-            const container = document.getElementById('feedContainer');
-            feedRef.once('value', (snap) => { if(!snap.exists()) container.innerHTML = ''; });
+            const feedRef = db.ref(&#39;social_feed&#39;).orderByChild(&#39;timestamp&#39;).limitToLast(20); 
+            const container = document.getElementById(&#39;feedContainer&#39;);
+            feedRef.once(&#39;value&#39;, (snap) =&gt; { if(!snap.exists()) container.innerHTML = &#39;&#39;; });
             let isFirstLoad = true;
             
-            feedRef.on('child_added', snap => {
-                if (isFirstLoad) { container.innerHTML = ''; isFirstLoad = false; }
+            feedRef.on(&#39;child_added&#39;, snap =&gt; {
+                if (isFirstLoad) { container.innerHTML = &#39;&#39;; isFirstLoad = false; }
                 const post = { id: snap.key, ...snap.val() };
-                if(!document.getElementById('post-' + post.id)) container.insertAdjacentHTML('afterbegin', buildRealPostHTML(post));
+                if(!document.getElementById(&#39;post-&#39; + post.id)) container.insertAdjacentHTML(&#39;afterbegin&#39;, buildRealPostHTML(post));
             });
-            feedRef.on('child_changed', snap => updatePostUI({ id: snap.key, ...snap.val() }));
-            feedRef.on('child_removed', snap => { 
-                const card = document.getElementById('post-' + snap.key); if(card) card.remove(); 
-                const actCard = document.getElementById('post-act-' + snap.key); if(actCard) actCard.remove(); 
+            feedRef.on(&#39;child_changed&#39;, snap =&gt; updatePostUI({ id: snap.key, ...snap.val() }));
+            feedRef.on(&#39;child_removed&#39;, snap =&gt; { 
+                const card = document.getElementById(&#39;post-&#39; + snap.key); if(card) card.remove(); 
+                const actCard = document.getElementById(&#39;post-act-&#39; + snap.key); if(actCard) actCard.remove(); 
             });
         }
 
         window.sharePost = async function(titleText, urlText) {
             if (navigator.share) {
-                try { await navigator.share({ title: 'Check this post', text: titleText || "Amazing post!", url: urlText || window.location.href }); showToast("Shared!", "success"); } 
-                catch (err) { console.log('Share canceled'); }
-            } else { showToast("Link Copied!", "success"); navigator.clipboard.writeText(urlText || window.location.href); }
+                try { await navigator.share({ title: &#39;Check this post&#39;, text: titleText || &#34;Amazing post!&#34;, url: urlText || window.location.href }); showToast(&#34;Shared!&#34;, &#34;success&#34;); } 
+                catch (err) { console.log(&#39;Share canceled&#39;); }
+            } else { showToast(&#34;Link Copied!&#34;, &#34;success&#34;); navigator.clipboard.writeText(urlText || window.location.href); }
         }
 
-        function buildRealPostHTML(post, prefix = '') {
-            if (post.privacy === 'private' && post.uid !== currentUid) return '';
+        function buildRealPostHTML(post, prefix = &#39;&#39;) {
+            if (post.privacy === &#39;private&#39; &amp;&amp; post.uid !== currentUid) return &#39;&#39;;
 
             const likesCount = Object.keys(post.likes || {}).length;
-            const hasLiked = currentUid && (post.likes || {})[currentUid];
-            const fireClass = hasLiked ? 'fire-active' : '';
-            const fireIcon = hasLiked ? 'fa-solid fa-fire-flame-curved' : 'fa-solid fa-fire'; 
+            const hasLiked = currentUid &amp;&amp; (post.likes || {})[currentUid];
+            const fireClass = hasLiked ? &#39;fire-active&#39; : &#39;&#39;;
+            const fireIcon = hasLiked ? &#39;fa-solid fa-fire-flame-curved&#39; : &#39;fa-solid fa-fire&#39;; 
             
             const postAuthorUid = post.uid || post.senderId;
-            const authorData = allUsersData.find(u => u.uid === postAuthorUid) || {};
+            const authorData = allUsersData.find(u =&gt; u.uid === postAuthorUid) || {};
             
-            const safeName = authorData.name || authorData.fullName || post.senderName || "VIP User";
-            const safePic = authorData.profile_image || authorData.profilePic || post.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=1e293b&color=f8fafc`;
+            const safeName = authorData.name || authorData.fullName || post.senderName || &#34;VIP User&#34;;
+            const safePic = authorData.profile_image || authorData.profilePic || post.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&amp;background=1e293b&amp;color=f8fafc`;
             
-            const isVerified = authorData.hasOwnProperty('verified') ? authorData.verified : post.senderVerified;
-            const verifiedIcon = isVerified ? verifiedRedBadgeSVG : '';
+            const isVerified = authorData.hasOwnProperty(&#39;verified&#39;) ? authorData.verified : post.senderVerified;
+            const verifiedIcon = isVerified ? verifiedRedBadgeSVG : &#39;&#39;;
 
-            const textContent = post.caption || post.text || post.title || ""; 
-            const url = post.mediaUrl || post.video_url || post.url || '';
-            const isVideo = url.includes('.mp4') || post.mediaType === 'video';
-            const filterStyle = post.filterCSS && post.filterCSS !== 'none' ? `filter: ${post.filterCSS};` : '';
+            const textContent = post.caption || post.text || post.title || &#34;&#34;; 
+            const url = post.mediaUrl || post.video_url || post.url || &#39;&#39;;
+            const isVideo = url.includes(&#39;.mp4&#39;) || post.mediaType === &#39;video&#39;;
+            const filterStyle = post.filterCSS &amp;&amp; post.filterCSS !== &#39;none&#39; ? `filter: ${post.filterCSS};` : &#39;&#39;;
 
-            let postType = 'text';
-            if (url) { postType = isVideo ? 'video' : 'image'; }
+            let postType = &#39;text&#39;;
+            if (url) { postType = isVideo ? &#39;video&#39; : &#39;image&#39;; }
 
-            const displayStyle = (activeFilter === 'all' || activeFilter === postType || prefix !== '') ? 'block' : 'none';
+            const displayStyle = (activeFilter === &#39;all&#39; || activeFilter === postType || prefix !== &#39;&#39;) ? &#39;block&#39; : &#39;none&#39;;
 
-            let totalComments = 0; let latestCommentHtml = '';
+            let totalComments = 0; let latestCommentHtml = &#39;&#39;;
             if (post.comments) {
                 const commentsArray = Object.values(post.comments); totalComments = commentsArray.length;
-                commentsArray.forEach(c => { if (c.replies) totalComments += Object.keys(c.replies).length; });
-                const sortedComments = Object.values(post.comments).sort((a,b) => b.timestamp - a.timestamp);
-                if (sortedComments.length > 0) {
+                commentsArray.forEach(c =&gt; { if (c.replies) totalComments += Object.keys(c.replies).length; });
+                const sortedComments = Object.values(post.comments).sort((a,b) =&gt; b.timestamp - a.timestamp);
+                if (sortedComments.length &gt; 0) {
                     const lc = sortedComments[0];
-                    const lcAuthorData = allUsersData.find(u => u.uid === lc.uid) || {};
-                    const lcName = lcAuthorData.name || lcAuthorData.fullName || lc.senderName || "User";
-                    latestCommentHtml = `<div class="view-all-comments" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')">View all ${totalComments} comments</div><div class="latest-comment-preview" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')"><span>${escapeHTML(lcName)}</span> ${escapeHTML(lc.text)}</div>`;
+                    const lcAuthorData = allUsersData.find(u =&gt; u.uid === lc.uid) || {};
+                    const lcName = lcAuthorData.name || lcAuthorData.fullName || lc.senderName || &#34;User&#34;;
+                    latestCommentHtml = `&lt;div class=&#34;view-all-comments&#34; onclick=&#34;openCommentsModal(&#39;${post.id}&#39;, &#39;${postAuthorUid}&#39;)&#34;&gt;View all ${totalComments} comments&lt;/div&gt;&lt;div class=&#34;latest-comment-preview&#34; onclick=&#34;openCommentsModal(&#39;${post.id}&#39;, &#39;${postAuthorUid}&#39;)&#34;&gt;&lt;span&gt;${escapeHTML(lcName)}&lt;/span&gt; ${escapeHTML(lc.text)}&lt;/div&gt;`;
                 }
             }
 
-            let mediaHtml = '';
+            let mediaHtml = &#39;&#39;;
             if(url) {
-                let posterUrl = '';
-                if (url.includes('cloudinary.com') && url.match(/\.(mp4|mov|webm)$/i)) { posterUrl = url.replace(/\.(mp4|mov|webm)$/i, '.jpg'); }
+                let posterUrl = &#39;&#39;;
+                if (url.includes(&#39;cloudinary.com&#39;) &amp;&amp; url.match(/\.(mp4|mov|webm)$/i)) { posterUrl = url.replace(/\.(mp4|mov|webm)$/i, &#39;.jpg&#39;); }
 
                 mediaHtml = isVideo ? 
-                    `<div class="post-media" style="position: relative;" onclick="toggleSmartVideo('vid-${prefix}${post.id}')">
-                        <video id="vid-${prefix}${post.id}" src="${url}#t=0.001" poster="${posterUrl}" playsinline style="width:100%; height:100%; object-fit:cover; pointer-events: none;"></video>
-                        <div class="smart-play-btn" id="playBtn-${prefix}${post.id}" style="pointer-events: none;"><i class="fa-solid fa-play"></i></div>
-                        <div class="fs-expand-btn" onclick="openFullscreenVideo('${url}', '${escapeHTML(safeName)}', '${safePic}', 'vid-${prefix}${post.id}'); event.stopPropagation();"><i class="fa-solid fa-expand"></i></div>
-                    </div>` : `<div class="post-media" ondblclick="toggleLike('${post.id}', '${postAuthorUid}')"><img src="${url}" style="${filterStyle}" loading="lazy"></div>`;
+                    `&lt;div class=&#34;post-media&#34; style=&#34;position: relative;&#34; onclick=&#34;toggleSmartVideo(&#39;vid-${prefix}${post.id}&#39;)&#34;&gt;
+                        &lt;video id=&#34;vid-${prefix}${post.id}&#34; src=&#34;${url}#t=0.001&#34; poster=&#34;${posterUrl}&#34; playsinline style=&#34;width:100%; height:100%; object-fit:cover; pointer-events: none;&#34;&gt;&lt;/video&gt;
+                        &lt;div class=&#34;smart-play-btn&#34; id=&#34;playBtn-${prefix}${post.id}&#34; style=&#34;pointer-events: none;&#34;&gt;&lt;i class=&#34;fa-solid fa-play&#34;&gt;&lt;/i&gt;&lt;/div&gt;
+                        &lt;div class=&#34;fs-expand-btn&#34; onclick=&#34;openFullscreenVideo(&#39;${url}&#39;, &#39;${escapeHTML(safeName)}&#39;, &#39;${safePic}&#39;, &#39;vid-${prefix}${post.id}&#39;); event.stopPropagation();&#34;&gt;&lt;i class=&#34;fa-solid fa-expand&#34;&gt;&lt;/i&gt;&lt;/div&gt;
+                    &lt;/div&gt;` : `&lt;div class=&#34;post-media&#34; ondblclick=&#34;toggleLike(&#39;${post.id}&#39;, &#39;${postAuthorUid}&#39;)&#34;&gt;&lt;img src=&#34;${url}&#34; style=&#34;${filterStyle}&#34; loading=&#34;lazy&#34;&gt;&lt;/div&gt;`;
             }
 
-            const optionsBtn = `<button class="post-options" onclick="openPostOptions('${post.id}')"><i class="fa-solid fa-ellipsis-vertical"></i></button>`;
-            const privacyIconHtml = post.privacy === 'private' ? '<i class="fa-solid fa-lock" style="font-size:10px; color:var(--danger-color); margin-left:6px;"></i>' : '';
-            const locationHtml = post.location ? `<div style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:4px; margin-top:2px;"><i class="fa-solid fa-location-dot" style="color:var(--danger-color);"></i> ${escapeHTML(post.location)}</div>` : '';
-            const audioHtml = post.hasAudio ? `<div style="width:100%; margin-bottom:14px; padding:10px 15px; background:rgba(255,255,255,0.05); border-radius:50px; border:1px solid var(--border-light); display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-music" style="color:var(--danger-color);"></i><span style="font-size:12px; font-weight:700;">Original Audio - ${escapeHTML(safeName)}</span></div>` : '';
+            const optionsBtn = `&lt;button class=&#34;post-options&#34; onclick=&#34;openPostOptions(&#39;${post.id}&#39;)&#34;&gt;&lt;i class=&#34;fa-solid fa-ellipsis-vertical&#34;&gt;&lt;/i&gt;&lt;/button&gt;`;
+            const privacyIconHtml = post.privacy === &#39;private&#39; ? &#39;&lt;i class=&#34;fa-solid fa-lock&#34; style=&#34;font-size:10px; color:var(--danger-color); margin-left:6px;&#34;&gt;&lt;/i&gt;&#39; : &#39;&#39;;
+            const locationHtml = post.location ? `&lt;div style=&#34;font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:4px; margin-top:2px;&#34;&gt;&lt;i class=&#34;fa-solid fa-location-dot&#34; style=&#34;color:var(--danger-color);&#34;&gt;&lt;/i&gt; ${escapeHTML(post.location)}&lt;/div&gt;` : &#39;&#39;;
+            const audioHtml = post.hasAudio ? `&lt;div style=&#34;width:100%; margin-bottom:14px; padding:10px 15px; background:rgba(255,255,255,0.05); border-radius:50px; border:1px solid var(--border-light); display:flex; align-items:center; gap:10px;&#34;&gt;&lt;i class=&#34;fa-solid fa-music&#34; style=&#34;color:var(--danger-color);&#34;&gt;&lt;/i&gt;&lt;span style=&#34;font-size:12px; font-weight:700;&#34;&gt;Original Audio - ${escapeHTML(safeName)}&lt;/span&gt;&lt;/div&gt;` : &#39;&#39;;
 
             return `
-                <div class="post-card" id="post-${prefix}${post.id}" data-type="${postType}" style="display: ${displayStyle};">
-                    <div class="post-header">
-                        <div class="post-user-info" onclick="window.location.href='user_profile.html?uid=${postAuthorUid}'" style="cursor: pointer;">
-                            <img src="${safePic}" class="post-avatar">
-                            <div>
-                                <div class="post-real-name">${escapeHTML(safeName)}${verifiedIcon}</div>
+                &lt;div class=&#34;post-card&#34; id=&#34;post-${prefix}${post.id}&#34; data-type=&#34;${postType}&#34; style=&#34;display: ${displayStyle};&#34;&gt;
+                    &lt;div class=&#34;post-header&#34;&gt;
+                        &lt;div class=&#34;post-user-info&#34; onclick=&#34;window.location.href=&#39;user_profile.html?uid=${postAuthorUid}&#39;&#34; style=&#34;cursor: pointer;&#34;&gt;
+                            &lt;img src=&#34;${safePic}&#34; class=&#34;post-avatar&#34;&gt;
+                            &lt;div&gt;
+                                &lt;div class=&#34;post-real-name&#34;&gt;${escapeHTML(safeName)}${verifiedIcon}&lt;/div&gt;
                                 ${locationHtml}
-                                <div class="post-real-time" style="margin-top:2px;">${timeAgo(post.timestamp)}${privacyIconHtml}</div>
-                            </div>
-                        </div>
+                                &lt;div class=&#34;post-real-time&#34; style=&#34;margin-top:2px;&#34;&gt;${timeAgo(post.timestamp)}${privacyIconHtml}&lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
                         ${optionsBtn}
-                    </div>
+                    &lt;/div&gt;
                     
-                    ${textContent ? `<div class="post-real-text">${escapeHTML(textContent)}</div>` : ''}
+                    ${textContent ? `&lt;div class=&#34;post-real-text&#34;&gt;${escapeHTML(textContent)}&lt;/div&gt;` : &#39;&#39;}
                     ${audioHtml}
                     ${mediaHtml}
                     
-                    <div class="action-container">
-                        <div class="action-group">
-                            <button class="action-btn ${fireClass}" id="likeBtn-${prefix}${post.id}" onclick="toggleLike('${post.id}', '${postAuthorUid}')">
-                                <i class="${fireIcon}"></i> <span id="likeCount-${prefix}${post.id}">${likesCount > 0 ? likesCount : 'Burn'}</span>
-                            </button>
-                            ${post.commentsEnabled !== false ? `<button class="action-btn" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')"><i class="fa-regular fa-comment"></i> <span>${totalComments > 0 ? totalComments : 'Discuss'}</span></button>` : `<button class="action-btn" style="opacity:0.5; cursor:not-allowed;"><i class="fa-solid fa-comment-slash"></i> <span>Off</span></button>`}
-                        </div>
-                        <button class="action-btn" onclick="sharePost('${escapeHTML(textContent)}', '${url}')"><i class="fa-solid fa-share-nodes"></i></button>
-                    </div>
+                    &lt;div class=&#34;action-container&#34;&gt;
+                        &lt;div class=&#34;action-group&#34;&gt;
+                            &lt;button class=&#34;action-btn ${fireClass}&#34; id=&#34;likeBtn-${prefix}${post.id}&#34; onclick=&#34;toggleLike(&#39;${post.id}&#39;, &#39;${postAuthorUid}&#39;)&#34;&gt;
+                                &lt;i class=&#34;${fireIcon}&#34;&gt;&lt;/i&gt; &lt;span id=&#34;likeCount-${prefix}${post.id}&#34;&gt;${likesCount &gt; 0 ? likesCount : &#39;Burn&#39;}&lt;/span&gt;
+                            &lt;/button&gt;
+                            ${post.commentsEnabled !== false ? `&lt;button class=&#34;action-btn&#34; onclick=&#34;openCommentsModal(&#39;${post.id}&#39;, &#39;${postAuthorUid}&#39;)&#34;&gt;&lt;i class=&#34;fa-regular fa-comment&#34;&gt;&lt;/i&gt; &lt;span&gt;${totalComments &gt; 0 ? totalComments : &#39;Discuss&#39;}&lt;/span&gt;&lt;/button&gt;` : `&lt;button class=&#34;action-btn&#34; style=&#34;opacity:0.5; cursor:not-allowed;&#34;&gt;&lt;i class=&#34;fa-solid fa-comment-slash&#34;&gt;&lt;/i&gt; &lt;span&gt;Off&lt;/span&gt;&lt;/button&gt;`}
+                        &lt;/div&gt;
+                        &lt;button class=&#34;action-btn&#34; onclick=&#34;sharePost(&#39;${escapeHTML(textContent)}&#39;, &#39;${url}&#39;)&#34;&gt;&lt;i class=&#34;fa-solid fa-share-nodes&#34;&gt;&lt;/i&gt;&lt;/button&gt;
+                    &lt;/div&gt;
 
-                    ${post.commentsEnabled !== false ? `<div id="commentPreview-${prefix}${post.id}" class="comment-preview-area" style="display: ${totalComments > 0 ? 'block' : 'none'};">${latestCommentHtml}</div>` : ''}
-                </div>`;
+                    ${post.commentsEnabled !== false ? `&lt;div id=&#34;commentPreview-${prefix}${post.id}&#34; class=&#34;comment-preview-area&#34; style=&#34;display: ${totalComments &gt; 0 ? &#39;block&#39; : &#39;none&#39;};&#34;&gt;${latestCommentHtml}&lt;/div&gt;` : &#39;&#39;}
+                &lt;/div&gt;`;
         }
 
         function updatePostUI(post) {
-            ['', 'act-'].forEach(prefix => {
-                const card = document.getElementById('post-' + prefix + post.id); if(!card) return;
-                const hasLiked = currentUid && (post.likes || {})[currentUid];
+            [&#39;&#39;, &#39;act-&#39;].forEach(prefix =&gt; {
+                const card = document.getElementById(&#39;post-&#39; + prefix + post.id); if(!card) return;
+                const hasLiked = currentUid &amp;&amp; (post.likes || {})[currentUid];
                 const likesCount = Object.keys(post.likes || {}).length;
-                const likeBtn = card.querySelector('#likeBtn-' + prefix + post.id);
+                const likeBtn = card.querySelector(&#39;#likeBtn-&#39; + prefix + post.id);
                 if (likeBtn) {
-                    likeBtn.className = `action-btn ${hasLiked ? 'fire-active' : ''}`;
-                    likeBtn.innerHTML = `<i class="${hasLiked ? 'fa-solid fa-fire-flame-curved' : 'fa-solid fa-fire'}"></i> <span>${likesCount > 0 ? likesCount : 'Burn'}</span>`;
+                    likeBtn.className = `action-btn ${hasLiked ? &#39;fire-active&#39; : &#39;&#39;}`;
+                    likeBtn.innerHTML = `&lt;i class=&#34;${hasLiked ? &#39;fa-solid fa-fire-flame-curved&#39; : &#39;fa-solid fa-fire&#39;}&#34;&gt;&lt;/i&gt; &lt;span&gt;${likesCount &gt; 0 ? likesCount : &#39;Burn&#39;}&lt;/span&gt;`;
                 }
 
                 const postAuthorUid = post.uid || post.senderId;
-                let totalComments = 0; let latestCommentHtml = '';
+                let totalComments = 0; let latestCommentHtml = &#39;&#39;;
                 if (post.comments) {
                     const commentsArray = Object.values(post.comments); totalComments = commentsArray.length;
-                    commentsArray.forEach(c => { if (c.replies) totalComments += Object.keys(c.replies).length; });
-                    const sortedComments = Object.values(post.comments).sort((a,b) => b.timestamp - a.timestamp);
-                    if (sortedComments.length > 0) {
+                    commentsArray.forEach(c =&gt; { if (c.replies) totalComments += Object.keys(c.replies).length; });
+                    const sortedComments = Object.values(post.comments).sort((a,b) =&gt; b.timestamp - a.timestamp);
+                    if (sortedComments.length &gt; 0) {
                         const lc = sortedComments[0];
-                        const lcAuthorData = allUsersData.find(u => u.uid === lc.uid) || {};
-                        const lcName = lcAuthorData.name || lcAuthorData.fullName || lc.senderName || "User";
-                        latestCommentHtml = `<div class="view-all-comments" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')">View all ${totalComments} comments</div><div class="latest-comment-preview" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')"><span>${escapeHTML(lcName)}</span> ${escapeHTML(lc.text)}</div>`;
+                        const lcAuthorData = allUsersData.find(u =&gt; u.uid === lc.uid) || {};
+                        const lcName = lcAuthorData.name || lcAuthorData.fullName || lc.senderName || &#34;User&#34;;
+                        latestCommentHtml = `&lt;div class=&#34;view-all-comments&#34; onclick=&#34;openCommentsModal(&#39;${post.id}&#39;, &#39;${postAuthorUid}&#39;)&#34;&gt;View all ${totalComments} comments&lt;/div&gt;&lt;div class=&#34;latest-comment-preview&#34; onclick=&#34;openCommentsModal(&#39;${post.id}&#39;, &#39;${postAuthorUid}&#39;)&#34;&gt;&lt;span&gt;${escapeHTML(lcName)}&lt;/span&gt; ${escapeHTML(lc.text)}&lt;/div&gt;`;
                     }
                 }
                 if(post.commentsEnabled !== false) {
-                    const previewDiv = card.querySelector('#commentPreview-' + prefix + post.id);
-                    if (previewDiv) { previewDiv.innerHTML = latestCommentHtml; previewDiv.style.display = totalComments > 0 ? 'block' : 'none'; }
+                    const previewDiv = card.querySelector(&#39;#commentPreview-&#39; + prefix + post.id);
+                    if (previewDiv) { previewDiv.innerHTML = latestCommentHtml; previewDiv.style.display = totalComments &gt; 0 ? &#39;block&#39; : &#39;none&#39;; }
                 }
             });
         }
@@ -1393,206 +1654,205 @@
         window.toggleLike = function(postId, postOwnerId) { 
             if(!currentUid) return; 
             const ref = db.ref(`social_feed/${postId}/likes/${currentUid}`); 
-            ref.once('value', snap => {
+            ref.once(&#39;value&#39;, snap =&gt; {
                 if(snap.exists()) {
                     ref.remove();
                 } else {
                     ref.set(Date.now());
-                    sendNotification(postOwnerId, 'like_post', postId); 
+                    sendNotification(postOwnerId, &#39;like_post&#39;, postId); 
                 }
             }); 
         }
 
         window.openCommentsModal = function(postId, postOwnerId) {
             currentCommentPostId = postId; currentCommentPostOwnerId = postOwnerId;
-            document.getElementById('commentsModal').classList.add('active'); cancelReply(); 
+            document.getElementById(&#39;commentsModal&#39;).classList.add(&#39;active&#39;); cancelReply(); 
             
-            db.ref(`social_feed/${postId}/comments`).on('value', snap => {
+            db.ref(`social_feed/${postId}/comments`).on(&#39;value&#39;, snap =&gt; {
                 if(currentCommentPostId !== postId) return; 
-                const list = document.getElementById('commentsList'); list.innerHTML = '';
-                if(!snap.exists()) { list.innerHTML = '<div style="text-align:center; padding:30px; font-weight:500; color:var(--text-muted);">No comments yet.</div>'; return; }
+                const list = document.getElementById(&#39;commentsList&#39;); list.innerHTML = &#39;&#39;;
+                if(!snap.exists()) { list.innerHTML = &#39;&lt;div style=&#34;text-align:center; padding:30px; font-weight:500; color:var(--text-muted);&#34;&gt;No comments yet.&lt;/div&gt;&#39;; return; }
                 
-                snap.forEach(child => {
+                snap.forEach(child =&gt; {
                     const c = { id: child.key, ...child.val() };
                     const commentAuthorUid = c.uid;
-                    const cAuthorData = allUsersData.find(u => u.uid === commentAuthorUid) || {};
-                    const safeName = cAuthorData.name || cAuthorData.fullName || c.senderName || 'User';
-                    const safePic = cAuthorData.profile_image || cAuthorData.profilePic || c.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=1e293b&color=f8fafc`;
+                    const cAuthorData = allUsersData.find(u =&gt; u.uid === commentAuthorUid) || {};
+                    const safeName = cAuthorData.name || cAuthorData.fullName || c.senderName || &#39;User&#39;;
+                    const safePic = cAuthorData.profile_image || cAuthorData.profilePic || c.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&amp;background=1e293b&amp;color=f8fafc`;
 
                     list.innerHTML += `
-                        <div class="comment-item">
-                            <div class="comment-header" onclick="window.location.href='user_profile.html?uid=${commentAuthorUid}'" style="cursor:pointer;">
-                                <img src="${safePic}">
-                                <span class="comment-name">${escapeHTML(safeName)}</span>
-                                <span class="comment-time">${timeAgo(c.timestamp)}</span>
-                            </div>
-                            <div class="comment-text">${escapeHTML(c.text)}</div>
-                            <div class="comment-actions" onclick="startReply('${c.id}', '${escapeHTML(safeName)}', '${commentAuthorUid}')">Reply</div>
+                        &lt;div class=&#34;comment-item&#34;&gt;
+                            &lt;div class=&#34;comment-header&#34; onclick=&#34;window.location.href=&#39;user_profile.html?uid=${commentAuthorUid}&#39;&#34; style=&#34;cursor:pointer;&#34;&gt;
+                                &lt;img src=&#34;${safePic}&#34;&gt;
+                                &lt;span class=&#34;comment-name&#34;&gt;${escapeHTML(safeName)}&lt;/span&gt;
+                                &lt;span class=&#34;comment-time&#34;&gt;${timeAgo(c.timestamp)}&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&#34;comment-text&#34;&gt;${escapeHTML(c.text)}&lt;/div&gt;
+                            &lt;div class=&#34;comment-actions&#34; onclick=&#34;startReply(&#39;${c.id}&#39;, &#39;${escapeHTML(safeName)}&#39;, &#39;${commentAuthorUid}&#39;)&#34;&gt;Reply&lt;/div&gt;
                             ${buildRepliesHTML(c.replies)}
-                        </div>`;
+                        &lt;/div&gt;`;
                 });
-                setTimeout(() => list.scrollTop = list.scrollHeight, 100);
+                setTimeout(() =&gt; list.scrollTop = list.scrollHeight, 100);
             });
         }
 
         function buildRepliesHTML(repliesObj) {
-            if (!repliesObj) return ''; let html = '<div class="reply-list">';
-            Object.keys(repliesObj).forEach(key => {
+            if (!repliesObj) return &#39;&#39;; let html = &#39;&lt;div class=&#34;reply-list&#34;&gt;&#39;;
+            Object.keys(repliesObj).forEach(key =&gt; {
                 const r = repliesObj[key]; const replyAuthorUid = r.uid;
-                const rAuthorData = allUsersData.find(u => u.uid === replyAuthorUid) || {};
-                const safeName = rAuthorData.name || rAuthorData.fullName || r.senderName || 'User';
-                const safePic = rAuthorData.profile_image || rAuthorData.profilePic || r.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=1e293b&color=f8fafc`;
+                const rAuthorData = allUsersData.find(u =&gt; u.uid === replyAuthorUid) || {};
+                const safeName = rAuthorData.name || rAuthorData.fullName || r.senderName || &#39;User&#39;;
+                const safePic = rAuthorData.profile_image || rAuthorData.profilePic || r.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&amp;background=1e293b&amp;color=f8fafc`;
 
-                html += `<div style="margin-bottom:12px;">
-                    <div class="comment-header" onclick="window.location.href='user_profile.html?uid=${replyAuthorUid}'" style="cursor:pointer;">
-                        <img src="${safePic}" style="width:24px; height:24px; border-radius:50%;">
-                        <span class="comment-name" style="font-size:12px;">${escapeHTML(safeName)}</span>
-                        <span class="comment-time" style="font-size:10px;">${timeAgo(r.timestamp)}</span>
-                    </div>
-                    <div class="comment-text" style="font-size:13px; padding-left:34px;">${escapeHTML(r.text)}</div>
-                </div>`;
+                html += `&lt;div style=&#34;margin-bottom:12px;&#34;&gt;
+                    &lt;div class=&#34;comment-header&#34; onclick=&#34;window.location.href=&#39;user_profile.html?uid=${replyAuthorUid}&#39;&#34; style=&#34;cursor:pointer;&#34;&gt;
+                        &lt;img src=&#34;${safePic}&#34; style=&#34;width:24px; height:24px; border-radius:50%;&#34;&gt;
+                        &lt;span class=&#34;comment-name&#34; style=&#34;font-size:12px;&#34;&gt;${escapeHTML(safeName)}&lt;/span&gt;
+                        &lt;span class=&#34;comment-time&#34; style=&#34;font-size:10px;&#34;&gt;${timeAgo(r.timestamp)}&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&#34;comment-text&#34; style=&#34;font-size:13px; padding-left:34px;&#34;&gt;${escapeHTML(r.text)}&lt;/div&gt;
+                &lt;/div&gt;`;
             });
-            return html + '</div>';
+            return html + &#39;&lt;/div&gt;&#39;;
         }
 
-        window.closeCommentsModal = function() { if(currentCommentPostId) db.ref(`social_feed/${currentCommentPostId}/comments`).off(); document.getElementById('commentsModal').classList.remove('active'); currentCommentPostId = null; }
+        window.closeCommentsModal = function() { if(currentCommentPostId) db.ref(`social_feed/${currentCommentPostId}/comments`).off(); document.getElementById(&#39;commentsModal&#39;).classList.remove(&#39;active&#39;); currentCommentPostId = null; }
         
         let replyingToCommentId = null; let replyingToCommentOwnerId = null;
-        window.startReply = function(commentId, userName, replyAuthorId) { replyingToCommentId = commentId; replyingToCommentOwnerId = replyAuthorId; document.getElementById('replyBanner').style.display = 'flex'; document.getElementById('replyingToText').innerText = `Replying to ${userName}`; document.getElementById('commentInput').focus(); }
-        window.cancelReply = function() { replyingToCommentId = null; replyingToCommentOwnerId = null; document.getElementById('replyBanner').style.display = 'none'; document.getElementById('commentInput').value = ''; }
+        window.startReply = function(commentId, userName, replyAuthorId) { replyingToCommentId = commentId; replyingToCommentOwnerId = replyAuthorId; document.getElementById(&#39;replyBanner&#39;).style.display = &#39;flex&#39;; document.getElementById(&#39;replyingToText&#39;).innerText = `Replying to ${userName}`; document.getElementById(&#39;commentInput&#39;).focus(); }
+        window.cancelReply = function() { replyingToCommentId = null; replyingToCommentOwnerId = null; document.getElementById(&#39;replyBanner&#39;).style.display = &#39;none&#39;; document.getElementById(&#39;commentInput&#39;).value = &#39;&#39;; }
         
         window.submitComment = async function() {
-            const input = document.getElementById('commentInput'); const text = input.value.trim(); if(!text || !currentCommentPostId) return;
-            const dpName = (currentUserData && currentUserData.name) ? currentUserData.name : (currentUserData && currentUserData.fullName ? currentUserData.fullName : 'User');
-            const safePic = currentUserData ? (currentUserData.profile_image || currentUserData.profilePic || '') : '';
+            const input = document.getElementById(&#39;commentInput&#39;); const text = input.value.trim(); if(!text || !currentCommentPostId) return;
+            const dpName = (currentUserData &amp;&amp; currentUserData.name) ? currentUserData.name : (currentUserData &amp;&amp; currentUserData.fullName ? currentUserData.fullName : &#39;User&#39;);
+            const safePic = currentUserData ? (currentUserData.profile_image || currentUserData.profilePic || &#39;&#39;) : &#39;&#39;;
             const commentData = { uid: currentUid, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP, senderName: dpName, senderPic: safePic };
             try {
                 if (replyingToCommentId) {
                     await db.ref(`social_feed/${currentCommentPostId}/comments/${replyingToCommentId}/replies`).push(commentData);
-                    sendNotification(replyingToCommentOwnerId, 'reply_comment', currentCommentPostId, text); 
+                    sendNotification(replyingToCommentOwnerId, &#39;reply_comment&#39;, currentCommentPostId, text); 
                 } else {
                     await db.ref(`social_feed/${currentCommentPostId}/comments`).push(commentData);
-                    sendNotification(currentCommentPostOwnerId, 'comment_post', currentCommentPostId, text); 
+                    sendNotification(currentCommentPostOwnerId, &#39;comment_post&#39;, currentCommentPostId, text); 
                 }
-                input.value = ''; cancelReply();
-            } catch (err) { showToast("Failed", "error"); }
+                input.value = &#39;&#39;; cancelReply();
+            } catch (err) { showToast(&#34;Failed&#34;, &#34;error&#34;); }
         }
 
         // 🔥 ENHANCED STORY VIEWER / ANALYTICS 🔥
-        function openStoryViewer(uid) { if(!storyGroups[uid]) return; viewingUid = uid; viewingIndex = 0; document.getElementById('storyViewerModal').classList.add('active'); renderStoryContent(); }
+        function openStoryViewer(uid) { if(!storyGroups[uid]) return; viewingUid = uid; viewingIndex = 0; document.getElementById(&#39;storyViewerModal&#39;).classList.add(&#39;active&#39;); renderStoryContent(); }
         
         function renderStoryContent() {
             isPaused = false; const stories = storyGroups[viewingUid];
-            if(!stories || viewingIndex >= stories.length || viewingIndex < 0) { closeStoryViewer(); return; }
+            if(!stories || viewingIndex &gt;= stories.length || viewingIndex &lt; 0) { closeStoryViewer(); return; }
             const s = stories[viewingIndex];
             
-            const authorData = allUsersData.find(u => u.uid === viewingUid) || {};
-            const safeName = authorData.name || authorData.fullName || s.senderName || 'User';
-            const dp = authorData.profile_image || authorData.profilePic || s.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=fff`;
+            const authorData = allUsersData.find(u =&gt; u.uid === viewingUid) || {};
+            const safeName = authorData.name || authorData.fullName || s.senderName || &#39;User&#39;;
+            const dp = authorData.profile_image || authorData.profilePic || s.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&amp;background=fff`;
             
-            document.getElementById('svAvatar').src = dp;
-            document.getElementById('svName').innerText = safeName;
-            document.getElementById('svTime').innerText = timeAgo(s.timestamp);
+            document.getElementById(&#39;svAvatar&#39;).src = dp;
+            document.getElementById(&#39;svName&#39;).innerText = safeName;
+            document.getElementById(&#39;svTime&#39;).innerText = timeAgo(s.timestamp);
 
-            const barsContainer = document.getElementById('storyProgressBars'); barsContainer.innerHTML = '';
-            for(let i=0; i<stories.length; i++) { barsContainer.innerHTML += `<div style="flex:1; height:4px; background:rgba(255,255,255,0.3); border-radius:4px; overflow:hidden;"><div id="pb-${i}" style="height:100%; background:#fff; width:${i<viewingIndex?'100%':'0%'}; transition:width 0.05s linear;"></div></div>`; }
+            const barsContainer = document.getElementById(&#39;storyProgressBars&#39;); barsContainer.innerHTML = &#39;&#39;;
+            for(let i=0; i&lt;stories.length; i++) { barsContainer.innerHTML += `&lt;div style=&#34;flex:1; height:4px; background:rgba(255,255,255,0.3); border-radius:4px; overflow:hidden;&#34;&gt;&lt;div id=&#34;pb-${i}&#34; style=&#34;height:100%; background:#fff; width:${i&lt;viewingIndex?&#39;100%&#39;:&#39;0%&#39;}; transition:width 0.05s linear;&#34;&gt;&lt;/div&gt;&lt;/div&gt;`; }
 
-            const contentArea = document.getElementById('svContent');
-            if(s.mediaType === 'video') {
-                contentArea.innerHTML = `<video src="${s.mediaUrl}" autoplay playsinline style="width:100%; height:100vh; object-fit:contain;"></video>`;
-                const vid = contentArea.querySelector('video'); vid.onended = () => nextStory();
-                vid.onloadedmetadata = () => startProgress(vid.duration || 5);
-            } else { contentArea.innerHTML = `<img src="${s.mediaUrl}" style="width:100%; height:100vh; object-fit:contain;">`; startProgress(5); }
+            const contentArea = document.getElementById(&#39;svContent&#39;);
+            if(s.mediaType === &#39;video&#39;) {
+                contentArea.innerHTML = `&lt;video src=&#34;${s.mediaUrl}&#34; autoplay playsinline style=&#34;width:100%; height:100vh; object-fit:contain;&#34;&gt;&lt;/video&gt;`;
+                const vid = contentArea.querySelector(&#39;video&#39;); vid.onended = () =&gt; nextStory();
+                vid.onloadedmetadata = () =&gt; startProgress(vid.duration || 5);
+            } else { contentArea.innerHTML = `&lt;img src=&#34;${s.mediaUrl}&#34; style=&#34;width:100%; height:100vh; object-fit:contain;&#34;&gt;`; startProgress(5); }
 
             if (s.uid !== currentUid) {
                 db.ref(`stories/${s.id}/viewers/${currentUid}`).set(Date.now());
-                document.getElementById('storyCreatorControls').style.display = 'none';
+                document.getElementById(&#39;storyCreatorControls&#39;).style.display = &#39;none&#39;;
                 
-                const viewerControls = document.getElementById('storyViewerControls');
-                viewerControls.style.display = 'flex';
+                const viewerControls = document.getElementById(&#39;storyViewerControls&#39;);
+                viewerControls.style.display = &#39;flex&#39;;
                 
-                const replyInput = document.getElementById('storyReplyInput');
-                replyInput.value = '';
+                const replyInput = document.getElementById(&#39;storyReplyInput&#39;);
+                replyInput.value = &#39;&#39;;
                 
                 replyInput.onkeydown = function(e) {
-                    if(e.key === 'Enter' && this.value.trim() !== '') {
-                        sendNotification(s.uid, 'reply_story', s.id, this.value.trim());
-                        showToast('Reply sent to ' + safeName, 'success');
-                        this.value = '';
+                    if(e.key === &#39;Enter&#39; &amp;&amp; this.value.trim() !== &#39;&#39;) {
+                        sendNotification(s.uid, &#39;reply_story&#39;, s.id, this.value.trim());
+                        showToast(&#39;Reply sent to &#39; + safeName, &#39;success&#39;);
+                        this.value = &#39;&#39;;
                     }
                 };
                 
-                const likeIcon = document.getElementById('storyLikeIcon');
-                const btn = document.getElementById('storyLikeBtn');
-                if(s.likes && s.likes[currentUid]) {
-                    likeIcon.className = "fa-solid fa-fire-flame-curved"; btn.classList.add('fire-active');
+                const likeIcon = document.getElementById(&#39;storyLikeIcon&#39;);
+                const btn = document.getElementById(&#39;storyLikeBtn&#39;);
+                if(s.likes &amp;&amp; s.likes[currentUid]) {
+                    likeIcon.className = &#34;fa-solid fa-fire-flame-curved&#34;; btn.classList.add(&#39;fire-active&#39;);
                 } else {
-                    likeIcon.className = "fa-solid fa-fire"; btn.classList.remove('fire-active');
+                    likeIcon.className = &#34;fa-solid fa-fire&#34;; btn.classList.remove(&#39;fire-active&#39;);
                 }
                 
-                btn.onclick = () => toggleStoryLike(s.id, s.uid);
+                btn.onclick = () =&gt; toggleStoryLike(s.id, s.uid);
             } else {
-                document.getElementById('storyViewerControls').style.display = 'none';
+                document.getElementById(&#39;storyViewerControls&#39;).style.display = &#39;none&#39;;
                 const viewsCount = s.viewers ? Object.keys(s.viewers).length : 0;
                 const likesCount = s.likes ? Object.keys(s.likes).length : 0;
-                document.getElementById('storyViewCount').innerText = viewsCount;
-                document.getElementById('storyLikeCountLabel').innerText = likesCount;
+                document.getElementById(&#39;storyViewCount&#39;).innerText = viewsCount;
+                document.getElementById(&#39;storyLikeCountLabel&#39;).innerText = likesCount;
                 
                 // Update Analytics Modal Data
-                document.getElementById('stModalViewCount').innerText = viewsCount;
-                document.getElementById('stModalLikeCount').innerText = likesCount;
+                document.getElementById(&#39;stModalViewCount&#39;).innerText = viewsCount;
+                document.getElementById(&#39;stModalLikeCount&#39;).innerText = likesCount;
 
-                document.getElementById('storyCreatorControls').style.display = 'flex';
+                document.getElementById(&#39;storyCreatorControls&#39;).style.display = &#39;flex&#39;;
             }
         }
 
         function toggleStoryLike(storyId, storyOwnerId) {
             const ref = db.ref(`stories/${storyId}/likes/${currentUid}`);
-            const icon = document.getElementById('storyLikeIcon');
-            const btn = document.getElementById('storyLikeBtn');
-            if (btn.classList.contains('fire-active')) {
-                icon.className = 'fa-solid fa-fire'; btn.classList.remove('fire-active'); ref.remove();
+            const icon = document.getElementById(&#39;storyLikeIcon&#39;);
+            const btn = document.getElementById(&#39;storyLikeBtn&#39;);
+            if (btn.classList.contains(&#39;fire-active&#39;)) {
+                icon.className = &#39;fa-solid fa-fire&#39;; btn.classList.remove(&#39;fire-active&#39;); ref.remove();
             } else {
-                icon.className = 'fa-solid fa-fire-flame-curved'; btn.classList.add('fire-active'); ref.set(Date.now());
-                sendNotification(storyOwnerId, 'like_story', storyId); 
+                icon.className = &#39;fa-solid fa-fire-flame-curved&#39;; btn.classList.add(&#39;fire-active&#39;); ref.set(Date.now());
+                sendNotification(storyOwnerId, &#39;like_story&#39;, storyId); 
             }
         }
 
-        function handleStoryPress() { isPaused = true; clearInterval(storyTimer); const vid = document.querySelector('#svContent video'); if(vid) vid.pause(); }
+        function handleStoryPress() { isPaused = true; clearInterval(storyTimer); const vid = document.querySelector(&#39;#svContent video&#39;); if(vid) vid.pause(); }
         function handleStoryRelease(dir) { 
             isPaused = false; 
-            const vid = document.querySelector('#svContent video'); 
+            const vid = document.querySelector(&#39;#svContent video&#39;); 
             if(vid) vid.play(); 
-            if(dir==='left') prevStory(); 
-            else if(dir==='right') nextStory(); 
+            if(dir===&#39;left&#39;) prevStory(); 
+            else if(dir===&#39;right&#39;) nextStory(); 
         }
         function startProgress(duration) {
             clearInterval(storyTimer); storyProgressWidth = 0; const fillBar = document.getElementById(`pb-${viewingIndex}`);
             const step = (100 / (duration * 1000)) * 50;
-            storyTimer = setInterval(() => { if(isPaused) return; storyProgressWidth += step; if(fillBar) fillBar.style.width = `${storyProgressWidth}%`; if(storyProgressWidth >= 100) nextStory(); }, 50);
+            storyTimer = setInterval(() =&gt; { if(isPaused) return; storyProgressWidth += step; if(fillBar) fillBar.style.width = `${storyProgressWidth}%`; if(storyProgressWidth &gt;= 100) nextStory(); }, 50);
         }
         function nextStory() { viewingIndex++; renderStoryContent(); }
         function prevStory() { viewingIndex--; renderStoryContent(); }
-        function closeStoryViewer() { clearInterval(storyTimer); document.getElementById('storyViewerModal').classList.remove('active'); document.getElementById('svContent').innerHTML = ''; }
+        function closeStoryViewer() { clearInterval(storyTimer); document.getElementById(&#39;storyViewerModal&#39;).classList.remove(&#39;active&#39;); document.getElementById(&#39;svContent&#39;).innerHTML = &#39;&#39;; }
         
         window.openStoryViewersList = function() {
-            isPaused = true; const vid = document.querySelector('#svContent video'); if(vid) vid.pause();
-            document.getElementById('storyViewersModal').classList.add('active');
-            const list = document.getElementById('storyViewersList'); list.innerHTML = '';
+            isPaused = true; const vid = document.querySelector(&#39;#svContent video&#39;); if(vid) vid.pause();
+            document.getElementById(&#39;storyViewersModal&#39;).classList.add(&#39;active&#39;);
+            const list = document.getElementById(&#39;storyViewersList&#39;); list.innerHTML = &#39;&#39;;
             const s = storyGroups[viewingUid][viewingIndex];
-            if(!s.viewers) { list.innerHTML = '<div style="text-align:center; padding: 40px; color:var(--text-muted); font-weight:600;">No viewers yet.</div>'; return; }
-            Object.keys(s.viewers).forEach(viewerUid => {
-                const u = allUsersData.find(user => user.uid === viewerUid);
+            if(!s.viewers) { list.innerHTML = &#39;&lt;div style=&#34;text-align:center; padding: 40px; color:var(--text-muted); font-weight:600;&#34;&gt;No viewers yet.&lt;/div&gt;&#39;; return; }
+            Object.keys(s.viewers).forEach(viewerUid =&gt; {
+                const u = allUsersData.find(user =&gt; user.uid === viewerUid);
                 if(u) {
-                    const safeName = u.name || u.fullName || 'User';
-                    const img = u.profile_image || u.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=e2e8f0`;
-                    const likedHtml = (s.likes && s.likes[viewerUid]) ? `<i class="fa-solid fa-fire viewer-like-icon" style="color:var(--danger-color)"></i>` : '';
-                    list.innerHTML += `<div class="viewer-item" onclick="window.location.href='user_profile.html?uid=${viewerUid}'"><div class="viewer-info"><img src="${img}" class="viewer-avatar"><div class="viewer-name">${escapeHTML(safeName)}</div></div>${likedHtml}</div>`;
+                    const safeName = u.name || u.fullName || &#39;User&#39;;
+                    const img = u.profile_image || u.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&amp;background=e2e8f0`;
+                    const likedHtml = (s.likes &amp;&amp; s.likes[viewerUid]) ? `&lt;i class=&#34;fa-solid fa-fire viewer-like-icon&#34; style=&#34;color:var(--danger-color)&#34;&gt;&lt;/i&gt;` : &#39;&#39;;
+                    list.innerHTML += `&lt;div class=&#34;viewer-item&#34; onclick=&#34;window.location.href=&#39;user_profile.html?uid=${viewerUid}&#39;&#34;&gt;&lt;div class=&#34;viewer-info&#34;&gt;&lt;img src=&#34;${img}&#34; class=&#34;viewer-avatar&#34;&gt;&lt;div class=&#34;viewer-name&#34;&gt;${escapeHTML(safeName)}&lt;/div&gt;&lt;/div&gt;${likedHtml}&lt;/div&gt;`;
                 }
             });
         }
-        window.closeStoryViewersList = function() { document.getElementById('storyViewersModal').classList.remove('active'); isPaused = false; const vid = document.querySelector('#svContent video'); if(vid) vid.play(); }
-
+        window.closeStoryViewersList = function() { document.getElementById(&#39;storyViewersModal&#39;).classList.remove(&#39;active&#39;); isPaused = false; const vid = document.querySelector(&#39;#svContent video&#39;); if(vid) vid.play(); }
     </script>
-</body>
+  </body>
 </html>
