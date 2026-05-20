@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,6 +58,18 @@
         .back-btn:active { transform: scale(0.90); }
         .header-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
 
+        /* 🔥 SKELETON LOADER 🔥 */
+        .skel-text {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+            color: transparent !important;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 100px;
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
         /* 🔥 MAIN DASHBOARD AREA 🔥 */
         .dashboard-container { padding: 0 16px; max-width: 600px; margin: 0 auto; }
 
@@ -76,7 +87,20 @@
         .bc-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
         .bc-amount { font-size: 42px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px; letter-spacing: -1px; }
         .bc-currency { font-size: 24px; opacity: 0.9; }
-        .bc-tag { display: inline-block; background: rgba(0,0,0,0.2); padding: 6px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; color: #fff; margin-top: 12px; backdrop-filter: blur(5px);}
+        .bc-tag { display: inline-block; background: rgba(0,0,0,0.2); padding: 6px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; color: #fff; margin-top: 12px; backdrop-filter: blur(5px); transition: 0.3s; }
+
+        /* PROGRESS BOX (7 VIDEOS GOAL) */
+        .progress-box {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); 
+            border-radius: 20px; padding: 20px; margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); backdrop-filter: blur(10px);
+        }
+        .pb-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .pb-title { font-size: 14px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .pb-count { font-size: 13px; font-weight: 800; color: var(--accent-primary); }
+        .pb-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative;}
+        .pb-bar-fill { height: 100%; background: var(--accent-primary); width: 0%; transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .pb-sub { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-top: 10px; }
 
         /* STATS GRID */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
@@ -90,7 +114,16 @@
         .icon-ad { background: rgba(59, 130, 246, 0.15); color: var(--accent-primary); }
         .stat-value { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 2px;}
         .stat-label { font-size: 12px; font-weight: 500; color: var(--text-muted); }
-        .stat-sub { font-size: 11px; font-weight: 700; color: var(--success-color); margin-top: 4px; }
+        .stat-sub { font-size: 11px; font-weight: 700; color: var(--success-color); margin-top: 4px; line-height: 1.4; }
+
+        /* CREATOR TOOLS GRID */
+        .tools-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 12px; margin-top: 10px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+        .tool-item { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px 10px; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center; gap: 8px; opacity: 0.6; cursor: not-allowed; position: relative; transition: 0.3s;}
+        .tool-item.active { opacity: 1; cursor: pointer; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15);}
+        .tool-icon { font-size: 20px; color: var(--gold-primary); }
+        .tool-name { font-size: 11px; font-weight: 600; color: var(--text-main); }
+        .lock-badge { position: absolute; top: -5px; right: -5px; background: var(--bg-body); border: 1px solid var(--border-light); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--danger-color); }
 
         /* ACTIONS */
         .action-row { display: flex; gap: 12px; margin-bottom: 30px; }
@@ -105,69 +138,354 @@
         .history-item { 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 16px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid var(--glass-border);
+            animation: slideUp 0.3s ease-out;
         }
+        @keyframes slideUp { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
         .hi-left { display: flex; align-items: center; gap: 14px; }
         .hi-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(16,185,129,0.1); color: var(--success-color); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .hi-icon.withdraw { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
         .hi-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 2px;}
         .hi-date { font-size: 11px; font-weight: 500; color: var(--text-muted);}
         .hi-amount { font-size: 16px; font-weight: 800; color: var(--success-color);}
+        .hi-amount.negative { color: var(--text-main); }
 
         /* TOAST */
         .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
         .toast { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideDown 0.3s ease; backdrop-filter: blur(10px); display: flex; align-items: center; pointer-events: auto;}
         @keyframes slideDown { from { transform: translateY(-20px); opacity: 0;} to { transform: translateY(0); opacity: 1;} }
+
+        /* =========================================
+           🔥 PROFESSIONAL INSUFFICIENT BALANCE ALERT 🔥
+           ========================================= */
+        .custom-alert-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            z-index: 8000; display: none; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .custom-alert-overlay.active { display: block; opacity: 1; }
+        
+        .custom-alert-box {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border); border-radius: 28px;
+            padding: 30px 24px; width: 85%; max-width: 340px; z-index: 8001;
+            text-align: center; opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+        }
+        .custom-alert-box.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+        
+        .ca-icon { width: 70px; height: 70px; background: rgba(239, 68, 68, 0.15); color: var(--danger-color); border-radius: 50%; font-size: 30px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .ca-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+        .ca-msg { font-size: 13px; font-weight: 500; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; }
+        
+        .ca-progress-wrap { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px; margin-bottom: 20px;}
+        .ca-progress-title { font-size: 11px; font-weight: 700; color: #fff; display: flex; justify-content: space-between; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .ca-bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; }
+        .ca-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold-primary), var(--accent-primary)); width: 0%; transition: width 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        .ca-btn { width: 100%; padding: 16px; background: #fff; color: #000; border-radius: 16px; font-size: 15px; font-weight: 800; border: none; box-shadow: 0 8px 20px rgba(255,255,255,0.2); transition: 0.2s;}
+        .ca-btn:active { transform: scale(0.95); }
+
+        /* =========================================
+           🔥 BOTTOM SHEET WITHDRAWAL LOGIC 🔥
+           ========================================= */
+        .withdraw-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 6000; display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .withdraw-overlay.active { display: block; opacity: 1; }
+        
+        .withdraw-sheet { 
+            position: fixed; bottom: -100%; left: 0; right: 0; 
+            background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); 
+            border-radius: 35px 35px 0 0; padding: 20px 20px 30px; 
+            z-index: 6001; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border-top: 1px solid var(--glass-border); box-shadow: 0 -10px 50px rgba(0,0,0,0.7); 
+            max-height: 85vh; display: flex; flex-direction: column;
+        }
+        .withdraw-sheet.active { bottom: 0; }
+        .bs-handle { width: 40px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 10px; margin: 0 auto 15px; }
+        
+        .sheet-scroll-body { overflow-y: auto; scrollbar-width: none; padding-bottom: 20px; }
+        .sheet-scroll-body::-webkit-scrollbar { display: none; }
+
+        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .sheet-title { font-size: 20px; font-weight: 800; color: #fff; }
+        .sheet-close { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; font-size: 16px; color: #fff; border: 1px solid var(--glass-border); cursor: pointer;}
+        
+        .wd-balance-box { display: flex; justify-content: space-between; align-items: center; margin-bottom:20px; background: rgba(255,255,255,0.03); padding: 15px 20px; border-radius: 20px; border: 1px solid var(--glass-border); }
+        .wd-balance-label { color:var(--text-muted); font-size:12px; font-weight: 600; }
+        .wd-balance-amount { font-size:24px; font-weight:800; color:var(--gold-primary); display: flex; align-items: center; gap: 4px;}
+
+        /* Quick Amount Buttons */
+        .quick-amounts { display: flex; gap: 10px; margin-bottom: 15px; }
+        .qa-btn { flex: 1; padding: 10px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff; font-size: 13px; font-weight: 700; transition: 0.2s; }
+        .qa-btn:active { transform: scale(0.95); background: var(--accent-primary); border-color: var(--accent-primary); }
+
+        .input-group { margin-bottom: 20px; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .input-icon { position: absolute; left: 16px; color: var(--text-muted); font-size: 18px; }
+        .input-group input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 18px 16px 18px 45px; border-radius: 16px; color: #fff; font-size: 18px; font-weight: 700; outline: none; transition: 0.3s;}
+        .input-group input:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(59,130,246,0.15);}
+        .input-group input::placeholder { color: rgba(255,255,255,0.2); font-weight: 500; font-size: 15px;}
+        
+        .section-label { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 12px; display: block; letter-spacing: 0.5px;}
+        
+        /* HORIZONTAL SCROLL FOR COMPANIES */
+        .payment-methods-strip { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; margin-bottom: 15px;}
+        .payment-methods-strip::-webkit-scrollbar { display: none; }
+        
+        .pay-method-card { min-width: 110px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.3s; position: relative;}
+        .pay-method-card.active { background: rgba(59,130,246,0.1); border-color: var(--accent-primary); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(59,130,246,0.2);}
+        
+        .pm-logo { width: 36px; height: 36px; object-fit: contain; }
+        .pm-name-text { font-size: 11px; font-weight: 700; color: var(--text-muted); text-align: center;}
+        .pay-method-card.active .pm-name-text { color: #fff; }
+
+        .pay-method-card .check-icon { position: absolute; top: -6px; right: -6px; background: var(--accent-primary); color: #fff; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; opacity: 0; transform: scale(0); transition: 0.3s;}
+        .pay-method-card.active .check-icon { opacity: 1; transform: scale(1); }
+
+        .pay-form { display: none; animation: fadeIn 0.4s ease; margin-bottom: 10px;}
+        .pay-form.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .big-submit-btn { width: 100%; padding: 18px; border-radius: 50px; background: var(--accent-primary); color: #fff; font-size: 16px; font-weight: 800; border: none; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4); margin-top: 10px; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 10px;}
+        .big-submit-btn:active { transform: scale(0.96); }
+        .big-submit-btn:disabled { background: var(--text-muted); box-shadow: none; cursor: not-allowed; opacity: 0.7;}
     </style>
 </head>
 <body>
-
     <div id="toastBox" class="toast-box"></div>
-
+    
     <div class="header-wrapper">
         <header class="app-header">
-            <button class="back-btn" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
             <div class="header-title">Creator Earnings</div>
-            <div style="width:36px;"></div> </header>
+            <div style="width:36px;"></div>
+        </header>
     </div>
-
+    
     <div class="dashboard-container">
-        
         <div class="balance-card">
             <div class="bc-title">Total Available Balance</div>
-            <div class="bc-amount"><span class="bc-currency">₹</span><span id="totalBalanceDisplay">0.00</span></div>
-            <div class="bc-tag"><i class="fa-solid fa-circle-check"></i> Ready for withdrawal</div>
+            <div class="bc-amount">
+                <span class="bc-currency">₹</span>
+                <span id="totalBalanceDisplay" class="skel-text">0.00</span>
+            </div>
+            <!-- DYNAMIC TARGET BADGE -->
+            <div class="bc-tag" id="withdrawStatusBadge">
+                <i class="fa-solid fa-spinner fa-spin"></i> Loading...
+            </div>
         </div>
 
+        <div class="progress-box">
+            <div class="pb-header">
+                <div class="pb-title"><i class="fa-solid fa-bullseye" style="color: var(--gold-primary);"></i> Monetization Goal</div>
+                <div class="pb-count" id="videoGoalText">0 / 7 Videos</div>
+            </div>
+            <div class="pb-bar-bg">
+                <div class="pb-bar-fill" id="videoProgressBar"></div>
+            </div>
+            <div class="pb-sub">Upload 7 videos to unlock Ad Revenue & Premium Features</div>
+        </div>
+        
         <div class="stats-grid">
             <div class="stat-box">
                 <div class="stat-icon icon-refer"><i class="fa-solid fa-user-group"></i></div>
-                <div class="stat-value" id="referralCountDisplay">0</div>
+                <div class="stat-value" id="referralCountDisplay" class="skel-text">0</div>
                 <div class="stat-label">Total Referrals</div>
                 <div class="stat-sub" id="referralEarningsDisplay">+₹0 Earned</div>
             </div>
+            
+            <!-- 🔥 YAHAN TEXT ADD KIYA HAI 🔥 -->
             <div class="stat-box">
                 <div class="stat-icon icon-ad"><i class="fa-solid fa-play"></i></div>
                 <div class="stat-value">₹0.00</div>
                 <div class="stat-label">Ad Revenue</div>
-                <div class="stat-sub" style="color:var(--text-muted);"><i class="fa-solid fa-lock" style="font-size:9px;"></i> Unlock at 10k views</div>
+                <div class="stat-sub" style="color:var(--text-muted);" id="adRevStatus">
+                    <i class="fa-solid fa-lock" style="font-size:9px;"></i> Locked <br>
+                    <span style="font-size: 9.5px; opacity: 0.8; font-weight: 500; display: inline-block; margin-top: 3px;">Upload 7 videos to unlock tool</span>
+                </div>
+            </div>
+            <!-- =============================== -->
+            
+        </div>
+
+        <div class="tools-title">Creator Tools</div>
+        <div class="tools-grid">
+            <div class="tool-item" id="toolFund" onclick="showToast('Upload 7 videos to unlock!', 'error')">
+                <div class="lock-badge" id="lock1"><i class="fa-solid fa-lock"></i></div>
+                <div class="tool-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                <div class="tool-name">Creator Fund</div>
+            </div>
+            <div class="tool-item" id="toolGifts" onclick="showToast('Upload 7 videos to unlock!', 'error')">
+                <div class="lock-badge" id="lock2"><i class="fa-solid fa-lock"></i></div>
+                <div class="tool-icon"><i class="fa-solid fa-gift"></i></div>
+                <div class="tool-name">Live Gifts</div>
+            </div>
+            <div class="tool-item" id="toolSponsor" onclick="showToast('Upload 7 videos to unlock!', 'error')">
+                <div class="lock-badge" id="lock3"><i class="fa-solid fa-lock"></i></div>
+                <div class="tool-icon"><i class="fa-solid fa-handshake"></i></div>
+                <div class="tool-name">Sponsorships</div>
             </div>
         </div>
-
+        
         <div class="action-row">
-            <button class="act-btn btn-withdraw" onclick="requestWithdraw()"><i class="fa-solid fa-building-columns"></i> Withdraw</button>
-            <button class="act-btn btn-invite" onclick="copyReferralLink()"><i class="fa-solid fa-link"></i> Invite Link</button>
+            <button class="act-btn btn-withdraw" onclick="openWithdrawModal()">
+                <i class="fa-solid fa-building-columns"></i> Withdraw
+            </button>
+            <button class="act-btn btn-invite" onclick="copyReferralLink()">
+                <i class="fa-solid fa-link"></i> Invite Link
+            </button>
         </div>
-
+        
         <div class="section-title">
             <span>Recent Activity</span>
             <i class="fa-solid fa-filter" style="color:var(--text-muted); font-size: 14px; cursor: pointer;"></i>
         </div>
         
         <div class="history-list" id="transactionHistory">
-            <div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 13px; font-weight: 600;">
-                Checking records...
+            <div class="history-item">
+                <div class="hi-left">
+                    <div class="hi-icon" style="background: var(--skel-bg);"></div>
+                    <div>
+                        <div class="hi-title skel-text" style="width: 100px; height: 14px; margin-bottom: 4px;"></div>
+                        <div class="hi-date skel-text" style="width: 70px; height: 10px;"></div>
+                    </div>
+                </div>
+                <div class="hi-amount skel-text" style="width: 50px; height: 16px;"></div>
             </div>
         </div>
+    </div>
 
+    <!-- 🔥 SUPER LEGEND INSUFFICIENT BALANCE ALERT 🔥 -->
+    <div id="customAlertOverlay" class="custom-alert-overlay" onclick="closeAlertModal()"></div>
+    <div id="customAlertBox" class="custom-alert-box">
+        <div class="ca-icon"><i class="fa-solid fa-lock"></i></div>
+        <div class="ca-title">Withdrawal Locked</div>
+        <div class="ca-msg">Aapko withdrawal unlock karne ke liye minimum <b>₹550</b> kamane honge. Invite friends to reach the target faster!</div>
+        
+        <div class="ca-progress-wrap">
+            <div class="ca-progress-title">
+                <span>Current: <span id="caCurrentAmt" style="color:var(--gold-primary);">₹0</span></span>
+                <span>Target: ₹550</span>
+            </div>
+            <div class="ca-bar-bg">
+                <div class="ca-bar-fill" id="caProgressFill"></div>
+            </div>
+        </div>
+        
+        <button class="ca-btn" onclick="closeAlertModal()">Keep Earning</button>
+    </div>
+
+    <!-- NORMAL WITHDRAWAL SHEET -->
+    <div id="withdrawOverlay" class="withdraw-overlay" onclick="closeWithdrawModal()"></div>
+    <div id="withdrawSheet" class="withdraw-sheet">
+        <div class="bs-handle"></div>
+        <div class="sheet-scroll-body">
+            <div class="sheet-header">
+                <div class="sheet-title">Withdraw Funds</div>
+                <div class="sheet-close" onclick="closeWithdrawModal()"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+            
+            <div class="wd-balance-box">
+                <div class="wd-balance-label">Available Balance</div>
+                <div class="wd-balance-amount">₹<span id="withdrawAvailBal">0.00</span></div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-indian-rupee-sign input-icon" style="color: var(--gold-primary); font-size: 20px;"></i>
+                    <input type="number" id="withdrawAmount" placeholder="0" style="font-size: 24px; font-weight: 800; padding: 20px 20px 20px 50px;">
+                </div>
+            </div>
+
+            <div class="quick-amounts">
+                <button class="qa-btn" onclick="setWithdrawAmount(500)">500</button>
+                <button class="qa-btn" onclick="setWithdrawAmount(1000)">1000</button>
+                <button class="qa-btn" onclick="setWithdrawAmount(5000)">5000</button>
+                <button class="qa-btn" onclick="setWithdrawAmount('max')">MAX</button>
+            </div>
+
+            <label class="section-label" style="margin-top: 20px;">Select Transfer Method</label>
+            
+            <div class="payment-methods-strip">
+                <div class="pay-method-card active" id="btnGpay" onclick="selectPayMethod('gpay')">
+                    <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                    <img src="https://img.icons8.com/color/48/google-pay-india.png" alt="Google Pay" class="pm-logo" />
+                    <span class="pm-name-text">Google Pay</span>
+                </div>
+                <div class="pay-method-card" id="btnPhonepe" onclick="selectPayMethod('phonepe')">
+                    <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                    <img src="https://img.icons8.com/color/48/phone-pe.png" alt="PhonePe" class="pm-logo" />
+                    <span class="pm-name-text">PhonePe</span>
+                </div>
+                <div class="pay-method-card" id="btnPaytm" onclick="selectPayMethod('paytm')">
+                    <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                    <img src="https://img.icons8.com/color/48/paytm.png" alt="Paytm" class="pm-logo" />
+                    <span class="pm-name-text">Paytm</span>
+                </div>
+                <div class="pay-method-card" id="btnPaypal" onclick="selectPayMethod('paypal')">
+                    <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                    <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal" class="pm-logo" />
+                    <span class="pm-name-text">PayPal</span>
+                </div>
+                <div class="pay-method-card" id="btnBank" onclick="selectPayMethod('bank')">
+                    <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                    <div class="pm-logo" style="background:#1e293b; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; border: 2px solid #cbd5e1;"><i class="fa-solid fa-building-columns"></i></div>
+                    <span class="pm-name-text">Bank A/C</span>
+                </div>
+            </div>
+
+            <div id="upiForm" class="pay-form active">
+                <div class="input-group">
+                    <label>Enter Linked UPI ID</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-at input-icon"></i>
+                        <input type="text" id="upiIdInput" placeholder="e.g. yourname@okhdfcbank">
+                    </div>
+                </div>
+            </div>
+
+            <div id="paypalForm" class="pay-form">
+                <div class="input-group">
+                    <label>PayPal Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" id="paypalInput" placeholder="e.g. name@example.com">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="bankForm" class="pay-form">
+                <div class="input-group">
+                    <label>Account Number</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-hashtag input-icon"></i>
+                        <input type="number" id="accNoInput" placeholder="Enter valid account no">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>IFSC Code</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-code-branch input-icon"></i>
+                        <input type="text" id="ifscInput" placeholder="e.g. SBIN0001234">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Account Holder Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user input-icon"></i>
+                        <input type="text" id="accNameInput" placeholder="Name as per bank">
+                    </div>
+                </div>
+            </div>
+
+            <button class="big-submit-btn" id="confirmWithdrawBtn" onclick="submitWithdrawRequest()">
+                <span>Confirm Withdrawal</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <div style="text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 5px;">
+                <i class="fa-solid fa-shield-halved" style="color: var(--success-color);"></i> 100% Secure & Encrypted Transaction
+            </div>
+        </div>
     </div>
 
     <script>
@@ -185,21 +503,22 @@
         const auth = firebase.auth();
 
         let currentUid = null;
-        const REFERRAL_REWARD_AMOUNT = 200; // Har refer par ₹200
+        let globalTotalBalance = 0; 
+        const REFERRAL_REWARD_AMOUNT = 200; 
+        const WELCOME_BONUS = 50; 
+        const MIN_WITHDRAW_LIMIT = 550; // 🔥 Ultra Legend Limit Added
 
-        // Toast Function (No Emojis, Clean UI)
         function showToast(msg, type='info') { 
             const box = document.getElementById('toastBox'); 
             const toast = document.createElement('div'); 
             toast.className = 'toast'; 
-            let iconColor = type === 'error' ? '#ef4444' : (type === 'success' ? '#10b981' : '#fbbf24');
-            let iconName = type === 'error' ? 'fa-circle-exclamation' : (type === 'success' ? 'fa-circle-check' : 'fa-bell');
+            let iconColor = type === 'error' ? '#ef4444' : (type === 'success' ? '#10b981' : '#3b82f6');
+            let iconName = type === 'error' ? 'fa-circle-exclamation' : (type === 'success' ? 'fa-circle-check' : 'fa-circle-info');
             toast.innerHTML = `<i class="fa-solid ${iconName}" style="color: ${iconColor}; margin-right: 8px; font-size: 15px;"></i>${msg}`; 
             box.appendChild(toast); 
-            setTimeout(() => toast.remove(), 2500); 
+            setTimeout(() => toast.remove(), 3000); 
         }
 
-        // Fetch User Data for Monetization
         auth.onAuthStateChanged((user) => {
             if (user) {
                 currentUid = user.uid;
@@ -208,54 +527,96 @@
                     if(snap.exists()) {
                         const data = snap.val();
                         
-                        // Referral Logic Check
-                        // Agar DB mein 'referralCount' naam ka variable hai, warna 'referrals' array length check karega
                         let totalReferrals = 0;
-                        if(data.referralCount) {
-                            totalReferrals = parseInt(data.referralCount);
-                        } else if (data.referrals && typeof data.referrals === 'object') {
+                        if (data.referrals && typeof data.referrals === 'object') {
                             totalReferrals = Object.keys(data.referrals).length;
+                        } else if(data.referralCount) {
+                            totalReferrals = parseInt(data.referralCount) || 0;
                         }
 
-                        // Fake override setup if Admin wants to show specific money
-                        let totalBalance = 0;
                         let refEarnings = totalReferrals * REFERRAL_REWARD_AMOUNT;
+                        let calculatedBalance = refEarnings + WELCOME_BONUS;
 
-                        if (data.walletBalance) {
-                            totalBalance = parseFloat(data.walletBalance);
+                        if (data.walletBalance !== undefined) {
+                            globalTotalBalance = parseFloat(data.walletBalance);
                         } else {
-                            totalBalance = refEarnings; // Default balance is earned from referrals
+                            globalTotalBalance = calculatedBalance;
                         }
 
-                        // Update UI
+                        // Remove skeleton and animate
+                        document.getElementById('totalBalanceDisplay').classList.remove('skel-text');
+                        document.getElementById('referralCountDisplay').classList.remove('skel-text');
+                        document.getElementById('withdrawAvailBal').classList.remove('skel-text');
+                        
                         document.getElementById('referralCountDisplay').innerText = totalReferrals;
                         document.getElementById('referralEarningsDisplay').innerText = `+₹${refEarnings.toLocaleString()} Earned`;
                         
-                        // Animate Balance Number
-                        animateValue("totalBalanceDisplay", 0, totalBalance, 1000);
+                        animateValue("totalBalanceDisplay", parseFloat(document.getElementById('totalBalanceDisplay').innerText.replace(/,/g, '')) || 0, globalTotalBalance, 1000);
+                        
+                        // 🔥 DYNAMIC TARGET BADGE LOGIC 🔥
+                        const badge = document.getElementById('withdrawStatusBadge');
+                        if(globalTotalBalance >= MIN_WITHDRAW_LIMIT) {
+                            badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Ready for withdrawal';
+                            badge.style.background = 'rgba(16, 185, 129, 0.2)';
+                            badge.style.color = 'var(--success-color)';
+                        } else {
+                            badge.innerHTML = '<i class="fa-solid fa-lock"></i> Min. ₹550 Required';
+                            badge.style.background = 'rgba(239, 68, 68, 0.2)';
+                            badge.style.color = '#fff';
+                        }
 
-                        // Render Fake/Real History based on referrals
-                        renderHistory(totalReferrals);
+                        fetchWithdrawalsAndRenderHistory(totalReferrals);
                     }
                 });
+
+                db.ref('social_feed').on('value', snap => {
+                    let videoCount = 0;
+                    snap.forEach(child => {
+                        const post = child.val();
+                        if(post.uid === currentUid && post.mediaType === 'video') { videoCount++; }
+                    });
+
+                    const maxVideos = 7;
+                    let displayCount = videoCount > maxVideos ? maxVideos : videoCount;
+                    let percentage = (displayCount / maxVideos) * 100;
+                    
+                    document.getElementById('videoGoalText').innerText = `${displayCount} / ${maxVideos} Videos`;
+                    setTimeout(() => { document.getElementById('videoProgressBar').style.width = `${percentage}%`; }, 500);
+
+                    if(videoCount >= maxVideos) {
+                        document.getElementById('videoProgressBar').style.background = 'var(--success-color)';
+                        document.getElementById('adRevStatus').innerHTML = '<i class="fa-solid fa-unlock" style="font-size:10px; color:var(--success-color);"></i> Unlocked';
+                        document.getElementById('adRevStatus').style.color = 'var(--success-color)';
+                        
+                        const tools = ['toolFund', 'toolGifts', 'toolSponsor'];
+                        tools.forEach(id => {
+                            let el = document.getElementById(id);
+                            el.classList.add('active');
+                            el.onclick = () => showToast('Feature active. Setting up dashboard...', 'success');
+                        });
+                        document.getElementById('lock1').style.display = 'none';
+                        document.getElementById('lock2').style.display = 'none';
+                        document.getElementById('lock3').style.display = 'none';
+                    }
+                });
+
             } else {
                 window.location.replace("auth.html");
             }
         });
 
-        // Nice number counting animation for Total Balance
         function animateValue(id, start, end, duration) {
+            let obj = document.getElementById(id);
+            if(!obj) return;
             if (start === end) {
-                document.getElementById(id).innerHTML = end.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                obj.innerHTML = end.toLocaleString('en-IN', {minimumFractionDigits: 2});
                 return;
             }
             let range = end - start;
             let current = start;
-            let increment = end > start ? 1 : -1;
             let stepTime = Math.abs(Math.floor(duration / range));
-            if(stepTime < 10) stepTime = 10; // Cap speed
+            if(stepTime < 10) stepTime = 10; 
             
-            let obj = document.getElementById(id);
             let timer = setInterval(function() {
                 current += (range / (duration/stepTime));
                 if ((range > 0 && current >= end) || (range < 0 && current <= end)) {
@@ -266,65 +627,226 @@
             }, stepTime);
         }
 
-        // Render Transaction History
-        function renderHistory(refCount) {
-            const list = document.getElementById('transactionHistory');
-            list.innerHTML = ''; // clear loading
+        function fetchWithdrawalsAndRenderHistory(refCount) {
+            db.ref('withdrawals').orderByChild('uid').equalTo(currentUid).once('value', snap => {
+                const list = document.getElementById('transactionHistory');
+                list.innerHTML = ''; 
+                
+                let allTransactions = [];
 
-            if(refCount === 0) {
-                list.innerHTML = `
-                    <div style="text-align:center; padding: 30px 20px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px dashed var(--glass-border);">
-                        <i class="fa-solid fa-money-bill-trend-up" style="font-size: 30px; color: var(--glass-border); margin-bottom: 10px;"></i>
-                        <div style="color:var(--text-muted); font-size:13px; font-weight:600;">No earnings yet. Start referring friends!</div>
-                    </div>`;
+                allTransactions.push({
+                    type: 'bonus', title: 'Welcome Bonus', subtitle: 'Account Created',
+                    amount: WELCOME_BONUS, icon: 'fa-star', color: 'var(--accent-primary)', bg: 'rgba(59,130,246,0.1)', time: 0
+                });
+
+                for(let i=0; i<refCount; i++) {
+                    allTransactions.push({
+                        type: 'referral', title: 'Successful Referral', subtitle: 'Bonus Added to Wallet',
+                        amount: REFERRAL_REWARD_AMOUNT, icon: 'fa-user-check', color: 'var(--success-color)', bg: 'rgba(16,185,129,0.1)', time: i+1
+                    });
+                }
+
+                if(snap.exists()) {
+                    snap.forEach(child => {
+                        const w = child.val();
+                        allTransactions.push({
+                            type: 'withdrawal', title: `${w.paymentDetails.method} Withdrawal`, subtitle: `Status: ${w.status}`,
+                            amount: -w.amount, icon: 'fa-arrow-up-right-from-square', color: 'var(--danger-color)', bg: 'rgba(239, 68, 68, 0.1)', time: w.timestamp || 9999999999999
+                        });
+                    });
+                }
+
+                allTransactions.sort((a, b) => b.time - a.time);
+
+                if(allTransactions.length === 0) {
+                    list.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 13px;">No activity found.</div>`;
+                    return;
+                }
+
+                allTransactions.forEach(t => {
+                    let amtDisplay = t.amount > 0 ? `+₹${t.amount}` : `-₹${Math.abs(t.amount)}`;
+                    let amtClass = t.amount > 0 ? '' : 'negative';
+                    
+                    list.innerHTML += `
+                        <div class="history-item">
+                            <div class="hi-left">
+                                <div class="hi-icon" style="background:${t.bg}; color:${t.color};"><i class="fa-solid ${t.icon}"></i></div>
+                                <div>
+                                    <div class="hi-title">${t.title}</div>
+                                    <div class="hi-date">${t.subtitle}</div>
+                                </div>
+                            </div>
+                            <div class="hi-amount ${amtClass}">${amtDisplay}</div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        /* =========================================
+           🔥 CUSTOM ALERT MODAL LOGIC 🔥
+           ========================================= */
+        window.closeAlertModal = function() {
+            document.getElementById('customAlertOverlay').classList.remove('active');
+            document.getElementById('customAlertBox').classList.remove('active');
+            setTimeout(() => { document.getElementById('caProgressFill').style.width = '0%'; }, 300);
+        }
+
+        /* =========================================
+           🔥 GATEKEEPER WITHDRAWAL LOGIC 🔥
+           ========================================= */
+        let selectedPayMethod = 'gpay';
+
+        window.openWithdrawModal = function() {
+            // 🔥 CHECK FOR LIMIT FIRST 🔥
+            if(globalTotalBalance < MIN_WITHDRAW_LIMIT) {
+                // Open Professional Alert Popup
+                document.getElementById('customAlertOverlay').classList.add('active');
+                document.getElementById('customAlertBox').classList.add('active');
+                
+                document.getElementById('caCurrentAmt').innerText = '₹' + globalTotalBalance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                
+                let pct = (globalTotalBalance / MIN_WITHDRAW_LIMIT) * 100;
+                if(pct > 100) pct = 100;
+                
+                setTimeout(() => {
+                    document.getElementById('caProgressFill').style.width = pct + '%';
+                }, 100);
+                
+                return; // Stop right here, dont open withdraw sheet
+            }
+
+            // Normal Flow (If balance is 550 or more)
+            document.getElementById('withdrawAvailBal').innerText = globalTotalBalance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('withdrawAmount').value = ''; 
+            
+            selectPayMethod('gpay');
+            
+            document.getElementById('upiIdInput').value = '';
+            document.getElementById('paypalInput').value = '';
+            document.getElementById('accNoInput').value = '';
+            document.getElementById('ifscInput').value = '';
+            document.getElementById('accNameInput').value = '';
+
+            document.getElementById('withdrawOverlay').classList.add('active');
+            document.getElementById('withdrawSheet').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeWithdrawModal = function() {
+            document.getElementById('withdrawOverlay').classList.remove('active');
+            document.getElementById('withdrawSheet').classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        window.setWithdrawAmount = function(val) {
+            if(val === 'max') {
+                document.getElementById('withdrawAmount').value = globalTotalBalance;
+            } else {
+                let current = parseFloat(document.getElementById('withdrawAmount').value) || 0;
+                document.getElementById('withdrawAmount').value = current + val;
+            }
+        };
+
+        window.selectPayMethod = function(method) {
+            selectedPayMethod = method;
+            
+            document.querySelectorAll('.pay-method-card').forEach(el => el.classList.remove('active'));
+            let btnId = method === 'bank' ? 'btnBank' : (method === 'paypal' ? 'btnPaypal' : `btn${method.charAt(0).toUpperCase() + method.slice(1)}`);
+            document.getElementById(btnId).classList.add('active');
+            
+            document.getElementById('upiForm').classList.remove('active');
+            document.getElementById('bankForm').classList.remove('active');
+            document.getElementById('paypalForm').classList.remove('active');
+            
+            if(method === 'bank') {
+                document.getElementById('bankForm').classList.add('active');
+            } else if (method === 'paypal') {
+                document.getElementById('paypalForm').classList.add('active');
+            } else {
+                document.getElementById('upiForm').classList.add('active');
+                let uLabel = method === 'gpay' ? 'Google Pay UPI ID' : (method === 'phonepe' ? 'PhonePe Number/UPI' : 'Paytm Number/UPI');
+                document.querySelector('#upiForm label').innerText = uLabel;
+            }
+        };
+
+        window.submitWithdrawRequest = function() {
+            if(!currentUid) return;
+
+            const btn = document.getElementById('confirmWithdrawBtn');
+            const amountInput = document.getElementById('withdrawAmount').value;
+            const amount = parseFloat(amountInput);
+
+            if(!amountInput || isNaN(amount) || amount <= 0) {
+                showToast('Please enter a valid amount', 'error');
                 return;
             }
 
-            // Mocking history items based on referral count
-            for(let i=0; i<refCount; i++) {
-                // Show max 5 in history to keep it clean
-                if(i >= 5) break; 
-                
-                list.innerHTML += `
-                    <div class="history-item">
-                        <div class="hi-left">
-                            <div class="hi-icon"><i class="fa-solid fa-gift"></i></div>
-                            <div>
-                                <div class="hi-title">Referral Bonus</div>
-                                <div class="hi-date">Successfully Joined</div>
-                            </div>
-                        </div>
-                        <div class="hi-amount">+₹200</div>
-                    </div>
-                `;
+            if(amount > globalTotalBalance) {
+                showToast('Insufficient balance for this amount', 'error');
+                return;
             }
-
-            // Welcome Bonus Mock (Just to make it look full)
-            list.innerHTML += `
-                <div class="history-item">
-                    <div class="hi-left">
-                        <div class="hi-icon" style="background: rgba(59,130,246,0.1); color: var(--accent-primary);"><i class="fa-solid fa-star"></i></div>
-                        <div>
-                            <div class="hi-title">Welcome Bonus</div>
-                            <div class="hi-date">Account Created</div>
-                        </div>
-                    </div>
-                    <div class="hi-amount" style="color: var(--accent-primary);">+₹50</div>
-                </div>
-            `;
-        }
-
-        // Action Buttons
-        window.requestWithdraw = function() {
-            const balElement = document.getElementById('totalBalanceDisplay').innerText;
-            const bal = parseFloat(balElement.replace(/,/g, ''));
             
-            if(bal < 500) {
-                showToast('Minimum withdrawal amount is ₹500.', 'error');
-            } else {
-                showToast('Withdrawal request submitted! Processing takes 24hrs.', 'success');
-                // You can add logic here to write withdrawal request to DB
+            // 🔥 Extra safety check backend submission time
+            if((globalTotalBalance - amount) < 0) {
+                showToast('Invalid Amount', 'error');
+                return;
             }
+
+            let paymentDetails = {};
+            if(selectedPayMethod === 'bank') {
+                const accNo = document.getElementById('accNoInput').value.trim();
+                const ifsc = document.getElementById('ifscInput').value.trim();
+                const name = document.getElementById('accNameInput').value.trim();
+                if(!accNo || !ifsc || !name) { showToast('Please fill all bank details', 'error'); return; }
+                paymentDetails = { method: 'Bank Transfer', acc_no: accNo, ifsc: ifsc, account_name: name };
+            } 
+            else if (selectedPayMethod === 'paypal') {
+                const email = document.getElementById('paypalInput').value.trim();
+                if(!email) { showToast('Please enter PayPal email', 'error'); return; }
+                paymentDetails = { method: 'PayPal', email: email };
+            } 
+            else {
+                const upi = document.getElementById('upiIdInput').value.trim();
+                if(!upi) { showToast('Please enter details', 'error'); return; }
+                let methodFormatted = selectedPayMethod === 'gpay' ? 'Google Pay' : (selectedPayMethod === 'phonepe' ? 'PhonePe' : 'Paytm');
+                paymentDetails = { method: methodFormatted, upi_id: upi };
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+            let newBalance = globalTotalBalance - amount;
+
+            const updates = {};
+            updates['users/' + currentUid + '/walletBalance'] = newBalance;
+            
+            const newWithdrawalRef = db.ref('withdrawals').push();
+            updates['withdrawals/' + newWithdrawalRef.key] = {
+                uid: currentUid,
+                amount: amount,
+                paymentDetails: paymentDetails,
+                status: 'Pending',
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            db.ref().update(updates).then(() => {
+                globalTotalBalance = newBalance;
+                animateValue("withdrawAvailBal", globalTotalBalance + amount, globalTotalBalance, 800);
+                
+                showToast(`₹${amount} Withdrawal successful! Amount deducted.`, 'success');
+                
+                setTimeout(() => {
+                    closeWithdrawModal();
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>Confirm Withdrawal</span> <i class="fa-solid fa-arrow-right"></i>';
+                }, 1500);
+
+            }).catch(err => {
+                showToast('Failed to submit. Check network.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<span>Confirm Withdrawal</span> <i class="fa-solid fa-arrow-right"></i>';
+            });
         };
 
         window.copyReferralLink = function() {
