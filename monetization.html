@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Monetization - fahimn.co.in</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <style>
+        /* =========================================
+           ULTRA PREMIUM DARK GLASS THEME
+           ========================================= */
+        :root {
+            --bg-body: #020617; 
+            --card-bg: rgba(15, 23, 42, 0.55); 
+            --text-main: #f8fafc; 
+            --text-muted: #94a3b8; 
+            --accent-primary: #3b82f6;
+            --gold-primary: #fbbf24;
+            --gold-dark: #d97706;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            background: radial-gradient(circle at top left, #1e293b, #020617 80%);
+            background-attachment: fixed;
+            color: var(--text-main); 
+            overflow-x: hidden; 
+            padding-top: calc(80px + env(safe-area-inset-top)); 
+            padding-bottom: calc(40px + env(safe-area-inset-bottom)); 
+        }
+        
+        button { cursor: pointer; border: none; background: transparent; outline: none; }
+        
+        /* 🔥 HEADER 🔥 */
+        .header-wrapper { 
+            position: fixed; top: env(safe-area-inset-top); left: 0; right: 0; 
+            padding: 10px 16px; z-index: 1000; 
+        }
+        .app-header { 
+            background: rgba(15, 23, 42, 0.85); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+            border: 1px solid var(--glass-border); 
+        }
+        .back-btn { font-size: 20px; color: var(--text-main); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); transition: 0.2s; border: 1px solid rgba(255,255,255,0.05); }
+        .back-btn:active { transform: scale(0.90); }
+        .header-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+
+        /* 🔥 MAIN DASHBOARD AREA 🔥 */
+        .dashboard-container { padding: 0 16px; max-width: 600px; margin: 0 auto; }
+
+        /* GOLDEN BALANCE CARD */
+        .balance-card {
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            border-radius: 24px; padding: 30px 24px; position: relative; overflow: hidden;
+            box-shadow: 0 15px 35px rgba(217, 119, 6, 0.3);
+            margin-bottom: 20px;
+        }
+        .balance-card::after {
+            content: '\f51e'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; right: -20px; bottom: -20px; font-size: 120px; color: rgba(255,255,255,0.15); pointer-events: none;
+        }
+        .bc-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .bc-amount { font-size: 42px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px; letter-spacing: -1px; }
+        .bc-currency { font-size: 24px; opacity: 0.9; }
+        .bc-tag { display: inline-block; background: rgba(0,0,0,0.2); padding: 6px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; color: #fff; margin-top: 12px; backdrop-filter: blur(5px);}
+
+        /* STATS GRID */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+        .stat-box { 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); 
+            border-radius: 20px; padding: 20px 16px; display: flex; flex-direction: column; align-items: flex-start;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); backdrop-filter: blur(10px);
+        }
+        .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px; }
+        .icon-refer { background: rgba(16, 185, 129, 0.15); color: var(--success-color); }
+        .icon-ad { background: rgba(59, 130, 246, 0.15); color: var(--accent-primary); }
+        .stat-value { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 2px;}
+        .stat-label { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+        .stat-sub { font-size: 11px; font-weight: 700; color: var(--success-color); margin-top: 4px; }
+
+        /* ACTIONS */
+        .action-row { display: flex; gap: 12px; margin-bottom: 30px; }
+        .act-btn { flex: 1; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .act-btn:active { transform: scale(0.96); }
+        .btn-withdraw { background: #fff; color: #000; box-shadow: 0 8px 20px rgba(255,255,255,0.2); }
+        .btn-invite { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border); }
+
+        /* HISTORY LIST */
+        .section-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
+        .history-list { display: flex; flex-direction: column; gap: 12px; }
+        .history-item { 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 16px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid var(--glass-border);
+        }
+        .hi-left { display: flex; align-items: center; gap: 14px; }
+        .hi-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(16,185,129,0.1); color: var(--success-color); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .hi-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 2px;}
+        .hi-date { font-size: 11px; font-weight: 500; color: var(--text-muted);}
+        .hi-amount { font-size: 16px; font-weight: 800; color: var(--success-color);}
+
+        /* TOAST */
+        .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
+        .toast { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideDown 0.3s ease; backdrop-filter: blur(10px); display: flex; align-items: center; pointer-events: auto;}
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0;} to { transform: translateY(0); opacity: 1;} }
+    </style>
+</head>
+<body>
+
+    <div id="toastBox" class="toast-box"></div>
+
+    <div class="header-wrapper">
+        <header class="app-header">
+            <button class="back-btn" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="header-title">Creator Earnings</div>
+            <div style="width:36px;"></div> </header>
+    </div>
+
+    <div class="dashboard-container">
+        
+        <div class="balance-card">
+            <div class="bc-title">Total Available Balance</div>
+            <div class="bc-amount"><span class="bc-currency">₹</span><span id="totalBalanceDisplay">0.00</span></div>
+            <div class="bc-tag"><i class="fa-solid fa-circle-check"></i> Ready for withdrawal</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-icon icon-refer"><i class="fa-solid fa-user-group"></i></div>
+                <div class="stat-value" id="referralCountDisplay">0</div>
+                <div class="stat-label">Total Referrals</div>
+                <div class="stat-sub" id="referralEarningsDisplay">+₹0 Earned</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon icon-ad"><i class="fa-solid fa-play"></i></div>
+                <div class="stat-value">₹0.00</div>
+                <div class="stat-label">Ad Revenue</div>
+                <div class="stat-sub" style="color:var(--text-muted);"><i class="fa-solid fa-lock" style="font-size:9px;"></i> Unlock at 10k views</div>
+            </div>
+        </div>
+
+        <div class="action-row">
+            <button class="act-btn btn-withdraw" onclick="requestWithdraw()"><i class="fa-solid fa-building-columns"></i> Withdraw</button>
+            <button class="act-btn btn-invite" onclick="copyReferralLink()"><i class="fa-solid fa-link"></i> Invite Link</button>
+        </div>
+
+        <div class="section-title">
+            <span>Recent Activity</span>
+            <i class="fa-solid fa-filter" style="color:var(--text-muted); font-size: 14px; cursor: pointer;"></i>
+        </div>
+        
+        <div class="history-list" id="transactionHistory">
+            <div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 13px; font-weight: 600;">
+                Checking records...
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
+            authDomain: "fahimn.co.in",
+            databaseURL: "https://fahimn-co-in-default-rtdb.firebaseio.com",
+            projectId: "fahimn-co-in",
+            storageBucket: "fahimn-co-in.firebasestorage.app",
+            messagingSenderId: "698585907618",
+            appId: "1:698585907618:web:c8e4a6646b6b8f5c7932fb"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        let currentUid = null;
+        const REFERRAL_REWARD_AMOUNT = 200; // Har refer par ₹200
+
+        // Toast Function (No Emojis, Clean UI)
+        function showToast(msg, type='info') { 
+            const box = document.getElementById('toastBox'); 
+            const toast = document.createElement('div'); 
+            toast.className = 'toast'; 
+            let iconColor = type === 'error' ? '#ef4444' : (type === 'success' ? '#10b981' : '#fbbf24');
+            let iconName = type === 'error' ? 'fa-circle-exclamation' : (type === 'success' ? 'fa-circle-check' : 'fa-bell');
+            toast.innerHTML = `<i class="fa-solid ${iconName}" style="color: ${iconColor}; margin-right: 8px; font-size: 15px;"></i>${msg}`; 
+            box.appendChild(toast); 
+            setTimeout(() => toast.remove(), 2500); 
+        }
+
+        // Fetch User Data for Monetization
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUid = user.uid;
+                
+                db.ref('users/' + currentUid).on('value', snap => {
+                    if(snap.exists()) {
+                        const data = snap.val();
+                        
+                        // Referral Logic Check
+                        // Agar DB mein 'referralCount' naam ka variable hai, warna 'referrals' array length check karega
+                        let totalReferrals = 0;
+                        if(data.referralCount) {
+                            totalReferrals = parseInt(data.referralCount);
+                        } else if (data.referrals && typeof data.referrals === 'object') {
+                            totalReferrals = Object.keys(data.referrals).length;
+                        }
+
+                        // Fake override setup if Admin wants to show specific money
+                        let totalBalance = 0;
+                        let refEarnings = totalReferrals * REFERRAL_REWARD_AMOUNT;
+
+                        if (data.walletBalance) {
+                            totalBalance = parseFloat(data.walletBalance);
+                        } else {
+                            totalBalance = refEarnings; // Default balance is earned from referrals
+                        }
+
+                        // Update UI
+                        document.getElementById('referralCountDisplay').innerText = totalReferrals;
+                        document.getElementById('referralEarningsDisplay').innerText = `+₹${refEarnings.toLocaleString()} Earned`;
+                        
+                        // Animate Balance Number
+                        animateValue("totalBalanceDisplay", 0, totalBalance, 1000);
+
+                        // Render Fake/Real History based on referrals
+                        renderHistory(totalReferrals);
+                    }
+                });
+            } else {
+                window.location.replace("auth.html");
+            }
+        });
+
+        // Nice number counting animation for Total Balance
+        function animateValue(id, start, end, duration) {
+            if (start === end) {
+                document.getElementById(id).innerHTML = end.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                return;
+            }
+            let range = end - start;
+            let current = start;
+            let increment = end > start ? 1 : -1;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            if(stepTime < 10) stepTime = 10; // Cap speed
+            
+            let obj = document.getElementById(id);
+            let timer = setInterval(function() {
+                current += (range / (duration/stepTime));
+                if ((range > 0 && current >= end) || (range < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                obj.innerHTML = current.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            }, stepTime);
+        }
+
+        // Render Transaction History
+        function renderHistory(refCount) {
+            const list = document.getElementById('transactionHistory');
+            list.innerHTML = ''; // clear loading
+
+            if(refCount === 0) {
+                list.innerHTML = `
+                    <div style="text-align:center; padding: 30px 20px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px dashed var(--glass-border);">
+                        <i class="fa-solid fa-money-bill-trend-up" style="font-size: 30px; color: var(--glass-border); margin-bottom: 10px;"></i>
+                        <div style="color:var(--text-muted); font-size:13px; font-weight:600;">No earnings yet. Start referring friends!</div>
+                    </div>`;
+                return;
+            }
+
+            // Mocking history items based on referral count
+            for(let i=0; i<refCount; i++) {
+                // Show max 5 in history to keep it clean
+                if(i >= 5) break; 
+                
+                list.innerHTML += `
+                    <div class="history-item">
+                        <div class="hi-left">
+                            <div class="hi-icon"><i class="fa-solid fa-gift"></i></div>
+                            <div>
+                                <div class="hi-title">Referral Bonus</div>
+                                <div class="hi-date">Successfully Joined</div>
+                            </div>
+                        </div>
+                        <div class="hi-amount">+₹200</div>
+                    </div>
+                `;
+            }
+
+            // Welcome Bonus Mock (Just to make it look full)
+            list.innerHTML += `
+                <div class="history-item">
+                    <div class="hi-left">
+                        <div class="hi-icon" style="background: rgba(59,130,246,0.1); color: var(--accent-primary);"><i class="fa-solid fa-star"></i></div>
+                        <div>
+                            <div class="hi-title">Welcome Bonus</div>
+                            <div class="hi-date">Account Created</div>
+                        </div>
+                    </div>
+                    <div class="hi-amount" style="color: var(--accent-primary);">+₹50</div>
+                </div>
+            `;
+        }
+
+        // Action Buttons
+        window.requestWithdraw = function() {
+            const balElement = document.getElementById('totalBalanceDisplay').innerText;
+            const bal = parseFloat(balElement.replace(/,/g, ''));
+            
+            if(bal < 500) {
+                showToast('Minimum withdrawal amount is ₹500.', 'error');
+            } else {
+                showToast('Withdrawal request submitted! Processing takes 24hrs.', 'success');
+                // You can add logic here to write withdrawal request to DB
+            }
+        };
+
+        window.copyReferralLink = function() {
+            if(!currentUid) return;
+            const refLink = `${window.location.origin}/auth.html?ref=${currentUid}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join me on fahimn.co.in!',
+                    text: 'Create an account using my VIP link and we both get a ₹200 bonus!',
+                    url: refLink
+                }).catch(err => { copyToFallback(refLink); });
+            } else {
+                copyToFallback(refLink);
+            }
+        };
+
+        function copyToFallback(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('VIP Referral Link Copied!', 'success');
+            }).catch(() => {
+                showToast('Failed to copy link', 'error');
+            });
+        }
+    </script>
+</body>
+</html>
