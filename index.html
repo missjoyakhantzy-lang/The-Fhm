@@ -90,7 +90,6 @@
         }
         .premium-sidebar.active { left: 0; }
 
-        /* Inner Scroll Area */
         .sidebar-scroll-area { flex: 1; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
         .sidebar-scroll-area::-webkit-scrollbar { display: none; }
 
@@ -107,12 +106,15 @@
         .sp-username { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); margin-top: 2px;}
         .creator-level { display: inline-flex; align-items: center; padding: 4px 10px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fbbf24; font-size: 10px; font-weight: 800; border-radius: 50px; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
 
-        .sp-stats { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 10px; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 15px; }
+        .sp-stats { 
+            display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 10px;
+            background: rgba(255,255,255,0.03); padding: 14px; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 15px;
+        }
         .sp-stat-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .sp-stat-val { font-size: 15px; font-weight: 800; color: #fff; line-height: 1;}
         .sp-stat-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; letter-spacing: 0.5px;}
         
-        .sp-edit-btn { width: 100%; padding: 10px; border-radius: 50px; background: var(--accent-primary); border: none; color: #fff; font-size: 13px; font-weight: 700; transition: 0.2s; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);}
+        .sp-edit-btn { width: 100%; padding: 10px; border-radius: 50px; background: var(--accent-primary); border: none; color: #fff; font-size: 13px; font-weight: 700; transition: 0.2s; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); margin-bottom: 15px;}
         .sp-edit-btn:active { transform: scale(0.98); }
 
         .sidebar-menu-list { padding: 15px; display:flex; flex-direction: column; gap: 8px; padding-bottom: 20px;}
@@ -126,19 +128,13 @@
         .clean-menu-item.success { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 16px; flex-direction: column; align-items: flex-start; padding: 14px 16px;}
         .clean-menu-item.success i { color: #10b981; filter: drop-shadow(0 0 8px rgba(16,185,129,0.4)); font-size: 18px;}
 
-        /* 🔥 FIXED AT BOTTOM ALWAYS 🔥 */
-        .sidebar-bottom { 
-            padding: 15px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); 
-            display: flex; gap: 10px; flex-shrink: 0; padding-bottom: calc(15px + env(safe-area-inset-bottom));
-        }
+        .sidebar-bottom { padding: 15px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.6); display: flex; gap: 10px; margin-top: auto; flex-shrink: 0; padding-bottom: calc(15px + env(safe-area-inset-bottom)); }
         .bottom-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 50px; font-size: 13px; font-weight: 700; transition: 0.2s;}
         .btn-settings { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid var(--glass-border);}
         .btn-logout { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); border: 1px solid rgba(239, 68, 68, 0.3);}
         .bottom-btn:active { transform: scale(0.95); }
 
-        /* =========================================
-           STORY SYSTEM
-           ========================================= */
+        /* STORIES */
         .stories-container { display: flex; gap: 14px; padding: 5px 16px 20px 16px; overflow-x: auto; scrollbar-width: none; }
         .stories-container::-webkit-scrollbar { display: none; }
         .story-chip { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; min-width: 70px; transition: 0.2s; }
@@ -171,10 +167,9 @@
         .post-options:active { transform: scale(0.9); background: rgba(255,255,255,0.1); }
         .post-real-text { font-size: 15px; color: var(--text-main); line-height: 1.5; margin-bottom: 14px; font-weight: 500; word-break: break-word;}
         
-        /* 🔥 SMART VIDEO PLAYER CSS 🔥 */
         video::-webkit-media-controls { display: none !important; }
         video { outline: none; }
-        .post-media { width: 100%; max-height: 400px; border-radius: 12px; background: rgba(0,0,0,0.8); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; cursor: pointer;}
+        .post-media { width: 100%; max-height: 400px; border-radius: 12px; background: #000; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; cursor: pointer;}
         .post-media img, .post-media video { width: 100%; height: 100%; object-fit: cover; max-height: 400px; }
         .smart-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; pointer-events: none; border: 1px solid rgba(255,255,255,0.2); transition: opacity 0.2s ease;}
         .fs-expand-btn { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; transition: 0.2s; border: 1px solid rgba(255,255,255,0.2); z-index: 10;}
@@ -194,19 +189,10 @@
         .latest-comment-preview { font-size: 14px; color: var(--text-main); font-weight: 500;}
         .latest-comment-preview span { font-weight: 800; margin-right: 6px;}
 
-        /* =========================================
-           🔥 POST OPTIONS BOTTOM SHEET 🔥
-           ========================================= */
+        /* POST OPTIONS */
         .bottom-sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 6000; display: none; opacity: 0; transition: opacity 0.3s ease; }
         .bottom-sheet-overlay.active { display: block; opacity: 1; }
-        
-        .bottom-sheet { 
-            position: fixed; bottom: -100%; left: 0; right: 0; 
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
-            border-radius: 30px 30px 0 0; padding: 20px 20px 30px; 
-            z-index: 6001; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            border-top: 1px solid var(--glass-border); box-shadow: 0 -10px 40px rgba(0,0,0,0.5); 
-        }
+        .bottom-sheet { position: fixed; bottom: -100%; left: 0; right: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 30px 30px 0 0; padding: 20px 20px 30px; z-index: 6001; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 1px solid var(--glass-border); box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
         .bottom-sheet.active { bottom: 0; }
         .bs-handle { width: 40px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 10px; margin: 0 auto 20px; }
         .bs-menu { display: flex; flex-direction: column; gap: 4px; }
@@ -216,37 +202,39 @@
         .bs-item.danger { color: var(--danger-color); }
         .bs-item.danger i { color: var(--danger-color); }
 
-        /* QUICK ACTION MENU */
+        /* 🔥 HORIZONTAL QUICK MENU 🔥 */
         .quick-menu-overlay { position: fixed; inset: 0; background: transparent; z-index: 998; display: none; }
-        .quick-menu { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%) scale(0.5); background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 30px; padding: 20px 16px; z-index: 999; border: 1px solid var(--border-light); box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform-origin: bottom center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 90%; max-width: 350px; pointer-events: none; opacity: 0; }
-        .quick-menu.active { transform: translateX(-50%) scale(1); pointer-events: auto; opacity: 1; }
-        .qm-grid { display: flex; justify-content: space-around; align-items: center; gap: 10px; }
-        .qm-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; text-decoration: none;}
-        .qm-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 22px; color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
-        .qm-item:active .qm-icon { transform: scale(0.9); background: var(--accent-primary); border-color: var(--accent-primary);}
-        .qm-item span { font-size: 12px; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
-
-        /* GLASS BOTTOM NAV */
-        .bottom-nav-wrapper { 
-            position: fixed; bottom: 20px; left: 0; right: 0; 
-            display: flex; justify-content: center; z-index: 1000; pointer-events: none; 
-            will-change: transform;
-            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        .quick-menu { 
+            position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%) scale(0.5); 
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); 
+            border-radius: 20px; padding: 15px 20px; z-index: 999; border: 1px solid var(--border-light); 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); opacity: 0; pointer-events: none; width: max-content; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .quick-menu.active { transform: translateX(-50%) scale(1); pointer-events: auto; opacity: 1; }
+        .qm-grid { display: flex; gap: 20px; }
+        .qm-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; text-decoration: none;}
+        .qm-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;}
+        .qm-item:active .qm-icon { transform: scale(0.9); background: var(--accent-primary); border-color: var(--accent-primary);}
+        .qm-item span { font-size: 10px; font-weight: 700; color: var(--text-main); text-transform: uppercase; }
+
+        /* BOTTOM NAV */
+        .bottom-nav-wrapper { position: fixed; bottom: 20px; left: 0; right: 0; display: flex; justify-content: center; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .bottom-nav-wrapper.hidden { transform: translateY(120px); }
-        .bottom-nav { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); width: 92%; max-width: 400px; pointer-events: auto; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .bottom-nav { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); width: 92%; max-width: 400px; pointer-events: auto; border: 1px solid rgba(255, 255, 255, 0.08); }
         .nav-item { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--icon-color); font-size: 20px; border-radius: 50%; transition: 0.3s; cursor: pointer;}
         .nav-item.active { background: rgba(255,255,255,0.15); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.15);}
 
-        /* GLASS MODALS & FULLSCREEN VIDEO */
-        .fs-screen { display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 2500; flex-direction: column; animation: slideInUp 0.3s ease-out;}
+        /* MODALS */
+        .fs-screen { display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(20px); z-index: 2500; flex-direction: column; animation: slideInUp 0.3s ease-out;}
+        .fs-screen.active { display: flex; } 
+        
         .fs-header { background: rgba(15, 23, 42, 0.7); border-bottom: 1px solid var(--border-light); padding: 16px 20px calc(16px + env(safe-area-inset-top)); display: flex; align-items: center; gap: 15px; }
         .back-btn { font-size: 20px; color: var(--text-main); background: rgba(255,255,255,0.05); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-light);}
         .fs-header h2 { font-size: 18px; font-weight: 800; flex: 1; text-align: center; color: #fff;}
         .comments-body { flex: 1; overflow-y: auto; padding: 20px; }
         .fs-text-content { padding: 30px 20px; font-size: 15px; line-height: 1.6; color: #cbd5e1; }
-        
-        /* 🔥 MY ACTIVITY TABS 🔥 */
+        .fs-text-content h3 { color: #fff; margin-bottom: 10px; margin-top: 20px;}
+
         .activity-tabs { display: flex; justify-content: space-around; border-bottom: 1px solid var(--border-light); padding: 15px 0 0; }
         .act-tab { flex: 1; text-align: center; font-weight: 700; color: var(--text-muted); cursor: pointer; padding-bottom: 15px; transition: 0.2s; font-size: 14px; }
         
@@ -255,6 +243,10 @@
         .fs-vid-user { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; font-size: 15px;}
         .fs-vid-user img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover;}
         
+        /* SEARCH MODAL */
+        .search-result-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer; transition: 0.2s; }
+        .search-result-item:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
+
         .comment-item { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-light);}
         .comment-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; cursor: pointer;}
         .comment-header img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover;}
@@ -269,13 +261,46 @@
         .comment-input-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 14px; font-weight: 500; color: var(--text-main); }
         .comment-submit-btn { background: var(--accent-primary); color: #fff; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);}
         
-        .create-post-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;}
-        .create-post-textarea { width: 100%; background: rgba(0,0,0,0.2); padding: 16px; border-radius: 16px; border: 1px solid var(--border-light); outline: none; min-height: 120px; font-size: 16px; font-weight: 500; color: var(--text-main); resize: none;}
+        /* 🔥 SUPER ADVANCED POST EDITOR 🔥 */
+        .create-post-body { padding: 20px; flex: 1; display: flex; flex-direction: column; overflow-y: auto;}
+        .create-post-textarea { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 16px; resize: none; min-height: 80px; font-family: inherit;}
         .create-post-textarea::placeholder { color: var(--text-muted); }
-        .media-preview-container { border-radius: 12px; overflow: hidden; position: relative; display: none; background: rgba(0,0,0,0.5);}
-        .media-preview-container img, .media-preview-container video { width: 100%; max-height: 150px; object-fit: contain; display: block;}
+        .media-preview-container { border-radius: 16px; overflow: hidden; position: relative; display: none; background: #000; width: 100%; max-height: 350px; justify-content: center; align-items: center;}
+        .media-preview-container img, .media-preview-container video { max-width: 100%; max-height: 350px; object-fit: contain; display: block; transition: filter 0.3s;}
         
-        .story-viewer-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 99999; flex-direction: column; }
+        /* FILTERS UI */
+        .filter-strip { display: none; overflow-x: auto; gap: 10px; margin-top: 15px; padding-bottom: 10px; scrollbar-width: none; }
+        .filter-strip::-webkit-scrollbar { display: none; }
+        .filter-thumb { min-width: 60px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+        .filter-thumb-img { width: 50px; height: 50px; border-radius: 10px; background: #333; border: 2px solid transparent; transition: 0.2s; }
+        .filter-thumb.active .filter-thumb-img { border-color: var(--accent-primary); }
+        .filter-name { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+
+        /* POST TOOLBAR */
+        .cp-toolbar { display: flex; gap: 8px; margin-top: 15px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; }
+        .cp-toolbar::-webkit-scrollbar { display: none; }
+        .cp-tool-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-light); border-radius: 50px; font-size: 12px; font-weight: 700; color: var(--text-main); cursor: pointer; white-space: nowrap; transition: 0.2s;}
+        .cp-tool-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
+        .cp-tool-btn i { color: var(--accent-primary); }
+
+        /* 🔥 ENHANCED STORY VIEWERS INSIGHTS 🔥 */
+        .viewers-modal { display: none !important; position: fixed; inset: 0; z-index: 100000; flex-direction: column; justify-content: flex-end; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);}
+        .viewers-modal.active { display: flex !important; }
+        .viewers-container { background: rgba(15, 23, 42, 0.95); height: 75vh; border-radius: 30px 30px 0 0; display: flex; flex-direction: column; animation: slideInUp 0.3s ease-out; border-top: 1px solid var(--border-light);}
+        .viewers-header { padding: 20px 24px 10px; text-align: center; border-bottom: 1px solid var(--border-light); position: relative; border-radius: 30px 30px 0 0;}
+        .viewers-header h3 { font-size: 18px; font-weight: 800; color: #fff;}
+        .insights-grid { display: flex; justify-content: space-around; margin-top: 15px; padding-top: 10px; }
+        .insight-box { display: flex; flex-direction: column; align-items: center; }
+        .insight-val { font-size: 24px; font-weight: 800; color: #fff; }
+        .insight-lbl { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+        .viewers-close { position: absolute; right: 20px; top: 20px; font-size: 20px; color: var(--text-main); background: rgba(255,255,255,0.05); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;}
+        .viewers-list { flex: 1; overflow-y: auto; padding: 16px;}
+        /* THIS FIXES THE HUGE DP BUG IN STORY VIEWERS LIST */
+        .viewer-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer;}
+        .viewer-avatar { width: 44px !important; height: 44px !important; min-width: 44px !important; min-height: 44px !important; border-radius: 50%; object-fit: cover; background: var(--skel-bg); display: block; flex-shrink: 0;}
+
+        .story-viewer-modal { display: none !important; position: fixed; inset: 0; background: #000; z-index: 99999; flex-direction: column; }
+        .story-viewer-modal.active { display: flex !important; }
         .story-viewer-header { position: absolute; top: 0; left: 0; right: 0; z-index: 10; padding: calc(15px + env(safe-area-inset-top)) 15px 15px; background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent); }
         .story-progress-container { display: flex; gap: 6px; margin-bottom: 16px; }
         .story-progress-bar { flex: 1; height: 4px; background: rgba(255,255,255,0.3); border-radius: 4px; overflow: hidden; }
@@ -290,32 +315,16 @@
         .story-nav-area { position: absolute; inset: 0; display: flex; z-index: 5; }
         .story-nav-left, .story-nav-right { flex: 1; }
         .story-creator-controls { position: absolute; bottom: calc(25px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); z-index: 20; display: none; align-items: center; gap: 15px; color: #fff; background: rgba(0,0,0,0.6); padding: 12px 24px; border-radius: 50px; font-size: 15px; font-weight: 700; cursor: pointer; backdrop-filter: blur(10px);}
-        
         .story-viewer-controls { position: absolute; bottom: calc(20px + env(safe-area-inset-bottom)); left: 15px; right: 15px; z-index: 20; display: none; align-items: center; gap: 15px; }
         .story-reply-input { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.3); border-radius: 50px; padding: 14px 20px; color: #fff; font-size: 14px; backdrop-filter: blur(10px); outline: none; }
-        .story-reply-input::placeholder { color: rgba(255,255,255,0.7); }
         .story-action-btn { font-size: 28px; color: #fff; cursor: pointer; transition: 0.2s; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));}
-        .story-action-btn.fire-active { color: var(--fire-color); }
-
-        .viewers-modal { display: none; position: fixed; inset: 0; z-index: 100000; flex-direction: column; justify-content: flex-end; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);}
-        .viewers-container { background: rgba(15, 23, 42, 0.95); height: 75vh; border-radius: 30px 30px 0 0; display: flex; flex-direction: column; animation: slideInUp 0.3s ease-out; border-top: 1px solid var(--border-light);}
-        .viewers-header { padding: 24px; text-align: center; border-bottom: 1px solid var(--border-light); position: relative; border-radius: 30px 30px 0 0;}
-        .viewers-header h3 { font-size: 18px; font-weight: 800; color: #fff;}
-        .viewers-close { position: absolute; right: 20px; top: 20px; font-size: 20px; color: var(--text-main); background: rgba(255,255,255,0.05); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;}
-        .viewers-list { flex: 1; overflow-y: auto; padding: 16px;}
-        .viewer-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer;}
-        .viewer-info { display: flex; align-items: center; gap: 12px;}
-        .viewer-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: var(--skel-bg);}
-        .viewer-name { font-size: 15px; font-weight: 700; color: #fff;}
 
         .upload-overlay { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.9); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px);}
         .spinner { width: 40px; height: 40px; border: 3px solid var(--skel-bg); border-top-color: var(--accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        /* 🔥 FIXED TOAST CSS (DARK BACKGROUND) 🔥 */
         .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
         .toast { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideDown 0.3s ease; backdrop-filter: blur(10px); display: flex; align-items: center; pointer-events: auto;}
-        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0;} to { transform: translateY(0); opacity: 1;} }
     </style>
 </head>
 <body>
@@ -329,6 +338,7 @@
 
     <input type="file" id="storyMediaInput" accept="image/*,video/*" style="display: none;">
     <input type="file" id="postMediaInput" accept="image/*,video/*" style="display: none;">
+    <input type="file" id="postMusicInput" accept="audio/*" style="display: none;">
 
     <div class="header-wrapper" id="mainHeader">
         <header class="app-header">
@@ -362,7 +372,6 @@
 
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <aside id="mainSidebar" class="premium-sidebar">
-        
         <div class="sidebar-scroll-area">
             <div class="sidebar-profile-card" id="sidebarProfileCard">
                 <button class="close-sidebar-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
@@ -374,7 +383,6 @@
                         <div class="creator-level"><i class="fa-solid fa-bolt" style="margin-right:3px;"></i> Pro Creator</div>
                     </div>
                 </div>
-                
                 <div class="sp-stats">
                     <div class="sp-stat-item"><span class="sp-stat-val" id="userPostsCount">0</span><span class="sp-stat-label">Posts</span></div>
                     <div class="sp-stat-item"><span class="sp-stat-val" id="userFollowersCount">0</span><span class="sp-stat-label">Followers</span></div>
@@ -385,31 +393,39 @@
             
             <div class="sidebar-menu-list">
                 <div class="clean-menu-item" onclick="window.location.href='user_profile.html'"><i class="fa-regular fa-id-badge"></i> My Profile</div>
-                
                 <div class="clean-menu-item" onclick="openActivityModal(); toggleSidebar();"><i class="fa-solid fa-clock-rotate-left"></i> My Activity</div>
                 <div class="clean-menu-item" onclick="window.location.href='store.app.html'"><i class="fa-brands fa-android"></i> APK Apps</div>
                 <div class="clean-menu-item special" onclick="window.location.href='Monetization.html'"><i class="fa-solid fa-sack-dollar"></i> Monetization</div>
-                
                 <div class="clean-menu-item success" onclick="copyReferralLink()">
                     <div style="display:flex; align-items:center;"><i class="fa-solid fa-user-group"></i> Refer & Earn</div>
                     <div style="font-size: 11px; color: #fbbf24; font-weight: 700; margin-left: 30px; margin-top:4px;">Invite 1 friend, Get ₹200</div>
                 </div>
-
                 <div class="clean-menu-item" onclick="document.body.classList.toggle('dark-mode'); showToast('Theme toggled', 'success')"><i class="fa-solid fa-moon"></i> Dark Mode</div>
                 <div class="clean-menu-item" onclick="showToast('Translations coming soon!')"><i class="fa-solid fa-language"></i> Translation</div>
-                <div class="clean-menu-item" onclick="openInfoModal('Help Center', 'We are here to help. Contact support@fahimn.co.in for any issues regarding your account or monetization.')"><i class="fa-solid fa-headset"></i> Help Center</div>
-                <div class="clean-menu-item danger" onclick="openInfoModal('Report a Problem', 'Please describe the bug or issue you are facing. Our team will review it within 24 hours.')"><i class="fa-solid fa-triangle-exclamation"></i> Report a Problem</div>
+                <div class="clean-menu-item" onclick="openInfoModal('Help Center', 'We are here to help. Contact support@fahimn.co.in.')"><i class="fa-solid fa-headset"></i> Help Center</div>
+                <div class="clean-menu-item danger" onclick="openInfoModal('Report a Problem', 'Please describe the bug or issue you are facing.')"><i class="fa-solid fa-triangle-exclamation"></i> Report a Problem</div>
                 <div class="clean-menu-item" onclick="openInfoModal('Privacy Policy', 'Your data is safe with us. We use standard encryption and do not share personal information with third parties without consent.')"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</div>
                 <div class="clean-menu-item" onclick="openInfoModal('Terms & Conditions', 'By using fahimn.co.in, you agree to follow community guidelines. Any form of abuse or spam will lead to immediate account suspension.')"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</div>
                 <div class="clean-menu-item" onclick="openInfoModal('Download App', 'Our Android and iOS apps are currently under review in the stores. Stay tuned for the release!')"><i class="fa-solid fa-download"></i> Download App</div>
             </div>
         </div>
-
         <div class="sidebar-bottom">
             <button class="bottom-btn btn-settings" onclick="window.location.href='settings.html'"><i class="fa-solid fa-gear"></i> Settings</button>
             <button class="bottom-btn btn-logout" onclick="logoutUser()"><i class="fa-solid fa-power-off"></i> Logout</button>
         </div>
     </aside>
+
+    <div class="fs-screen" id="searchModal" style="z-index: 3500; background: var(--bg-body);">
+        <div class="fs-header" style="border-bottom: 1px solid var(--border-light);">
+            <button class="back-btn" onclick="closeSearch()"><i class="fa-solid fa-arrow-left"></i></button>
+            <div style="flex:1; margin-left: 10px;">
+                <input type="text" id="searchInput" placeholder="Search users by name..." onkeyup="performSearch()" style="width:100%; padding:10px 15px; border-radius:50px; border:1px solid var(--border-light); background:rgba(0,0,0,0.3); color:#fff; outline:none; font-family: inherit;">
+            </div>
+        </div>
+        <div class="comments-body" id="searchResults" style="padding: 16px;">
+            <div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">Type a name to search</div>
+        </div>
+    </div>
 
     <div class="fs-screen" id="activityModal" style="z-index: 3500; background: var(--bg-body);">
         <div class="fs-header">
@@ -450,7 +466,7 @@
     <div class="bottom-nav-wrapper" id="mainBottomNav">
         <nav class="bottom-nav">
             <button class="nav-item active"><i class="fa-solid fa-house"></i></button>
-            <button class="nav-item"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button class="nav-item" onclick="openSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
             <button class="nav-item" style="background: var(--accent-primary); color: #fff;" onclick="openCreatePostModal()"><i class="fa-solid fa-plus"></i></button>
             <button class="nav-item" onclick="window.location.href='user_profile.html'"><i class="fa-regular fa-user"></i></button>
             <button class="nav-item" onclick="toggleQuickMenu()"><i class="fa-solid fa-layer-group"></i></button>
@@ -463,19 +479,12 @@
             <h2 id="infoModalTitle">Title</h2>
             <div style="width:40px;"></div>
         </div>
-        <div class="comments-body">
-            <div class="fs-text-content">
-                <p id="infoModalText">Content goes here...</p>
-            </div>
-        </div>
+        <div class="comments-body"><div class="fs-text-content"><p id="infoModalText">Content goes here...</p></div></div>
     </div>
 
     <div class="fs-screen" id="fullscreenVideoModal">
         <div class="fs-vid-top">
-            <div class="fs-vid-user">
-                <img id="fsVidAvatar" src="">
-                <span id="fsVidName">User</span>
-            </div>
+            <div class="fs-vid-user"><img id="fsVidAvatar" src=""><span id="fsVidName">User</span></div>
             <button class="back-btn" onclick="closeFullscreenVideo()" style="background:rgba(255,255,255,0.2); color:#fff; border:none;"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div style="flex: 1; position: relative; display: flex; align-items: center; justify-content: center; width: 100%;" onclick="toggleFsVideo()">
@@ -484,25 +493,87 @@
         </div>
     </div>
 
-    <div class="fs-screen" id="notificationsModal" style="z-index: 3500;">
+    <div class="fs-screen" id="notificationsModal" style="z-index: 3500; background: var(--bg-body);">
         <div class="fs-header">
             <button class="back-btn" onclick="closeNotifications()"><i class="fa-solid fa-arrow-left"></i></button>
             <h2>Notifications</h2>
             <button style="color:var(--accent-primary); font-size:14px; font-weight:700; background:transparent; border:none; cursor:pointer;" onclick="markAllNotifsRead()">Read All</button>
         </div>
-        <div class="comments-body" id="notifList"></div>
+        <div class="comments-body" id="notifList" style="padding: 10px;"></div>
     </div>
 
-    <div class="fs-screen" id="createPostModal" style="z-index: 2000;">
-        <div class="fs-header">
+    <div class="fs-screen" id="createPostModal" style="z-index: 4000; background: var(--bg-body);">
+        <div class="fs-header" style="border-bottom: none;">
             <button class="back-btn" onclick="closeCreatePostModal()"><i class="fa-solid fa-xmark"></i></button>
-            <h2>Create Post</h2>
-            <button style="background:var(--accent-primary); color:#fff; padding:8px 24px; border-radius:50px; font-weight:700; font-size:14px; border:none;" onclick="submitNewPost()">Share</button>
+            <h2>New Post</h2>
+            <button style="background:var(--accent-primary); color:#fff; padding:6px 16px; border-radius:50px; font-weight:700; font-size:13px; border:none;" onclick="submitNewPost()">Share</button>
         </div>
-        <div class="create-post-body">
-            <textarea id="postCaptionInput" class="create-post-textarea" placeholder="What's on your mind?"></textarea>
-            <div id="mediaPreviewContainer" class="media-preview-container"><div id="mediaPreviewArea"></div><button class="remove-media-btn" onclick="clearPostMedia()" style="position:absolute; top:8px; right:8px; background:rgba(255,255,255,0.9); color:#000; border-radius:50%; width:32px; height:32px;"><i class="fa-solid fa-xmark"></i></button></div>
-            <button class="add-media-btn" onclick="document.getElementById('postMediaInput').click()" style="display:flex; align-items:center; justify-content:center; gap:10px; padding:14px; background:rgba(255,255,255,0.05); border:1px dashed var(--icon-color); border-radius:16px; font-weight:600; color:var(--text-main);"><i class="fa-regular fa-image" style="font-size:20px;"></i> Add Photo / Video</button>
+        <div class="create-post-body" style="padding: 0 16px;">
+            
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom: 16px;">
+                <img id="cpUserAvatar" src="" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
+                <div>
+                    <div id="cpUserName" style="font-weight:700; font-size:15px; color:#fff;">User</div>
+                    <div onclick="togglePrivacy()" style="background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; margin-top: 4px; border: 1px solid var(--border-light); transition: 0.2s;">
+                        <i class="fa-solid fa-globe" id="privacyIcon" style="color:var(--accent-primary)"></i> <span id="privacyText">Public</span> <i class="fa-solid fa-caret-down" style="color:var(--text-muted); margin-left:4px;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <textarea id="postCaptionInput" placeholder="What's on your mind?" style="width:100%; background:transparent; border:none; outline:none; color:#fff; font-size:16px; resize:none; min-height:80px; font-family:inherit;"></textarea>
+            
+            <div id="mediaPreviewContainer" style="width:100%; max-height:350px; background:#000; border-radius:16px; position:relative; display:none; justify-content:center; align-items:center; overflow:hidden; margin-bottom:10px;">
+                <div id="mediaPreviewArea" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center;"></div>
+                <button class="remove-media-btn" onclick="clearPostMedia()" style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.6); color:#fff; border-radius:50%; width:32px; height:32px; border: 1px solid rgba(255,255,255,0.2);"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="audioPreviewContainer" style="display:none; width:100%; background:rgba(255,255,255,0.05); padding:10px 15px; border-radius:12px; margin-bottom:10px; position:relative; border: 1px solid var(--border-light);">
+                <div style="font-size:12px; font-weight:700; color:var(--danger-color); margin-bottom:8px; display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-music"></i> Attached Audio</div>
+                <audio id="postAudioElement" controls style="width:100%; height:35px;"></audio>
+                <button onclick="removeAudio()" style="position:absolute; top:10px; right:15px; background:rgba(0,0,0,0.5); color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-xmark" style="font-size:12px;"></i></button>
+            </div>
+
+            <div id="locationDisplayContainer" style="display:none; align-items:center; gap:8px; margin-bottom:10px; padding:8px 16px; background:rgba(255,255,255,0.05); border-radius:50px; font-size:13px; font-weight:600; color:var(--text-main); width:max-content; border: 1px solid var(--border-light);">
+                <i class="fa-solid fa-location-dot" style="color:#ef4444;"></i>
+                <span id="locationText"></span>
+                <i class="fa-solid fa-xmark" style="cursor:pointer; color:var(--text-muted); margin-left:8px;" onclick="removeLocation()"></i>
+            </div>
+            
+            <div id="filterStrip" class="filter-strip">
+                <div class="filter-thumb active" onclick="applyFilter('none', this)">
+                    <img src="" class="filter-thumb-img dummy-preview">
+                    <span class="filter-name">Normal</span>
+                </div>
+                <div class="filter-thumb" onclick="applyFilter('contrast(1.2) saturate(1.35)', this)">
+                    <img src="" class="filter-thumb-img dummy-preview" style="filter: contrast(1.2) saturate(1.35);">
+                    <span class="filter-name">Clarendon</span>
+                </div>
+                <div class="filter-thumb" onclick="applyFilter('brightness(1.05) hue-rotate(150deg)', this)">
+                    <img src="" class="filter-thumb-img dummy-preview" style="filter: brightness(1.05) hue-rotate(150deg);">
+                    <span class="filter-name">Gingham</span>
+                </div>
+                <div class="filter-thumb" onclick="applyFilter('grayscale(1) contrast(1.1)', this)">
+                    <img src="" class="filter-thumb-img dummy-preview" style="filter: grayscale(1) contrast(1.1);">
+                    <span class="filter-name">Moon</span>
+                </div>
+                <div class="filter-thumb" onclick="applyFilter('sepia(0.25) contrast(1.2)', this)">
+                    <img src="" class="filter-thumb-img dummy-preview" style="filter: sepia(0.25) contrast(1.2);">
+                    <span class="filter-name">Lark</span>
+                </div>
+            </div>
+
+            <div class="cp-toolbar">
+                <div class="cp-tool-btn" onclick="attachLocation()"><i class="fa-solid fa-location-dot" style="color:#ef4444;"></i> Location</div>
+                <div class="cp-tool-btn" onclick="showToast('Tag mode activated', 'success')"><i class="fa-solid fa-user-tag" style="color:#10b981;"></i> Tag People</div>
+                <div class="cp-tool-btn" onclick="document.getElementById('postMusicInput').click()"><i class="fa-solid fa-music" style="color:#ef4444;"></i> Add Music</div>
+                <div class="cp-tool-btn" onclick="toggleComments()"><i class="fa-solid fa-comment" id="cpCommentIcon"></i> <span id="cpCommentText">Allow Comments</span></div>
+            </div>
+
+            <div style="padding-top: 10px; margin-top: auto; padding-bottom: 20px;">
+                <button id="addMediaBigBtn" onclick="document.getElementById('postMediaInput').click()" style="width:100%; padding:14px; background:var(--accent-primary); border-radius:16px; color:#fff; font-weight:700; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+                    <i class="fa-solid fa-photo-film" style="font-size:20px;"></i> Select Photo / Video
+                </button>
+            </div>
         </div>
     </div>
 
@@ -545,7 +616,17 @@
         <div style="flex:1;" onclick="closeStoryViewersList()"></div>
         <div class="viewers-container">
             <div class="viewers-header">
-                <h3>Story Analytics</h3>
+                <h3>Story Insights</h3>
+                <div class="insights-grid">
+                    <div class="insight-box">
+                        <div class="insight-val" id="stModalViewCount">0</div>
+                        <div class="insight-lbl">Total Views</div>
+                    </div>
+                    <div class="insight-box">
+                        <div class="insight-val" id="stModalLikeCount" style="color:var(--danger-color)">0</div>
+                        <div class="insight-lbl">Total Likes</div>
+                    </div>
+                </div>
                 <div class="viewers-close" onclick="closeStoryViewersList()"><i class="fa-solid fa-xmark"></i></div>
             </div>
             <div class="viewers-list" id="storyViewersList"></div>
@@ -556,6 +637,11 @@
         // GLOBAL VARIABLES
         let storyGroups = {}; 
         let viewingUid = null; let viewingIndex = 0; let storyTimer = null; let storyProgressWidth = 0; let isPaused = false;
+        let currentPrivacy = 'public';
+        let selectedFilterCSS = 'none';
+        let commentsAllowed = true;
+        let selectedAudioFile = null;
+        let selectedLocation = "";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
@@ -582,31 +668,70 @@
             return num.toString();
         }
 
-        // 🔥 TOAST ALERTS 🔥
         function showToast(msg, type='info') { 
             const box = document.getElementById('toastBox'); 
             const toast = document.createElement('div'); 
             toast.className = 'toast'; 
-            
             let iconColor = type === 'error' ? '#ef4444' : (type === 'success' ? '#10b981' : '#3b82f6');
             let iconName = type === 'error' ? 'fa-circle-exclamation' : (type === 'success' ? 'fa-circle-check' : 'fa-circle-info');
-            
             toast.innerHTML = `<i class="fa-solid ${iconName}" style="color: ${iconColor}; margin-right: 8px; font-size: 15px;"></i>${msg}`; 
             box.appendChild(toast); 
             setTimeout(() => toast.remove(), 2500); 
         }
 
-        // INFO MODAL
+        // 🔥 SEARCH LOGIC 🔥
+        window.openSearch = function() {
+            document.getElementById('searchModal').classList.add('active');
+            document.getElementById('searchInput').focus();
+        };
+        window.closeSearch = function() {
+            document.getElementById('searchModal').classList.remove('active');
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').innerHTML = '<div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">Type a name to search</div>';
+        };
+        window.performSearch = function() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+            
+            if(!query) {
+                resultsDiv.innerHTML = '<div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">Type a name to search</div>';
+                return;
+            }
+            
+            let html = '';
+            allUsersData.forEach(user => {
+                const safeName = user.name || user.fullName || 'User';
+                const username = user.khatarnak_id || safeName.replace(/\s+/g, '').toLowerCase();
+                
+                if(safeName.toLowerCase().includes(query) || username.includes(query)) {
+                    const dp = user.profile_image || user.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=1e293b&color=f8fafc`;
+                    const verifiedIcon = user.verified ? verifiedRedBadgeSVG : '';
+                    
+                    html += `
+                    <div class="search-result-item" onclick="window.location.href='user_profile.html?uid=${user.uid}'">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <img src="${dp}" style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
+                            <div>
+                                <div style="font-weight:700; color:#fff; display:flex; align-items:center;">${escapeHTML(safeName)}${verifiedIcon}</div>
+                                <div style="font-size:12px; color:var(--text-muted);">@${escapeHTML(username)}</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color:var(--text-muted);"></i>
+                    </div>`;
+                }
+            });
+            resultsDiv.innerHTML = html || '<div style="text-align:center; color:var(--text-muted); margin-top:40px; font-weight: 600;">No users found</div>';
+        };
+
         window.openInfoModal = function(title, text) {
             document.getElementById('infoModalTitle').innerText = title;
             document.getElementById('infoModalText').innerText = text;
-            document.getElementById('infoModal').style.display = 'flex';
+            document.getElementById('infoModal').classList.add('active');
         };
         window.closeInfoModal = function() {
-            document.getElementById('infoModal').style.display = 'none';
+            document.getElementById('infoModal').classList.remove('active');
         };
 
-        // FULLSCREEN VIDEO MODAL
         window.openFullscreenVideo = function(videoUrl, userName, userAvatar, origVidId) {
             if(origVidId) {
                 const origVid = document.getElementById(origVidId);
@@ -621,7 +746,7 @@
             const player = document.getElementById('fsVideoPlayer');
             const fsBtn = document.getElementById('fsPlayBtn');
             player.src = videoUrl;
-            document.getElementById('fullscreenVideoModal').style.display = 'flex';
+            document.getElementById('fullscreenVideoModal').classList.add('active');
             player.play();
             fsBtn.style.display = 'none';
         };
@@ -629,22 +754,19 @@
         window.closeFullscreenVideo = function() {
             const player = document.getElementById('fsVideoPlayer');
             player.pause(); player.src = "";
-            document.getElementById('fullscreenVideoModal').style.display = 'none';
+            document.getElementById('fullscreenVideoModal').classList.remove('active');
         };
 
         window.toggleFsVideo = function() {
             const player = document.getElementById('fsVideoPlayer');
             const fsBtn = document.getElementById('fsPlayBtn');
             if (player.paused) {
-                player.play();
-                fsBtn.style.display = 'none';
+                player.play(); fsBtn.style.display = 'none';
             } else {
-                player.pause();
-                fsBtn.style.display = 'flex';
+                player.pause(); fsBtn.style.display = 'flex';
             }
         };
 
-        // REFERRAL LINK
         window.copyReferralLink = function() {
             if(!currentUid) return;
             const refLink = `${window.location.origin}/auth.html?ref=${currentUid}`;
@@ -659,23 +781,17 @@
             .catch(() => { showToast('Failed to copy link', 'error'); });
         }
 
-        // DUAL SCROLL ANIMATION
-        let lastScrollTop = 0;
-        let isScrolling = false;
-        
+        let lastScrollTop = 0; let isScrolling = false;
         window.addEventListener('scroll', () => {
             if (!isScrolling) {
                 window.requestAnimationFrame(() => {
                     let st = window.pageYOffset || document.documentElement.scrollTop;
                     const nav = document.getElementById('mainBottomNav');
                     const header = document.getElementById('mainHeader');
-                    
                     if (st > lastScrollTop && st > 50) { 
-                        nav.classList.add('hidden'); 
-                        header.classList.add('hidden');
+                        nav.classList.add('hidden'); header.classList.add('hidden');
                     } else { 
-                        nav.classList.remove('hidden'); 
-                        header.classList.remove('hidden');
+                        nav.classList.remove('hidden'); header.classList.remove('hidden');
                     }
                     lastScrollTop = st <= 0 ? 0 : st;
                     isScrolling = false;
@@ -684,19 +800,12 @@
             }
         }, { passive: true });
 
-        // 🔥 NULL SAFE SMART VIDEO CONTROLS 🔥
         window.toggleSmartVideo = function(vidId) {
             const vid = document.getElementById(vidId);
             if(!vid) return; 
             const playBtn = document.getElementById(vidId.replace('vid-', 'playBtn-'));
-            
-            if (vid.paused) {
-                vid.play();
-                if(playBtn) playBtn.style.display = 'none';
-            } else {
-                vid.pause();
-                if(playBtn) playBtn.style.display = 'flex';
-            }
+            if (vid.paused) { vid.play(); if(playBtn) playBtn.style.display = 'none'; } 
+            else { vid.pause(); if(playBtn) playBtn.style.display = 'flex'; }
         };
 
         window.toggleQuickMenu = function() {
@@ -706,21 +815,15 @@
             overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
         };
 
-        // 🔥 FIX: NO BACKGROUND SCROLL WHEN SIDEBAR ACTIVE 🔥
         window.toggleSidebar = function() {
             const sidebar = document.getElementById('mainSidebar');
             const overlay = document.getElementById('sidebarOverlay');
             sidebar.classList.toggle('active');
             overlay.classList.toggle('active');
-            
-            if(sidebar.classList.contains('active')) {
-                document.body.style.overflow = 'hidden'; 
-            } else {
-                document.body.style.overflow = ''; 
-            }
+            if(sidebar.classList.contains('active')) { document.body.style.overflow = 'hidden'; } 
+            else { document.body.style.overflow = ''; }
         };
 
-        // POST OPTIONS & SAVE LOGIC
         let currentOptionsPostId = null;
         window.openPostOptions = function(postId) {
             currentOptionsPostId = postId;
@@ -728,29 +831,26 @@
             const overlay = document.getElementById('postOptionsOverlay');
             sheet.classList.add('active'); overlay.classList.add('active');
         };
-
         window.closePostOptions = function() {
             const sheet = document.getElementById('postOptionsSheet');
             const overlay = document.getElementById('postOptionsOverlay');
             sheet.classList.remove('active'); overlay.classList.remove('active');
         };
-
         window.saveCurrentPost = function() {
             if(!currentUid || !currentOptionsPostId) return;
             db.ref(`users/${currentUid}/saved/${currentOptionsPostId}`).set(Date.now());
             showToast('Saved to My Activity!', 'success');
         };
 
-        // MY ACTIVITY REAL-TIME LOGIC
         let activityRef = null;
         let currentActivityTab = 'liked';
 
         window.openActivityModal = function() {
-            document.getElementById('activityModal').style.display = 'flex';
+            document.getElementById('activityModal').classList.add('active');
             switchActivityTab('liked');
         }
         window.closeActivityModal = function() {
-            document.getElementById('activityModal').style.display = 'none';
+            document.getElementById('activityModal').classList.remove('active');
             if(activityRef) activityRef.off();
         }
         window.switchActivityTab = function(tab) {
@@ -834,6 +934,8 @@
                     
                     document.getElementById('myStoryAvatar').src = dp;
                     document.getElementById('sidebarAvatar').src = dp;
+                    document.getElementById('cpUserAvatar').src = dp;
+                    document.getElementById('cpUserName').innerText = safeName;
                     
                     const verifiedIcon = data.verified ? verifiedRedBadgeSVG : '';
                     document.getElementById('sidebarName').innerHTML = `${escapeHTML(safeName)}${verifiedIcon}`;
@@ -913,8 +1015,8 @@
             }
         });
 
-        window.openNotifications = function() { document.getElementById('notificationsModal').style.display = 'flex'; }
-        window.closeNotifications = function() { document.getElementById('notificationsModal').style.display = 'none'; }
+        window.openNotifications = function() { document.getElementById('notificationsModal').classList.add('active'); }
+        window.closeNotifications = function() { document.getElementById('notificationsModal').classList.remove('active'); }
         window.markNotifRead = function(notifId) { db.ref(`notifications/${currentUid}/${notifId}`).update({read: true}); }
         window.markAllNotifsRead = function() {
             db.ref(`notifications/${currentUid}`).once('value', snap => {
@@ -991,28 +1093,151 @@
             });
         }
 
+        // 🔥 NEW: CREATE POST LOGIC WITH FILTERS & PRIVACY 🔥
+        window.togglePrivacy = function() {
+            if(currentPrivacy === 'public') {
+                currentPrivacy = 'private';
+                document.getElementById('privacyIcon').className = 'fa-solid fa-lock';
+                document.getElementById('privacyIcon').style.color = 'var(--danger-color)';
+                document.getElementById('privacyText').innerText = 'Private';
+            } else {
+                currentPrivacy = 'public';
+                document.getElementById('privacyIcon').className = 'fa-solid fa-globe';
+                document.getElementById('privacyIcon').style.color = 'var(--accent-primary)';
+                document.getElementById('privacyText').innerText = 'Public';
+            }
+        };
+
+        window.toggleComments = function() {
+            commentsAllowed = !commentsAllowed;
+            document.getElementById('cpCommentIcon').className = commentsAllowed ? 'fa-solid fa-comment' : 'fa-solid fa-comment-slash';
+            document.getElementById('cpCommentIcon').style.color = commentsAllowed ? 'var(--accent-primary)' : 'var(--danger-color)';
+            document.getElementById('cpCommentText').innerText = commentsAllowed ? 'Allow Comments' : 'Comments Off';
+        };
+
+        window.applyFilter = function(filterCss, btnElement) {
+            selectedFilterCSS = filterCss;
+            document.querySelectorAll('.filter-thumb').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            
+            const previewMedia = document.getElementById('mediaPreviewArea').firstElementChild;
+            if(previewMedia) previewMedia.style.filter = filterCss;
+        };
+
+        // Real Location Logic
+        window.attachLocation = function() {
+            showToast("Fetching exact location...", "info");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                const city = data.address.city || data.address.town || data.address.state || "Unknown Location";
+                                selectedLocation = city;
+                                document.getElementById('locationText').innerText = city;
+                                document.getElementById('locationDisplayContainer').style.display = 'flex';
+                                showToast("Location attached successfully!", "success");
+                            })
+                            .catch(err => {
+                                selectedLocation = "Shared Location";
+                                document.getElementById('locationText').innerText = selectedLocation;
+                                document.getElementById('locationDisplayContainer').style.display = 'flex';
+                                showToast("Location attached!", "success");
+                            });
+                    },
+                    (error) => { showToast("Location permission denied. Please enable GPS.", "error"); }
+                );
+            } else { showToast("Geolocation is not supported by this browser.", "error"); }
+        }
+        window.removeLocation = function() {
+            selectedLocation = "";
+            document.getElementById('locationDisplayContainer').style.display = 'none';
+        }
+
+        // Real Music Logic
+        document.getElementById('postMusicInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+            const url = URL.createObjectURL(file);
+            document.getElementById('postAudioElement').src = url;
+            document.getElementById('audioPreviewContainer').style.display = 'block';
+            selectedAudioFile = file;
+            showToast("Music track added successfully!", "success");
+        });
+        window.removeAudio = function() {
+            document.getElementById('postMusicInput').value = '';
+            document.getElementById('postAudioElement').src = '';
+            document.getElementById('audioPreviewContainer').style.display = 'none';
+            selectedAudioFile = null;
+        }
+
         document.getElementById('postMediaInput').addEventListener('change', function(e) {
             const file = e.target.files[0]; if (!file) return; selectedPostFile = file;
             const fileURL = URL.createObjectURL(file);
-            document.getElementById('mediaPreviewArea').innerHTML = file.type.startsWith('video') ? `<video src="${fileURL}" controls></video>` : `<img src="${fileURL}">`;
-            document.getElementById('mediaPreviewContainer').style.display = 'block';
-            document.querySelector('.add-media-btn').style.display = 'none';
+            
+            selectedFilterCSS = 'none'; // reset filter
+            
+            if (file.type.startsWith('video')) {
+                document.getElementById('mediaPreviewArea').innerHTML = `<video src="${fileURL}" style="max-width:100%; max-height:100%; object-fit:contain;" controls></video>`;
+                document.getElementById('filterStrip').style.display = 'none';
+            } else {
+                document.getElementById('mediaPreviewArea').innerHTML = `<img src="${fileURL}" style="max-width:100%; max-height:100%; object-fit:contain; filter:none;">`;
+                document.getElementById('filterStrip').style.display = 'flex';
+                // Update dummy previews
+                document.querySelectorAll('.dummy-preview').forEach(img => img.src = fileURL);
+                document.querySelectorAll('.filter-thumb')[0].click(); // Select Normal
+            }
+            
+            document.getElementById('addMediaBigBtn').style.display = 'none';
+            document.getElementById('mediaPreviewContainer').style.display = 'flex';
         });
-        function clearPostMedia() { selectedPostFile = null; document.getElementById('postMediaInput').value = ''; document.getElementById('mediaPreviewContainer').style.display = 'none'; document.getElementById('mediaPreviewArea').innerHTML = ''; document.querySelector('.add-media-btn').style.display = 'flex'; }
+        
+        function clearPostMedia() { 
+            selectedPostFile = null; 
+            selectedFilterCSS = 'none';
+            document.getElementById('postMediaInput').value = ''; 
+            document.getElementById('mediaPreviewContainer').style.display = 'none'; 
+            document.getElementById('filterStrip').style.display = 'none';
+            document.getElementById('mediaPreviewArea').innerHTML = ''; 
+            document.getElementById('addMediaBigBtn').style.display = 'flex'; 
+        }
+
+        function openCreatePostModal() { document.getElementById('createPostModal').classList.add('active'); }
+        function closeCreatePostModal() { 
+            document.getElementById('createPostModal').classList.remove('active'); 
+            document.getElementById('postCaptionInput').value = ''; 
+            currentPrivacy = 'public'; document.getElementById('privacyIcon').className = 'fa-solid fa-globe'; document.getElementById('privacyIcon').style.color = 'var(--accent-primary)'; document.getElementById('privacyText').innerText = 'Public'; 
+            commentsAllowed = true; document.getElementById('cpCommentIcon').className = 'fa-solid fa-comment'; document.getElementById('cpCommentIcon').style.color = 'var(--accent-primary)'; document.getElementById('cpCommentText').innerText = 'Allow Comments';
+            clearPostMedia(); 
+            removeLocation();
+            removeAudio();
+        }
 
         async function submitNewPost() {
             const caption = document.getElementById('postCaptionInput').value.trim();
-            if (!caption && !selectedPostFile) { showToast("Empty Post!", "error"); return; }
+            if (!caption && !selectedPostFile && !selectedAudioFile) { showToast("Post cannot be empty!", "error"); return; }
             document.getElementById('uploadOverlay').style.display = 'flex';
             let mediaUrl = ""; let mediaType = "";
             try {
                 if (selectedPostFile) { const data = await uploadToCloudinary(selectedPostFile); mediaUrl = data.secure_url; mediaType = selectedPostFile.type.startsWith('video') ? 'video' : 'image'; }
+                
+                // MOCK AUDIO UPLOAD FOR DEMO 
+                const hasAudio = selectedAudioFile ? true : false;
+
                 const safeName = (currentUserData && currentUserData.name) ? currentUserData.name : (currentUserData && currentUserData.fullName ? currentUserData.fullName : 'VIP User');
                 const safePic = currentUserData ? (currentUserData.profile_image || currentUserData.profilePic || '') : '';
-                
                 const isVerified = currentUserData && currentUserData.verified ? true : false;
 
-                await db.ref('social_feed').push({ uid: currentUid, caption: caption, mediaUrl: mediaUrl, mediaType: mediaType, timestamp: firebase.database.ServerValue.TIMESTAMP, senderName: safeName, senderPic: safePic, senderVerified: isVerified });
+                await db.ref('social_feed').push({ 
+                    uid: currentUid, caption: caption, mediaUrl: mediaUrl, mediaType: mediaType, 
+                    privacy: currentPrivacy, filterCSS: selectedFilterCSS, commentsEnabled: commentsAllowed,
+                    location: selectedLocation || "", hasAudio: hasAudio,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP, senderName: safeName, senderPic: safePic, senderVerified: isVerified 
+                });
+                
                 document.getElementById('uploadOverlay').style.display = 'none'; closeCreatePostModal(); showToast("Shared Successfully!", "success");
             } catch(err) { document.getElementById('uploadOverlay').style.display = 'none'; showToast("Upload Failed", "error"); }
         }
@@ -1045,6 +1270,8 @@
         }
 
         function buildRealPostHTML(post, prefix = '') {
+            if (post.privacy === 'private' && post.uid !== currentUid) return '';
+
             const likesCount = Object.keys(post.likes || {}).length;
             const hasLiked = currentUid && (post.likes || {})[currentUid];
             const fireClass = hasLiked ? 'fire-active' : '';
@@ -1062,6 +1289,7 @@
             const textContent = post.caption || post.text || post.title || ""; 
             const url = post.mediaUrl || post.video_url || post.url || '';
             const isVideo = url.includes('.mp4') || post.mediaType === 'video';
+            const filterStyle = post.filterCSS && post.filterCSS !== 'none' ? `filter: ${post.filterCSS};` : '';
 
             let postType = 'text';
             if (url) { postType = isVideo ? 'video' : 'image'; }
@@ -1091,10 +1319,13 @@
                         <video id="vid-${prefix}${post.id}" src="${url}#t=0.001" poster="${posterUrl}" playsinline style="width:100%; height:100%; object-fit:cover; pointer-events: none;"></video>
                         <div class="smart-play-btn" id="playBtn-${prefix}${post.id}" style="pointer-events: none;"><i class="fa-solid fa-play"></i></div>
                         <div class="fs-expand-btn" onclick="openFullscreenVideo('${url}', '${escapeHTML(safeName)}', '${safePic}', 'vid-${prefix}${post.id}'); event.stopPropagation();"><i class="fa-solid fa-expand"></i></div>
-                    </div>` : `<div class="post-media" ondblclick="toggleLike('${post.id}', '${postAuthorUid}')"><img src="${url}" loading="lazy"></div>`;
+                    </div>` : `<div class="post-media" ondblclick="toggleLike('${post.id}', '${postAuthorUid}')"><img src="${url}" style="${filterStyle}" loading="lazy"></div>`;
             }
 
             const optionsBtn = `<button class="post-options" onclick="openPostOptions('${post.id}')"><i class="fa-solid fa-ellipsis-vertical"></i></button>`;
+            const privacyIconHtml = post.privacy === 'private' ? '<i class="fa-solid fa-lock" style="font-size:10px; color:var(--danger-color); margin-left:6px;"></i>' : '';
+            const locationHtml = post.location ? `<div style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:4px; margin-top:2px;"><i class="fa-solid fa-location-dot" style="color:var(--danger-color);"></i> ${escapeHTML(post.location)}</div>` : '';
+            const audioHtml = post.hasAudio ? `<div style="width:100%; margin-bottom:14px; padding:10px 15px; background:rgba(255,255,255,0.05); border-radius:50px; border:1px solid var(--border-light); display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-music" style="color:var(--danger-color);"></i><span style="font-size:12px; font-weight:700;">Original Audio - ${escapeHTML(safeName)}</span></div>` : '';
 
             return `
                 <div class="post-card" id="post-${prefix}${post.id}" data-type="${postType}" style="display: ${displayStyle};">
@@ -1103,13 +1334,15 @@
                             <img src="${safePic}" class="post-avatar">
                             <div>
                                 <div class="post-real-name">${escapeHTML(safeName)}${verifiedIcon}</div>
-                                <div class="post-real-time">${timeAgo(post.timestamp)}</div>
+                                ${locationHtml}
+                                <div class="post-real-time" style="margin-top:2px;">${timeAgo(post.timestamp)}${privacyIconHtml}</div>
                             </div>
                         </div>
                         ${optionsBtn}
                     </div>
                     
                     ${textContent ? `<div class="post-real-text">${escapeHTML(textContent)}</div>` : ''}
+                    ${audioHtml}
                     ${mediaHtml}
                     
                     <div class="action-container">
@@ -1117,16 +1350,12 @@
                             <button class="action-btn ${fireClass}" id="likeBtn-${prefix}${post.id}" onclick="toggleLike('${post.id}', '${postAuthorUid}')">
                                 <i class="${fireIcon}"></i> <span id="likeCount-${prefix}${post.id}">${likesCount > 0 ? likesCount : 'Burn'}</span>
                             </button>
-                            <button class="action-btn" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')">
-                                <i class="fa-regular fa-comment"></i> <span>${totalComments > 0 ? totalComments : 'Discuss'}</span>
-                            </button>
+                            ${post.commentsEnabled !== false ? `<button class="action-btn" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')"><i class="fa-regular fa-comment"></i> <span>${totalComments > 0 ? totalComments : 'Discuss'}</span></button>` : `<button class="action-btn" style="opacity:0.5; cursor:not-allowed;"><i class="fa-solid fa-comment-slash"></i> <span>Off</span></button>`}
                         </div>
                         <button class="action-btn" onclick="sharePost('${escapeHTML(textContent)}', '${url}')"><i class="fa-solid fa-share-nodes"></i></button>
                     </div>
 
-                    <div id="commentPreview-${prefix}${post.id}" class="comment-preview-area" style="display: ${totalComments > 0 ? 'block' : 'none'};">
-                        ${latestCommentHtml}
-                    </div>
+                    ${post.commentsEnabled !== false ? `<div id="commentPreview-${prefix}${post.id}" class="comment-preview-area" style="display: ${totalComments > 0 ? 'block' : 'none'};">${latestCommentHtml}</div>` : ''}
                 </div>`;
         }
 
@@ -1154,8 +1383,10 @@
                         latestCommentHtml = `<div class="view-all-comments" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')">View all ${totalComments} comments</div><div class="latest-comment-preview" onclick="openCommentsModal('${post.id}', '${postAuthorUid}')"><span>${escapeHTML(lcName)}</span> ${escapeHTML(lc.text)}</div>`;
                     }
                 }
-                const previewDiv = card.querySelector('#commentPreview-' + prefix + post.id);
-                if (previewDiv) { previewDiv.innerHTML = latestCommentHtml; previewDiv.style.display = totalComments > 0 ? 'block' : 'none'; }
+                if(post.commentsEnabled !== false) {
+                    const previewDiv = card.querySelector('#commentPreview-' + prefix + post.id);
+                    if (previewDiv) { previewDiv.innerHTML = latestCommentHtml; previewDiv.style.display = totalComments > 0 ? 'block' : 'none'; }
+                }
             });
         }
 
@@ -1174,7 +1405,7 @@
 
         window.openCommentsModal = function(postId, postOwnerId) {
             currentCommentPostId = postId; currentCommentPostOwnerId = postOwnerId;
-            document.getElementById('commentsModal').style.display = 'flex'; cancelReply(); 
+            document.getElementById('commentsModal').classList.add('active'); cancelReply(); 
             
             db.ref(`social_feed/${postId}/comments`).on('value', snap => {
                 if(currentCommentPostId !== postId) return; 
@@ -1224,7 +1455,7 @@
             return html + '</div>';
         }
 
-        window.closeCommentsModal = function() { if(currentCommentPostId) db.ref(`social_feed/${currentCommentPostId}/comments`).off(); document.getElementById('commentsModal').style.display = 'none'; currentCommentPostId = null; }
+        window.closeCommentsModal = function() { if(currentCommentPostId) db.ref(`social_feed/${currentCommentPostId}/comments`).off(); document.getElementById('commentsModal').classList.remove('active'); currentCommentPostId = null; }
         
         let replyingToCommentId = null; let replyingToCommentOwnerId = null;
         window.startReply = function(commentId, userName, replyAuthorId) { replyingToCommentId = commentId; replyingToCommentOwnerId = replyAuthorId; document.getElementById('replyBanner').style.display = 'flex'; document.getElementById('replyingToText').innerText = `Replying to ${userName}`; document.getElementById('commentInput').focus(); }
@@ -1247,22 +1478,8 @@
             } catch (err) { showToast("Failed", "error"); }
         }
 
-        document.getElementById('storyMediaInput').addEventListener('change', async function(e) {
-            const file = e.target.files[0]; if (!file) return;
-            document.getElementById('uploadOverlay').style.display = 'flex';
-            try {
-                const data = await uploadToCloudinary(file);
-                const safeName = (currentUserData && currentUserData.name) ? currentUserData.name : (currentUserData && currentUserData.fullName ? currentUserData.fullName : 'VIP User');
-                await db.ref('stories').push({
-                    uid: currentUid, mediaUrl: data.secure_url, mediaType: file.type.startsWith('video') ? 'video' : 'image',
-                    timestamp: firebase.database.ServerValue.TIMESTAMP, senderName: safeName, senderPic: currentUserData ? (currentUserData.profile_image || currentUserData.profilePic || '') : ''
-                });
-                document.getElementById('uploadOverlay').style.display = 'none'; showToast("Story Published!", "success"); this.value = '';
-            } catch(err) { document.getElementById('uploadOverlay').style.display = 'none'; showToast("Error uploading story", "error"); }
-        });
-
-        // 🔥 STORY VIEWER LOGIC 🔥
-        function openStoryViewer(uid) { if(!storyGroups[uid]) return; viewingUid = uid; viewingIndex = 0; document.getElementById('storyViewerModal').style.display = 'flex'; renderStoryContent(); }
+        // 🔥 ENHANCED STORY VIEWER / ANALYTICS 🔥
+        function openStoryViewer(uid) { if(!storyGroups[uid]) return; viewingUid = uid; viewingIndex = 0; document.getElementById('storyViewerModal').classList.add('active'); renderStoryContent(); }
         
         function renderStoryContent() {
             isPaused = false; const stories = storyGroups[viewingUid];
@@ -1320,6 +1537,11 @@
                 const likesCount = s.likes ? Object.keys(s.likes).length : 0;
                 document.getElementById('storyViewCount').innerText = viewsCount;
                 document.getElementById('storyLikeCountLabel').innerText = likesCount;
+                
+                // Update Analytics Modal Data
+                document.getElementById('stModalViewCount').innerText = viewsCount;
+                document.getElementById('stModalLikeCount').innerText = likesCount;
+
                 document.getElementById('storyCreatorControls').style.display = 'flex';
             }
         }
@@ -1351,11 +1573,11 @@
         }
         function nextStory() { viewingIndex++; renderStoryContent(); }
         function prevStory() { viewingIndex--; renderStoryContent(); }
-        function closeStoryViewer() { clearInterval(storyTimer); document.getElementById('storyViewerModal').style.display = 'none'; document.getElementById('svContent').innerHTML = ''; }
+        function closeStoryViewer() { clearInterval(storyTimer); document.getElementById('storyViewerModal').classList.remove('active'); document.getElementById('svContent').innerHTML = ''; }
         
         window.openStoryViewersList = function() {
             isPaused = true; const vid = document.querySelector('#svContent video'); if(vid) vid.pause();
-            document.getElementById('storyViewersModal').style.display = 'flex';
+            document.getElementById('storyViewersModal').classList.add('active');
             const list = document.getElementById('storyViewersList'); list.innerHTML = '';
             const s = storyGroups[viewingUid][viewingIndex];
             if(!s.viewers) { list.innerHTML = '<div style="text-align:center; padding: 40px; color:var(--text-muted); font-weight:600;">No viewers yet.</div>'; return; }
@@ -1364,12 +1586,12 @@
                 if(u) {
                     const safeName = u.name || u.fullName || 'User';
                     const img = u.profile_image || u.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}&background=e2e8f0`;
-                    const likedHtml = (s.likes && s.likes[viewerUid]) ? `<i class="fa-solid fa-fire viewer-like-icon" style="color:var(--fire-color)"></i>` : '';
+                    const likedHtml = (s.likes && s.likes[viewerUid]) ? `<i class="fa-solid fa-fire viewer-like-icon" style="color:var(--danger-color)"></i>` : '';
                     list.innerHTML += `<div class="viewer-item" onclick="window.location.href='user_profile.html?uid=${viewerUid}'"><div class="viewer-info"><img src="${img}" class="viewer-avatar"><div class="viewer-name">${escapeHTML(safeName)}</div></div>${likedHtml}</div>`;
                 }
             });
         }
-        window.closeStoryViewersList = function() { document.getElementById('storyViewersModal').style.display = 'none'; isPaused = false; const vid = document.querySelector('#svContent video'); if(vid) vid.play(); }
+        window.closeStoryViewersList = function() { document.getElementById('storyViewersModal').classList.remove('active'); isPaused = false; const vid = document.querySelector('#svContent video'); if(vid) vid.play(); }
 
     </script>
 </body>
