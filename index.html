@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>fahimn.co.in Platform Get Free Mod APK" Refer 1 friend to get rs 200"</title>
-    <meta name="description" content="fahimn.co.in is a futuristic social media and creator monetization platform where users can share posts, stories, videos, chat in real-time, earn money, upload APK apps, grow followers, create premium content, and manage creator earnings with ultra premium features.">
+    <title>fahimn.co.in Platform</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -91,6 +90,7 @@
         }
         .premium-sidebar.active { left: 0; }
 
+        /* Inner Scroll Area */
         .sidebar-scroll-area { flex: 1; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
         .sidebar-scroll-area::-webkit-scrollbar { display: none; }
 
@@ -112,10 +112,10 @@
         .sp-stat-val { font-size: 15px; font-weight: 800; color: #fff; line-height: 1;}
         .sp-stat-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; letter-spacing: 0.5px;}
         
-        .sp-edit-btn { width: 100%; padding: 10px; border-radius: 50px; background: var(--accent-primary); border: none; color: #fff; font-size: 13px; font-weight: 700; transition: 0.2s; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); margin-bottom: 15px;}
+        .sp-edit-btn { width: 100%; padding: 10px; border-radius: 50px; background: var(--accent-primary); border: none; color: #fff; font-size: 13px; font-weight: 700; transition: 0.2s; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);}
         .sp-edit-btn:active { transform: scale(0.98); }
 
-        .sidebar-menu-list { padding: 15px; display:flex; flex-direction: column; gap: 8px;}
+        .sidebar-menu-list { padding: 15px; display:flex; flex-direction: column; gap: 8px; padding-bottom: 20px;}
         .clean-menu-item { display: flex; align-items: center; padding: 12px 16px; background: rgba(255,255,255,0.03); border: 1px solid transparent; border-radius: 14px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .clean-menu-item:active { background: rgba(255,255,255,0.1); border-color: var(--glass-border); transform: scale(0.98);}
         .clean-menu-item i { font-size: 16px; width: 28px; text-align: left; color: var(--accent-primary); filter: drop-shadow(0 0 8px rgba(37,99,235,0.4)); }
@@ -126,7 +126,11 @@
         .clean-menu-item.success { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 16px; flex-direction: column; align-items: flex-start; padding: 14px 16px;}
         .clean-menu-item.success i { color: #10b981; filter: drop-shadow(0 0 8px rgba(16,185,129,0.4)); font-size: 18px;}
 
-        .sidebar-bottom { padding: 15px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); display: flex; gap: 10px; margin-top: auto; }
+        /* 🔥 FIXED AT BOTTOM ALWAYS 🔥 */
+        .sidebar-bottom { 
+            padding: 15px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); 
+            display: flex; gap: 10px; flex-shrink: 0; padding-bottom: calc(15px + env(safe-area-inset-bottom));
+        }
         .bottom-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 50px; font-size: 13px; font-weight: 700; transition: 0.2s;}
         .btn-settings { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid var(--glass-border);}
         .btn-logout { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); border: 1px solid rgba(239, 68, 68, 0.3);}
@@ -242,14 +246,14 @@
         .comments-body { flex: 1; overflow-y: auto; padding: 20px; }
         .fs-text-content { padding: 30px 20px; font-size: 15px; line-height: 1.6; color: #cbd5e1; }
         
+        /* 🔥 MY ACTIVITY TABS 🔥 */
+        .activity-tabs { display: flex; justify-content: space-around; border-bottom: 1px solid var(--border-light); padding: 15px 0 0; }
+        .act-tab { flex: 1; text-align: center; font-weight: 700; color: var(--text-muted); cursor: pointer; padding-bottom: 15px; transition: 0.2s; font-size: 14px; }
+        
         #fullscreenVideoModal { z-index: 100000; background: #000 !important; justify-content: center; align-items: center;}
         .fs-vid-top { position: absolute; top: 0; left: 0; right: 0; z-index: 10; padding: calc(15px + env(safe-area-inset-top)) 15px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display: flex; align-items: center; justify-content: space-between;}
         .fs-vid-user { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; font-size: 15px;}
         .fs-vid-user img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover;}
-        
-        /* 🔥 NEW MY ACTIVITY TABS 🔥 */
-        .activity-tabs { display: flex; justify-content: space-around; border-bottom: 1px solid var(--border-light); padding: 15px 0 0; }
-        .act-tab { flex: 1; text-align: center; font-weight: 700; color: var(--text-muted); cursor: pointer; padding-bottom: 15px; transition: 0.2s; font-size: 14px; }
         
         .comment-item { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-light);}
         .comment-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; cursor: pointer;}
@@ -308,7 +312,7 @@
         .spinner { width: 40px; height: 40px; border: 3px solid var(--skel-bg); border-top-color: var(--accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        /* 🔥 FIXED TOAST CSS (DARK BACKGROUND, VISIBLE TEXT) 🔥 */
+        /* 🔥 FIXED TOAST CSS (DARK BACKGROUND) 🔥 */
         .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
         .toast { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideDown 0.3s ease; backdrop-filter: blur(10px); display: flex; align-items: center; pointer-events: auto;}
         @keyframes slideDown { from { transform: translateY(-20px); opacity: 0;} to { transform: translateY(0); opacity: 1;} }
@@ -377,20 +381,13 @@
                     <div class="sp-stat-item"><span class="sp-stat-val" id="userFollowingCount">0</span><span class="sp-stat-label">Following</span></div>
                 </div>
                 <button class="sp-edit-btn" onclick="window.location.href='user_profile.html'">Edit Full Profile</button>
-                
-                <div class="sidebar-top-actions">
-                    <button class="top-action-btn btn-settings" onclick="window.location.href='settings.html'"><i class="fa-solid fa-gear"></i> Settings</button>
-                    <button class="top-action-btn btn-logout" onclick="logoutUser()"><i class="fa-solid fa-power-off"></i> Logout</button>
-                </div>
             </div>
             
             <div class="sidebar-menu-list">
                 <div class="clean-menu-item" onclick="window.location.href='user_profile.html'"><i class="fa-regular fa-id-badge"></i> My Profile</div>
                 
                 <div class="clean-menu-item" onclick="openActivityModal(); toggleSidebar();"><i class="fa-solid fa-clock-rotate-left"></i> My Activity</div>
-                
                 <div class="clean-menu-item" onclick="window.location.href='store.app.html'"><i class="fa-brands fa-android"></i> APK Apps</div>
-                
                 <div class="clean-menu-item special" onclick="window.location.href='Monetization.html'"><i class="fa-solid fa-sack-dollar"></i> Monetization</div>
                 
                 <div class="clean-menu-item success" onclick="copyReferralLink()">
@@ -406,6 +403,11 @@
                 <div class="clean-menu-item" onclick="openInfoModal('Terms & Conditions', 'By using fahimn.co.in, you agree to follow community guidelines. Any form of abuse or spam will lead to immediate account suspension.')"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</div>
                 <div class="clean-menu-item" onclick="openInfoModal('Download App', 'Our Android and iOS apps are currently under review in the stores. Stay tuned for the release!')"><i class="fa-solid fa-download"></i> Download App</div>
             </div>
+        </div>
+
+        <div class="sidebar-bottom">
+            <button class="bottom-btn btn-settings" onclick="window.location.href='settings.html'"><i class="fa-solid fa-gear"></i> Settings</button>
+            <button class="bottom-btn btn-logout" onclick="logoutUser()"><i class="fa-solid fa-power-off"></i> Logout</button>
         </div>
     </aside>
 
@@ -580,7 +582,7 @@
             return num.toString();
         }
 
-        // 🔥 FIXED TOAST ALERTS (DARK THEME + ICONS) 🔥
+        // 🔥 TOAST ALERTS 🔥
         function showToast(msg, type='info') { 
             const box = document.getElementById('toastBox'); 
             const toast = document.createElement('div'); 
@@ -604,10 +606,9 @@
             document.getElementById('infoModal').style.display = 'none';
         };
 
-        // FULLSCREEN VIDEO MODAL (Fix applied for play button overlay)
+        // FULLSCREEN VIDEO MODAL
         window.openFullscreenVideo = function(videoUrl, userName, userAvatar, origVidId) {
             if(origVidId) {
-                // Here origVidId would be e.g. "vid-act-12345" or "vid-12345"
                 const origVid = document.getElementById(origVidId);
                 if(origVid && !origVid.paused) {
                     origVid.pause();
@@ -683,18 +684,18 @@
             }
         }, { passive: true });
 
-        // SMART VIDEO CONTROLS (BUG FIXED)
+        // 🔥 NULL SAFE SMART VIDEO CONTROLS 🔥
         window.toggleSmartVideo = function(vidId) {
             const vid = document.getElementById(vidId);
+            if(!vid) return; 
             const playBtn = document.getElementById(vidId.replace('vid-', 'playBtn-'));
-            if(!vid || !playBtn) return;
-
+            
             if (vid.paused) {
                 vid.play();
-                playBtn.style.display = 'none';
+                if(playBtn) playBtn.style.display = 'none';
             } else {
                 vid.pause();
-                playBtn.style.display = 'flex';
+                if(playBtn) playBtn.style.display = 'flex';
             }
         };
 
@@ -705,14 +706,21 @@
             overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
         };
 
+        // 🔥 FIX: NO BACKGROUND SCROLL WHEN SIDEBAR ACTIVE 🔥
         window.toggleSidebar = function() {
             const sidebar = document.getElementById('mainSidebar');
             const overlay = document.getElementById('sidebarOverlay');
             sidebar.classList.toggle('active');
             overlay.classList.toggle('active');
+            
+            if(sidebar.classList.contains('active')) {
+                document.body.style.overflow = 'hidden'; 
+            } else {
+                document.body.style.overflow = ''; 
+            }
         };
 
-        // 🔥 NEW: POST OPTIONS & SAVE LOGIC 🔥
+        // POST OPTIONS & SAVE LOGIC
         let currentOptionsPostId = null;
         window.openPostOptions = function(postId) {
             currentOptionsPostId = postId;
@@ -733,7 +741,7 @@
             showToast('Saved to My Activity!', 'success');
         };
 
-        // 🔥 NEW: MY ACTIVITY REAL-TIME LOGIC 🔥
+        // MY ACTIVITY REAL-TIME LOGIC
         let activityRef = null;
         let currentActivityTab = 'liked';
 
@@ -767,7 +775,7 @@
             activityRef.on('value', snap => {
                 let html = ''; let posts = [];
                 snap.forEach(child => { posts.push({id: child.key, ...child.val()}); });
-                posts.reverse(); // Newest first
+                posts.reverse(); 
                 
                 posts.forEach(post => {
                     if (currentActivityTab === 'liked' && post.likes && post.likes[currentUid]) {
@@ -1036,7 +1044,6 @@
             } else { showToast("Link Copied!", "success"); navigator.clipboard.writeText(urlText || window.location.href); }
         }
 
-        // 🔥 MODIFIED POST BUILDER TO HANDLE PREFIX FOR ACTIVITY MODAL 🔥
         function buildRealPostHTML(post, prefix = '') {
             const likesCount = Object.keys(post.likes || {}).length;
             const hasLiked = currentUid && (post.likes || {})[currentUid];
@@ -1124,7 +1131,6 @@
         }
 
         function updatePostUI(post) {
-            // Update both main feed and activity feed if open
             ['', 'act-'].forEach(prefix => {
                 const card = document.getElementById('post-' + prefix + post.id); if(!card) return;
                 const hasLiked = currentUid && (post.likes || {})[currentUid];
