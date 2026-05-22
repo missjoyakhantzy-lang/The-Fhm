@@ -4,18 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Monetization - fahimn.co.in</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
     <style>
-      /* =========================================
-           ULTRA PREMIUM DARK GLASS THEME
+        /* =========================================
+           ULTRA PREMIUM PRO GLASS THEME
            ========================================= */
         :root {
             --bg-body: #020617; 
-            --card-bg: rgba(15, 23, 42, 0.55); 
+            --card-bg: rgba(15, 23, 42, 0.4); 
             --text-main: #f8fafc; 
             --text-muted: #94a3b8; 
             --accent-primary: #3b82f6;
@@ -24,12 +27,13 @@
             --danger-color: #ef4444;
             --success-color: #10b981;
             --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            background: radial-gradient(circle at top left, #1e293b, #020617 80%);
+            background: radial-gradient(circle at top left, #0f172a, #020617 80%);
             background-attachment: fixed;
             color: var(--text-main); 
             overflow-x: hidden; 
@@ -40,164 +44,145 @@
         button { cursor: pointer; border: none; background: transparent; outline: none; }
         
         /* 🔥 HEADER 🔥 */
-        .header-wrapper { 
-            position: fixed; top: env(safe-area-inset-top); left: 0; right: 0; 
-            padding: 10px 16px; z-index: 1000; 
-        }
-        .app-header { 
-            background: rgba(15, 23, 42, 0.85); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
-            border: 1px solid var(--glass-border); 
-        }
-        .back-btn { font-size: 20px; color: var(--text-main); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); transition: 0.2s; border: 1px solid rgba(255,255,255,0.05); }
+        .header-wrapper { position: fixed; top: env(safe-area-inset-top); left: 0; right: 0; padding: 10px 16px; z-index: 1000; }
+        .app-header { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 20px; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); border: 1px solid var(--glass-border); }
+        .back-btn { font-size: 18px; color: var(--text-main); width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); transition: 0.2s; border: 1px solid rgba(255,255,255,0.05); }
         .back-btn:active { transform: scale(0.90); }
-        .header-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+        .header-title { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+        .header-profile-pic { width: 32px; height: 32px; border-radius: 10px; object-fit: cover; border: 1px solid var(--accent-primary); background: var(--card-bg); }
 
-        /* FIXED RIGHT SIDE PROFILE PIC IN HEADER */
-        .header-profile-pic { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-primary); background: var(--card-bg); }
-
-        /* 🔥 SKELETON LOADER 🔥 */
-        .skel-text {
-            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite linear;
-            color: transparent !important;
-            border-radius: 8px;
-            display: inline-block;
-            min-width: 100px;
-        }
+        .skel-text { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; color: transparent !important; border-radius: 6px; display: inline-block; min-width: 80px; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
-        /* 🔥 MAIN DASHBOARD AREA 🔥 */
         .dashboard-container { padding: 0 16px; max-width: 600px; margin: 0 auto; }
 
-        /* GOLDEN BALANCE CARD */
-        .balance-card {
-            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
-            border-radius: 24px; padding: 30px 24px; position: relative; overflow: hidden;
-            box-shadow: 0 15px 35px rgba(217, 119, 6, 0.3);
-            margin-bottom: 20px;
-        }
-        .balance-card::after {
-            content: '\f51e'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; right: -20px; bottom: -20px; font-size: 120px; color: rgba(255,255,255,0.15); pointer-events: none;
-        }
-        .bc-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .bc-amount { font-size: 42px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px; letter-spacing: -1px; }
-        .bc-currency { font-size: 24px; opacity: 0.9; }
-        .bc-tag { display: inline-block; background: rgba(0,0,0,0.2); padding: 6px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; color: #fff; margin-top: 12px; backdrop-filter: blur(5px); transition: 0.3s; }
+        /* GOLDEN BALANCE CARD - SLEEKER */
+        .balance-card { background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%); border-radius: 20px; padding: 24px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(217, 119, 6, 0.25); margin-bottom: 20px; }
+        .balance-card::after { content: '\f51e'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: -15px; bottom: -25px; font-size: 130px; color: rgba(255,255,255,0.1); pointer-events: none; transform: rotate(-15deg); }
+        .bc-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .bc-amount { font-size: 38px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px; letter-spacing: -1px; }
+        .bc-currency { font-size: 22px; opacity: 0.9; }
+        .bc-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.25); padding: 6px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; color: #fff; margin-top: 12px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); }
 
-        /* PROGRESS BOX (7 VIDEOS GOAL) */
-        .progress-box {
-            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); 
-            border-radius: 20px; padding: 20px; margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); backdrop-filter: blur(10px);
-        }
+        .progress-box { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); backdrop-filter: blur(15px); }
         .pb-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .pb-title { font-size: 14px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
-        .pb-count { font-size: 13px; font-weight: 800; color: var(--accent-primary); }
-        .pb-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative;}
-        .pb-bar-fill { height: 100%; background: var(--accent-primary); width: 0%; transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .pb-title { font-size: 13px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .pb-count { font-size: 12px; font-weight: 800; color: var(--accent-primary); background: rgba(59, 130, 246, 0.1); padding: 4px 10px; border-radius: 8px;}
+        .pb-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; position: relative;}
+        .pb-bar-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); width: 0%; transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-radius: 10px;}
         .pb-sub { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-top: 10px; }
 
-        /* STATS GRID */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-        .stat-box { 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); 
-            border-radius: 20px; padding: 20px 16px; display: flex; flex-direction: column; align-items: flex-start;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); backdrop-filter: blur(10px);
-        }
-        .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px; }
-        .icon-refer { background: rgba(16, 185, 129, 0.15); color: var(--success-color); }
-        .icon-ad { background: rgba(59, 130, 246, 0.15); color: var(--accent-primary); }
-        .stat-value { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 2px;}
-        .stat-label { font-size: 12px; font-weight: 500; color: var(--text-muted); }
-        .stat-sub { font-size: 11px; font-weight: 700; color: var(--success-color); margin-top: 4px; line-height: 1.4; }
+        /* ADVANCED STATS GRID */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .stat-box { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; align-items: flex-start; box-shadow: 0 4px 20px rgba(0,0,0,0.15); backdrop-filter: blur(15px); transition: 0.3s;}
+        .stat-box:active { transform: scale(0.98); }
+        
+        /* 🔥 TRUE PROFESSIONAL GLASS ICONS 🔥 */
+        .glass-icon { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 12px; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0)); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .icon-refer i { color: var(--success-color); filter: drop-shadow(0 0 5px rgba(16,185,129,0.5));}
+        .icon-ad i { color: var(--accent-primary); filter: drop-shadow(0 0 5px rgba(59,130,246,0.5));}
+        .icon-post i { color: #ea580c; filter: drop-shadow(0 0 5px rgba(234,88,12,0.5));}
+        
+        .stat-value { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 2px;}
+        .stat-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;}
+        .stat-sub { font-size: 10px; font-weight: 700; color: var(--success-color); margin-top: 6px; padding: 4px 8px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2);}
 
-        /* CREATOR TOOLS GRID */
-        .tools-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 12px; margin-top: 10px; }
+        .tools-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
         .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-        .tool-item { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px 10px; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center; gap: 8px; opacity: 0.6; cursor: not-allowed; position: relative; transition: 0.3s;}
-        .tool-item.active { opacity: 1; cursor: pointer; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15);}
-        .tool-icon { font-size: 20px; color: var(--gold-primary); }
-        .tool-name { font-size: 11px; font-weight: 600; color: var(--text-main); }
-        .lock-badge { position: absolute; top: -5px; right: -5px; background: var(--bg-body); border: 1px solid var(--border-light); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--danger-color); }
+        .tool-item { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center; gap: 8px; opacity: 0.6; cursor: not-allowed; position: relative; transition: 0.3s; backdrop-filter: blur(10px);}
+        .tool-item.active { opacity: 1; cursor: pointer; border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.05);}
+        .tool-icon { font-size: 18px; color: var(--gold-primary); }
+        .tool-name { font-size: 10px; font-weight: 600; color: var(--text-main); text-transform: uppercase;}
+        .lock-badge { position: absolute; top: -6px; right: -6px; background: var(--bg-body); border: 1px solid var(--border-light); width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: var(--danger-color); box-shadow: 0 2px 5px rgba(0,0,0,0.5);}
 
-        /* ACTIONS */
-        .action-row { display: flex; gap: 12px; margin-bottom: 30px; }
-        .act-btn { flex: 1; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        /* ACTIONS - COMPACT & MODERN */
+        .action-row { display: flex; gap: 10px; margin-bottom: 30px; }
+        .act-btn { flex: 1; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; border: 1px solid transparent;}
         .act-btn:active { transform: scale(0.96); }
-        .btn-withdraw { background: #fff; color: #000; box-shadow: 0 8px 20px rgba(255,255,255,0.2); }
-        .btn-invite { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border); }
+        .btn-withdraw { background: linear-gradient(135deg, #fff, #f1f5f9); color: #0f172a; box-shadow: 0 4px 15px rgba(255,255,255,0.15); }
+        .btn-invite { background: var(--card-bg); color: #fff; border: 1px solid var(--glass-border); backdrop-filter: blur(10px);}
 
-        /* HISTORY LIST */
-        .section-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
-        .history-list { display: flex; flex-direction: column; gap: 12px; }
-        .history-item { 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 16px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid var(--glass-border);
-            animation: slideUp 0.3s ease-out;
-        }
+        /* HISTORY LIST WITH FILTERS */
+        .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;}
+        .section-title { font-size: 14px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.5px;}
+        .filter-tabs { display: flex; gap: 6px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px; border: 1px solid var(--glass-border);}
+        .f-tab { font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 6px; color: var(--text-muted); cursor: pointer; transition: 0.2s;}
+        .f-tab.active { background: var(--accent-primary); color: #fff; }
+
+        .history-list { display: flex; flex-direction: column; gap: 10px; }
+        .history-item { display: flex; align-items: center; justify-content: space-between; padding: 14px; background: var(--card-bg); border-radius: 14px; border: 1px solid var(--glass-border); animation: slideUp 0.3s ease-out; backdrop-filter: blur(10px);}
         @keyframes slideUp { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
-        .hi-left { display: flex; align-items: center; gap: 14px; }
-        .hi-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(16,185,129,0.1); color: var(--success-color); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .hi-icon.withdraw { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
-        .hi-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 2px;}
-        .hi-date { font-size: 11px; font-weight: 500; color: var(--text-muted);}
-        .hi-amount { font-size: 16px; font-weight: 800; color: var(--success-color);}
+        .hi-left { display: flex; align-items: center; gap: 12px; }
+        .hi-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(16,185,129,0.1); color: var(--success-color); display: flex; align-items: center; justify-content: center; font-size: 14px; border: 1px solid rgba(16,185,129,0.2);}
+        .hi-icon.withdraw { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); border-color: rgba(239, 68, 68, 0.2);}
+        .hi-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 2px;}
+        .hi-date { font-size: 10px; font-weight: 500; color: var(--text-muted);}
+        .hi-amount { font-size: 15px; font-weight: 800; color: var(--success-color);}
         .hi-amount.negative { color: var(--text-main); }
 
-        /* TOAST */
         .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
-        .toast { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideDown 0.3s ease; backdrop-filter: blur(10px); display: flex; align-items: center; pointer-events: auto;}
+        .toast { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideDown 0.3s ease; backdrop-filter: blur(10px); display: flex; align-items: center; pointer-events: auto;}
 
-        /* ALTER PANEL MODALS */
+        /* MODALS */
         .custom-alert-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 8000; display: none; opacity: 0; transition: opacity 0.3s ease; }
         .custom-alert-overlay.active { display: block; opacity: 1; }
-        .custom-alert-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 28px; padding: 30px 24px; width: 85%; max-width: 340px; z-index: 8001; text-align: center; opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
+        .custom-alert-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 24px; width: 85%; max-width: 320px; z-index: 8001; text-align: center; opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
         .custom-alert-box.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        .ca-icon { width: 70px; height: 70px; background: rgba(239, 68, 68, 0.15); color: var(--danger-color); border-radius: 50%; font-size: 30px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; border: 1px solid rgba(239, 68, 68, 0.3); }
-        .ca-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 10px; }
-        .ca-msg { font-size: 13px; font-weight: 500; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; }
-        .ca-progress-wrap { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px; margin-bottom: 20px;}
-        .ca-progress-title { font-size: 11px; font-weight: 700; color: #fff; display: flex; justify-content: space-between; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
-        .ca-bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; }
-        .ca-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold-primary), var(--accent-primary)); width: 0%; transition: width 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .ca-btn { width: 100%; padding: 16px; background: #fff; color: #000; border-radius: 16px; font-size: 15px; font-weight: 800; border: none; box-shadow: 0 8px 20px rgba(255,255,255,0.2); transition: 0.2s;}
+        .ca-icon { width: 60px; height: 60px; background: rgba(239, 68, 68, 0.15); color: var(--danger-color); border-radius: 16px; font-size: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .ca-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+        .ca-msg { font-size: 12px; font-weight: 500; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+        .ca-progress-wrap { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px; margin-bottom: 16px;}
+        .ca-progress-title { font-size: 10px; font-weight: 700; color: #fff; display: flex; justify-content: space-between; margin-bottom: 6px; text-transform: uppercase;}
+        .ca-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .ca-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold-primary), var(--accent-primary)); width: 0%; transition: width 1.2s ease; }
+        .ca-btn { width: 100%; padding: 14px; background: #fff; color: #000; border-radius: 12px; font-size: 14px; font-weight: 700; border: none; transition: 0.2s;}
 
-        /* WITHDRAWAL BOTTOM SHEET */
-        .withdraw-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 6000; display: none; opacity: 0; transition: opacity 0.3s ease; }
+        /* PROFESSIONAL WITHDRAWAL BOTTOM SHEET */
+        .withdraw-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 6000; display: none; opacity: 0; transition: opacity 0.3s ease; }
         .withdraw-overlay.active { display: block; opacity: 1; }
-        .withdraw-sheet { position: fixed; bottom: -100%; left: 0; right: 0; background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(30px); border-radius: 35px 35px 0 0; padding: 20px 20px 30px; z-index: 6001; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 1px solid var(--glass-border); box-shadow: 0 -10px 50px rgba(0,0,0,0.7); max-height: 85vh; display: flex; flex-direction: column; }
+        .withdraw-sheet { position: fixed; bottom: -100%; left: 0; right: 0; background: #0f172a; border-radius: 24px 24px 0 0; padding: 16px 20px 30px; z-index: 6001; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 1px solid var(--glass-border); box-shadow: 0 -10px 40px rgba(0,0,0,0.5); max-height: 90vh; display: flex; flex-direction: column; }
         .withdraw-sheet.active { bottom: 0; }
         .sheet-scroll-body { overflow-y: auto; scrollbar-width: none; padding-bottom: 20px; }
         .sheet-scroll-body::-webkit-scrollbar { display: none; }
+        .bs-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 10px; margin: 0 auto 16px; }
+        
         .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .sheet-title { font-size: 20px; font-weight: 800; color: #fff; }
-        .sheet-close { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; font-size: 16px; color: #fff; border: 1px solid var(--glass-border); cursor: pointer;}
-        .wd-balance-box { display: flex; justify-content: space-between; align-items: center; margin-bottom:20px; background: rgba(255,255,255,0.03); padding: 15px 20px; border-radius: 20px; border: 1px solid var(--glass-border); }
-        .wd-balance-label { color:var(--text-muted); font-size:12px; font-weight: 600; }
-        .wd-balance-amount { font-size:24px; font-weight:800; color:var(--gold-primary); display: flex; align-items: center; gap: 4px;}
-        .quick-amounts { display: flex; gap: 10px; margin-bottom: 15px; }
-        .qa-btn { flex: 1; padding: 10px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff; font-size: 13px; font-weight: 700; transition: 0.2s; }
-        .input-group { margin-bottom: 20px; }
+        .sheet-title { font-size: 18px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px;}
+        .sheet-close { width: 30px; height: 30px; border-radius: 10px; background: rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; font-size: 14px; color: var(--text-muted); border: 1px solid var(--glass-border); cursor: pointer;}
+        
+        .wd-balance-box { display: flex; justify-content: space-between; align-items: center; margin-bottom:16px; background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(0,0,0,0)); padding: 16px; border-radius: 16px; border: 1px solid rgba(59,130,246,0.2); }
+        .wd-balance-label { color:var(--text-main); font-size:11px; font-weight: 600; text-transform: uppercase;}
+        .wd-balance-amount { font-size:20px; font-weight:800; color:#fff; display: flex; align-items: center; gap: 2px;}
+        
+        .quick-amounts { display: flex; gap: 8px; margin-bottom: 16px; }
+        .qa-btn { flex: 1; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--text-muted); font-size: 12px; font-weight: 600; transition: 0.2s; }
+        .qa-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.1); color: #fff;}
+        
+        .input-group { margin-bottom: 16px; }
         .input-wrapper { position: relative; display: flex; align-items: center; }
-        .input-icon { position: absolute; left: 16px; color: var(--text-muted); font-size: 18px; }
-        .input-group input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 18px 16px 18px 45px; border-radius: 16px; color: #fff; font-size: 18px; font-weight: 700; outline: none; transition: 0.3s;}
-        .section-label { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 12px; display: block; letter-spacing: 0.5px;}
-        .payment-methods-strip { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; margin-bottom: 15px;}
+        .input-icon { position: absolute; left: 14px; color: var(--text-muted); font-size: 16px; }
+        .input-group input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); padding: 14px 14px 14px 40px; border-radius: 12px; color: #fff; font-size: 16px; font-weight: 600; outline: none; transition: 0.3s;}
+        .input-group input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.4);}
+        .input-group input::placeholder { color: rgba(255,255,255,0.2); font-weight: 500; font-size: 14px;}
+        .section-label { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; display: block; text-transform: uppercase; letter-spacing: 0.5px;}
+        
+        .payment-methods-strip { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; margin-bottom: 16px;}
         .payment-methods-strip::-webkit-scrollbar { display: none; }
-        .pay-method-card { min-width: 110px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.3s; position: relative;}
-        .pay-method-card.active { background: rgba(59,130,246,0.1); border-color: var(--accent-primary); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(59,130,246,0.2);}
-        .pm-logo { width: 36px; height: 36px; object-fit: contain; }
-        .pm-name-text { font-size: 11px; font-weight: 700; color: var(--text-muted); text-align: center;}
-        .pay-method-card .check-icon { position: absolute; top: -6px; right: -6px; background: var(--accent-primary); color: #fff; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; opacity: 0; transform: scale(0); transition: 0.3s;}
+        .pay-method-card { min-width: 90px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.2s; position: relative;}
+        .pay-method-card.active { background: rgba(59,130,246,0.15); border-color: var(--accent-primary); transform: translateY(-2px);}
+        .pm-logo { width: 28px; height: 28px; object-fit: contain; }
+        .pm-name-text { font-size: 10px; font-weight: 600; color: var(--text-muted); text-align: center;}
+        .pay-method-card.active .pm-name-text { color: #fff; }
+        .pay-method-card .check-icon { position: absolute; top: -5px; right: -5px; background: var(--accent-primary); color: #fff; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; opacity: 0; transform: scale(0); transition: 0.2s;}
         .pay-method-card.active .check-icon { opacity: 1; transform: scale(1); }
-        .pay-form { display: none; animation: fadeIn 0.4s ease; margin-bottom: 10px;}
+        
+        .pay-form { display: none; animation: fadeIn 0.3s ease; margin-bottom: 10px;}
         .pay-form.active { display: block; }
-        .big-submit-btn { width: 100%; padding: 18px; border-radius: 50px; background: var(--accent-primary); color: #fff; font-size: 16px; font-weight: 800; border: none; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4); margin-top: 10px; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 10px;}
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .big-submit-btn { width: 100%; padding: 16px; border-radius: 14px; background: var(--accent-primary); color: #fff; font-size: 15px; font-weight: 700; border: none; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3); margin-top: 10px; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .big-submit-btn:active { transform: scale(0.96); }
+        .big-submit-btn:disabled { background: var(--text-muted); box-shadow: none; cursor: not-allowed; opacity: 0.7;}
     </style>
   </head>
   <body>
@@ -207,75 +192,81 @@
         <button class="back-btn" onclick="window.history.back()">
           <i class="fa-solid fa-arrow-left"></i>
         </button>
-        <div class="header-title">Creator Earnings</div>
+        <div class="header-title">Creator Dashboard</div>
         <img id="headerUserAvatar" class="header-profile-pic" src="https://ui-avatars.com/api/?name=U" alt="Profile" />
       </header>
     </div>
 
     <div class="dashboard-container">
       <div class="balance-card">
-        <div class="bc-title">Total Available Balance</div>
+        <div class="bc-title">Available Balance</div>
         <div class="bc-amount">
           <span class="bc-currency">₹</span>
           <span id="totalBalanceDisplay" class="skel-text">0.00</span>
         </div>
         <div class="bc-tag" id="withdrawStatusBadge">
-          <i class="fa-solid fa-spinner fa-spin"></i> Loading Status...
+          <i class="fa-solid fa-spinner fa-spin"></i> Checking limits...
         </div>
       </div>
 
       <div class="progress-box">
         <div class="pb-header">
           <div class="pb-title">
-            <i class="fa-solid fa-bullseye" style="color: var(--gold-primary);"></i>
-            Monetization Goal
+            <i class="fa-solid fa-bullseye" style="color: var(--gold-primary);"></i> Monetization Goal
           </div>
-          <div class="pb-count" id="videoGoalText">0 / 7 Videos</div>
+          <div class="pb-count" id="videoGoalText">0 / 7 Posts</div>
         </div>
         <div class="pb-bar-bg">
           <div class="pb-bar-fill" id="videoProgressBar"></div>
         </div>
-        <div class="pb-sub">Upload 7 videos to unlock Ad Revenue & Premium Features</div>
+        <div class="pb-sub">Publish 7 posts to unlock Ad Revenue & Premium Features</div>
       </div>
 
       <div class="stats-grid">
         <div class="stat-box">
-          <div class="stat-icon icon-refer">
+          <div class="glass-icon icon-refer">
             <i class="fa-solid fa-user-group"></i>
           </div>
           <div class="stat-value" id="referralCountDisplay" class="skel-text">0</div>
-          <div class="stat-label">Total Referrals</div>
-          <div class="stat-sub" id="referralEarningsDisplay">+₹0 Earned</div>
-        </div>
+          <div class="stat-label">Referrals</div>
+          <div class="stat-sub" id="referralEarningsDisplay" style="display:none;"></div> </div>
         <div class="stat-box">
-          <div class="stat-icon icon-ad">
+          <div class="glass-icon icon-ad">
             <i class="fa-solid fa-play"></i>
           </div>
-          <div class="stat-value" id="adRevenueValueDisplay">₹0.00</div>
+          <div class="stat-value" id="adRevenueValueDisplay">₹0</div>
           <div class="stat-label">Ad Revenue</div>
-          <div class="stat-sub" style="color:var(--text-muted);" id="adRevStatus">
-            <i class="fa-solid fa-lock" style="font-size:9px;"></i> Locked<br />
-            <span style="font-size: 9.5px; opacity: 0.8; font-weight: 500; display: inline-block; margin-top: 3px;">Upload 7 videos to unlock tool</span>
+          <div class="stat-sub" style="background: rgba(255,255,255,0.05); color: var(--text-muted); border-color: rgba(255,255,255,0.1);" id="adRevStatus">
+            <i class="fa-solid fa-lock" style="font-size:9px;"></i> Locked
+          </div>
+        </div>
+        <div class="stat-box full-width" style="padding: 12px 16px;">
+          <div class="glass-icon icon-post" style="margin-bottom: 0;">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+          <div style="flex: 1; padding-left: 4px;">
+              <div class="stat-value skel-text" id="dashboardTotalPosts" style="font-size: 18px; margin: 0;">0</div>
+              <div class="stat-label" style="font-size: 10px;">Total Published Posts</div>
           </div>
         </div>
       </div>
 
       <div class="tools-title">Creator Tools</div>
       <div class="tools-grid">
-        <div class="tool-item" id="toolFund" onclick="showToast('Upload 7 videos to unlock!', 'error')">
+        <div class="tool-item" id="toolFund" onclick="showToast('Upload 7 posts to unlock!', 'error')">
           <div class="lock-badge" id="lock1"><i class="fa-solid fa-lock"></i></div>
           <div class="tool-icon"><i class="fa-solid fa-sack-dollar"></i></div>
-          <div class="tool-name">Creator Fund</div>
+          <div class="tool-name">Fund</div>
         </div>
-        <div class="tool-item" id="toolGifts" onclick="showToast('Upload 7 videos to unlock!', 'error')">
+        <div class="tool-item" id="toolGifts" onclick="showToast('Upload 7 posts to unlock!', 'error')">
           <div class="lock-badge" id="lock2"><i class="fa-solid fa-lock"></i></div>
           <div class="tool-icon"><i class="fa-solid fa-gift"></i></div>
-          <div class="tool-name">Live Gifts</div>
+          <div class="tool-name">Gifts</div>
         </div>
-        <div class="tool-item" id="toolSponsor" onclick="showToast('Upload 7 videos to unlock!', 'error')">
+        <div class="tool-item" id="toolSponsor" onclick="showToast('Upload 7 posts to unlock!', 'error')">
           <div class="lock-badge" id="lock3"><i class="fa-solid fa-lock"></i></div>
           <div class="tool-icon"><i class="fa-solid fa-handshake"></i></div>
-          <div class="tool-name">Sponsorships</div>
+          <div class="tool-name">Sponsors</div>
         </div>
       </div>
 
@@ -288,9 +279,13 @@
         </button>
       </div>
 
-      <div class="section-title">
-        <span>Recent Activity</span>
-        <i class="fa-solid fa-filter" style="color:var(--text-muted); font-size: 14px; cursor: pointer;"></i>
+      <div class="history-header">
+        <div class="section-title">Transactions</div>
+        <div class="filter-tabs">
+            <span class="f-tab active" id="f-all" onclick="filterHistory('all')">All</span>
+            <span class="f-tab" id="f-in" onclick="filterHistory('in')">Earned</span>
+            <span class="f-tab" id="f-out" onclick="filterHistory('out')">Paid</span>
+        </div>
       </div>
       <div class="history-list" id="transactionHistory">
         </div>
@@ -300,7 +295,7 @@
     <div id="customAlertBox" class="custom-alert-box">
       <div class="ca-icon"><i class="fa-solid fa-lock"></i></div>
       <div class="ca-title">Withdrawal Locked</div>
-      <div class="ca-msg">Aapko withdrawal unlock karne ke liye minimum <b>₹550</b> kamane honge. Invite friends to reach the target faster!</div>
+      <div class="ca-msg">Minimum withdrawal amount is <b>₹550</b>. Keep inviting friends to unlock!</div>
       <div class="ca-progress-wrap">
         <div class="ca-progress-title">
           <span>Current: <span id="caCurrentAmt" style="color:var(--gold-primary);">₹0</span></span>
@@ -310,7 +305,7 @@
           <div class="ca-bar-fill" id="caProgressFill"></div>
         </div>
       </div>
-      <button class="ca-btn" onclick="closeAlertModal()">Keep Earning</button>
+      <button class="ca-btn" onclick="closeAlertModal()">Okay, Got it</button>
     </div>
 
     <div id="withdrawOverlay" class="withdraw-overlay" onclick="closeWithdrawModal()"></div>
@@ -318,26 +313,31 @@
       <div class="bs-handle"></div>
       <div class="sheet-scroll-body">
         <div class="sheet-header">
-          <div class="sheet-title">Withdraw Funds</div>
+          <div class="sheet-title"><i class="fa-solid fa-bolt" style="color:var(--gold-primary); font-size:16px;"></i> Fast Withdrawal</div>
           <div class="sheet-close" onclick="closeWithdrawModal()"><i class="fa-solid fa-xmark"></i></div>
         </div>
+        
         <div class="wd-balance-box">
-          <div class="wd-balance-label">Available Balance</div>
+          <div class="wd-balance-label">Available to transfer</div>
           <div class="wd-balance-amount">₹<span id="withdrawAvailBal">0.00</span></div>
         </div>
+        
+        <label class="section-label">Enter Amount</label>
         <div class="input-group">
           <div class="input-wrapper">
-            <i class="fa-solid fa-indian-rupee-sign input-icon" style="color: var(--gold-primary); font-size: 20px;"></i>
+            <i class="fa-solid fa-indian-rupee-sign input-icon" style="color: var(--text-main);"></i>
             <input type="number" id="withdrawAmount" placeholder="0" />
           </div>
         </div>
+        
         <div class="quick-amounts">
-          <button class="qa-btn" onclick="setWithdrawAmount(500)">500</button>
-          <button class="qa-btn" onclick="setWithdrawAmount(1000)">1000</button>
-          <button class="qa-btn" onclick="setWithdrawAmount(5000)">5000</button>
-          <button class="qa-btn" onclick="setWithdrawAmount('max')">MAX</button>
+          <button class="qa-btn" onclick="setWithdrawAmount(500)">₹500</button>
+          <button class="qa-btn" onclick="setWithdrawAmount(1000)">₹1000</button>
+          <button class="qa-btn" onclick="setWithdrawAmount(5000)">₹5000</button>
+          <button class="qa-btn" style="color: var(--accent-primary); border-color: rgba(59,130,246,0.3);" onclick="setWithdrawAmount('max')">MAX</button>
         </div>
-        <label class="section-label" style="margin-top: 20px;">Select Transfer Method</label>
+        
+        <label class="section-label" style="margin-top: 15px;">Transfer Method</label>
         <div class="payment-methods-strip">
           <div class="pay-method-card active" id="btnGpay" onclick="selectPayMethod('gpay')">
             <div class="check-icon"><i class="fa-solid fa-check"></i></div>
@@ -356,28 +356,27 @@
           </div>
           <div class="pay-method-card" id="btnBank" onclick="selectPayMethod('bank')">
             <div class="check-icon"><i class="fa-solid fa-check"></i></div>
-            <div class="pm-logo" style="background:#1e293b; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; border:2px solid #cbd5e1;"><i class="fa-solid fa-building-columns"></i></div>
+            <div class="pm-logo" style="background:rgba(255,255,255,0.05); border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--text-main); font-size:14px; border:1px solid rgba(255,255,255,0.2);"><i class="fa-solid fa-building-columns"></i></div>
             <span class="pm-name-text">Bank A/C</span>
           </div>
         </div>
 
         <div id="upiForm" class="pay-form active">
-          <div class="input-group"><label>Enter Linked UPI ID</label><div class="input-wrapper"><i class="fa-solid fa-at input-icon"></i><input type="text" id="upiIdInput" placeholder="e.g. name@okhdfcbank" /></div></div>
+          <div class="input-group"><label class="section-label" style="text-transform:none;">Enter UPI ID</label><div class="input-wrapper"><i class="fa-solid fa-at input-icon"></i><input type="text" id="upiIdInput" placeholder="name@okhdfcbank" /></div></div>
         </div>
         <div id="bankForm" class="pay-form">
-          <div class="input-group"><label>Account Number</label><div class="input-wrapper"><i class="fa-solid fa-hashtag input-icon"></i><input type="number" id="accNoInput" placeholder="Enter valid account no" /></div></div>
-          <div class="input-group"><label>IFSC Code</label><div class="input-wrapper"><i class="fa-solid fa-code-branch input-icon"></i><input type="text" id="ifscInput" placeholder="e.g. SBIN0001234" /></div></div>
-          <div class="input-group"><label>Account Holder Name</label><div class="input-wrapper"><i class="fa-solid fa-user input-icon"></i><input type="text" id="accNameInput" placeholder="Name as per bank" /></div></div>
+          <div class="input-group"><label class="section-label" style="text-transform:none;">Account Number</label><div class="input-wrapper"><i class="fa-solid fa-hashtag input-icon"></i><input type="number" id="accNoInput" placeholder="Valid account no" /></div></div>
+          <div class="input-group"><label class="section-label" style="text-transform:none;">IFSC Code</label><div class="input-wrapper"><i class="fa-solid fa-code-branch input-icon"></i><input type="text" id="ifscInput" placeholder="SBIN0001234" /></div></div>
+          <div class="input-group"><label class="section-label" style="text-transform:none;">Holder Name</label><div class="input-wrapper"><i class="fa-solid fa-user input-icon"></i><input type="text" id="accNameInput" placeholder="Name as per bank" /></div></div>
         </div>
 
         <button class="big-submit-btn" id="confirmWithdrawBtn" onclick="submitWithdrawRequest()">
-          <span>Confirm Withdrawal</span> <i class="fa-solid fa-arrow-right"></i>
+          Submit Transfer <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
     </div>
 
     <script>
-    // <![CDATA[
         const firebaseConfig = {
             apiKey: "AIzaSyC9T2Y5txsjo1qHvjEx6j3iN_4NMzyK9Qw",
             authDomain: "fahimn.co.in",
@@ -392,6 +391,7 @@
         const auth = firebase.auth();
 
         let currentUid = null;
+        let currentUserData = null;
         let globalTotalBalance = 0; 
         const REFERRAL_REWARD_AMOUNT = 200; 
         const WELCOME_BONUS = 50; 
@@ -408,22 +408,19 @@
             setTimeout(() => toast.remove(), 3000); 
         }
 
-        // 🔥 REALTIME COMPREHENSIVE RE-SYNCHRONIZER ENGINE 🔥
         auth.onAuthStateChanged((user) => {
             if (user) {
                 currentUid = user.uid;
                 
-                // Realtime Syncing Node Loop
                 db.ref('users/' + currentUid).on('value', snap => {
                     if(snap.exists()) {
                         const data = snap.val();
+                        currentUserData = data;
                         
-                        // Live Account Header Sync
                         const safeName = data.name || data.fullName || 'User';
-                        const dp = data.profile_image || data.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}\x26background=0d9488\x26color=fff`;
+                        const dp = data.profile_image || data.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}\x26background=0f172a\x26color=fff`;
                         document.getElementById('headerUserAvatar').src = dp;
 
-                        // Calculate Referrals Node
                         let totalReferrals = 0;
                         if (data.referrals && typeof data.referrals === 'object') {
                             totalReferrals = Object.keys(data.referrals).length;
@@ -440,61 +437,85 @@
                             globalTotalBalance = calculatedBalance;
                         }
 
-                        // Remove skeleton styling safely
                         document.getElementById('totalBalanceDisplay').classList.remove('skel-text');
                         document.getElementById('referralCountDisplay').classList.remove('skel-text');
                         
                         document.getElementById('referralCountDisplay').innerText = totalReferrals;
-                        document.getElementById('referralEarningsDisplay').innerText = `+₹${refEarnings.toLocaleString()} Earned`;
+                        // document.getElementById('referralEarningsDisplay').innerText = `+₹${refEarnings.toLocaleString()} Earned`;
                         
                         animateValue("totalBalanceDisplay", parseFloat(document.getElementById('totalBalanceDisplay').innerText.replace(/,/g, '')) || 0, globalTotalBalance, 1000);
                         
-                        // Withdrawal Target Badge Setup
                         const badge = document.getElementById('withdrawStatusBadge');
-                        if(globalTotalBalance >= MIN_WITHDRAW_LIMIT) {
-                            badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Ready for withdrawal';
-                            badge.style.background = 'rgba(16, 185, 129, 0.2)';
-                            badge.style.color = 'var(--success-color)';
-                        } else {
-                            badge.innerHTML = '<i class="fa-solid fa-lock"></i> Min. ₹550 Required';
-                            badge.style.background = 'rgba(239, 68, 68, 0.2)';
-                            badge.style.color = '#fff';
-                        }
-
-                        // Video Sync Progress Loader
-                        let videoCount = data.videoCount || 0;
-                        const maxVideos = 7;
-                        let displayCount = videoCount > maxVideos ? maxVideos : videoCount;
-                        let percentage = (displayCount / maxVideos) * 100;
-                        
-                        document.getElementById('videoGoalText').innerText = `${displayCount} / ${maxVideos} Videos`;
-                        setTimeout(() => { document.getElementById('videoProgressBar').style.width = `${percentage}%`; }, 400);
-
-                        if(videoCount >= maxVideos) {
-                            document.getElementById('videoProgressBar').style.background = 'var(--success-color)';
-                            document.getElementById('adRevStatus').innerHTML = '<i class="fa-solid fa-unlock" style="font-size:10px; color:var(--success-color);"></i> Unlocked';
-                            document.getElementById('adRevStatus').style.color = 'var(--success-color)';
-                            document.getElementById('adRevenueValueDisplay').innerText = "₹" + (data.adRevenue !== undefined ? parseFloat(data.adRevenue).toFixed(2) : "0.00");
-                            
-                            const tools = ['toolFund', 'toolGifts', 'toolSponsor'];
-                            tools.forEach(id => {
-                                let el = document.getElementById(id);
-                                if(el) {
-                                    el.classList.add('active');
-                                    el.onclick = () => showToast('Feature active. Setting up dashboard...', 'success');
-                                }
-                            });
-                            document.getElementById('lock1').style.display = 'none';
-                            document.getElementById('lock2').style.display = 'none';
-                            document.getElementById('lock3').style.display = 'none';
-                        } else {
-                            document.getElementById('videoProgressBar').style.background = 'var(--accent-primary)';
-                            document.getElementById('adRevStatus').innerHTML = `<i class="fa-solid fa-lock" style="font-size:9px;"></i> Locked<br/><span style="font-size: 9.5px; opacity: 0.8; font-weight: 500; display: inline-block; margin-top: 3px;">Upload ${maxVideos - videoCount} more videos</span>`;
-                            document.getElementById('adRevStatus').style.color = 'var(--text-muted)';
-                            document.getElementById('adRevenueValueDisplay').innerText = "₹0.00";
+                        if(badge) {
+                            if(globalTotalBalance >= MIN_WITHDRAW_LIMIT) {
+                                badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Verified';
+                                badge.style.background = 'rgba(16, 185, 129, 0.2)';
+                                badge.style.color = 'var(--success-color)';
+                            } else {
+                                badge.innerHTML = '<i class="fa-solid fa-lock"></i> Minimum ₹550 Req.';
+                                badge.style.background = 'rgba(255, 255, 255, 0.1)';
+                                badge.style.color = 'rgba(255,255,255,0.8)';
+                            }
                         }
 
                         fetchWithdrawalsAndRenderHistory(totalReferrals);
+                    }
+                });
+
+                // 🔥 LIVE TOTAL POSTS SYNC 🔥
+                db.ref(`users/${currentUid}/totalPostCount`).on('value', snap => {
+                    const totalPosts = snap.val() || 0;
+
+                    const postDisplayBox = document.getElementById('dashboardTotalPosts');
+                    if (postDisplayBox) {
+                        postDisplayBox.classList.remove('skel-text');
+                        postDisplayBox.innerText = totalPosts.toLocaleString('en-IN'); 
+                    }
+
+                    const maxPosts = 7;
+                    let displayCount = totalPosts > maxPosts ? maxPosts : totalPosts;
+                    let percentage = (displayCount / maxPosts) * 100;
+                    
+                    const goalText = document.getElementById('videoGoalText');
+                    const progBar = document.getElementById('videoProgressBar');
+                    const adStatus = document.getElementById('adRevStatus');
+                    const adValue = document.getElementById('adRevenueValueDisplay');
+                    
+                    if(goalText) goalText.innerText = `${displayCount} / ${maxPosts} Posts`;
+                    if(progBar) setTimeout(() => { progBar.style.width = `${percentage}%`; }, 100);
+
+                    if(totalPosts >= maxPosts) {
+                        if(progBar) progBar.style.background = 'var(--success-color)';
+                        if(adStatus) {
+                            adStatus.innerHTML = '<i class="fa-solid fa-unlock" style="font-size:10px; color:var(--success-color);"></i> Unlocked';
+                            adStatus.style.background = 'rgba(16, 185, 129, 0.1)';
+                            adStatus.style.color = 'var(--success-color)';
+                            adStatus.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+                        }
+                        
+                        db.ref(`users/${currentUid}/adRevenue`).on('value', adSnap => {
+                             let adRev = adSnap.val() || 0;
+                             if(adValue) adValue.innerText = "₹" + parseFloat(adRev).toFixed(2);
+                        });
+                        
+                        const tools = ['toolFund', 'toolGifts', 'toolSponsor'];
+                        tools.forEach(id => {
+                            let el = document.getElementById(id);
+                            if(el) {
+                                el.classList.add('active');
+                                el.onclick = () => showToast('Feature active. Opening...', 'success');
+                            }
+                        });
+                        if(document.getElementById('lock1')) document.getElementById('lock1').style.display = 'none';
+                        if(document.getElementById('lock2')) document.getElementById('lock2').style.display = 'none';
+                        if(document.getElementById('lock3')) document.getElementById('lock3').style.display = 'none';
+                    } else {
+                        if(progBar) progBar.style.background = 'var(--accent-primary)';
+                        if(adStatus) {
+                            adStatus.innerHTML = `<i class="fa-solid fa-lock" style="font-size:9px;"></i> Locked`;
+                            adStatus.style.color = 'var(--text-muted)';
+                        }
+                        if(adValue) adValue.innerText = "₹0";
                     }
                 });
 
@@ -502,6 +523,56 @@
                 window.location.replace("auth.html");
             }
         });
+
+        // 🔥 24-HOUR POST LIMIT FUNCTION (Universal fix) 🔥
+        window.submitNewPost = async function(type = 'feed') {
+            const captionEl = document.getElementById('postCaptionInput');
+            const caption = captionEl ? captionEl.value.trim() : "";
+            
+            if (!caption && !selectedPostFile && !selectedAudioFile) { 
+                showToast("Cannot upload an empty post!", "error"); return; 
+            }
+            if(currentUserData) {
+                const now = Date.now();
+                let firstPostTime = currentUserData.firstPostTime || 0;
+                let currentCount = currentUserData.dailyPostCount || 0;
+
+                if (now - firstPostTime > 86400000) {
+                    currentCount = 0;
+                    firstPostTime = now;
+                }
+
+                if (currentCount >= 3 && type === 'feed') { 
+                    showToast("Daily limit reached! You can post again after 24 hours.", "error"); return; 
+                }
+                
+                let mediaUrl = ""; let mediaType = "text"; let audioUrl = "";
+
+                try {
+                    const payload = { 
+                        uid: currentUid, 
+                        caption: caption, 
+                        mediaType: mediaType, 
+                        timestamp: firebase.database.ServerValue.TIMESTAMP 
+                    };
+
+                    if(type === 'story') { 
+                        await db.ref('stories').push(payload); 
+                    } else { 
+                        await db.ref('social_feed').push(payload); 
+                    }
+                    
+                    await db.ref(`users/${currentUid}/totalPostCount`).transaction((val) => (val || 0) + 1);
+                    await db.ref(`users/${currentUid}`).update({ 
+                        firstPostTime: firstPostTime, 
+                        dailyPostCount: currentCount + 1 
+                    }); 
+                    showToast("Published Successfully!", "success"); 
+                } catch(err) { 
+                    showToast("Upload Failed", "error"); 
+                }
+            }
+        }
 
         function animateValue(id, start, end, duration) {
             let obj = document.getElementById(id);
@@ -525,21 +596,35 @@
             }, stepTime);
         }
 
+        // 🔥 FILTER SYSTEM FOR HISTORY 🔥
+        function filterHistory(type) {
+            document.querySelectorAll('.f-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('f-' + type).classList.add('active');
+            
+            document.querySelectorAll('.history-item').forEach(item => {
+                if(type === 'all') { item.style.display = 'flex'; }
+                else if(type === 'in' && item.getAttribute('data-type') === 'in') { item.style.display = 'flex'; }
+                else if(type === 'out' && item.getAttribute('data-type') === 'out') { item.style.display = 'flex'; }
+                else { item.style.display = 'none'; }
+            });
+        }
+
         function fetchWithdrawalsAndRenderHistory(refCount) {
             db.ref('withdrawals').orderByChild('uid').equalTo(currentUid).once('value', snap => {
                 const list = document.getElementById('transactionHistory');
+                if(!list) return;
                 list.innerHTML = ''; 
                 
                 let allTransactions = [];
                 allTransactions.push({
                     type: 'bonus', title: 'Welcome Bonus', subtitle: 'Account Created',
-                    amount: WELCOME_BONUS, icon: 'fa-star', color: 'var(--accent-primary)', bg: 'rgba(59,130,246,0.1)', time: 0
+                    amount: WELCOME_BONUS, icon: 'fa-star', color: 'var(--accent-primary)', bg: 'rgba(59,130,246,0.1)', time: 0, flow: 'in'
                 });
 
                 for(let i=0; i<refCount; i++) {
                     allTransactions.push({
-                        type: 'referral', title: 'Successful Referral', subtitle: 'Bonus Added to Wallet',
-                        amount: REFERRAL_REWARD_AMOUNT, icon: 'fa-user-check', color: 'var(--success-color)', bg: 'rgba(16,185,129,0.1)', time: i+1
+                        type: 'referral', title: 'Referral Reward', subtitle: 'Bonus Added',
+                        amount: REFERRAL_REWARD_AMOUNT, icon: 'fa-user-check', color: 'var(--success-color)', bg: 'rgba(16,185,129,0.1)', time: i+1, flow: 'in'
                     });
                 }
 
@@ -547,8 +632,8 @@
                     snap.forEach(child => {
                         const w = child.val();
                         allTransactions.push({
-                            type: 'withdrawal', title: `${w.paymentDetails.method} Withdrawal`, subtitle: `Status: ${w.status}`,
-                            amount: -w.amount, icon: 'fa-arrow-up-right-from-square', color: 'var(--danger-color)', bg: 'rgba(239, 68, 68, 0.1)', time: w.timestamp || 9999999999999
+                            type: 'withdrawal', title: `${w.paymentDetails.method}`, subtitle: `${w.status}`,
+                            amount: -w.amount, icon: 'fa-arrow-up-right-from-square', color: 'var(--danger-color)', bg: 'rgba(239, 68, 68, 0.1)', time: w.timestamp || 9999999999999, flow: 'out'
                         });
                     });
                 }
@@ -559,9 +644,9 @@
                     let amtClass = t.amount > 0 ? '' : 'negative';
                     
                     list.innerHTML += `
-                        <div class="history-item">
+                        <div class="history-item" data-type="${t.flow}">
                             <div class="hi-left">
-                                <div class="hi-icon" style="background:${t.bg}; color:${t.color};"><i class="fa-solid ${t.icon}"></i></div>
+                                <div class="hi-icon" style="background:${t.bg}; color:${t.color}; border-color:${t.color}33;"><i class="fa-solid ${t.icon}"></i></div>
                                 <div>
                                     <div class="hi-title">${t.title}</div>
                                     <div class="hi-date">${t.subtitle}</div>
@@ -676,14 +761,36 @@
                 showToast(`₹${amount} Withdrawal successful! Amount deducted.`, 'success');
                 setTimeout(() => {
                     closeWithdrawModal(); btn.disabled = false;
-                    btn.innerHTML = '<span>Confirm Withdrawal</span> <i class="fa-solid fa-arrow-right"></i>';
+                    btn.innerHTML = 'Submit Transfer <i class="fa-solid fa-arrow-right"></i>';
                 }, 1500);
             }).catch(err => {
                 showToast('Failed to submit. Check network.', 'error');
-                btn.disabled = false; btn.innerHTML = '<span>Confirm Withdrawal</span> <i class="fa-solid fa-arrow-right"></i>';
+                btn.disabled = false; btn.innerHTML = 'Submit Transfer <i class="fa-solid fa-arrow-right"></i>';
             });
         };
-    // ]]>
+
+        window.copyReferralLink = function() {
+            if(!currentUid) return;
+            const refLink = `${window.location.origin}/auth.html?ref=${currentUid}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join me on fahimn.co.in!',
+                    text: 'Create an account using my VIP link and we both get a ₹200 bonus!',
+                    url: refLink
+                }).catch(err => { copyToFallback(refLink); });
+            } else {
+                copyToFallback(refLink);
+            }
+        };
+
+        function copyToFallback(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('VIP Referral Link Copied!', 'success');
+            }).catch(() => {
+                showToast('Failed to copy link', 'error');
+            });
+        }
     </script>
   </body>
 </html>
