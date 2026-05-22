@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-    // 🔥 DOMAIN LOCK: Website sirf aapke domain par chalegi 🔥
-    (function() {
-        var allowedDomain = "fahimn.co.in"; // Yahan apna domain sahi se likhna
-        var currentDomain = window.location.hostname;
-
-        // Agar domain match nahi karta aur wo local host bhi nahi hai
-        if (currentDomain !== allowedDomain && currentDomain !== "localhost" && currentDomain !== "127.0.0.1" && currentDomain !== "") {
-            document.body.innerHTML = "<div style='display:flex;justify-content:center;align-items:center;height:100vh;background:#020617;color:#ef4444;font-family:sans-serif;'><h1>⚠️ Fuck You</h1></div>";
-            
-            window.stop();
-        }
-    })();
-    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Welcome to fahimn.co.in" Get Free primary Service. And connect your friends</title>
@@ -201,7 +187,7 @@
             border-radius: 20px; padding: 20px; margin-bottom: 20px; 
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); border: 1px solid var(--border-light); 
             animation: slideUp 0.4s ease; 
-            contain: content; /* PERFORMANCE OPTIMIZATION */
+            contain: content; 
         }
         @keyframes slideUp { from{opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);} }
         .post-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
@@ -238,7 +224,6 @@
         }
         .fs-expand-btn:active { transform: scale(0.9); }
 
-        /* 🔥 AUDIO MUTE/UNMUTE BTN 🔥 */
         .audio-mute-btn { 
             position: absolute; top: 12px; left: 12px; width: 34px; height: 34px; 
             background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); border-radius: 50%; 
@@ -260,11 +245,9 @@
         .latest-comment-preview { font-size: 14px; color: var(--text-main); font-weight: 500;}
         .latest-comment-preview span { font-weight: 800; margin-right: 6px;}
 
-        /* Loader */
         .feed-loader { text-align: center; padding: 20px; display: none; }
         .feed-loader .spinner { width: 30px; height: 30px; border-width: 3px; margin: 0 auto; border-top-color: var(--accent-primary); border-radius: 50%; animation: spin 1s linear infinite;}
 
-        /* POST OPTIONS BOTTOM SHEET */
         .bottom-sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 6000; display: none; opacity: 0; transition: opacity 0.3s ease; }
         .bottom-sheet-overlay.active { display: block; opacity: 1; }
         .bottom-sheet { position: fixed; bottom: -100%; left: 0; right: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 30px 30px 0 0; padding: 20px 20px 30px; z-index: 6001; transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 1px solid var(--glass-border); box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
@@ -277,7 +260,6 @@
         .bs-item.danger { color: var(--danger-color); }
         .bs-item.danger i { color: var(--danger-color); }
 
-        /* HORIZONTAL QUICK MENU */
         .quick-menu-overlay { position: fixed; inset: 0; background: transparent; z-index: 998; display: none; }
         .quick-menu { 
             position: fixed; bottom: 85px; right: 16px; 
@@ -292,14 +274,12 @@
         .qm-item:active .qm-icon { transform: scale(0.9); background: var(--accent-primary); border-color: var(--accent-primary);}
         .qm-item span { font-size: 10px; font-weight: 700; color: var(--text-main); text-transform: uppercase; }
 
-        /* BOTTOM NAV */
         .bottom-nav-wrapper { position: fixed; bottom: 20px; left: 0; right: 0; display: flex; justify-content: center; z-index: 1000; pointer-events: none; will-change: transform; transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .bottom-nav-wrapper.hidden { transform: translateY(120px); }
         .bottom-nav { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); width: 92%; max-width: 400px; pointer-events: auto; border: 1px solid rgba(255, 255, 255, 0.08); }
         .nav-item { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--icon-color); font-size: 20px; border-radius: 50%; transition: 0.3s; cursor: pointer;}
         .nav-item.active { background: rgba(255,255,255,0.15); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.15);}
 
-        /* MODALS */
         .fs-screen { display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(20px); z-index: 2500; flex-direction: column; animation: slideInUp 0.3s ease-out;}
         .fs-screen.active { display: flex; } 
         
@@ -318,11 +298,9 @@
         .fs-vid-user { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; font-size: 15px;}
         .fs-vid-user img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover;}
         
-        /* SEARCH MODAL */
         .search-result-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer; transition: 0.2s; }
         .search-result-item:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
 
-        /* COMMENTS */
         .comment-item { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-light);}
         .comment-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; cursor: pointer;}
         .comment-header img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover;}
@@ -337,14 +315,12 @@
         .comment-input-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 14px; font-weight: 500; color: var(--text-main); }
         .comment-submit-btn { background: var(--accent-primary); color: #fff; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);}
         
-        /* 🔥 CREATE POST MODAL 🔥 */
         .create-post-body { padding: 20px; flex: 1; display: flex; flex-direction: column; overflow-y: auto;}
         .create-post-textarea { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 16px; resize: none; min-height: 80px; font-family: inherit;}
         .create-post-textarea::placeholder { color: var(--text-muted); }
         .media-preview-container { border-radius: 16px; overflow: hidden; position: relative; display: none; background: #000; width: 100%; max-height: 350px; justify-content: center; align-items: center;}
         .media-preview-container img, .media-preview-container video { max-width: 100%; max-height: 350px; object-fit: contain; display: block; transition: filter 0.3s;}
         
-        /* FILTERS UI */
         .filter-strip { display: none; overflow-x: auto; gap: 10px; margin-top: 15px; padding-bottom: 10px; scrollbar-width: none; }
         .filter-strip::-webkit-scrollbar { display: none; }
         .filter-thumb { min-width: 60px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
@@ -352,14 +328,12 @@
         .filter-thumb.active .filter-thumb-img { border-color: var(--accent-primary); }
         .filter-name { font-size: 11px; font-weight: 600; color: var(--text-muted); }
 
-        /* POST TOOLBAR */
         .cp-toolbar { display: flex; gap: 8px; margin-top: 15px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; }
         .cp-toolbar::-webkit-scrollbar { display: none; }
         .cp-tool-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-light); border-radius: 50px; font-size: 12px; font-weight: 700; color: var(--text-main); cursor: pointer; white-space: nowrap; transition: 0.2s;}
         .cp-tool-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
         .cp-tool-btn i { color: var(--accent-primary); }
 
-        /* STRICTLY HIDDEN STORY ANALYTICS MODAL FIX */
         .viewers-modal { display: none !important; position: fixed; inset: 0; z-index: 100000; flex-direction: column; justify-content: flex-end; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);}
         .viewers-modal.active { display: flex !important; }
         .viewers-container { background: rgba(15, 23, 42, 0.95); height: 75vh; border-radius: 30px 30px 0 0; display: flex; flex-direction: column; animation: slideInUp 0.3s ease-out; border-top: 1px solid var(--border-light);}
@@ -374,7 +348,6 @@
         .viewer-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border-light); cursor: pointer;}
         .viewer-avatar { width: 44px !important; height: 44px !important; min-width: 44px !important; min-height: 44px !important; border-radius: 50%; object-fit: cover; background: var(--skel-bg); display: block; flex-shrink: 0;}
 
-        /* STORY VIEWER */
         .story-viewer-modal { display: none !important; position: fixed; inset: 0; background: #000; z-index: 99999; flex-direction: column; }
         .story-viewer-modal.active { display: flex !important; }
         .story-viewer-header { position: absolute; top: 0; left: 0; right: 0; z-index: 10; padding: calc(15px + env(safe-area-inset-top)) 15px 15px; background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent); }
@@ -489,7 +462,7 @@
                 <div class="clean-menu-item" onclick="document.body.classList.toggle('dark-mode'); showToast('Theme toggled', 'success')"><i class="fa-solid fa-moon"></i> Dark Mode</div>
                 <div class="clean-menu-item" onclick="showToast('Translations coming soon!')"><i class="fa-solid fa-language"></i> Translation</div>
                 <div class="clean-menu-item" onclick="openInfoModal('Help Center', 'We are here to help. Contact support@fahimn.co.in.')"><i class="fa-solid fa-headset"></i> Help Center</div>
-                <div class="clean-menu-item danger" onclick="openInfoModal('Report a Problem', 'Please describe the bug or issue you are facing.')"><i class="fa-solid fa-triangle-exclamation"></i> Report Problem</div>
+                <div class="clean-menu-item danger" onclick="openInfoModal('Report a Problem', 'Please describe the bug or issue you are facing.')"><i class="fa-solid fa-triangle-exclamation"></i> Report a Problem</div>
                 <div class="clean-menu-item" onclick="openInfoModal('Privacy Policy', 'Your data is safe with us. We use standard encryption and do not share personal information with third parties without consent.')"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</div>
                 <div class="clean-menu-item" onclick="openInfoModal('Terms & Conditions', 'By using fahimn.co.in, you agree to follow community guidelines. Any form of abuse or spam will lead to immediate account suspension.')"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</div>
                 <div class="clean-menu-item" onclick="openInfoModal('Download App', 'Our Android and iOS apps are currently under review in the stores. Stay tuned for the release!')"><i class="fa-solid fa-download"></i> Download App</div>
@@ -679,16 +652,9 @@
     </div>
 
     <div class="fs-screen" id="commentsModal" style="z-index: 3000;">
-        <div class="fs-header">
-            <button class="back-btn" onclick="closeCommentsModal()"><i class="fa-solid fa-arrow-left"></i></button>
-            <h2>Comments</h2>
-            <div style="width:40px;"></div>
-        </div>
+        <div class="fs-header"><button class="back-btn" onclick="closeCommentsModal()"><i class="fa-solid fa-arrow-left"></i></button><h2>Comments</h2><div style="width:40px;"></div></div>
         <div class="comments-body" id="commentsList"></div>
-        <div id="replyBanner" class="reply-active-banner">
-            <span id="replyingToText">Replying...</span>
-            <i class="fa-solid fa-xmark" onclick="cancelReply()" style="cursor:pointer; background:rgba(0,0,0,0.3); padding:4px 6px; border-radius:50%;"></i>
-        </div>
+        <div id="replyBanner" class="reply-active-banner"><span id="replyingToText">Replying...</span><i class="fa-solid fa-xmark" onclick="cancelReply()" style="cursor:pointer; background:rgba(0,0,0,0.3); padding:4px 6px; border-radius:50%;"></i></div>
         <div class="comment-input-area">
             <div class="comment-input-box"><input type="text" id="commentInput" placeholder="Write a comment..."></div>
             <button class="comment-submit-btn" onclick="submitComment()"><i class="fa-solid fa-paper-plane"></i></button>
@@ -699,11 +665,7 @@
         <div class="story-viewer-header">
             <div id="storyProgressBars" class="story-progress-container"></div>
             <div class="story-user-info" onclick="window.location.href='user_profile.html?uid=' + viewingUid" style="cursor: pointer;">
-                <img id="svAvatar" src="">
-                <div style="flex:1;">
-                    <div id="svName" class="name"></div>
-                    <div id="svTime" class="time"></div>
-                </div>
+                <img id="svAvatar" src=""><div style="flex:1;"><div id="svName" class="name"></div><div id="svTime" class="time"></div></div>
             </div>
             <button class="story-close" onclick="closeStoryViewer()"><i class="fa-solid fa-xmark"></i></button>
         </div>
@@ -784,7 +746,6 @@
             appId: "1:698585907618:web:c8e4a6646b6b8f5c7932fb"
         };
         
-        // This prevents the "auth is not defined" error
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -1132,13 +1093,10 @@
                     });
                 });
 
-                db.ref('social_feed').on('value', (snap) => { 
-                    let count = 0; 
-                    snap.forEach(child => { 
-                        const p = child.val(); 
-                        if(p.uid === currentUid || p.senderId === currentUid) count++; 
-                    }); 
-                    document.getElementById('userPostsCount').innerText = formatStat(count); 
+                // 🔥 LIVE LISTENER FOR TOTAL POSTS (Sidebar Sync) 🔥
+                db.ref(`users/${currentUid}/totalPostCount`).on('value', snap => {
+                    const totalPosts = snap.val() || 0;
+                    document.getElementById('userPostsCount').innerText = formatStat(totalPosts);
                 });
 
                 // 🔥 ADVANCED REFERRAL / WALLET LISTENER 🔥
@@ -1426,16 +1384,25 @@
             removeAudio();
         }
 
+        // 🔥 24-HOUR POST LIMIT FIX 🔥
         window.submitNewPost = async function(type = 'feed') {
             const caption = document.getElementById('postCaptionInput').value.trim();
             if (!caption && !selectedPostFile && !selectedAudioFile) { 
                 showToast("Cannot upload an empty post!", "error"); return; 
             }
             if(currentUserData) {
-                const todayStr = new Date().toDateString(); 
-                let currentCount = (currentUserData.lastPostDate === todayStr) ? (currentUserData.dailyPostCount || 0) : 0;
+                const now = Date.now();
+                let firstPostTime = currentUserData.firstPostTime || 0;
+                let currentCount = currentUserData.dailyPostCount || 0;
+
+                // Check if exactly 24 hours have passed since their first post in the cycle
+                if (now - firstPostTime > 24 * 60 * 60 * 1000) {
+                    currentCount = 0;
+                    firstPostTime = now;
+                }
+
                 if (currentCount >= 3 && type === 'feed') { 
-                    showToast("Daily limit reached! (Max 3/day)", "error"); return; 
+                    showToast("Daily limit reached! You can post again after 24 hours.", "error"); return; 
                 }
                 
                 document.getElementById('uploadOverlay').style.display = 'flex';
@@ -1479,7 +1446,27 @@
                         showToast("Story Published!", "success"); 
                     } else { 
                         await db.ref('social_feed').push(payload); 
-                        await db.ref(`users/${currentUid}`).update({ lastPostDate: todayStr, dailyPostCount: currentCount + 1 }); 
+                        
+                        // Increment Total Post Count
+                        const countRef = db.ref(`users/${currentUid}/totalPostCount`);
+                        await countRef.transaction((current_value) => {
+                            return (current_value || 0) + 1;
+                        });
+
+                        // Increment Video Count (For Monetization goal)
+                        if (mediaType === 'video') {
+                            const videoCountRef = db.ref(`users/${currentUid}/videoCount`);
+                            await videoCountRef.transaction((current_val) => {
+                                return (current_val || 0) + 1;
+                            });
+                        }
+
+                        // Update Limit Database Variables
+                        await db.ref(`users/${currentUid}`).update({ 
+                            firstPostTime: firstPostTime, 
+                            dailyPostCount: currentCount + 1 
+                        }); 
+                        
                         showToast("Shared to Feed!", "success"); 
                     }
                     
@@ -1681,10 +1668,12 @@
                         latestCommentHtml = `<div class="view-all-comments" onclick="openCommentsModal('${post.id}', '${post.uid || post.senderId}')">View all ${totalComments} comments</div><div class="latest-comment-preview" onclick="openCommentsModal('${post.id}', '${post.uid || post.senderId}')"><span>${escapeHTML(lcName)}</span> ${escapeHTML(lc.text)}</div>`; 
                     }
                 }
-                const previewDiv = card.querySelector('#commentPreview-' + prefix + post.id);
-                if (previewDiv) { 
-                    previewDiv.innerHTML = latestCommentHtml; 
-                    previewDiv.style.display = totalComments > 0 ? 'block' : 'none'; 
+                if(post.commentsEnabled !== false) {
+                    const previewDiv = card.querySelector('#commentPreview-' + prefix + post.id);
+                    if (previewDiv) { 
+                        previewDiv.innerHTML = latestCommentHtml; 
+                        previewDiv.style.display = totalComments > 0 ? 'block' : 'none'; 
+                    }
                 }
             });
         }
@@ -1716,7 +1705,7 @@
                     const cAuthorData = allUsersData.find(u => u.uid === commentAuthorUid) || {}; 
                     const safeName = cAuthorData.name || cAuthorData.fullName || c.senderName || 'User'; 
                     const safePic = cAuthorData.profile_image || cAuthorData.profilePic || c.senderPic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}\x26background=1e293b\x26color=f8fafc`;
-                    
+
                     list.innerHTML += `
                         <div class="comment-item">
                             <div class="comment-header" onclick="window.location.href='user_profile.html?uid=${commentAuthorUid}'" style="cursor:pointer;">
@@ -1880,77 +1869,53 @@
             }
         }
 
-        function toggleStoryLike(storyId, storyOwnerId) { 
-            const ref = db.ref(`stories/${storyId}/likes/${currentUid}`); 
-            const icon = document.getElementById('storyLikeIcon'); 
-            const btn = document.getElementById('storyLikeBtn'); 
-            
-            if (btn.classList.contains('fire-active')) { 
-                icon.className = 'fa-solid fa-fire'; 
-                btn.classList.remove('fire-active'); 
-                ref.remove(); 
-            } else { 
-                icon.className = 'fa-solid fa-fire-flame-curved'; 
-                btn.classList.add('fire-active'); 
-                ref.set(Date.now()); 
+        function toggleStoryLike(storyId, storyOwnerId) {
+            const ref = db.ref(`stories/${storyId}/likes/${currentUid}`);
+            const icon = document.getElementById('storyLikeIcon');
+            const btn = document.getElementById('storyLikeBtn');
+            if (btn.classList.contains('fire-active')) {
+                icon.className = 'fa-solid fa-fire'; btn.classList.remove('fire-active'); ref.remove();
+            } else {
+                icon.className = 'fa-solid fa-fire-flame-curved'; btn.classList.add('fire-active'); ref.set(Date.now());
                 sendNotification(storyOwnerId, 'like_story', storyId); 
-            } 
+            }
         }
 
         function handleStoryPress() { isPaused = true; clearInterval(storyTimer); const vid = document.querySelector('#svContent video'); if(vid) vid.pause(); }
-        function handleStoryRelease(dir) { isPaused = false; const vid = document.querySelector('#svContent video'); if(vid) vid.play(); if(dir==='left') prevStory(); else if(dir==='right') nextStory(); }
-        function startProgress(duration) { 
-            clearInterval(storyTimer); 
-            storyProgressWidth = 0; 
-            const fillBar = document.getElementById(`pb-${viewingIndex}`); 
-            const step = (100 / (duration * 1000)) * 50; 
-            storyTimer = setInterval(() => { 
-                if(isPaused) return; 
-                storyProgressWidth += step; 
-                if(fillBar) fillBar.style.width = `${storyProgressWidth}%`; 
-                if(storyProgressWidth >= 100) nextStory(); 
-            }, 50); 
+        function handleStoryRelease(dir) { 
+            isPaused = false; 
+            const vid = document.querySelector('#svContent video'); 
+            if(vid) vid.play(); 
+            if(dir==='left') prevStory(); 
+            else if(dir==='right') nextStory(); 
         }
-        function nextStory() { viewingIndex++; renderStoryContent(); } 
+        function startProgress(duration) {
+            clearInterval(storyTimer); storyProgressWidth = 0; const fillBar = document.getElementById(`pb-${viewingIndex}`);
+            const step = (100 / (duration * 1000)) * 50;
+            storyTimer = setInterval(() => { if(isPaused) return; storyProgressWidth += step; if(fillBar) fillBar.style.width = `${storyProgressWidth}%`; if(storyProgressWidth >= 100) nextStory(); }, 50);
+        }
+        function nextStory() { viewingIndex++; renderStoryContent(); }
         function prevStory() { viewingIndex--; renderStoryContent(); }
         function closeStoryViewer() { clearInterval(storyTimer); document.getElementById('storyViewerModal').classList.remove('active'); document.getElementById('svContent').innerHTML = ''; }
         
         window.openStoryViewersList = function() {
-            isPaused = true; 
-            const vid = document.querySelector('#svContent video'); 
-            if(vid) vid.pause(); 
-            document.getElementById('storyViewersModal').classList.add('active'); 
-            
-            const list = document.getElementById('storyViewersList'); 
-            list.innerHTML = '';
-            
-            const s = storyGroups[viewingUid][viewingIndex]; 
+            isPaused = true; const vid = document.querySelector('#svContent video'); if(vid) vid.pause();
+            document.getElementById('storyViewersModal').classList.add('active');
+            const list = document.getElementById('storyViewersList'); list.innerHTML = '';
+            const s = storyGroups[viewingUid][viewingIndex];
             if(!s.viewers) { list.innerHTML = '<div style="text-align:center; padding: 40px; color:var(--text-muted); font-weight:600;">No viewers yet.</div>'; return; }
-            
-            Object.keys(s.viewers).forEach(viewerUid => { 
-                const u = allUsersData.find(user => user.uid === viewerUid); 
-                if(u) { 
-                    const safeName = u.name || u.fullName || 'User'; 
-                    const img = u.profile_image || u.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}\x26background=e2e8f0`; 
-                    const likedHtml = (s.likes && s.likes[viewerUid]) ? `<i class="fa-solid fa-fire viewer-like-icon" style="color:var(--danger-color)"></i>` : ''; 
-                    list.innerHTML += `<div class="viewer-item" onclick="window.location.href='user_profile.html?uid=${viewerUid}'"><img src="${img}" class="viewer-avatar"><div style="flex:1; margin-left:12px;"><div class="viewer-name">${escapeHTML(safeName)}</div></div>${likedHtml}</div>`; 
-                } 
+            Object.keys(s.viewers).forEach(viewerUid => {
+                const u = allUsersData.find(user => user.uid === viewerUid);
+                if(u) {
+                    const safeName = u.name || u.fullName || 'User';
+                    const img = u.profile_image || u.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeName)}\x26background=e2e8f0`;
+                    const likedHtml = (s.likes && s.likes[viewerUid]) ? `<i class="fa-solid fa-fire viewer-like-icon" style="color:var(--danger-color)"></i>` : '';
+                    list.innerHTML += `<div class="viewer-item" onclick="window.location.href='user_profile.html?uid=${viewerUid}'"><img src="${img}" class="viewer-avatar"><div style="flex:1; margin-left:12px;"><div class="viewer-name">${escapeHTML(safeName)}</div></div>${likedHtml}</div>`;
+                }
             });
         }
         window.closeStoryViewersList = function() { document.getElementById('storyViewersModal').classList.remove('active'); isPaused = false; const vid = document.querySelector('#svContent video'); if(vid) vid.play(); }
-
-    </script>
-    
-    <script>
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('keydown', e => { 
-            if (e.keyCode === 123 || 
-               (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
-               (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83))) { 
-                e.preventDefault(); 
-                return false; 
-            } 
-        });
+    // ]]>
     </script>
 </body>
 </html>
