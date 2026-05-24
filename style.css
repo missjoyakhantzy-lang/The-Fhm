@@ -588,7 +588,7 @@ a {
 }
 
 /* =========================================
-   FEED & POSTS
+   POSTS & FEED
    ========================================= */
 .feed-wrapper { 
     max-width: 600px; 
@@ -606,11 +606,12 @@ a {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); 
     border: 1px solid var(--border-light); 
     animation: slideUp 0.4s ease; 
+    contain: content;
 }
 
 @keyframes slideUp { 
-    from{opacity:0; transform:translateY(15px);} 
-    to{opacity:1; transform:translateY(0);} 
+    from { opacity:0; transform:translateY(15px); } 
+    to { opacity:1; transform:translateY(0); } 
 }
 
 .post-header { 
@@ -756,6 +757,25 @@ video {
     transform: scale(0.9); 
 }
 
+.audio-mute-btn { 
+    position: absolute; 
+    top: 12px; 
+    left: 12px; 
+    width: 34px; 
+    height: 34px; 
+    background: rgba(0,0,0,0.6); 
+    backdrop-filter: blur(5px); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    color: white; 
+    font-size: 14px; 
+    transition: 0.2s; 
+    border: 1px solid rgba(255,255,255,0.2); 
+    z-index: 10;
+}
+
 .action-container { 
     display: flex; 
     justify-content: flex-start; 
@@ -806,9 +826,9 @@ video {
 }
 
 @keyframes firePop { 
-    0%{transform: scale(1);} 
-    50%{transform: scale(1.3) rotate(-10deg);} 
-    100%{transform: scale(1) rotate(0);} 
+    0% { transform: scale(1); } 
+    50% { transform: scale(1.3) rotate(-10deg); } 
+    100% { transform: scale(1) rotate(0); } 
 }
 
 .comment-preview-area { 
@@ -836,7 +856,54 @@ video {
     margin-right: 6px;
 }
 
-/* POST OPTIONS */
+/* =========================================
+   LOADERS & OVERLAYS
+   ========================================= */
+.feed-loader { 
+    text-align: center; 
+    padding: 20px; 
+    display: none; 
+}
+
+.feed-loader .spinner { 
+    width: 30px; 
+    height: 30px; 
+    border-width: 3px; 
+    margin: 0 auto; 
+    border-top-color: var(--accent-primary); 
+    border-radius: 50%; 
+    animation: spin 1s linear infinite;
+}
+
+.upload-overlay { 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(2, 6, 23, 0.9); 
+    z-index: 9999; 
+    display: none; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    backdrop-filter: blur(5px);
+}
+
+.spinner { 
+    width: 40px; 
+    height: 40px; 
+    border: 3px solid var(--skel-bg); 
+    border-top-color: var(--accent-primary); 
+    border-radius: 50%; 
+    animation: spin 1s linear infinite; 
+    margin-bottom: 16px; 
+}
+
+@keyframes spin { 
+    to { transform: rotate(360deg); } 
+}
+
+/* =========================================
+   BOTTOM SHEETS & MENUS
+   ========================================= */
 .bottom-sheet-overlay { 
     position: fixed; 
     inset: 0; 
@@ -911,13 +978,8 @@ video {
     color: var(--icon-color); 
 }
 
-.bs-item.danger { 
-    color: var(--danger-color); 
-}
-
-.bs-item.danger i { 
-    color: var(--danger-color); 
-}
+.bs-item.danger { color: var(--danger-color); }
+.bs-item.danger i { color: var(--danger-color); }
 
 /* HORIZONTAL QUICK MENU */
 .quick-menu-overlay { 
@@ -931,8 +993,7 @@ video {
 .quick-menu { 
     position: fixed; 
     bottom: 85px; 
-    left: 50%; 
-    transform: translateX(-50%) scale(0.5); 
+    right: 16px; 
     background: rgba(15, 23, 42, 0.95); 
     backdrop-filter: blur(25px); 
     border-radius: 20px; 
@@ -944,37 +1005,36 @@ video {
     pointer-events: none; 
     width: max-content; 
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: scale(0.5); 
+    transform-origin: bottom right; 
+    display: flex; 
+    gap: 15px;
 }
 
 .quick-menu.active { 
-    transform: translateX(-50%) scale(1); 
+    transform: scale(1); 
     pointer-events: auto; 
     opacity: 1; 
-}
-
-.qm-grid { 
-    display: flex; 
-    gap: 20px; 
 }
 
 .qm-item { 
     display: flex; 
     flex-direction: column; 
     align-items: center; 
-    gap: 6px; 
+    gap: 5px; 
     cursor: pointer; 
     text-decoration: none;
 }
 
 .qm-icon { 
-    width: 44px; 
-    height: 44px; 
+    width: 40px; 
+    height: 40px; 
     border-radius: 50%; 
     background: rgba(255,255,255,0.05); 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    font-size: 18px; 
+    font-size: 16px; 
     color: #fff; 
     border: 1px solid rgba(255,255,255,0.1); 
     transition: 0.3s;
@@ -993,7 +1053,9 @@ video {
     text-transform: uppercase; 
 }
 
-/* BOTTOM NAV */
+/* =========================================
+   BOTTOM NAV
+   ========================================= */
 .bottom-nav-wrapper { 
     position: fixed; 
     bottom: 20px; 
@@ -1045,7 +1107,9 @@ video {
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-/* MODALS */
+/* =========================================
+   MODALS (FULL SCREEN)
+   ========================================= */
 .fs-screen { 
     display: none; 
     position: fixed; 
@@ -1057,9 +1121,12 @@ video {
     animation: slideInUp 0.3s ease-out;
 }
 
-.fs-screen.active { 
-    display: flex; 
-} 
+.fs-screen.active { display: flex; } 
+
+@keyframes slideInUp { 
+    from { transform: translateY(100%); opacity: 0; } 
+    to { transform: translateY(0); opacity: 1; } 
+}
 
 .fs-header { 
     background: rgba(15, 23, 42, 0.7); 
@@ -1163,7 +1230,9 @@ video {
     object-fit: cover;
 }
 
-/* SEARCH MODAL */
+/* =========================================
+   SEARCH MODAL
+   ========================================= */
 .search-result-item { 
     display: flex; 
     align-items: center; 
@@ -1182,6 +1251,9 @@ video {
     background: rgba(255,255,255,0.08); 
 }
 
+/* =========================================
+   COMMENTS UI
+   ========================================= */
 .comment-item { 
     background: rgba(255,255,255,0.05); 
     padding: 16px; 
@@ -1296,6 +1368,9 @@ video {
     box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
 }
 
+/* =========================================
+   CREATE POST MODAL & FILTERS
+   ========================================= */
 .create-post-body { 
     padding: 20px; 
     flex: 1; 
@@ -1340,7 +1415,6 @@ video {
     transition: filter 0.3s;
 }
 
-/* FILTERS UI */
 .filter-strip { 
     display: none; 
     overflow-x: auto; 
@@ -1382,7 +1456,47 @@ video {
     color: var(--text-muted); 
 }
 
-/* STRICTLY HIDDEN STORY ANALYTICS MODAL FIX */
+.cp-toolbar { 
+    display: flex; 
+    gap: 8px; 
+    margin-top: 15px; 
+    margin-bottom: 10px; 
+    overflow-x: auto; 
+    scrollbar-width: none; 
+}
+
+.cp-toolbar::-webkit-scrollbar { 
+    display: none; 
+}
+
+.cp-tool-btn { 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    padding: 8px 14px; 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid var(--border-light); 
+    border-radius: 50px; 
+    font-size: 12px; 
+    font-weight: 700; 
+    color: var(--text-main); 
+    cursor: pointer; 
+    white-space: nowrap; 
+    transition: 0.2s;
+}
+
+.cp-tool-btn:active { 
+    transform: scale(0.95); 
+    background: rgba(255,255,255,0.1); 
+}
+
+.cp-tool-btn i { 
+    color: var(--accent-primary); 
+}
+
+/* =========================================
+   STORY VIEWER & ANALYTICS
+   ========================================= */
 .viewers-modal { 
     display: none !important; 
     position: fixed; 
@@ -1422,6 +1536,34 @@ video {
     color: #fff;
 }
 
+.insights-grid { 
+    display: flex; 
+    justify-content: space-around; 
+    margin-top: 15px; 
+    padding-top: 10px; 
+}
+
+.insight-box { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.insight-val { 
+    font-size: 24px; 
+    font-weight: 800; 
+    color: #fff; 
+}
+
+.insight-lbl { 
+    font-size: 10px; 
+    font-weight: 700; 
+    color: var(--text-muted); 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    margin-top: 4px; 
+}
+
 .viewers-close { 
     position: absolute; 
     right: 20px; 
@@ -1454,6 +1596,18 @@ video {
     margin-bottom: 10px; 
     border: 1px solid var(--border-light); 
     cursor: pointer;
+}
+
+.viewer-avatar { 
+    width: 44px !important; 
+    height: 44px !important; 
+    min-width: 44px !important; 
+    min-height: 44px !important; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    background: var(--skel-bg); 
+    display: block; 
+    flex-shrink: 0;
 }
 
 .story-viewer-modal { 
@@ -1618,32 +1772,9 @@ video {
     filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
 }
 
-.upload-overlay { 
-    position: fixed; 
-    inset: 0; 
-    background: rgba(2, 6, 23, 0.9); 
-    z-index: 9999; 
-    display: none; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    backdrop-filter: blur(5px);
-}
-
-.spinner { 
-    width: 40px; 
-    height: 40px; 
-    border: 3px solid var(--skel-bg); 
-    border-top-color: var(--accent-primary); 
-    border-radius: 50%; 
-    animation: spin 1s linear infinite; 
-    margin-bottom: 16px; 
-}
-
-@keyframes spin { 
-    to { transform: rotate(360deg); } 
-}
-
+/* =========================================
+   TOAST NOTIFICATIONS
+   ========================================= */
 .toast-box { 
     position: fixed; 
     top: 20px; 
@@ -1670,9 +1801,4 @@ video {
     display: flex; 
     align-items: center; 
     pointer-events: auto;
-}
-
-@keyframes slideDown { 
-    from { transform: translateY(-20px); opacity: 0;} 
-    to { transform: translateY(0); opacity: 1;} 
 }
