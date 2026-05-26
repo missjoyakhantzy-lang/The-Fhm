@@ -8,950 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     
+    <link rel="stylesheet" href="auth_style.css" />
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
     <script type="text/javascript">
       (function() { 
             // Default init for OTP functionality
             emailjs.init("3yO6tbaHty1fGoy2U"); 
         })();
     </script>
-
-    <style>
-      /* ==========================================
-           1. ROOT VARIABLES
-           ========================================== */
-        :root {
-            --brand-bg: #0f172a; 
-            --brand-black: #ffffff; 
-            --brand-gray: #94a3b8; 
-            --line-color: rgba(255, 255, 255, 0.1); 
-            --danger: #ef4444;
-            --success: #10b981;
-            --glow-primary: #38bdf8; 
-        }
-
-        /* ==========================================
-           2. GLOBAL RESETS
-           ========================================== */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Inter', sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-        
-        body { 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            justify-content: center; 
-            padding: 30px 10px; 
-            color: var(--brand-black); 
-            overflow-x: hidden; 
-            overflow-y: auto; 
-        }
-
-        @media (max-height: 750px) {
-            body { 
-                justify-content: flex-start; 
-                padding-top: 40px; 
-                padding-bottom: 40px; 
-            }
-        }
-
-        /* ==========================================
-           3. BACKGROUND AURORA ANIMATION
-           ========================================== */
-        .bg-orbs { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            z-index: -1; 
-            overflow: hidden; 
-            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #020617, #17172e);
-            background-size: 400% 400%;
-            animation: gradientMove 15s ease infinite;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .orb { 
-            position: absolute; 
-            border-radius: 50%; 
-            filter: blur(120px); 
-            opacity: 0.5; 
-            animation: floatOrb 20s infinite alternate ease-in-out; 
-        }
-
-        .orb-1 { 
-            width: 60vw; 
-            height: 60vw; 
-            min-width: 400px; 
-            min-height: 400px; 
-            background: #4338ca; 
-            top: -20%; 
-            left: -10%; 
-        }
-
-        .orb-2 { 
-            width: 50vw; 
-            height: 50vw; 
-            min-width: 350px; 
-            min-height: 350px; 
-            background: #be185d; 
-            bottom: -10%; 
-            right: -10%; 
-            animation-delay: -5s; 
-        }
-
-        .orb-3 { 
-            width: 45vw; 
-            height: 45vw; 
-            min-width: 300px; 
-            min-height: 300px; 
-            background: #0f766e; 
-            top: 30%; 
-            left: 30%; 
-            animation-delay: -10s; 
-        }
-
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-40px, 40px) scale(0.9); }
-            100% { transform: translate(50px, 80px) scale(1.2); }
-        }
-
-        /* ==========================================
-           4. MAIN CONTAINERS & VIEWS
-           ========================================== */
-        .auth-container { 
-            width: 100%; 
-            max-width: 370px; 
-            position: relative; 
-            display: flex; 
-            flex-direction: column; 
-            z-index: 10; 
-            margin: auto 0; 
-        }
-
-        .auth-view { 
-            display: none; 
-            animation: scaleFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-            background: rgba(15, 23, 42, 0.4); 
-            backdrop-filter: blur(24px); 
-            -webkit-backdrop-filter: blur(24px); 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            border-radius: 24px; 
-            padding: 18px 16px; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
-        }
-
-        .auth-view.active { 
-            display: flex; 
-            flex-direction: column; 
-        }
-
-        @keyframes scaleFade { 
-            from { opacity: 0; transform: translateY(15px) scale(0.98); } 
-            to { opacity: 1; transform: translateY(0) scale(1); } 
-        }
-
-        .top-nav { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 16px; 
-        }
-
-        .top-nav-start { 
-            display: flex; 
-            justify-content: flex-start; 
-            margin-bottom: 12px; 
-        } 
-
-        .left-actions { 
-            display: flex; 
-            gap: 8px; 
-            width: 84px; 
-        }
-
-        .right-spacer { 
-            width: 84px; 
-        }
-        
-        .btn-sq { 
-            width: 38px; 
-            height: 38px; 
-            border-radius: 12px; 
-            background: rgba(255,255,255,0.05); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 14px; 
-            color: var(--brand-black); 
-            cursor: pointer; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            transition: 0.2s; 
-            flex-shrink: 0; 
-        }
-
-        .btn-sq:hover { 
-            background: rgba(255,255,255,0.15); 
-            transform: translateY(-2px); 
-        }
-        
-        .premium-badge { 
-            font-family: 'Montserrat', sans-serif; 
-            font-size: 11px; 
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
-            text-transform: uppercase; 
-            padding: 6px 14px; 
-            border-radius: 20px; 
-            background: rgba(15, 23, 42, 0.6); 
-            color: var(--glow-primary); 
-            border: 1px solid rgba(56, 189, 248, 0.3); 
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); 
-            backdrop-filter: blur(10px); 
-            text-align: center; 
-            white-space: nowrap; 
-        }
-
-        /* ==========================================
-           5. TYPOGRAPHY & HEADER SECTIONS
-           ========================================== */
-        .welcome-title { 
-            font-size: 22px; 
-            font-weight: 800; 
-            color: #fff; 
-            line-height: 1.2; 
-            letter-spacing: -0.02em; 
-            text-align: center; 
-            margin-bottom: 4px; 
-        }
-
-        .welcome-subtitle { 
-            font-size: 12px; 
-            color: var(--brand-gray); 
-            margin: 0 0 16px; 
-            line-height: 1.4; 
-            padding: 0 10px; 
-            text-align: center; 
-        }
-
-        .header-section { 
-            text-align: center; 
-            margin-bottom: 20px; 
-        }
-
-        .header-section h1 { 
-            font-size: 22px; 
-            font-weight: 800; 
-            letter-spacing: -0.03em; 
-            margin-bottom: 4px; 
-            color: #fff; 
-        }
-
-        .header-section p { 
-            font-size: 12px; 
-            color: var(--brand-gray); 
-            line-height: 1.4; 
-            padding: 0 5px; 
-        }
-
-        .pro-text-shimmer {
-            font-size: 26px; 
-            font-weight: 900; 
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, #ffffff 20%, #93c5fd 40%, #93c5fd 60%, #ffffff 80%);
-            background-size: 200% auto; 
-            color: transparent; 
-            -webkit-background-clip: text; 
-            background-clip: text; 
-            animation: shineText 3s linear infinite;
-        }
-
-        @keyframes shineText { 
-            to { background-position: 200% center; } 
-        }
-
-        .trust-badge-container { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 6px; 
-            margin-top: 16px; 
-            margin-bottom: 4px; 
-            opacity: 0.8;
-        }
-
-        .trust-badge { 
-            font-size: 10px; 
-            font-weight: 600; 
-            color: #cbd5e1; 
-            display: flex; 
-            align-items: center; 
-            gap: 4px; 
-            background: rgba(255,255,255,0.05); 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            transition: all 0.3s ease;
-        }
-        
-        .trust-badge:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-1px);
-        }
-
-        /* ==========================================
-           6. FORM ELEMENTS & INPUTS
-           ========================================== */
-        .modern-input-card { 
-            background: rgba(255,255,255,0.03); 
-            border-radius: 12px; 
-            padding: 8px 14px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            margin-bottom: 12px; 
-            border: 1px solid rgba(255,255,255,0.08); 
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            position: relative; 
-            overflow: hidden; 
-        }
-
-        .modern-input-card::before { 
-            content: ''; 
-            position: absolute; 
-            bottom: 0; 
-            left: 50%; 
-            height: 2px; 
-            width: 0%; 
-            background: var(--glow-primary); 
-            transition: 0.4s ease; 
-            transform: translateX(-50%); 
-            box-shadow: 0 0 10px var(--glow-primary); 
-        }
-
-        .modern-input-card:focus-within::before { 
-            width: 100%; 
-        }
-
-        .modern-input-card:focus-within { 
-            background: rgba(255,255,255,0.06); 
-            border-color: rgba(56, 189, 248, 0.4); 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
-        }
-
-        .icon-circle-warm { 
-            width: 34px; 
-            height: 34px; 
-            border-radius: 50%; 
-            background: rgba(255,255,255,0.05); 
-            color: var(--brand-gray); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 14px; 
-            flex-shrink: 0; 
-            transition: 0.3s; 
-        }
-
-        .modern-input-card:focus-within .icon-circle-warm { 
-            color: var(--glow-primary); 
-            background: rgba(56, 189, 248, 0.1); 
-        }
-        
-        .modern-input-content { 
-            position: relative; 
-            flex-grow: 1; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            height: 42px; 
-        }
-
-        .modern-input { 
-            border: none; 
-            background: transparent; 
-            color: #fff; 
-            font-size: 14px; 
-            font-weight: 500; 
-            outline: none; 
-            width: 100%; 
-            padding-top: 14px; 
-            padding-bottom: 2px; 
-        }
-
-        .modern-input-content label { 
-            position: absolute; 
-            left: 0; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            font-size: 13px; 
-            color: var(--brand-gray); 
-            transition: 0.2s ease-out; 
-            pointer-events: none; 
-            font-weight: 500; 
-        }
-
-        .modern-input:focus ~ label, 
-        .modern-input:not(:placeholder-shown) ~ label { 
-            top: 6px; 
-            transform: translateY(0); 
-            font-size: 10px; 
-            color: var(--glow-primary); 
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
-        }
-
-        .eye-btn { 
-            position: absolute; 
-            right: 0; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            color: var(--brand-gray); 
-            cursor: pointer; 
-            background: none; 
-            border: none; 
-            font-size: 15px; 
-            transition: 0.2s; 
-            z-index: 5;
-        }
-
-        .eye-btn:hover { 
-            color: #fff; 
-        }
-
-        .otp-input-box { 
-            letter-spacing: 10px; 
-            font-size: 22px; 
-            text-align: center; 
-            font-weight: 800; 
-            padding: 12px !important; 
-            font-family: 'Courier New', Courier, monospace; 
-            color: #fff; 
-            border-radius: 12px; 
-            background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            outline: none; 
-            width: 100%; 
-            transition: 0.3s;
-        }
-
-        .otp-input-box:focus { 
-            border-color: var(--glow-primary); 
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); 
-            background: rgba(255,255,255,0.08);
-        }
-
-        /* ==========================================
-           7. BUTTONS & ACTIONS
-           ========================================== */
-        .glass-btn-wrapper { 
-            position: relative; 
-            width: 100%; 
-            border-radius: 14px; 
-            padding: 2px; 
-            overflow: hidden; 
-            margin-bottom: 12px; 
-            transition: all 0.3s ease; 
-        }
-
-        .glass-btn-wrapper:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2); 
-        }
-
-        @keyframes circularBorderTrace {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .glass-btn-wrapper::before { 
-            content: ''; 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            width: 300%; 
-            height: 300%; 
-            background: conic-gradient(
-                from 90deg, 
-                transparent 0%, 
-                transparent 60%, 
-                rgba(56,189,248,0.6) 80%, 
-                #ffffff 100%
-            ); 
-            animation: circularBorderTrace 4s linear infinite; 
-            z-index: -2; 
-        }
-
-        .glass-btn-wrapper::after { 
-            content: ''; 
-            position: absolute; 
-            inset: 2px; 
-            background: rgba(15, 23, 42, 0.5); 
-            backdrop-filter: blur(14px); 
-            -webkit-backdrop-filter: blur(14px); 
-            border-radius: 12px; 
-            z-index: -1; 
-        }
-        
-        .glass-btn { 
-            position: relative; 
-            width: 100%; 
-            padding: 14px; 
-            background: transparent; 
-            color: #fff; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 12px; 
-            font-size: 14px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-            z-index: 1; 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
-            transition: 0.2s;
-        }
-
-        .glass-btn:disabled { 
-            opacity: 0.7; 
-            cursor: not-allowed; 
-        }
-
-        .btn-primary { 
-            width: 100%; 
-            padding: 14px; 
-            background: #ffffff; 
-            color: #000000; 
-            border: none; 
-            border-radius: 12px; 
-            font-size: 14px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-        }
-        
-        .btn-primary:hover:not(:disabled) { 
-            transform: translateY(-2px); 
-            box-shadow: 0 0 20px rgba(255,255,255,0.2); 
-        }
-
-        .btn-primary:active:not(:disabled) { 
-            transform: translateY(0) scale(0.98); 
-        }
-
-        .btn-primary:disabled { 
-            opacity: 0.7; 
-            cursor: not-allowed; 
-        }
-
-        /* Action Cards */
-        .action-card { 
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 14px; 
-            padding: 12px 14px; 
-            display: flex; 
-            align-items: center; 
-            cursor: pointer; 
-            margin-bottom: 10px; 
-            transition: all 0.3s ease; 
-            text-align: left; 
-        }
-
-        .card-secondary:hover { 
-            background: rgba(255,255,255,0.08); 
-            border-color: rgba(255,255,255,0.2); 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2); 
-        }
-
-        .icon-circle-home { 
-            width: 38px; 
-            height: 38px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 15px; 
-            flex-shrink: 0; 
-        }
-
-        .card-secondary .icon-circle-home { 
-            background: rgba(255,255,255,0.05); 
-            color: #fff; 
-        }
-
-        .card-text { 
-            margin-left: 12px; 
-            flex-grow: 1; 
-        }
-
-        .card-text h3 { 
-            font-size: 14px; 
-            font-weight: 700; 
-            margin-bottom: 2px; 
-            color: #fff; 
-        }
-
-        .card-secondary .card-text p { 
-            font-size: 11px; 
-            margin: 0; 
-            color: var(--brand-gray); 
-        }
-
-        .arrow-circle { 
-            width: 26px; 
-            height: 26px; 
-            border-radius: 50%; 
-            background: #fff; 
-            color: #000; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 12px; 
-            font-weight: 900;
-        }
-
-        .card-secondary .arrow-icon { 
-            color: #fff; 
-            font-size: 14px; 
-        }
-
-        /* Google Button Style */
-        .google-btn-large { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-            padding: 12px; 
-            font-size: 13px; 
-            font-weight: 700; 
-            width: 100%; 
-            text-align: center; 
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #fff;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        .google-btn-large:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-
-        .forgot-link { 
-            font-size: 11px; 
-            font-weight: 600; 
-            color: var(--glow-primary); 
-            cursor: pointer; 
-            float: right; 
-            margin-top: -6px; 
-            margin-bottom: 12px; 
-            transition: 0.2s;
-        }
-
-        .forgot-link:hover { 
-            text-decoration: underline; 
-            color: #fff; 
-        }
-
-        /* ==========================================
-           8. ANIMATIONS & EFFECTS
-           ========================================== */
-        @keyframes softPulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(56, 189, 248, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-        }
-
-        .pulse-anim {
-            animation: softPulse 2s infinite;
-        }
-
-        .anim-text-wrapper { 
-            position: relative; 
-            height: 16px; 
-            overflow: hidden; 
-            margin-top: 2px; 
-        }
-
-        .anim-text-item { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            font-size: 11px; 
-            color: #cbd5e1; 
-            display: flex; 
-            align-items: center; 
-            gap: 6px; 
-            opacity: 0; 
-            transform: translateY(15px); 
-            animation: textSwap 6s infinite ease-in-out; 
-        }
-
-        .anim-text-item:nth-child(1) { animation-delay: 0s; } 
-        .anim-text-item:nth-child(2) { animation-delay: 2s; } 
-        .anim-text-item:nth-child(3) { animation-delay: 4s; }
-
-        @keyframes textSwap { 
-            0%, 5% { opacity: 0; transform: translateY(15px); } 
-            10%, 25% { opacity: 1; transform: translateY(0); } 
-            30%, 100% { opacity: 0; transform: translateY(-15px); } 
-        }
-
-        .typing-indicator { 
-            display: flex; 
-            gap: 6px; 
-            margin-bottom: 12px; 
-        }
-
-        .typing-indicator span { 
-            width: 8px; 
-            height: 8px; 
-            background: #fff; 
-            border-radius: 50%; 
-            animation: bounce 1.4s infinite ease-in-out both; 
-        }
-
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; } 
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes bounce { 
-            0%, 80%, 100% { 
-                transform: scale(0); 
-                box-shadow: 0 0 0px transparent; 
-            } 
-            40% { 
-                transform: scale(1); 
-                box-shadow: 0 0 10px rgba(255,255,255,0.5); 
-            } 
-        }
-
-        .verification-timeline { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            margin-bottom: 24px; 
-            gap: 10px; 
-        }
-
-        .step { 
-            width: 32px; 
-            height: 32px; 
-            border-radius: 50%; 
-            background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255,255,255,0.2); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: var(--brand-gray); 
-            font-size: 12px; 
-            transition: 0.3s; 
-        }
-
-        .step.done { 
-            background: rgba(16, 185, 129, 0.15); 
-            border-color: var(--success); 
-            color: var(--success); 
-        }
-
-        .step.active { 
-            background: rgba(56, 189, 248, 0.15); 
-            border-color: var(--glow-primary); 
-            color: var(--glow-primary); 
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); 
-        }
-
-        .step-line { 
-            height: 2px; 
-            width: 30px; 
-            background: rgba(255,255,255,0.1); 
-            border-radius: 2px; 
-        }
-
-        .step-line.done { 
-            background: var(--success); 
-        }
-
-        /* ==========================================
-           9. MODALS, OVERLAYS & TOASTS
-           ========================================== */
-        .global-overlay { 
-            display: none; 
-            position: absolute; 
-            inset: 0; 
-            background: rgba(15, 23, 42, 0.85); 
-            backdrop-filter: blur(8px); 
-            z-index: 999; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 24px; 
-        }
-
-        .modal-content { 
-            background: rgba(15, 23, 42, 0.8); 
-            backdrop-filter: blur(30px); 
-            -webkit-backdrop-filter: blur(30px); 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            border-radius: 20px; 
-            padding: 24px; 
-            width: 85%; 
-            max-width: 340px; 
-            text-align: center; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
-            transform: scale(0.9); 
-            opacity: 0; 
-            animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-            position: relative; 
-        }
-
-        @keyframes popIn { 
-            to { transform: scale(1); opacity: 1; } 
-        }
-
-        .modal-content h2 { 
-            font-size: 18px; 
-            font-weight: 800; 
-            color: #fff; 
-            margin-bottom: 8px; 
-        }
-
-        .modal-content p { 
-            font-size: 13px; 
-            color: var(--brand-gray); 
-            margin-bottom: 20px; 
-            line-height: 1.5; 
-        }
-
-        .close-modal-btn { 
-            position: absolute; 
-            top: 12px; 
-            right: 12px; 
-            width: 28px; 
-            height: 28px; 
-            background: rgba(255,255,255,0.1); 
-            border-radius: 50%; 
-            color: #fff; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border: none; 
-            cursor: pointer; 
-            transition: 0.2s; 
-        }
-
-        .close-modal-btn:hover { 
-            background: rgba(255,255,255,0.2); 
-            transform: scale(1.1); 
-        }
-
-        .top-toast {
-            position: fixed; 
-            top: 20px; 
-            left: 50%; 
-            transform: translateX(-50%) translateY(-150%);
-            background: rgba(15, 23, 42, 0.95); 
-            backdrop-filter: blur(12px); 
-            color: #fff;
-            padding: 12px 20px; 
-            border-radius: 30px; 
-            border: 1px solid var(--glow-primary);
-            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2); 
-            display: flex; 
-            gap: 12px;
-            align-items: center; 
-            z-index: 9999999; 
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0; 
-            font-size: 13px; 
-            font-weight: 600; 
-            white-space: nowrap;
-        }
-
-        .top-toast.show { 
-            transform: translateX(-50%) translateY(0); 
-            opacity: 1; 
-        }
-
-        /* ==========================================
-           10. UTILITIES & HELPERS
-           ========================================== */
-        .divider { 
-            display: flex; 
-            align-items: center; 
-            margin: 12px 0; 
-            font-size: 11px; 
-            font-weight: 500; 
-            color: var(--brand-gray); 
-        }
-
-        .divider::before, .divider::after { 
-            content: ''; 
-            flex: 1; 
-            border-bottom: 1px solid var(--line-color); 
-        }
-
-        .divider span { 
-            padding: 0 12px; 
-        }
-
-        .footer-wrapper { 
-            text-align: center; 
-            margin-top: auto; 
-            padding-top: 16px; 
-        }
-
-        .footer-links { 
-            font-size: 10px; 
-            color: var(--brand-gray); 
-            margin-bottom: 6px; 
-        }
-
-        .footer-links a { 
-            color: var(--brand-gray); 
-            text-decoration: none; 
-            transition: 0.2s; 
-            cursor: pointer; 
-        }
-
-        .footer-links a:hover { 
-            color: #fff; 
-        }
-
-        .copyright { 
-            font-size: 10px; 
-            color: rgba(148, 163, 184, 0.5); 
-            font-weight: 500; 
-        }
-    </style>
   </head>
   <body>
     <div class="bg-orbs">
@@ -959,10 +27,12 @@
       <div class="orb orb-2"></div>
       <div class="orb orb-3"></div>
     </div>
+    
     <div id="topToast" class="top-toast">
       <i class="fa-solid fa-envelope-circle-check" style="color: var(--glow-primary); font-size: 18px;"></i>
       <span id="topToastMsg">OTP sent to your email</span>
     </div>
+    
     <div class="global-overlay" id="toastModalOverlay" style="z-index: 999999;">
       <div class="modal-content" style="padding: 30px 20px;">
         <h4 style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 900; color: var(--brand-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;">
@@ -982,6 +52,7 @@
         </button>
       </div>
     </div>
+    
     <div class="global-overlay" id="policyModal" style="z-index: 100000;">
       <div class="modal-content">
         <button class="close-modal-btn" onclick="AuthLogic.closePolicyModal()">
@@ -990,14 +61,19 @@
         <div class="icon-circle-warm" style="margin: 0 auto 12px auto; width: 48px; height: 48px; font-size: 20px; background: rgba(255,255,255,0.05); color: #fff;">
           <i class="fa-solid fa-shield-halved" id="modalIcon"></i>
         </div>
-        <h2 id="modalTitle">Policy</h2>
-        <p id="modalBody">Content goes here...</p>
+        <h2 id="modalTitle">
+          Policy
+        </h2>
+        <p id="modalBody">
+          Content goes here...
+        </p>
         <button class="btn-primary" id="modalActionBtn">
           <span id="modalBtnText">Read on Google</span>
           <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </button>
       </div>
     </div>
+    
     <div class="auth-container">
       <div class="global-overlay" id="langOverlay" style="z-index: 9999;">
         <div class="typing-indicator">
@@ -1005,8 +81,11 @@
           <span></span>
           <span></span>
         </div>
-        <p style="font-weight: 600; font-size: 12px; color: #fff;" id="langLoadText">Please Wait...</p>
+        <p style="font-weight: 600; font-size: 12px; color: #fff;" id="langLoadText">
+          Please Wait...
+        </p>
       </div>
+      
       <div id="view-home" class="auth-view active">
         <div class="top-nav">
           <div class="left-actions">
@@ -1014,7 +93,9 @@
               <span id="langBtnTextHome" style="font-size: 12px; font-weight: bold;">A/अ</span>
             </button>
           </div>
-          <div class="premium-badge" data-i18n="badge">Login To fahimn.co.in</div>
+          <div class="premium-badge" data-i18n="badge">
+            Login To fahimn.co.in
+          </div>
           <div class="right-spacer"></div>
         </div>
         <h1 class="welcome-title">
@@ -1022,7 +103,9 @@
           <br />
           <span class="pro-text-shimmer">Fahimn.co.in</span>
         </h1>
-        <p class="welcome-subtitle" data-i18n="homeSub">Connect, share and grow with a community that inspires you</p>
+        <p class="welcome-subtitle" data-i18n="homeSub">
+          Connect, share and grow with a community that inspires you
+        </p>
         <div class="glass-btn-wrapper" style="margin-bottom: 10px;" onclick="AuthLogic.switchView('view-signup')">
           <button class="glass-btn" style="text-align: left; padding: 12px 14px; justify-content: flex-start;">
             <div class="icon-circle-home" style="margin-right: 12px; background: rgba(255,255,255,0.1); color: #fff;">
@@ -1046,6 +129,7 @@
             </div>
           </button>
         </div>
+        
         <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-login')">
           <div class="icon-circle-home">
             <i class="fa-regular fa-user"></i>
@@ -1056,6 +140,7 @@
           </div>
           <i class="fa-solid fa-arrow-right arrow-icon"></i>
         </div>
+        
         <div class="action-card card-secondary" onclick="AuthLogic.switchView('view-recovery')">
           <div class="icon-circle-home">
             <i class="fa-solid fa-shield-halved"></i>
@@ -1066,9 +151,11 @@
           </div>
           <i class="fa-solid fa-arrow-right arrow-icon"></i>
         </div>
+        
         <div class="divider">
           <span data-i18n="orContinue">or continue with</span>
         </div>
+        
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <button id="googleBtnLoaderHome" class="google-btn-large" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderHome', 'googleBtnInnerHome')">
             <span id="googleBtnInnerHome" style="display:flex; align-items:center; gap:10px;">
@@ -1084,11 +171,16 @@
         </div>
         <div class="footer-wrapper">
           <div class="footer-links">
-            <a onclick="AuthLogic.openPolicyModal('privacy')">Privacy Policy</a> • <a onclick="AuthLogic.openPolicyModal('terms')">Terms of Service</a>
+            <a onclick="AuthLogic.openPolicyModal('privacy')">Privacy Policy</a>
+            •
+            <a onclick="AuthLogic.openPolicyModal('terms')">Terms of Service</a>
           </div>
-          <div class="copyright" data-i18n="copyright">© 2026 Fahimn.co.in. All rights reserved.</div>
+          <div class="copyright" data-i18n="copyright">
+            © 2026 Fahimn.co.in. All rights reserved.
+          </div>
         </div>
       </div>
+      
       <div id="view-signup" class="auth-view">
         <div class="top-nav-start">
           <button class="btn-sq" onclick="AuthLogic.switchView('view-home')">
@@ -1099,6 +191,7 @@
           <h1 data-i18n="title">Create Account</h1>
           <p data-i18n="subtitle">Join Fahimn.co.in and start your journey with our community</p>
         </div>
+        
         <button id="googleBtnLoaderSignup" class="google-btn-large" style="margin-bottom: 10px;" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderSignup', 'googleBtnInnerSignup')">
           <span id="googleBtnInnerSignup" style="display:flex; align-items:center; gap:10px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
@@ -1110,9 +203,11 @@
             <span data-i18n="googleBtn">Continue with Google</span>
           </span>
         </button>
+        
         <div class="divider" style="margin: 6px 0 14px 0;">
           <span data-i18n="orContinueEmail">or sign up with email</span>
         </div>
+        
         <div class="modern-input-card">
           <div class="icon-circle-warm">
             <i class="fa-regular fa-user"></i>
@@ -1143,17 +238,21 @@
             </button>
           </div>
         </div>
+        
         <div class="glass-btn-wrapper" id="signupBtnWrapper" style="margin-top: 8px;">
           <button class="glass-btn" id="signupSubmitBtn" onclick="AuthLogic.handleSignup()">
             <span id="signupBtnText" data-i18n="btnSendOTP">Generate OTP</span>
             <i id="signupBtnIcon" class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
+        
         <div class="trust-badge-container">
           <div class="trust-badge">
-            <i class="fa-solid fa-shield-halved" style="color: var(--success);"></i> 256-Bit Secure
+            <i class="fa-solid fa-shield-halved" style="color: var(--success);"></i>
+            256-Bit Secure
           </div>
         </div>
+        
         <div class="footer-wrapper" style="margin-top: 10px; padding-top: 0;">
           <div class="footer-links" style="font-size: 13px;">
             <span data-i18n="alreadyAcc">Already have an account?</span>
@@ -1161,6 +260,7 @@
           </div>
         </div>
       </div>
+      
       <div id="view-login" class="auth-view">
         <div class="top-nav-start">
           <button class="btn-sq" onclick="AuthLogic.switchView('view-home')">
@@ -1171,6 +271,7 @@
           <h1 data-i18n="loginText">Login</h1>
           <p data-i18n="homeBtn2Sub">Welcome back! Sign in to continue</p>
         </div>
+        
         <button id="googleBtnLoaderLogin" class="google-btn-large" style="margin-bottom: 10px;" onclick="AuthLogic.signInWithGoogle('googleBtnLoaderLogin', 'googleBtnInnerLogin')">
           <span id="googleBtnInnerLogin" style="display:flex; align-items:center; gap:10px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18px" height="18px">
@@ -1182,9 +283,11 @@
             <span data-i18n="googleBtn">Continue with Google</span>
           </span>
         </button>
+        
         <div class="divider">
           <span data-i18n="orLoginEmail">or login with email</span>
         </div>
+        
         <div class="modern-input-card">
           <div class="icon-circle-warm">
             <i class="fa-regular fa-envelope"></i>
@@ -1206,11 +309,14 @@
             </button>
           </div>
         </div>
+        
         <a class="forgot-link" onclick="AuthLogic.switchView('view-recovery')" data-i18n="forgotPass">Forgot Password?</a>
+        
         <button class="btn-primary" id="loginSubmitBtn" style="margin-top: 10px;" onclick="AuthLogic.processLogin()">
           <span id="loginBtnText" data-i18n="loginText">Login</span>
           <i id="loginBtnIcon" class="fa-solid fa-arrow-right"></i>
         </button>
+        
         <div class="footer-wrapper" style="margin-top: 16px;">
           <div class="footer-links" style="font-size: 13px;">
             <span data-i18n="noAcc">Don't have an account?</span>
@@ -1218,6 +324,7 @@
           </div>
         </div>
       </div>
+      
       <div id="view-recovery" class="auth-view">
         <div class="top-nav-start">
           <button class="btn-sq" onclick="AuthLogic.switchView('view-login')">
@@ -1229,8 +336,11 @@
             <i class="fa-solid fa-user-lock"></i>
           </div>
           <h1 data-i18n="findAccTitle">Find Your Account</h1>
-          <p data-i18n="findAccSub">We will send a password reset link to your email instantly.</p>
+          <p data-i18n="findAccSub">
+            We will send a password reset link to your email instantly.
+          </p>
         </div>
+        
         <div class="modern-input-card">
           <div class="icon-circle-warm">
             <i class="fa-regular fa-envelope"></i>
@@ -1240,6 +350,7 @@
             <label data-i18n="emailLabel">Your Email Address</label>
           </div>
         </div>
+        
         <div class="glass-btn-wrapper" id="recBtnWrapper" style="margin-top: 10px;">
           <button class="glass-btn" id="searchAccBtn" onclick="AuthLogic.processRecoverySearch()">
             <span id="recBtnText" data-i18n="btnSearchAcc">Send Reset Link</span>
@@ -1247,41 +358,58 @@
           </button>
         </div>
       </div>
+      
       <div id="view-otp" class="auth-view">
         <div class="top-nav-start">
           <button class="btn-sq" onclick="AuthLogic.switchView('view-signup')">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
         </div>
+        
         <div class="verification-timeline">
-          <div class="step done"><i class="fa-solid fa-check"></i></div>
+          <div class="step done">
+            <i class="fa-solid fa-check"></i>
+          </div>
           <div class="step-line done"></div>
-          <div class="step active"><i class="fa-solid fa-envelope-open-text"></i></div>
+          <div class="step active">
+            <i class="fa-solid fa-envelope-open-text"></i>
+          </div>
           <div class="step-line"></div>
-          <div class="step"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="step">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
         </div>
+        
         <div class="header-section" style="margin-bottom: 12px;">
           <h1 data-i18n="otpTitle">Check your email</h1>
           <p>
-            <span data-i18n="otpSubtitle">We've sent a 6-digit verification code to </span><br />
+            <span data-i18n="otpSubtitle">We've sent a 6-digit verification code to</span>
+            <br />
             <strong id="displayOtpEmail" style="color: #fff; font-size: 14px; margin-top: 4px; display: inline-block;"></strong>
           </p>
         </div>
+        
         <div style="margin-bottom: 24px;">
           <input type="text" id="otpCode" class="otp-input-box" placeholder="------" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
         </div>
+        
         <button class="glass-btn" id="verifyBtn" style="border: 1px solid rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.1);" onclick="AuthLogic.verifyOTP()">
           <span id="verifyText" data-i18n="btnVerify">Verify & Proceed</span>
           <i id="verifyIcon" class="fa-solid fa-arrow-right"></i>
         </button>
+        
         <div class="footer-wrapper" style="margin-top: 20px;">
           <div class="footer-links" style="font-size: 13px;">
-            <span id="timerText"><span data-i18n="resendTimer">Resend code in</span> 00:<span id="timerCount">60</span></span>
+            <span id="timerText">
+              <span data-i18n="resendTimer">Resend code in</span>
+              00:<span id="timerCount">60</span>
+            </span>
             <a id="resendBtn" style="display:none; color: #fff;" onclick="AuthLogic.resendOTP()" data-i18n="resendCode">Resend Code</a>
           </div>
         </div>
       </div>
     </div>
+
     <script>
       /**
          * Global Configuration & State
