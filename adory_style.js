@@ -1,3 +1,4 @@
+<script>
 // Prevent rubber-banding completely on touch devices
 document.addEventListener('touchmove', function (e) {
     if (!e.target.closest('.users') && !e.target.closest('.messages') && !e.target.closest('.sidebar') && !e.target.closest('.settings-body')) {
@@ -72,7 +73,7 @@ if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
 let messaging;
-if (firebase.messaging.isSupported()) {
+if (firebase.messaging && firebase.messaging.isSupported()) {
     messaging = firebase.messaging();
 }
 
@@ -165,7 +166,8 @@ auth.onAuthStateChanged(user => {
                 document.getElementById('welcomeUserAvatar').style.opacity = '1';
                 document.getElementById('welcomeUserName').innerText = `"${safeName}"`;
                 
-                document.getElementById('welcomeSection').classList.remove('welcome-skeleton');
+                const welcomeSec = document.getElementById('welcomeSection');
+                if(welcomeSec) welcomeSec.classList.remove('welcome-skeleton');
                 document.getElementById('welcomeUserName').style.color = '#fff';
                 document.getElementById('welcomeUserName').style.background = 'transparent';
                 
@@ -250,7 +252,7 @@ function renderRecentChatsUI() {
             safeName = escapeHTML(u.name || "Display Name");
             dp = u.profilePic || getSafeAvatarUrl(u, safeName);
             const timeStr = chat.timestamp ? new Date(chat.timestamp).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : '';
-            const botBadge = u.isBot ? `<span class="ai-badge">AI</span>` : '';
+            const botBadge = u.isBot ? `<span class="ai-badge" style="background:#2563eb; padding:2px 6px; border-radius:4px; font-size:9px; margin-left:5px;">AI</span>` : '';
             const encBadge = chat.isSecret ? `<i class="fa-solid fa-lock" style="color:#10b981; font-size:10px; margin-left:5px;"></i>` : '';
             const isOnline = (u.status && u.status.state === 'online') ? 'online' : 'offline';
 
@@ -385,8 +387,14 @@ window.submitCreateGroup = function() {
 }
 
 // ================= SECRET CHAT MODAL =================
-window.showSecretModal = function() { document.getElementById('secretModal').style.display = 'flex'; }
-window.closeSecretModal = function() { document.getElementById('secretModal').style.display = 'none'; }
+window.showSecretModal = function() { 
+    const modal = document.getElementById('secretModal');
+    if(modal) modal.style.display = 'flex'; 
+}
+window.closeSecretModal = function() { 
+    const modal = document.getElementById('secretModal');
+    if(modal) modal.style.display = 'none'; 
+}
 window.startSecretChat = function() {
     const pin = document.getElementById('secretPin').value;
     if(pin.length < 4) return showToast("PIN must be at least 4 digits", "error");
@@ -399,11 +407,19 @@ window.startSecretChat = function() {
 }
 
 // ================= TOOLS & INFO =================
-window.toggleToolsMenu = function() { document.getElementById("chatToolsMenu").classList.toggle("active"); }
-window.closeToolsMenu = function() { document.getElementById("chatToolsMenu").classList.remove("active"); }
+window.toggleToolsMenu = function() { 
+    const menu = document.getElementById("chatToolsMenu");
+    if(menu) menu.classList.toggle("active"); 
+}
+window.closeToolsMenu = function() { 
+    const menu = document.getElementById("chatToolsMenu");
+    if(menu) menu.classList.remove("active"); 
+}
 
 window.openChatInfo = function() {
-    document.getElementById("chatInfoScreen").classList.add("active");
+    const screen = document.getElementById("chatInfoScreen");
+    if(screen) screen.classList.add("active");
+    
     document.getElementById("infoName").innerText = document.getElementById("chatName").innerText;
     document.getElementById("infoAvatar").src = document.getElementById("chatAvatar").src;
     
@@ -412,15 +428,15 @@ window.openChatInfo = function() {
     
     if(activeChatIsGroup) {
         document.getElementById("infoSub").innerText = "Group Chat";
-        membersSec.style.display = "block";
-        membersList.innerHTML = '<div style="text-align:center; color:#94a3b8;"><i class="fa-solid fa-spinner fa-spin"></i></div>';
+        if(membersSec) membersSec.style.display = "block";
+        if(membersList) membersList.innerHTML = '<div style="text-align:center; color:#94a3b8;"><i class="fa-solid fa-spinner fa-spin"></i></div>';
         
         db.ref(`chats/${activeChatRoomId}/members`).once('value').then(snap => {
             if(snap.exists()) {
                 const members = snap.val();
                 const memberIds = Object.keys(members);
                 document.getElementById("memberCount").innerText = memberIds.length;
-                membersList.innerHTML = '';
+                if(membersList) membersList.innerHTML = '';
                 
                 memberIds.forEach(uid => {
                     let safeName = "Display Name"; let dp = "";
@@ -431,7 +447,7 @@ window.openChatInfo = function() {
                         safeName = escapeHTML(u.name || "Display Name");
                         dp = getSafeAvatarUrl(u, safeName);
                     }
-                    membersList.innerHTML += `
+                    if(membersList) membersList.innerHTML += `
                         <div class="user-card fade-in" style="margin-bottom:5px;"><div class="avatar-box"><img class="avatar" src="${dp}"></div><div class="user-content"><h3>${safeName}</h3></div></div>
                     `;
                 });
@@ -439,10 +455,13 @@ window.openChatInfo = function() {
         });
     } else {
         document.getElementById("infoSub").innerText = document.getElementById('chatStatus').innerText;
-        membersSec.style.display = "none";
+        if(membersSec) membersSec.style.display = "none";
     }
 }
-window.closeChatInfo = function() { document.getElementById("chatInfoScreen").classList.remove("active"); }
+window.closeChatInfo = function() { 
+    const screen = document.getElementById("chatInfoScreen");
+    if(screen) screen.classList.remove("active"); 
+}
 
 // ================= CHAT ROOM =================
 window.openChat = function(targetUid, targetName, targetImg, isBot = false, isSecret = false, isGroup = false) {
@@ -519,7 +538,7 @@ document.getElementById("backBtn").addEventListener("click", () => {
     if(activeStatusListener) activeStatusListener.off(); 
 });
 
-// ================= SEND MESSAGE & AI LOGIC =================
+// ================= SEND MESSAGE & 🔥 KHATARNAK AI LOGIC 🔥 =================
 const input = document.getElementById("messageInput");
 
 async function sendMessage() {
@@ -535,7 +554,7 @@ async function sendMessage() {
         isEncrypted: isSecretModeActive
     };
 
-    if(isSecretModeActive) {
+    if(isSecretModeActive && typeof CryptoJS !== 'undefined') {
         msgObj.text = CryptoJS.AES.encrypt(text, currentSecretPin).toString();
     }
 
@@ -569,10 +588,10 @@ async function handleBotResponse(userText) {
     typingDiv.style.border = "none";
     typingDiv.style.padding = "0";
     typingDiv.innerHTML = `
-        <div class="typing-indicator">
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
+        <div class="typing-indicator" style="display:flex; gap:3px; padding: 10px; background:rgba(255,255,255,0.08); border-radius:16px; width:fit-content;">
+            <div style="width:6px; height:6px; background:#fff; border-radius:50%; animation:fadeIn 1s infinite alternate;"></div>
+            <div style="width:6px; height:6px; background:#fff; border-radius:50%; animation:fadeIn 1s infinite alternate 0.2s;"></div>
+            <div style="width:6px; height:6px; background:#fff; border-radius:50%; animation:fadeIn 1s infinite alternate 0.4s;"></div>
         </div>`;
     
     box.appendChild(typingDiv);
@@ -582,45 +601,71 @@ async function handleBotResponse(userText) {
     try {
         let lowerText = userText.toLowerCase().trim();
         
-        // Account Tracking Logic
-        if (lowerText.includes("mera naam") || lowerText.includes("naam kya hai") || lowerText.includes("who am i") || lowerText.includes("main kaun hoon")) {
+        // 1. 🤖 BOT IDENTITY CHECK
+        if (lowerText.match(/tumhara naam|tera naam|who are you|aap kaun ho|what is your name|tum kaun ho/)) {
+            botReply = "Main **fahimn.co.in** ka smart assistant hoon 🤖. Aapko kya madad chahiye?";
+        } 
+        
+        // 2. 👑 CREATOR CHECK
+        else if (lowerText.match(/kisne banaya|who created you|tumhara baap|creator kaun hai|tumhara malik/)) {
+            botReply = "Mujhe **Fahim** ne banaya hai, wahi mere creator aur is platform ke owner hain. 👑";
+        } 
+        
+        // 3. 🕵️‍♂️ USER ACCOUNT SCANNER (Khatarnak Logic)
+        else if (lowerText.match(/mera naam|who am i|main kaun hoon|my details|mera account/)) {
             const currentUser = auth.currentUser;
-            let uName = document.getElementById('sidebarName').innerText || "User Name";
-            let uEmail = document.getElementById('sidebarEmail').innerText || "No Email linked";
+            let uName = document.getElementById('sidebarName').innerText || "User";
+            let uEmail = document.getElementById('sidebarEmail').innerText || "N/A";
             let loginDetails = "N/A";
             
             if (currentUser && currentUser.metadata && currentUser.metadata.lastSignInTime) {
                 let loginDate = new Date(currentUser.metadata.lastSignInTime);
-                let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                let dayDate = loginDate.toLocaleDateString('en-US', options); 
-                let exactTime = loginDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
-                loginDetails = `${dayDate} ko sahi ${exactTime} baje`;
+                let dayDate = loginDate.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); 
+                let exactTime = loginDate.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }); 
+                loginDetails = `${dayDate} ko ${exactTime} baje`;
             }
             
-            botReply = `Aapka account check karne ke baad mujhe aapki ye details mili hain:<br><br>👤 **Naam:** ${uName}<br>📧 **Email Address:** ${uEmail}<br>📅 **Login ka Din/Samay:** ${loginDetails}<br><br>Aap is device par bilkul perfectly logged in hain!`;
+            botReply = `Maine aapka system scan kar liya hai! 🕵️‍♂️\n\n👤 **Naam:** ${uName}\n📧 **Email:** ${uEmail}\n🔒 **UID:** ${currentUid.substring(0,8)}...***\n📅 **Aakhri Login:** ${loginDetails}\n📍 **Device Status:** Secured ✅\n\nAap bilkul safe hain!`;
         } 
+        
+        // 4. ⌚ TIME & DATE CHECK
+        else if (lowerText.match(/time kya|aaj kya|date kya|current time/)) {
+            let now = new Date();
+            let d = now.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            let t = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+            botReply = `Aaj **${d}** hai, aur abhi **${t}** ho rahe hain. ⌚`;
+        }
+        
+        // 5. 🎨 IMAGE GENERATOR
         else if(lowerText.startsWith('/imagine ')) {
             let prompt = userText.substring(9);
             await new Promise(r => setTimeout(r, 1200)); 
-            botReply = `Here is your image: <br><img src="https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}" style="width:100%; border-radius:10px; margin-top:5px;">`;
+            botReply = `Lijiye aapki image taiyar hai: 🎨<br><img src="https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}" style="width:100%; border-radius:10px; margin-top:5px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">`;
         } 
+        
+        // 6. 🧠 CORE AI API (Strict Fallback)
         else {
-            // 🔥 UPDATED PROMPT SYSTEM FOR ABSOLUTE ACCURACY 🔥
-            let systemPrompt = "You are a helpful and direct AI assistant for the platform 'fahimn.co.in'. Your creator and sole owner of this website is Fahim. When anyone asks about website features or what they can do here, answer directly and confidently with these facts: 1) Humari website par free mod APK apps aur premium unlocked apps milte hain. 2) Aap doston ko refer karke 200 free mein pa sakte hain. 3) Aap yahan posts kar sakte hain aur apne doston se mil sakte hain. Speak plainly in Hindi/Hinglish. Never claim you are the owner, Fahim is the owner. CRITICAL RULE: If the user asks something you do not understand, or if you cannot answer the query properly, you must respond with EXACTLY this sentence and nothing else: 'mujhe samajh nahin aaya fir se bataiye'.";
+            let systemPrompt = `You are an exclusive AI assistant for 'fahimn.co.in' created by Fahim. Always reply in simple Hinglish (Hindi written in English alphabet). Keep it short (1-2 sentences). You offer premium unlocked apps and refer-and-earn features. If you don't know the answer or it's a complex query, reply EXACTLY with "mujhe samajh nahin aaya fir se bataiye". Do not introduce yourself unless asked.`;
             
             let res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(userText)}?system=${encodeURIComponent(systemPrompt)}`);
             if(!res.ok) throw new Error("API Failed");
+            
             botReply = await res.text();
             
-            // If API returns an empty response or tells it can't understand in English, force fallback text
-            if(!botReply || botReply.trim() === "" || botReply.toLowerCase().includes("sorry") || botReply.toLowerCase().includes("don't understand")) {
+            // Safety Net Filters
+            let badKeywords = ["i'm sorry", "i can't", "as an ai", "i cannot", "language model", "openai", "sorry"];
+            let isBadOutput = badKeywords.some(kw => botReply.toLowerCase().includes(kw));
+            
+            if(!botReply || botReply.trim() === "" || isBadOutput) {
                 botReply = "mujhe samajh nahin aaya fir se bataiye";
             }
         }
     } catch(e) {
-        // Fallback sentence on any error/failure
         botReply = "mujhe samajh nahin aaya fir se bataiye";
     }
+
+    // Replace line breaks with HTML breaks
+    botReply = botReply.replace(/\n/g, "<br>");
 
     const tDiv = document.getElementById("local-typing");
     if(tDiv) tDiv.remove();
@@ -643,19 +688,20 @@ function renderMessage(msg, msgId) {
     let displayText = escapeHTML(msg.text);
 
     if (msg.isEncrypted) {
-        if(isSecretModeActive && currentSecretPin) {
+        if(isSecretModeActive && currentSecretPin && typeof CryptoJS !== 'undefined') {
             try {
                 const bytes = CryptoJS.AES.decrypt(msg.text, currentSecretPin);
                 displayText = bytes.toString(CryptoJS.enc.Utf8);
                 if(!displayText) throw new Error("Wrong PIN");
-                displayText = `<div class="encrypted-badge"><i class="fa-solid fa-lock"></i> Decrypted</div>` + displayText;
+                displayText = `<div class="encrypted-badge" style="font-size:10px; color:#10b981; margin-bottom:3px;"><i class="fa-solid fa-lock"></i> Decrypted</div>` + escapeHTML(displayText);
             } catch(e) {
-                displayText = `<div class="encrypted-badge" style="color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Decryption Failed (Wrong PIN)</div>`;
+                displayText = `<div class="encrypted-badge" style="color:#ef4444; font-size:10px;"><i class="fa-solid fa-triangle-exclamation"></i> Decryption Failed</div>`;
             }
         } else {
-            displayText = `🔒 Encrypted Message (Open in Secret Mode)`;
+            displayText = `🔒 Encrypted Message`;
         }
     } else if (activeChatUserId === aiBotObj.id && !isMe) {
+        // Allow HTML for AI bot (for line breaks and images)
         displayText = msg.text; 
     }
 
@@ -670,12 +716,12 @@ function renderMessage(msg, msgId) {
     
     let tickHtml = '';
     if(isMe && !msg.isEncrypted) {
-        if(msg.status === 'read') tickHtml = `<i class="fa-solid fa-check-double receipt-icon receipt-read"></i>`;
-        else if(msg.status === 'delivered') tickHtml = `<i class="fa-solid fa-check-double receipt-icon receipt-sent"></i>`;
-        else tickHtml = `<i class="fa-solid fa-check receipt-icon receipt-sent"></i>`;
+        if(msg.status === 'read') tickHtml = `<i class="fa-solid fa-check-double receipt-icon" style="color:#38bdf8; font-size:10px; margin-left:5px;"></i>`;
+        else if(msg.status === 'delivered') tickHtml = `<i class="fa-solid fa-check-double receipt-icon" style="color:#94a3b8; font-size:10px; margin-left:5px;"></i>`;
+        else tickHtml = `<i class="fa-solid fa-check receipt-icon" style="color:#94a3b8; font-size:10px; margin-left:5px;"></i>`;
     }
 
-    msgDiv.innerHTML = `${senderNameHtml}${displayText} <div class="msg-meta"><span class="msg-time">${timeString}</span> <span id="tick_${msgId}">${tickHtml}</span></div>`;
+    msgDiv.innerHTML = `${senderNameHtml}${displayText} <div class="msg-meta" style="display:flex; justify-content:flex-end; align-items:center; margin-top:4px;"><span class="msg-time" style="font-size:9px; opacity:0.7;">${timeString}</span> <span id="tick_${msgId}">${tickHtml}</span></div>`;
     box.appendChild(msgDiv);
     
     const typingInd = document.getElementById("local-typing");
@@ -683,7 +729,7 @@ function renderMessage(msg, msgId) {
     
     box.scrollTop = box.scrollHeight;
 
-    if (!isMe && msg.status !== 'read' && !activeChatIsGroup) {
+    if (!isMe && msg.status !== 'read' && !activeChatIsGroup && msg.senderId !== aiBotObj.id) {
         db.ref(`chats/${activeChatRoomId}/messages/${msgId}`).update({ status: 'read' });
     }
 }
@@ -692,8 +738,8 @@ function renderMessage(msg, msgId) {
 function updateMessageStatus(msg, msgId) {
     const tickEl = document.getElementById(`tick_${msgId}`);
     if(tickEl && msg.senderId === currentUid) {
-        if(msg.status === 'read') tickEl.innerHTML = `<i class="fa-solid fa-check-double receipt-icon receipt-read"></i>`;
-        else if(msg.status === 'delivered') tickEl.innerHTML = `<i class="fa-solid fa-check-double receipt-icon receipt-sent"></i>`;
+        if(msg.status === 'read') tickEl.innerHTML = `<i class="fa-solid fa-check-double receipt-icon" style="color:#38bdf8; font-size:10px; margin-left:5px;"></i>`;
+        else if(msg.status === 'delivered') tickEl.innerHTML = `<i class="fa-solid fa-check-double receipt-icon" style="color:#94a3b8; font-size:10px; margin-left:5px;"></i>`;
     }
 }
 
@@ -701,11 +747,22 @@ document.getElementById("sendBtn").addEventListener("click", sendMessage);
 input.addEventListener("keypress", (e) => { if (e.key === "Enter") sendMessage(); });
 
 // ================= SIDEBAR LOGIC =================
-document.getElementById("menuBtn").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.add("active");
-    document.getElementById("sidebarOverlay").classList.add("active");
-});
-document.getElementById("sidebarOverlay").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.remove("active");
-    document.getElementById("sidebarOverlay").classList.remove("active");
-});
+const menuBtn = document.getElementById("menuBtn");
+if(menuBtn) {
+    menuBtn.addEventListener("click", () => {
+        const sb = document.getElementById("sidebar");
+        const sbo = document.getElementById("sidebarOverlay");
+        if(sb) sb.classList.add("active");
+        if(sbo) sbo.classList.add("active");
+    });
+}
+
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+if(sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", () => {
+        const sb = document.getElementById("sidebar");
+        if(sb) sb.classList.remove("active");
+        sidebarOverlay.classList.remove("active");
+    });
+}
+</script>
