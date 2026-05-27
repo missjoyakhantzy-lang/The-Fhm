@@ -182,13 +182,13 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-window.logoutUser = function() {
+function logoutUser() {
     if(confirm("Are you sure you want to logout?")) {
         auth.signOut().then(() => { window.location.href = "auth.html"; });
     }
 }
 
-window.requestFCM = function() {
+function requestFCM() {
     if(!messaging) return showToast("Push Notifications not supported", "error");
     Notification.requestPermission().then((permission) => {
         if (permission === 'granted') showToast("Notification Permission Granted!");
@@ -585,8 +585,8 @@ async function handleBotResponse(userText) {
             await new Promise(r => setTimeout(r, 1200)); 
             botReply = `Here is your image: <br><img src="https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}" style="width:100%; border-radius:10px; margin-top:5px;">`;
         } else {
-            // ADVANCED SYSTEM PROMPT INJECTED (Bihar Context + fahimn.co.in Platform Awareness)
-            let systemPrompt = "You are a smart, interactive, and advanced AI assistant named fahimm.co.in. You were developed by an amazing developer named Fahim from Bihar, India. You represent the official AI of the 'fahimn.co.in' platform—a powerful, secure, and user-friendly social and community platform that includes account creation, real-time messaging, secure login, OTP verification, and community building features. You speak Hindi and English fluently. Answer smartly and confidently, and when asked about your identity or creator, proudly state that Fahim from Bihar created you for fahimn.co.in. Do not mention OpenAI, ChatGPT, or other AI models.";
+            // Updated System Prompt based on User Identity and Website Context
+            let systemPrompt = "You are a helpful, extremely confident, and advanced AI assistant named fahimm.co.in. You were created by a talented developer named Fahim from Bihar, India. You speak both Hindi and English fluently, sometimes with a stylish and smart touch. You are an integral part of the 'fahimn.co.in' platform, which is a secure, user-friendly social and community platform that includes features like account creation, secure login, and OTP verification to connect, share, and grow. Never mention OpenAI, ChatGPT, or other companies. Fahim is your sole creator.";
             let res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(userText)}?system=${encodeURIComponent(systemPrompt)}`);
             if(!res.ok) throw new Error("API Failed");
             botReply = await res.text();
@@ -681,4 +681,3 @@ document.getElementById("sidebarOverlay").addEventListener("click", () => {
     document.getElementById("sidebar").classList.remove("active");
     document.getElementById("sidebarOverlay").classList.remove("active");
 });
-</script>
