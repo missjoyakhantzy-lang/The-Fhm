@@ -582,7 +582,7 @@ async function handleBotResponse(userText) {
     try {
         let lowerText = userText.toLowerCase().trim();
         
-        // 🔥 NEW ACCOUNT TRACKING SYSTEM LOGIC 🔥
+        // Account Tracking Logic
         if (lowerText.includes("mera naam") || lowerText.includes("naam kya hai") || lowerText.includes("who am i") || lowerText.includes("main kaun hoon")) {
             const currentUser = auth.currentUser;
             let uName = document.getElementById('sidebarName').innerText || "User Name";
@@ -592,8 +592,8 @@ async function handleBotResponse(userText) {
             if (currentUser && currentUser.metadata && currentUser.metadata.lastSignInTime) {
                 let loginDate = new Date(currentUser.metadata.lastSignInTime);
                 let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                let dayDate = loginDate.toLocaleDateString('en-US', options); // Date & Day string
-                let exactTime = loginDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Time string
+                let dayDate = loginDate.toLocaleDateString('en-US', options); 
+                let exactTime = loginDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
                 loginDetails = `${dayDate} ko sahi ${exactTime} baje`;
             }
             
@@ -605,14 +605,21 @@ async function handleBotResponse(userText) {
             botReply = `Here is your image: <br><img src="https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}" style="width:100%; border-radius:10px; margin-top:5px;">`;
         } 
         else {
-            // Standard System Prompt and Text API
-            let systemPrompt = "You are a helpful, extremely confident, and advanced AI assistant named fahimm.co.in. You were created by a talented developer named Fahim from Bihar, India. You speak both Hindi and English fluently, sometimes with a stylish and smart touch. You are an integral part of the 'fahimn.co.in' platform, which is a secure, user-friendly social and community platform that includes features like account creation, secure login, and OTP verification to connect, share, and grow. Never mention OpenAI, ChatGPT, or other companies. Fahim is your sole creator.";
+            // 🔥 UPDATED PROMPT SYSTEM FOR ABSOLUTE ACCURACY 🔥
+            let systemPrompt = "You are a helpful and direct AI assistant for the platform 'fahimn.co.in'. Your creator and sole owner of this website is Fahim. When anyone asks about website features or what they can do here, answer directly and confidently with these facts: 1) Humari website par free mod APK apps aur premium unlocked apps milte hain. 2) Aap doston ko refer karke 200 free mein pa sakte hain. 3) Aap yahan posts kar sakte hain aur apne doston se mil sakte hain. Speak plainly in Hindi/Hinglish. Never claim you are the owner, Fahim is the owner. CRITICAL RULE: If the user asks something you do not understand, or if you cannot answer the query properly, you must respond with EXACTLY this sentence and nothing else: 'mujhe samajh nahin aaya fir se bataiye'.";
+            
             let res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(userText)}?system=${encodeURIComponent(systemPrompt)}`);
             if(!res.ok) throw new Error("API Failed");
             botReply = await res.text();
+            
+            // If API returns an empty response or tells it can't understand in English, force fallback text
+            if(!botReply || botReply.trim() === "" || botReply.toLowerCase().includes("sorry") || botReply.toLowerCase().includes("don't understand")) {
+                botReply = "mujhe samajh nahin aaya fir se bataiye";
+            }
         }
     } catch(e) {
-        botReply = "Sorry, my servers are currently busy or offline. Please try again later!";
+        // Fallback sentence on any error/failure
+        botReply = "mujhe samajh nahin aaya fir se bataiye";
     }
 
     const tDiv = document.getElementById("local-typing");
@@ -681,6 +688,7 @@ function renderMessage(msg, msgId) {
     }
 }
 
+// ================= MESSAGE STATUS SYNC =================
 function updateMessageStatus(msg, msgId) {
     const tickEl = document.getElementById(`tick_${msgId}`);
     if(tickEl && msg.senderId === currentUid) {
