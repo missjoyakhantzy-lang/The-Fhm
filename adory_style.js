@@ -580,12 +580,32 @@ async function handleBotResponse(userText) {
 
     let botReply = "";
     try {
-        if(userText.toLowerCase().startsWith('/imagine ')) {
+        let lowerText = userText.toLowerCase().trim();
+        
+        // 🔥 NEW ACCOUNT TRACKING SYSTEM LOGIC 🔥
+        if (lowerText.includes("mera naam") || lowerText.includes("naam kya hai") || lowerText.includes("who am i") || lowerText.includes("main kaun hoon")) {
+            const currentUser = auth.currentUser;
+            let uName = document.getElementById('sidebarName').innerText || "User Name";
+            let uEmail = document.getElementById('sidebarEmail').innerText || "No Email linked";
+            let loginDetails = "N/A";
+            
+            if (currentUser && currentUser.metadata && currentUser.metadata.lastSignInTime) {
+                let loginDate = new Date(currentUser.metadata.lastSignInTime);
+                let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                let dayDate = loginDate.toLocaleDateString('en-US', options); // Date & Day string
+                let exactTime = loginDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Time string
+                loginDetails = `${dayDate} ko sahi ${exactTime} baje`;
+            }
+            
+            botReply = `Aapka account check karne ke baad mujhe aapki ye details mili hain:<br><br>👤 **Naam:** ${uName}<br>📧 **Email Address:** ${uEmail}<br>📅 **Login ka Din/Samay:** ${loginDetails}<br><br>Aap is device par bilkul perfectly logged in hain!`;
+        } 
+        else if(lowerText.startsWith('/imagine ')) {
             let prompt = userText.substring(9);
             await new Promise(r => setTimeout(r, 1200)); 
             botReply = `Here is your image: <br><img src="https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}" style="width:100%; border-radius:10px; margin-top:5px;">`;
-        } else {
-            // Updated System Prompt based on User Identity and Website Context
+        } 
+        else {
+            // Standard System Prompt and Text API
             let systemPrompt = "You are a helpful, extremely confident, and advanced AI assistant named fahimm.co.in. You were created by a talented developer named Fahim from Bihar, India. You speak both Hindi and English fluently, sometimes with a stylish and smart touch. You are an integral part of the 'fahimn.co.in' platform, which is a secure, user-friendly social and community platform that includes features like account creation, secure login, and OTP verification to connect, share, and grow. Never mention OpenAI, ChatGPT, or other companies. Fahim is your sole creator.";
             let res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(userText)}?system=${encodeURIComponent(systemPrompt)}`);
             if(!res.ok) throw new Error("API Failed");
