@@ -44,8 +44,8 @@ function showToast(msg, type = 'info') {
     }, 2500);
 }
 
+// Fixed: Safely format strings without breaking URLs
 function escapeHTML(str) { return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])) : ''; }
-function escapeForJS(str) { return str ? escapeHTML(str).replace(/'/g, "\\'").replace(/"/g, "&quot;") : ''; }
 
 initStoreAppLoader();
 
@@ -102,9 +102,15 @@ window.toggleProfileMenu = function() { document.getElementById('profileDropdown
 document.addEventListener('click', function(e) { if(!e.target.closest('.header-right')) document.getElementById('profileDropdown').classList.remove('show'); });
 window.confirmLogout = function() { if(confirm("Log out completely?")) { auth.signOut().then(() => window.location.reload()); } }
 
+// --- FIXED NATIVE DOWNLOAD LOGIC ---
 window.downloadDynamicApk = function(url, title, appId) {
-    if(!url) { showToast("App link is not available.", "error"); return; } showToast("Starting Download...");
-    const link = document.createElement('a'); link.href = url; link.setAttribute('download', title.replace(/\s+/g, '_') + '.apk'); link.setAttribute('target', '_blank'); document.body.appendChild(link); link.click(); document.body.removeChild(link);
+    if(!url) { showToast("App link is not available.", "error"); return; } 
+    showToast("Starting Download...");
+    
+    // Direct mobile-friendly download approach
+    setTimeout(() => {
+        window.location.href = url;
+    }, 500);
 }
 
 // --- VIP AUTH SECURITY CHECK ---
@@ -135,7 +141,7 @@ window.verifyAndDownload = function() {
         document.getElementById('vipPasscode').classList.add('shake-animation');
         
         // Show Error Toast
-        showToast("Arey tu jaa re! (Wrong Code)", "error");
+        showToast("Arey tu jaa re! 😂 (Wrong Code)", "error");
         
         setTimeout(() => { document.getElementById('vipPasscode').classList.remove('shake-animation'); }, 400);
     }
@@ -186,7 +192,12 @@ function renderStoreApps() {
     if (filtered.length > 0) {
         filtered.forEach(app => {
             const safeIcon = app.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(app.title || 'A')}&background=0a84ff&color=fff&rounded=true`;
-            const cleanTitleForJS = escapeForJS(app.title); const cleanUrlForJS = escapeForJS(app.url); const cleanDescForJS = escapeForJS(app.desc);
+            
+            // Fixed URL injection so parameters don't break
+            const cleanTitleForJS = app.title ? escapeHTML(app.title).replace(/'/g, "\\'") : ''; 
+            const cleanUrlForJS = app.url ? app.url.replace(/'/g, "\\'") : ''; 
+            const cleanDescForJS = app.desc ? escapeHTML(app.desc).replace(/'/g, "\\'") : '';
+
             let adminControls = '';
             if(isAdmin) { adminControls = `<div class="admin-actions"><button class="btn-action-app edit" onclick="editAppInStore('${app.id}', '${cleanTitleForJS}', '${cleanUrlForJS}', '${app.icon}', '${cleanDescForJS}', '${app.category}')"><i class="fa-solid fa-pen"></i></button><button class="btn-action-app del" onclick="removeAppFromStore('${app.id}')"><i class="fa-solid fa-trash"></i></button></div>`; }
             storeList.innerHTML += `<div class="store-app-item">${adminControls}<img src="${safeIcon}" alt="Icon" class="store-app-icon"><div class="store-app-title" title="${escapeHTML(app.title)}">${escapeHTML(app.title)}</div><div class="app-btn-group"><button class="btn-details" onclick="openAppDetails('${app.id}', '${cleanTitleForJS}', '${safeIcon}', '${cleanUrlForJS}', '${cleanDescForJS}')"><i class="fa-solid fa-ellipsis"></i></button><button class="btn-download" onclick="requestDownload('${cleanUrlForJS}', '${cleanTitleForJS}', '${app.id}')">GET</button></div></div>`;
